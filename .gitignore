@@ -1,0 +1,6 @@
+*.o
+*.d
+.vscode
+.xmake
+build
+2d_game.exe
