@@ -3,12 +3,13 @@
 #include <iostream>
 #include "Engine/AGame/AGame.hpp"
 #include "Game/Player/Player.hpp"
+#include "Game/Barrel/Barrel.hpp"
 
 class Game: public AGame
 {
     private:
         Player player;
-        SpriteRenderer barrel;
+        Barrel barrel;
         void ProcessInput();
 
     public:

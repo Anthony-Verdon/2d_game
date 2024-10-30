@@ -19,8 +19,7 @@ Game::Game()
     RessourceManager::GetShader("Line")->use();
     RessourceManager::GetShader("Line")->setMat4("projection", projection);
 
-    barrel.SetTexture("TileMapDungeon");
-    barrel.SetSize(5.0f * glm::vec2(16, 16));
+   
 }
 
 Game::~Game()
@@ -32,8 +31,11 @@ void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
+    if (player.GetHitbox().IsColliding(barrel.GetHitbox()))
+        std::cout << "colliding" << std::endl;
     player.Draw();
-    barrel.Draw(glm::vec2(WINDOW_WIDTH / 2 - 5 * 8, WINDOW_HEIGHT / 2 - 5 * 8), glm::vec2(12,11), glm::vec2(10,6));
+    barrel.Draw();
+    
 }
 
 void Game::ProcessInput()

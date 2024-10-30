@@ -23,6 +23,11 @@ glm::vec2 Player::GetCoords() const
     return (coords);
 }
 
+const SquareHitbox &Player::GetHitbox() const
+{
+    return (hitbox);
+}
+
 void Player::Move(const glm::vec2 &direction)
 {
     if (direction != glm::vec2(0, 0))
