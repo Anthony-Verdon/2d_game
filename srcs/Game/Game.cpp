@@ -16,6 +16,8 @@ Game::Game()
     RessourceManager::GetShader("Sprite")->use();
     RessourceManager::GetShader("Sprite")->setInt("image", 0);
     RessourceManager::GetShader("Sprite")->setMat4("projection", projection);
+    RessourceManager::GetShader("Line")->use();
+    RessourceManager::GetShader("Line")->setMat4("projection", projection);
 
     barrel.SetTexture("TileMapDungeon");
     barrel.SetSize(5.0f * glm::vec2(16, 16));
