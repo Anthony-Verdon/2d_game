@@ -10,8 +10,6 @@ Player::Player()
 
     spriteRenderer.SetTexture("TileMapDungeon");
     spriteRenderer.SetSize(5.0f * glm::vec2(16, 16));
-    spriteRenderer.Init(glm::vec2(12,11), glm::vec2(0,7));
-
     hitbox.SetSize(5.0f * glm::vec2(16, 16));
 
 }
@@ -37,6 +35,6 @@ void Player::Move(const glm::vec2 &direction)
 
 void Player::Draw()
 {
-    spriteRenderer.Draw(coords);
+    spriteRenderer.Draw(coords, glm::vec2(12,11), glm::vec2(0,7));
     hitbox.Draw();
 }

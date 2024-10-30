@@ -21,7 +21,6 @@ Game::Game()
 
     barrel.SetTexture("TileMapDungeon");
     barrel.SetSize(5.0f * glm::vec2(16, 16));
-    barrel.Init(glm::vec2(12,11), glm::vec2(10,6));
 }
 
 Game::~Game()
@@ -34,7 +33,7 @@ void Game::Run()
     Time::updateTime();
     ProcessInput();
     player.Draw();
-    barrel.Draw(glm::vec2(WINDOW_WIDTH / 2 - 5 * 8, WINDOW_HEIGHT / 2 - 5 * 8));
+    barrel.Draw(glm::vec2(WINDOW_WIDTH / 2 - 5 * 8, WINDOW_HEIGHT / 2 - 5 * 8), glm::vec2(12,11), glm::vec2(10,6));
 }
 
 void Game::ProcessInput()
