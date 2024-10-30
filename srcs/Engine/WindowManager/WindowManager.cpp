@@ -28,7 +28,6 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     glViewport(0, 0, viewPortWidth, viewportHeight);
 
     glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
-    glEnable(GL_DEPTH_TEST);
 
     // cull face enabled make openGL draw only on one side
     glEnable(GL_CULL_FACE);

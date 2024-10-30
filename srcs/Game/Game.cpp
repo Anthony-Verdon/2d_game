@@ -33,8 +33,8 @@ void Game::Run()
     ProcessInput();
     if (player.GetHitbox().IsColliding(barrel.GetHitbox()))
         std::cout << "colliding" << std::endl;
-    player.Draw();
     barrel.Draw();
+    player.Draw();
     
 }
 
