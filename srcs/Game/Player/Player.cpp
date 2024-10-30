@@ -12,7 +12,6 @@ Player::Player(): GameObject()
 
     AddComponent(std::make_unique<SpriteRenderer>("TileMapDungeon", 5.0f * glm::vec2(16, 16), 0, glm::vec3(1, 1, 1)));
     AddComponent(std::make_unique<SquareHitbox>(glm::vec2(0, 0), 5.0f * glm::vec2(16, 16)));
-    AddComponent(std::make_unique<LineRenderer>());
 }
 
 Player::~Player()
