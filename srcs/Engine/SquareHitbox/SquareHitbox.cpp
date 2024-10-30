@@ -1,16 +1,18 @@
 #include "Engine/SquareHitbox/SquareHitbox.hpp"
 #include <glad/glad.h>
 
-SquareHitbox::SquareHitbox()
+SquareHitbox::SquareHitbox(): GameObject()
 {
     coords = glm::vec2(0, 0);
     size = glm::vec2(0, 0);
+    AddComponent(std::make_unique<LineRenderer>());
 }
 
-SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size)
+SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size): GameObject()
 {
     this->coords = coords;
     this->size = size;
+    AddComponent(std::make_unique<LineRenderer>());
 }
 
 SquareHitbox::~SquareHitbox()
@@ -66,21 +68,22 @@ float SquareHitbox::GetHeight() const
 
 void SquareHitbox::Draw()
 {
+    LineRenderer *lineRenderer = GetComponent<LineRenderer>();
     glLineWidth(2);
-    lineRenderer.SetStart(coords);
-    lineRenderer.SetEnd(coords + glm::vec2(size.x, 0));
-    lineRenderer.Draw();
+    lineRenderer->SetStart(coords);
+    lineRenderer->SetEnd(coords + glm::vec2(size.x, 0));
+    lineRenderer->Draw();
 
-    lineRenderer.SetStart(coords);
-    lineRenderer.SetEnd(coords + glm::vec2(0, size.y));
-    lineRenderer.Draw();
+    lineRenderer->SetStart(coords);
+    lineRenderer->SetEnd(coords + glm::vec2(0, size.y));
+    lineRenderer->Draw();
 
-    lineRenderer.SetStart(coords + glm::vec2(size.x, 0));
-    lineRenderer.SetEnd(coords + size);
-    lineRenderer.Draw();
+    lineRenderer->SetStart(coords + glm::vec2(size.x, 0));
+    lineRenderer->SetEnd(coords + size);
+    lineRenderer->Draw();
 
-    lineRenderer.SetStart(coords + glm::vec2(0, size.y));
-    lineRenderer.SetEnd(coords + size);
-    lineRenderer.Draw();
+    lineRenderer->SetStart(coords + glm::vec2(0, size.y));
+    lineRenderer->SetEnd(coords + size);
+    lineRenderer->Draw();
     glLineWidth(1);
 }

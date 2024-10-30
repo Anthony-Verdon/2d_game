@@ -2,8 +2,9 @@
 
 #include <glm/glm.hpp>
 #include "Engine/LineRenderer/LineRenderer.hpp"
+#include "Engine/GameObject/GameObject.hpp"
 
-class SquareHitbox
+class SquareHitbox: public GameObject
 {
     private:
         glm::vec2 coords;

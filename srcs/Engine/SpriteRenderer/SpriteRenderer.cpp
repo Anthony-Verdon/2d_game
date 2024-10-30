@@ -4,12 +4,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-SpriteRenderer::SpriteRenderer(): SpriteData()
+SpriteRenderer::SpriteRenderer(): GameObject(), SpriteData()
 {
     Init();
 }
 
-SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color): SpriteData(texture, size, rotation, color)
+SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color): GameObject(), SpriteData(texture, size, rotation, color)
 {
     Init();
 }

@@ -2,14 +2,13 @@
 
 #include "Engine/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/SquareHitbox/SquareHitbox.hpp"
+#include "Engine/GameObject/GameObject.hpp"
 
-class Player
+class Player: public GameObject
 {
     private:
         glm::vec2 coords;
         float speed;
-        SpriteRenderer spriteRenderer;
-        SquareHitbox hitbox;
 
     public:
         Player();

@@ -3,8 +3,9 @@
 #include <glm/glm.hpp>
 #include <string>
 #include "Engine/SpriteData/SpriteData.hpp"
+#include "Engine/GameObject/GameObject.hpp"
 
-class SpriteRenderer: public SpriteData
+class SpriteRenderer: public GameObject, public SpriteData
 {
     private:
         unsigned int VAO;

@@ -2,16 +2,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Engine/Time/Time.hpp"
 #include <iostream>
+#include "Engine/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/SquareHitbox/SquareHitbox.hpp"
 
-Player::Player()
+Player::Player(): GameObject()
 {
     coords = glm::vec2(0, 0);
     speed = 100;
 
-    spriteRenderer.SetTexture("TileMapDungeon");
-    spriteRenderer.SetSize(5.0f * glm::vec2(16, 16));
-    hitbox.SetSize(5.0f * glm::vec2(16, 16));
-
+    AddComponent(std::make_unique<SpriteRenderer>("TileMapDungeon", 5.0f * glm::vec2(16, 16), 0, glm::vec3(1, 1, 1)));
+    AddComponent(std::make_unique<SquareHitbox>(glm::vec2(0, 0), 5.0f * glm::vec2(16, 16)));
+    AddComponent(std::make_unique<LineRenderer>());
 }
 
 Player::~Player()
@@ -25,7 +26,7 @@ glm::vec2 Player::GetCoords() const
 
 const SquareHitbox &Player::GetHitbox() const
 {
-    return (hitbox);
+    return (*(GetComponent<SquareHitbox>()));
 }
 
 void Player::Move(const glm::vec2 &direction)
@@ -33,13 +34,13 @@ void Player::Move(const glm::vec2 &direction)
     if (direction != glm::vec2(0, 0))
     {
         coords = coords + glm::normalize(direction) * Time::getDeltaTime() * speed;
-        hitbox.SetCoords(coords);
+        GetComponent<SquareHitbox>()->SetCoords(coords);
     }
         
 }
 
 void Player::Draw()
 {
-    spriteRenderer.Draw(coords, glm::vec2(12,11), glm::vec2(0,7));
-    hitbox.Draw();
+    GetComponent<SpriteRenderer>()->Draw(coords, glm::vec2(12,11), glm::vec2(0,7));
+    GetComponent<SquareHitbox>()->Draw();
 }

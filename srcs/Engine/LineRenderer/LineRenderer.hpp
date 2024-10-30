@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Engine/LineData/LineData.hpp"
+#include "Engine/GameObject/GameObject.hpp"
 
-class LineRenderer: public LineData
+class LineRenderer: public GameObject, public LineData
 {
     private:
         unsigned int VAO;
