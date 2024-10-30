@@ -1,4 +1,5 @@
 #include "Engine/SquareHitbox/SquareHitbox.hpp"
+#include <glad/glad.h>
 
 SquareHitbox::SquareHitbox()
 {
@@ -23,6 +24,11 @@ bool SquareHitbox::IsColliding(const SquareHitbox &instance) const
     return collisionX && collisionY;
 }
 
+void SquareHitbox::SetCoords(const glm::vec2 &coords)
+{
+    this->coords = coords;
+}
+
 glm::vec2 SquareHitbox::GetCoords() const
 {
     return (coords);
@@ -36,6 +42,11 @@ float SquareHitbox::GetX() const
 float SquareHitbox::GetY() const
 {
     return (coords.y);
+}
+
+void SquareHitbox::SetSize(const glm::vec2 &size)
+{
+    this->size = size;
 }
 
 glm::vec2 SquareHitbox::GetSize() const
@@ -53,7 +64,23 @@ float SquareHitbox::GetHeight() const
     return (size.y);
 }
 
-void SquareHitbox::Draw() const
+void SquareHitbox::Draw()
 {
-    //todo
+    glLineWidth(2);
+    lineRenderer.SetStart(coords);
+    lineRenderer.SetEnd(coords + glm::vec2(size.x, 0));
+    lineRenderer.Draw();
+
+    lineRenderer.SetStart(coords);
+    lineRenderer.SetEnd(coords + glm::vec2(0, size.y));
+    lineRenderer.Draw();
+
+    lineRenderer.SetStart(coords + glm::vec2(size.x, 0));
+    lineRenderer.SetEnd(coords + size);
+    lineRenderer.Draw();
+
+    lineRenderer.SetStart(coords + glm::vec2(0, size.y));
+    lineRenderer.SetEnd(coords + size);
+    lineRenderer.Draw();
+    glLineWidth(1);
 }

@@ -33,7 +33,7 @@ void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
-    player.Draw(player.GetCoords());
+    player.Draw();
     barrel.Draw(glm::vec2(WINDOW_WIDTH / 2 - 5 * 8, WINDOW_HEIGHT / 2 - 5 * 8));
 }
 
