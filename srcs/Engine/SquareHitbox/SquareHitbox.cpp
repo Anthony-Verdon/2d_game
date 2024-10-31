@@ -1,17 +1,13 @@
 #include "Engine/SquareHitbox/SquareHitbox.hpp"
 #include <glad/glad.h>
 
-SquareHitbox::SquareHitbox(): GameObject()
+SquareHitbox::SquareHitbox(): GameObject(), SquareData()
 {
-    coords = glm::vec2(0, 0);
-    size = glm::vec2(0, 0);
     AddComponent(std::make_unique<LineRenderer>());
 }
 
-SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size): GameObject()
+SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): GameObject(), SquareData(coords, size, color)
 {
-    this->coords = coords;
-    this->size = size;
     AddComponent(std::make_unique<LineRenderer>());
 }
 
@@ -26,49 +22,10 @@ bool SquareHitbox::IsColliding(const SquareHitbox &instance) const
     return collisionX && collisionY;
 }
 
-void SquareHitbox::SetCoords(const glm::vec2 &coords)
-{
-    this->coords = coords;
-}
-
-glm::vec2 SquareHitbox::GetCoords() const
-{
-    return (coords);
-}
-
-float SquareHitbox::GetX() const
-{
-    return (coords.x);
-}
-
-float SquareHitbox::GetY() const
-{
-    return (coords.y);
-}
-
-void SquareHitbox::SetSize(const glm::vec2 &size)
-{
-    this->size = size;
-}
-
-glm::vec2 SquareHitbox::GetSize() const
-{
-    return (size);
-}
-
-float SquareHitbox::GetWidth() const
-{
-    return (size.x);
-}
-
-float SquareHitbox::GetHeight() const
-{
-    return (size.y);
-}
-
 void SquareHitbox::Draw()
 {
     LineRenderer *lineRenderer = GetComponent<LineRenderer>();
+    lineRenderer->SetColor(color);
     glLineWidth(2);
     lineRenderer->SetStart(coords);
     lineRenderer->SetEnd(coords + glm::vec2(size.x, 0));

@@ -3,30 +3,19 @@
 #include <glm/glm.hpp>
 #include "Engine/LineRenderer/LineRenderer.hpp"
 #include "Engine/GameObject/GameObject.hpp"
+#include "Engine/SquareData/SquareData.hpp"
 
-class SquareHitbox: public GameObject
+class SquareHitbox: public GameObject, public SquareData
 {
     private:
-        glm::vec2 coords;
-        glm::vec2 size;
         LineRenderer lineRenderer;
 
     public:
         SquareHitbox();
-        SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size);
+        SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color);
         ~SquareHitbox();
 
         bool IsColliding(const SquareHitbox &instance) const;
-
-        void SetCoords(const glm::vec2 &coords);
-        glm::vec2 GetCoords() const;
-        float GetX() const;
-        float GetY() const;
-
-        void SetSize(const glm::vec2 &size);
-        glm::vec2 GetSize() const;
-        float GetWidth() const;
-        float GetHeight() const;
 
         void Draw();
 };

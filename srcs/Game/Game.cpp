@@ -11,6 +11,7 @@ Game::Game()
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
     RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
+    RessourceManager::AddShader("Square", "shaders/square/square.vs", "shaders/square/square.fs");
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT), 0.0f, -1.0f, 1.0f);
@@ -21,6 +22,8 @@ Game::Game()
     RessourceManager::GetShader("Line")->setMat4("projection", projection);
     RessourceManager::GetShader("Circle")->use();
     RessourceManager::GetShader("Circle")->setMat4("projection", projection);
+    RessourceManager::GetShader("Square")->use();
+    RessourceManager::GetShader("Square")->setMat4("projection", projection);
     line.SetStart(glm::vec2(0,0));
     line.SetEnd(glm::vec2(100,100));
     line.SetColor(glm::vec3(1,1,1));
@@ -28,6 +31,10 @@ Game::Game()
     circle.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
     circle.SetCenter(glm::vec2(WINDOW_WIDTH / 4 , WINDOW_HEIGHT / 4 ));
     circle.CalculateMesh();
+    square.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
+    square.SetCoords(glm::vec2(3 * WINDOW_WIDTH / 4 , 3 * WINDOW_HEIGHT / 4 ));
+    square.SetSize(glm::vec2(100, 100));
+    square.CalculateMesh();
 }
 
 Game::~Game()
@@ -45,6 +52,7 @@ void Game::Run()
     player.Draw();
     circle.Draw();
     line.Draw();
+    square.Draw();
 }
 
 void Game::ProcessInput()
