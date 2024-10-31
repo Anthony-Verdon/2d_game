@@ -4,14 +4,12 @@ SquareData::SquareData()
 {
     coords = glm::vec2(0, 0);
     size = glm::vec2(0, 0);
-    color = glm::vec3(0, 0, 0);
 }
 
-SquareData::SquareData(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color)
+SquareData::SquareData(const glm::vec2 &coords, const glm::vec2 &size)
 {
     this->coords = coords;
     this->size = size;
-    this->color = color;
 }
 
 SquareData::~SquareData()
@@ -57,14 +55,4 @@ float SquareData::GetWidth() const
 float SquareData::GetHeight() const
 {
     return (size.y);
-}
-
-void SquareData::SetColor(const glm::vec3 &color)
-{
-    this->color = color;
-}
-
-glm::vec3 SquareData::GetColor() const
-{
-    return (color);
 }

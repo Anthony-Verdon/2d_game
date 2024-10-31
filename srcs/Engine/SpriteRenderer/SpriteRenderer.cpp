@@ -4,12 +4,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-SpriteRenderer::SpriteRenderer(): GameObject(), SpriteData()
+SpriteRenderer::SpriteRenderer(): GameObject(), SpriteData(), ARenderer()
 {
     Init();
 }
 
-SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color): GameObject(), SpriteData(texture, size, rotation, color)
+SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color): GameObject(), SpriteData(texture, size, rotation), ARenderer(color)
 {
     Init();
 }
@@ -35,6 +35,7 @@ void SpriteRenderer::Init()
     glBindVertexArray(0);
 }
 
+// texture size correspond to the number of sprite on the x axis and the y axis
 void SpriteRenderer::CalculateMesh(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
 {
     glm::vec2 TopLeftCoords;
@@ -59,7 +60,6 @@ void SpriteRenderer::CalculateMesh(const glm::vec2 &textureSize, const glm::vec2
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }   
 
-// texture size correspond to the number of sprite on the x axis and the y axis
 void SpriteRenderer::Draw(const glm::vec2 &position)
 {
     Shader *spriteShader = RessourceManager::GetShader("Sprite");
@@ -82,4 +82,14 @@ void SpriteRenderer::Draw(const glm::vec2 &position)
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+}
+
+void SpriteRenderer::Draw()
+{
+    std::cerr << "This version of SpriteRenderer::Draw() shouldn't be used" << std::endl;
+}
+
+void SpriteRenderer::CalculateMesh()
+{
+    std::cerr << "This version of SpriteRenderer::CalculateMesh() shouldn't be used" << std::endl;
 }

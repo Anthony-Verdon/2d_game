@@ -1,13 +1,11 @@
 #pragma once
 
 #include "Engine/SquareData/SquareData.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
 
-class SquareRenderer: public SquareData
+class SquareRenderer: public SquareData, public ARenderer
 {
     private:
-        unsigned int VAO;
-        unsigned int VBO;
-
         void Init();
 
     public:

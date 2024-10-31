@@ -2,13 +2,11 @@
 
 #include "Engine/GameObject/GameObject.hpp"
 #include "Engine/CircleData/CircleData.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
 
-class CircleRenderer: public GameObject, public CircleData
+class CircleRenderer: public GameObject, public CircleData, public ARenderer
 {
      private:
-        unsigned int VAO;
-        unsigned int VBO;
-
         unsigned int numTriangles;
 
         void Init();

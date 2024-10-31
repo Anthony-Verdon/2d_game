@@ -2,12 +2,12 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
 
-SquareRenderer::SquareRenderer(): SquareData()
+SquareRenderer::SquareRenderer(): SquareData(), ARenderer()
 {
     Init();
 }
 
-SquareRenderer::SquareRenderer(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): SquareData(coords, size, color)
+SquareRenderer::SquareRenderer(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): SquareData(coords, size), ARenderer(color)
 {
     Init();
 }

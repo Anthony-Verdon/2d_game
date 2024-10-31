@@ -4,15 +4,15 @@
 #include <string>
 #include "Engine/SpriteData/SpriteData.hpp"
 #include "Engine/GameObject/GameObject.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
 
-class SpriteRenderer: public GameObject, public SpriteData
+class SpriteRenderer: public GameObject, public SpriteData, public ARenderer
 {
     private:
-        unsigned int VAO;
-        unsigned int VBO;
-
         void Init();
         
+        void CalculateMesh();
+        void Draw();
     public: 
         SpriteRenderer();
         SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color);

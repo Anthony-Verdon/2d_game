@@ -4,13 +4,13 @@
 #include <vector>
 #include <cmath>
 
-CircleRenderer::CircleRenderer(): GameObject(), CircleData()
+CircleRenderer::CircleRenderer(): GameObject(), CircleData(), ARenderer()
 {
     numTriangles = 30;
     Init();
 }
 
-CircleRenderer::CircleRenderer(float radius, const glm::vec2 &center, const glm::vec3 &color, unsigned int numTriangles): GameObject(), CircleData(radius, center, color)
+CircleRenderer::CircleRenderer(float radius, const glm::vec2 &center, const glm::vec3 &color, unsigned int numTriangles): GameObject(), CircleData(radius, center), ARenderer(color)
 {
     this->numTriangles = numTriangles;
     Init();

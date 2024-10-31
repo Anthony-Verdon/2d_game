@@ -4,11 +4,14 @@
 SquareHitbox::SquareHitbox(): GameObject(), SquareData()
 {
     AddComponent(std::make_unique<LineRenderer>());
+    GetComponent<LineRenderer>()->SetColor(glm::vec3(0, 0, 0));
+
 }
 
-SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): GameObject(), SquareData(coords, size, color)
+SquareHitbox::SquareHitbox(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): GameObject(), SquareData(coords, size)
 {
     AddComponent(std::make_unique<LineRenderer>());
+    GetComponent<LineRenderer>()->SetColor(color);
 }
 
 SquareHitbox::~SquareHitbox()
@@ -25,7 +28,6 @@ bool SquareHitbox::IsColliding(const SquareHitbox &instance) const
 void SquareHitbox::Draw()
 {
     LineRenderer *lineRenderer = GetComponent<LineRenderer>();
-    lineRenderer->SetColor(color);
     glLineWidth(2);
     lineRenderer->SetStart(coords);
     lineRenderer->SetEnd(coords + glm::vec2(size.x, 0));

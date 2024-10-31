@@ -2,14 +2,13 @@
 
 #include "Engine/LineData/LineData.hpp"
 #include "Engine/GameObject/GameObject.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
 
-class LineRenderer: public GameObject, public LineData
+class LineRenderer: public GameObject, public LineData, public ARenderer
 {
     private:
-        unsigned int VAO;
-        unsigned int VBO;
-
         void Init();
+        
     public: 
         LineRenderer();
         LineRenderer(const glm::vec2 &start, const glm::vec2 &end,const glm::vec3 &color);
