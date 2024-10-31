@@ -29,7 +29,8 @@ Game::Game()
     line.SetColor(glm::vec3(1,1,1));
     line.CalculateMesh();
     circle.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
-    circle.SetCenter(glm::vec2(WINDOW_WIDTH / 4 , WINDOW_HEIGHT / 4 ));
+    circle.SetPosition(glm::vec2(WINDOW_WIDTH / 4 , WINDOW_HEIGHT / 4 ));
+    circle.SetRadius(20);
     circle.CalculateMesh();
     square.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
     square.SetCoords(glm::vec2(3 * WINDOW_WIDTH / 4 , 3 * WINDOW_HEIGHT / 4 ));
@@ -46,13 +47,16 @@ void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
+    circle.Draw();
+
+    /*
     if (player.GetHitbox().IsColliding(barrel.GetHitbox()))
         std::cout << "colliding" << std::endl;
     barrel.Draw();
     player.Draw();
-    circle.Draw();
     line.Draw();
     square.Draw();
+    */
 }
 
 void Game::ProcessInput()
@@ -63,5 +67,9 @@ void Game::ProcessInput()
     glm::vec2 direction;
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    player.Move(direction);
+    float speed = 1.5f;
+    if (direction != glm::vec2(0, 0))
+    {
+        circle.Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
+    }
 }

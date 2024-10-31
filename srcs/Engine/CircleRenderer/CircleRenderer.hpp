@@ -1,19 +1,20 @@
 #pragma once
 
 #include "Engine/GameObject/GameObject.hpp"
-#include "Engine/CircleData/CircleData.hpp"
+#include "Engine/Transform/Transform.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
 
-class CircleRenderer: public GameObject, public CircleData, public ARenderer
+class CircleRenderer: public GameObject, public Transform, public ARenderer
 {
      private:
         unsigned int numTriangles;
+        float radius;
 
         void Init();
         
     public: 
         CircleRenderer();
-        CircleRenderer(float radius, const glm::vec2 &center, const glm::vec3 &color, unsigned int numTriangles);
+        CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation);
         ~CircleRenderer();
 
         void CalculateMesh();
@@ -21,4 +22,7 @@ class CircleRenderer: public GameObject, public CircleData, public ARenderer
 
         void SetNumTriangles(unsigned int numTriangles);
         unsigned int GetNumTriangles() const;
+        
+        void SetRadius(float radius);
+       float GetRadius() const;
 };

@@ -3,16 +3,19 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <vector>
 #include <cmath>
+#include <glm/gtc/matrix_transform.hpp>
 
-CircleRenderer::CircleRenderer(): GameObject(), CircleData(), ARenderer()
+CircleRenderer::CircleRenderer(): GameObject(), Transform(), ARenderer()
 {
     numTriangles = 30;
+    radius = 10;
     Init();
 }
 
-CircleRenderer::CircleRenderer(float radius, const glm::vec2 &center, const glm::vec3 &color, unsigned int numTriangles): GameObject(), CircleData(radius, center), ARenderer(color)
+CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation): GameObject(), Transform(position, rotation), ARenderer(color)
 {
     this->numTriangles = numTriangles;
+    this->radius = radius;
     Init();
 }
 
@@ -40,16 +43,16 @@ void CircleRenderer::Init()
 void CircleRenderer::CalculateMesh()
 {
     std::vector<float> vertices;
-    float prevX = center.x;
-    float prevY = center.y - radius;
+    float prevX = position.x;
+    float prevY = position.y - radius;
     float angle = M_PI * 2.0 / numTriangles;
     
     for (unsigned int i = 0; i <= numTriangles; i++)
     {
-        float newX = radius * sin(angle * i) + center.x;
-        float newY = radius * cos(angle * i) + center.y;
-        vertices.push_back(center.x);
-        vertices.push_back(center.y);
+        float newX = radius * sin(angle * i) + position.x;
+        float newY = radius * cos(angle * i) + position.y;
+        vertices.push_back(position.x);
+        vertices.push_back(position.y);
         vertices.push_back(prevX);
         vertices.push_back(prevY);
         vertices.push_back(newX);
@@ -69,6 +72,10 @@ void CircleRenderer::Draw()
     circleShader->use();
     circleShader->setVec3("color", color);
 
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position, 0.0f));  
+    circleShader->setMat4("model", model);
+
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, (numTriangles + 1) * 3);
     glBindVertexArray(0);
@@ -82,4 +89,14 @@ void CircleRenderer::SetNumTriangles(unsigned int numTriangles)
 unsigned int CircleRenderer::GetNumTriangles() const
 {
     return (numTriangles);
+}
+
+void CircleRenderer::SetRadius(float radius)
+{
+    this->radius = radius;
+}
+
+float CircleRenderer::GetRadius() const
+{
+    return (radius);
 }
