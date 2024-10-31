@@ -19,5 +19,4 @@ class Player: public GameObject
 
         void Move(const glm::vec2 &direction);
         void Draw();
-
 };

@@ -24,8 +24,9 @@ Game::Game()
     line.SetStart(glm::vec2(0,0));
     line.SetEnd(glm::vec2(100,100));
     line.SetColor(glm::vec3(1,1,1));
+    line.CalculateMesh();
     circle.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
-    circle.SetCenter(glm::vec2(WINDOW_WIDTH / 2 , WINDOW_HEIGHT / 2 ));
+    circle.SetCenter(glm::vec2(WINDOW_WIDTH / 4 , WINDOW_HEIGHT / 4 ));
     circle.CalculateMesh();
 }
 

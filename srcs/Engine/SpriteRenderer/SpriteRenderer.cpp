@@ -22,34 +22,21 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::Init()
 {
-    float vertices[] = { 
-        // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 
-    
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
-    };
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    CalculateMesh(glm::vec2(1,1), glm::vec2(0,0));
 
     glBindVertexArray(VAO);
-    glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);  
     glBindVertexArray(0);
 }
 
-// texture size correspond to the number of sprite on the x axis and the y axis
-void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
+void SpriteRenderer::CalculateMesh(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
 {
-
     glm::vec2 TopLeftCoords;
     glm::vec2 BotomRightCoords;
     TopLeftCoords.x = 1.0f / textureSize.x * spriteCoords.x;
@@ -70,8 +57,11 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &textureSiz
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}   
 
+// texture size correspond to the number of sprite on the x axis and the y axis
+void SpriteRenderer::Draw(const glm::vec2 &position)
+{
     Shader *spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
     glm::mat4 model = glm::mat4(1.0f);

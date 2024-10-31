@@ -72,18 +72,22 @@ void SquareHitbox::Draw()
     glLineWidth(2);
     lineRenderer->SetStart(coords);
     lineRenderer->SetEnd(coords + glm::vec2(size.x, 0));
+    lineRenderer->CalculateMesh();
     lineRenderer->Draw();
 
     lineRenderer->SetStart(coords);
     lineRenderer->SetEnd(coords + glm::vec2(0, size.y));
+    lineRenderer->CalculateMesh();
     lineRenderer->Draw();
 
     lineRenderer->SetStart(coords + glm::vec2(size.x, 0));
     lineRenderer->SetEnd(coords + size);
+    lineRenderer->CalculateMesh();
     lineRenderer->Draw();
 
     lineRenderer->SetStart(coords + glm::vec2(0, size.y));
     lineRenderer->SetEnd(coords + size);
+    lineRenderer->CalculateMesh();
     lineRenderer->Draw();
     glLineWidth(1);
 }

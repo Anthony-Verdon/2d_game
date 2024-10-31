@@ -15,5 +15,6 @@ class LineRenderer: public GameObject, public LineData
         LineRenderer(const glm::vec2 &start, const glm::vec2 &end,const glm::vec3 &color);
         ~LineRenderer();
 
+        void CalculateMesh();
         void Draw();
 };

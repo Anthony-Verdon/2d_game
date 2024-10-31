@@ -18,5 +18,6 @@ class SpriteRenderer: public GameObject, public SpriteData
         SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color);
         ~SpriteRenderer();
 
-        void Draw(const glm::vec2 &position, const glm::vec2 &textureSize, const glm::vec2 &spriteCoords);
+        void CalculateMesh(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords);
+        void Draw(const glm::vec2 &position);
 };

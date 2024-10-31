@@ -20,14 +20,12 @@ LineRenderer::~LineRenderer()
 
 void LineRenderer::Init()
 {
-    float vertices[] = {start.x, start.y,  end.x, end.y};
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    CalculateMesh();
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
@@ -36,16 +34,19 @@ void LineRenderer::Init()
     glBindVertexArray(0);
 }
 
-void LineRenderer::Draw()
+void LineRenderer::CalculateMesh()
 {
     float vertices[] = {start.x, start.y,  end.x, end.y};
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
 
+void LineRenderer::Draw()
+{
     Shader *lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
     lineShader->setVec3("color", color);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
     glBindVertexArray(VAO);
     glDrawArrays(GL_LINES, 0, 2);
