@@ -10,6 +10,7 @@ Game::Game()
 {
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
+    RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT), 0.0f, -1.0f, 1.0f);
@@ -18,8 +19,14 @@ Game::Game()
     RessourceManager::GetShader("Sprite")->setMat4("projection", projection);
     RessourceManager::GetShader("Line")->use();
     RessourceManager::GetShader("Line")->setMat4("projection", projection);
-
-   
+    RessourceManager::GetShader("Circle")->use();
+    RessourceManager::GetShader("Circle")->setMat4("projection", projection);
+    line.SetStart(glm::vec2(0,0));
+    line.SetEnd(glm::vec2(100,100));
+    line.SetColor(glm::vec3(1,1,1));
+    circle.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
+    circle.SetCenter(glm::vec2(WINDOW_WIDTH / 2 , WINDOW_HEIGHT / 2 ));
+    circle.CalculateMesh();
 }
 
 Game::~Game()
@@ -35,7 +42,8 @@ void Game::Run()
         std::cout << "colliding" << std::endl;
     barrel.Draw();
     player.Draw();
-    
+    circle.Draw();
+    line.Draw();
 }
 
 void Game::ProcessInput()
