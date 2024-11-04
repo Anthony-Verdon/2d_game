@@ -5,13 +5,20 @@
 Collision CollisionChecker::CircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
 {
     Collision collision;
+    collision.doCollide = false;
+    collision.normal = glm::vec2(0, 0);
+    collision.depth = 0;
 
     float distance = glm::length(circleA->GetPosition() - circleB->GetPosition());
     float bothRadius = circleA->GetRadius() + circleB->GetRadius();
 
     collision.doCollide = distance < bothRadius;
-    collision.normal = glm::normalize(circleB->GetPosition() - circleA->GetPosition());
-    collision.depth = bothRadius - distance;
+    if (collision.doCollide)
+    {
+        if (circleB->GetPosition() != circleA->GetPosition())
+            collision.normal = glm::normalize(circleB->GetPosition() - circleA->GetPosition());
+        collision.depth = bothRadius - distance;
+    }
    
     return collision;
 }
