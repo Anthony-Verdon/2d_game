@@ -46,8 +46,7 @@ Game::Game()
     glm::vec2 size = {40, 40};
     for (int i = 0; i < nbSquare; i++)
     {
-        //glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
-        glm::vec2 position = glm::vec2(size.x * 1.5 * (i + 1), size.y);
+        glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         squares.push_back(std::make_unique<SquareRenderer>(position, 0, size, color));
     }
@@ -66,10 +65,10 @@ void Game::Run()
     CheckCollisions();
     for (int i = 0; i < nbSquare; i++)
         squares[i]->Draw();
-
-    /*
     for (int i = 0; i < nbCircle; i++)
         circles[i]->Draw();
+
+    /*
     barrel.Draw();
     player.Draw();
     line.Draw();
@@ -112,7 +111,6 @@ void Game::CheckCollisions()
             }
         }
     }
-    */
     for (int i = 0; i < nbSquare - 1; i++)
     {
         for (int j = i + 1; j < nbSquare; j++)
@@ -122,6 +120,19 @@ void Game::CheckCollisions()
             {
                 squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
                 squares[j]->Move(collision.normal * collision.depth / 2.0f);
+            }
+        }
+    }
+    */
+    for (int i = 0; i < nbSquare; i++)
+    {
+        for (int j = 0; j < nbCircle; j++)
+        {
+            Collision collision = CollisionChecker::CircleSquareCollision(squares[i].get(), circles[j].get());
+            if (collision.doCollide)
+            {
+                squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
+                circles[j]->Move(collision.normal * collision.depth / 2.0f);
             }
         }
     }
