@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
-Collision CollisionChecker::CircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
+Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
 {
     Collision collision;
     collision.doCollide = false;
@@ -24,54 +24,19 @@ Collision CollisionChecker::CircleCollision(CircleRenderer* circleA, CircleRende
     return collision;
 }
 
-Collision CollisionChecker::SquareCollision(SquareRenderer* squareA, SquareRenderer* squareB)
+Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB)
 {
-    /* temporary region, it calculates where the vertice of each square is */    
-    std::vector<glm::vec2> vertices;
-    vertices.push_back(glm::vec2(0,0));
-    vertices.push_back(glm::vec2(1,0));
-    vertices.push_back(glm::vec2(1,1));
-    vertices.push_back(glm::vec2(0,1));
-
-    glm::mat4 modelA = glm::mat4(1.0f);
-    
-    modelA = glm::translate(modelA, glm::vec3(squareA->GetPosition(), 0.0f));  
-    
-    modelA = glm::translate(modelA, glm::vec3(0.5f * squareA->GetWidth(), 0.5f * squareA->GetHeight(), 0.0f)); 
-    modelA = glm::rotate(modelA, glm::radians(squareA->GetRotation()), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    modelA = glm::translate(modelA, glm::vec3(-0.5f * squareA->GetWidth(), -0.5f * squareA->GetHeight(), 0.0f));
-    modelA = glm::scale(modelA, glm::vec3(squareA->GetSize(), 1.0f)); 
-
-    glm::mat4 modelB = glm::mat4(1.0f);
-    modelB = glm::translate(modelB, glm::vec3(squareB->GetPosition(), 0.0f));  
-    modelB = glm::translate(modelB, glm::vec3(0.5f * squareB->GetWidth(), 0.5f * squareB->GetHeight(), 0.0f)); 
-    modelB = glm::rotate(modelB, glm::radians(squareB->GetRotation()), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    modelB = glm::translate(modelB, glm::vec3(-0.5f * squareB->GetWidth(), -0.5f * squareB->GetHeight(), 0.0f)); 
-    modelB = glm::scale(modelB, glm::vec3(squareB->GetSize(), 1.0f)); 
-
-    std::vector<glm::vec2> verticesA;
-    std::vector<glm::vec2> verticesB;
-    for (int i = 0; i < 4; i++)
-    {
-        glm::vec4 tmpA = glm::vec4(vertices[i], 0, 1);
-        tmpA = modelA * tmpA;
-        verticesA.push_back(glm::vec2(tmpA.x, tmpA.y));
-
-        glm::vec4 tmpB = glm::vec4(vertices[i], 0, 1);
-        tmpB =  modelB * tmpB;
-        verticesB.push_back(glm::vec2(tmpB.x, tmpB.y));
-    }
-    /* end temporary region */
-
     Collision collision;
     collision.doCollide = false;
     collision.normal = glm::vec2(0, 0);
     collision.depth = std::numeric_limits<float>::max();
 
-    vertices = verticesA;
+    std::vector<glm::vec2> verticesA = polygonA->CalculateVerticesPosition();
+    std::vector<glm::vec2> verticesB = polygonB->CalculateVerticesPosition();
+    std::vector<glm::vec2> vertices = verticesA;
     for (int j = 0; j < 2; j++)
     {
-        for (int i = 0; i < 4; i++)
+        for (unsigned int i = 0; i < vertices.size(); i++)
         {
             glm::vec2 va = vertices[i];
             glm::vec2 vb = vertices[(i  + 1) % 4];
@@ -97,14 +62,15 @@ Collision CollisionChecker::SquareCollision(SquareRenderer* squareA, SquareRende
                 collision.normal = axis;
             }
         }
-        vertices = verticesB;
+
+        vertices = polygonB->CalculateVerticesPosition();
     }
 
     collision.doCollide = true;
     collision.depth = collision.depth / glm::length(collision.normal);
     collision.normal = glm::normalize(collision.normal);
 
-    glm::vec2 direction = squareB->GetPosition() - squareA->GetPosition();
+    glm::vec2 direction = polygonB->GetPosition() - polygonA->GetPosition();
     if (glm::dot(direction, collision.normal) < 0)
         collision.normal = -collision.normal;
     
@@ -128,38 +94,16 @@ glm::vec2 CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &vertic
     return (glm::vec2(min, max));
 }
 
-Collision CollisionChecker::CircleSquareCollision(CircleRenderer* circle, SquareRenderer* square)
+Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon)
 {
-    /* temporary region, it calculates where the vertice of each square is */    
-    std::vector<glm::vec2> vertices;
-    vertices.push_back(glm::vec2(0,0));
-    vertices.push_back(glm::vec2(1,0));
-    vertices.push_back(glm::vec2(1,1));
-    vertices.push_back(glm::vec2(0,1));
+    std::vector<glm::vec2> vertices = polygon->CalculateVerticesPosition();
 
-    glm::mat4 model = glm::mat4(1.0f);
-    
-    model = glm::translate(model, glm::vec3(square->GetPosition(), 0.0f));  
-    
-    model = glm::translate(model, glm::vec3(0.5f * square->GetWidth(), 0.5f * square->GetHeight(), 0.0f)); 
-    model = glm::rotate(model, glm::radians(square->GetRotation()), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    model = glm::translate(model, glm::vec3(-0.5f * square->GetWidth(), -0.5f * square->GetHeight(), 0.0f));
-    model = glm::scale(model, glm::vec3(square->GetSize(), 1.0f)); 
-
-    for (int i = 0; i < 4; i++)
-    {
-        glm::vec4 tmp = glm::vec4(vertices[i], 0, 1);
-        tmp = model * tmp;
-        vertices[i].x = tmp.x;
-        vertices[i].y = tmp.y;
-    }
-    /* end temporary region */
     Collision collision;
     collision.doCollide = false;
     collision.normal = glm::vec2(0, 0);
     collision.depth = std::numeric_limits<float>::max();
 
-    for (int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i < vertices.size(); i++)
     {
         glm::vec2 va = vertices[i];
         glm::vec2 vb = vertices[(i  + 1) % 4];
@@ -210,16 +154,16 @@ Collision CollisionChecker::CircleSquareCollision(CircleRenderer* circle, Square
     collision.depth = collision.depth / glm::length(collision.normal);
     collision.normal = glm::normalize(collision.normal);
 
-    glm::vec2 direction = square->GetPosition() - circle->GetPosition();
+    glm::vec2 direction = polygon->GetPosition() - circle->GetPosition();
     if (glm::dot(direction, collision.normal) < 0)
         collision.normal = -collision.normal;
 
     return (collision);
 }
 
-Collision CollisionChecker::CircleSquareCollision(SquareRenderer* square, CircleRenderer* circle)
+Collision CollisionChecker::CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle)
 {
-    Collision collision = CircleSquareCollision(circle, square);
+    Collision collision = CirclePolygonCollision(circle, polygon);
     if (collision.doCollide)
     {
         collision.normal = -collision.normal;

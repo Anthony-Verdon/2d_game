@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "Engine/CircleRenderer/CircleRenderer.hpp"
-#include "Engine/SquareRenderer/SquareRenderer.hpp"
+#include "Engine/PolygonRenderer/PolygonRenderer.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 #include <map>
@@ -24,9 +24,9 @@ class CollisionChecker
         static glm::vec2 ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
         static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
     public:
-        static Collision CircleCollision(CircleRenderer* circleA, CircleRenderer* circleB);
-        static Collision SquareCollision(SquareRenderer* squareA, SquareRenderer* squareB);
-        static Collision CircleSquareCollision(CircleRenderer* circle, SquareRenderer* square);
-        static Collision CircleSquareCollision(SquareRenderer* square, CircleRenderer* circle);
+        static Collision CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB);
+        static Collision PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB);
+        static Collision CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon);
+        static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle);
 
 };

@@ -7,6 +7,7 @@ class ARenderer
     protected:
         unsigned int VAO;
         unsigned int VBO;
+        unsigned int EBO;
         glm::vec3 color;
 
         virtual void Init() = 0;

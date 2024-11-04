@@ -42,13 +42,13 @@ Game::Game()
         circles.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
     }
 
-    nbSquare = 3;
+    nbSquare = 2;
     glm::vec2 size = {40, 40};
     for (int i = 0; i < nbSquare; i++)
     {
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        squares.push_back(std::make_unique<SquareRenderer>(position, 0, size, color));
+        squares.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
     }
 
 }
@@ -98,12 +98,11 @@ void Game::ProcessInput()
 
 void Game::CheckCollisions()
 {
-    /*
     for (int i = 0; i < nbCircle - 1; i++)
     {
         for (int j = i + 1; j < nbCircle; j++)
         {
-            Collision collision = CollisionChecker::CircleCollision(circles[i].get(), circles[j].get());
+            Collision collision = CollisionChecker::CircleCircleCollision(circles[i].get(), circles[j].get());
             if (collision.doCollide)
             {
                 circles[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
@@ -115,7 +114,7 @@ void Game::CheckCollisions()
     {
         for (int j = i + 1; j < nbSquare; j++)
         {
-            Collision collision = CollisionChecker::SquareCollision(squares[i].get(), squares[j].get());
+            Collision collision = CollisionChecker::PolygonPolygonCollision(squares[i].get(), squares[j].get());
             if (collision.doCollide)
             {
                 squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
@@ -123,12 +122,11 @@ void Game::CheckCollisions()
             }
         }
     }
-    */
     for (int i = 0; i < nbSquare; i++)
     {
         for (int j = 0; j < nbCircle; j++)
         {
-            Collision collision = CollisionChecker::CircleSquareCollision(squares[i].get(), circles[j].get());
+            Collision collision = CollisionChecker::CirclePolygonCollision(squares[i].get(), circles[j].get());
             if (collision.doCollide)
             {
                 squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
