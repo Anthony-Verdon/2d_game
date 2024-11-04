@@ -14,7 +14,6 @@ class SquareRenderer: public Transform, public ARenderer
         SquareRenderer(const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color);
         ~SquareRenderer();
 
-        void CalculateMesh();
         void Draw();
 
         void SetSize(const glm::vec2 &size);

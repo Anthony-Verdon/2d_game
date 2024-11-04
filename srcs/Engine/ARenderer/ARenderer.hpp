@@ -15,7 +15,6 @@ class ARenderer
         ARenderer(const glm::vec3 &color);
         virtual ~ARenderer();
 
-        virtual void CalculateMesh() = 0;
         virtual void Draw() = 0;
 
         void SetColor(const glm::vec3 &color);

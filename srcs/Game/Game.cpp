@@ -70,7 +70,6 @@ void Game::Run()
     }
     for (int i = 0; i < nbSquare; i++)
     {
-        squares[i]->CalculateMesh();
         squares[i]->Draw();
     }
     /*

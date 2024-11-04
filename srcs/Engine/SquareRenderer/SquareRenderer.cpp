@@ -18,7 +18,6 @@ SquareRenderer::SquareRenderer(const glm::vec2 &position, float rotation, const 
 SquareRenderer::~SquareRenderer()
 {
     glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
 }
 
 void SquareRenderer::Init()
@@ -26,17 +25,6 @@ void SquareRenderer::Init()
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     
-    CalculateMesh();
-
-    glBindVertexArray(VAO);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);  
-    glBindVertexArray(0);
-}
-
-void SquareRenderer::CalculateMesh()
-{
     float vertices[] = { 
         // pos      
         0, 1, 
@@ -50,7 +38,15 @@ void SquareRenderer::CalculateMesh()
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-}   
+
+    glBindVertexArray(VAO);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);  
+    glBindVertexArray(0);
+    
+    glDeleteBuffers(1, &VBO);
+}
 
 void SquareRenderer::Draw()
 {
