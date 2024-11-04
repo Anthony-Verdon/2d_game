@@ -34,7 +34,7 @@ Game::Game()
     line.CalculateMesh();
 
     square.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
-    square.SetCoords(glm::vec2(3 * WINDOW_WIDTH / 4 , 3 * WINDOW_HEIGHT / 4 ));
+    square.SetPosition(glm::vec2(3 * WINDOW_WIDTH / 4 , 3 * WINDOW_HEIGHT / 4 ));
     square.SetSize(glm::vec2(100, 100));
     square.CalculateMesh();
 
@@ -67,8 +67,6 @@ void Game::Run()
     }
     /*
     line.Draw();
-    if (player.GetHitbox().IsColliding(barrel.GetHitbox()))
-        std::cout << "colliding" << std::endl;
     barrel.Draw();
     player.Draw();
     square.Draw();

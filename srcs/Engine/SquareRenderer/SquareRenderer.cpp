@@ -2,13 +2,15 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
 
-SquareRenderer::SquareRenderer(): SquareData(), ARenderer()
+SquareRenderer::SquareRenderer(): Transform(), ARenderer()
 {
+    size = glm::vec2(10, 10);
     Init();
 }
 
-SquareRenderer::SquareRenderer(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color): SquareData(coords, size), ARenderer(color)
+SquareRenderer::SquareRenderer(const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color): Transform(position, rotation), ARenderer(color)
 {
+    this->size = size;
     Init();
 }
 
@@ -36,13 +38,13 @@ void SquareRenderer::CalculateMesh()
 {
     float vertices[] = { 
         // pos      
-        coords.x,           coords.y + size.y, 
-        coords.x + size.x,  coords.y, 
-        coords.x,           coords.y, 
+        position.x,           position.y + size.y, 
+        position.x + size.x,  position.y, 
+        position.x,           position.y, 
     
-        coords.x,           coords.y + size.y,
-        coords.x + size.x,  coords.y + size.y, 
-        coords.x + size.x,  coords.y, 
+        position.x,           position.y + size.y,
+        position.x + size.x,  position.y + size.y, 
+        position.x + size.x,  position.y, 
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -60,3 +62,22 @@ void SquareRenderer::Draw()
     glBindVertexArray(0);
 }
 
+void SquareRenderer::SetSize(const glm::vec2 &size)
+{
+    this->size = size;
+}
+
+glm::vec2 SquareRenderer::GetSize() const
+{
+    return (size);
+}
+
+float SquareRenderer::GetWidth() const
+{
+    return (size.x);
+}
+
+float SquareRenderer::GetHeight() const
+{
+    return (size.y);
+}

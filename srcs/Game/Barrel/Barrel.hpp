@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/GameObject/GameObject.hpp"
-#include "Engine/SquareHitbox/SquareHitbox.hpp"
 
 class Barrel: public GameObject
 {
@@ -12,7 +11,5 @@ class Barrel: public GameObject
         Barrel();
         ~Barrel();
         
-        const SquareHitbox &GetHitbox() const;
-
         void Draw();
 };

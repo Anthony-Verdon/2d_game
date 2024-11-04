@@ -1,18 +1,24 @@
 #pragma once
 
-#include "Engine/SquareData/SquareData.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
+#include "Engine/Transform/Transform.hpp"
 
-class SquareRenderer: public SquareData, public ARenderer
+class SquareRenderer: public Transform, public ARenderer
 {
     private:
         void Init();
+        glm::vec2 size;
 
     public:
         SquareRenderer();
-        SquareRenderer(const glm::vec2 &coords, const glm::vec2 &size, const glm::vec3 &color);
+        SquareRenderer(const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color);
         ~SquareRenderer();
 
         void CalculateMesh();
         void Draw();
+
+        void SetSize(const glm::vec2 &size);
+        glm::vec2 GetSize() const;
+        float GetWidth() const;
+        float GetHeight() const;
 };
