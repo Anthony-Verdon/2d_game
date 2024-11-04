@@ -4,13 +4,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-SpriteRenderer::SpriteRenderer(): GameObject(), SpriteData(), ARenderer()
+SpriteRenderer::SpriteRenderer(): GameObject(), Transform(), ARenderer()
 {
+    texture = "";
+    size = glm::vec2(1, 1);
     Init();
 }
 
-SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, float rotation, const glm::vec3 &color): GameObject(), SpriteData(texture, size, rotation), ARenderer(color)
+SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color): GameObject(), Transform(position, rotation), ARenderer(color)
 {
+    this->texture = texture;
+    this->size = size;
     Init();
 }
 
@@ -26,7 +30,7 @@ void SpriteRenderer::Init()
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     
-    CalculateMesh(glm::vec2(1,1), glm::vec2(0,0));
+    SetSprite(glm::vec2(1,1), glm::vec2(0,0));
 
     glBindVertexArray(VAO);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
@@ -36,7 +40,7 @@ void SpriteRenderer::Init()
 }
 
 // texture size correspond to the number of sprite on the x axis and the y axis
-void SpriteRenderer::CalculateMesh(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
+void SpriteRenderer::SetSprite(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
 {
     glm::vec2 TopLeftCoords;
     glm::vec2 BotomRightCoords;
@@ -60,7 +64,7 @@ void SpriteRenderer::CalculateMesh(const glm::vec2 &textureSize, const glm::vec2
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }   
 
-void SpriteRenderer::Draw(const glm::vec2 &position)
+void SpriteRenderer::Draw()
 {
     Shader *spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
@@ -84,12 +88,12 @@ void SpriteRenderer::Draw(const glm::vec2 &position)
     glBindVertexArray(0);
 }
 
-void SpriteRenderer::Draw()
+void SpriteRenderer::SetTexture(const std::string &texture)
 {
-    std::cerr << "This version of SpriteRenderer::Draw() shouldn't be used" << std::endl;
+    this->texture = texture;
 }
 
-void SpriteRenderer::CalculateMesh()
+void SpriteRenderer::SetSize(const glm::vec2 &size)
 {
-    std::cerr << "This version of SpriteRenderer::CalculateMesh() shouldn't be used" << std::endl;
+    this->size = size;
 }

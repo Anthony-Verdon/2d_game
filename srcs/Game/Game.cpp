@@ -67,10 +67,10 @@ void Game::Run()
         circles[i]->Draw();
     for (int i = 0; i < nbSquare; i++)
         squares[i]->Draw();
-    /*
-    line.Draw();
     barrel.Draw();
     player.Draw();
+    /*
+    line.Draw();
     */
 }
 

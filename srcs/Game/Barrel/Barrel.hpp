@@ -5,7 +5,6 @@
 class Barrel: public GameObject
 {
     private:
-        glm::vec2 coords;
 
     public:
         Barrel();
