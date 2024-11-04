@@ -6,6 +6,12 @@
 #include <vector>
 #include <map>
 
+struct Boundaries
+{
+    float min;
+    float max;
+};
+
 struct Collision
 {
     bool doCollide;
@@ -20,8 +26,8 @@ class CollisionChecker
         CollisionChecker() = delete;
         ~CollisionChecker() = delete;
 
-        static glm::vec2 ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
-        static glm::vec2 ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
+        static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
+        static Boundaries ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
         static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
     public:
         static Collision CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB);

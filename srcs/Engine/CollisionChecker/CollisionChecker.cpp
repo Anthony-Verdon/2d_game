@@ -44,18 +44,13 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
             glm::vec2 edge = vb - va;
             glm::vec2 axis = glm::vec2(-edge.y, edge.x);
 
-            glm::vec2 minMaxA = ProjectVertices(verticesA, axis);
-            float minA = minMaxA.x;
-            float maxA = minMaxA.y;
-            glm::vec2 minMaxB = ProjectVertices(verticesB, axis);
-            float minB = minMaxB.x;
-            float maxB = minMaxB.y;
-
-            collision.doCollide = minA < maxB && minB < maxA;
+            Boundaries boundariesA = ProjectVertices(verticesA, axis);
+            Boundaries boundariesB = ProjectVertices(verticesB, axis);
+            collision.doCollide = boundariesA.min < boundariesB.max && boundariesB.min < boundariesA.max;
             if (!collision.doCollide)
                 return (collision);
 
-            float axisDepth = std::min(maxB - minA, maxA - minB);
+            float axisDepth = std::min(boundariesB.max - boundariesA.min, boundariesA.max -  boundariesB.min);
             if (axisDepth < collision.depth)
             {
                 collision.depth = axisDepth;
@@ -77,23 +72,6 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
     return (collision);
 }
 
-glm::vec2 CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis)
-{
-    float min = std::numeric_limits<float>::max();
-    float max = std::numeric_limits<float>::min();
-    for (int i = 0; i < 4; i++)
-    {
-        glm::vec2 vertex = vertices[i];
-        float proj = glm::dot(vertex, axis);
-        if (proj < min)
-            min = proj;
-        if (proj > max)
-            max = proj;
-    }
-
-    return (glm::vec2(min, max));
-}
-
 Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon)
 {
     std::vector<glm::vec2> vertices = polygon->CalculateVerticesPosition();
@@ -111,18 +89,13 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
         glm::vec2 edge = vb - va;
         glm::vec2 axis = glm::vec2(-edge.y, edge.x);
 
-        glm::vec2 minMaxA = ProjectVertices(vertices, axis);
-        float minA = minMaxA.x;
-        float maxA = minMaxA.y;
-        glm::vec2 minMaxB = ProjectCircle(circle, axis);
-        float minB = minMaxB.x;
-        float maxB = minMaxB.y;
-
-        collision.doCollide = minA < maxB && minB < maxA;
+        Boundaries boundariesA = ProjectVertices(vertices, axis);
+        Boundaries boundariesB = ProjectCircle(circle, axis);
+        collision.doCollide = boundariesA.min < boundariesB.max && boundariesB.min < boundariesA.max;
         if (!collision.doCollide)
             return (collision);
 
-        float axisDepth = std::min(maxB - minA, maxA - minB);
+        float axisDepth = std::min(boundariesB.max - boundariesA.min, boundariesA.max -  boundariesB.min);
         if (axisDepth < collision.depth)
         {
             collision.depth = axisDepth;
@@ -133,17 +106,13 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
     glm::vec2 closestPoint = findClosestVertex(circle, vertices);
     glm::vec2 axis = closestPoint - circle->GetPosition();
 
-    glm::vec2 minMaxA = ProjectVertices(vertices, axis);
-    float minA = minMaxA.x;
-    float maxA = minMaxA.y;
-    glm::vec2 minMaxB = ProjectCircle(circle, axis);
-    float minB = minMaxB.x;
-    float maxB = minMaxB.y;
-    collision.doCollide = minA < maxB && minB < maxA;
+    Boundaries boundariesA = ProjectVertices(vertices, axis);
+    Boundaries boundariesB = ProjectCircle(circle, axis);
+    collision.doCollide = boundariesA.min < boundariesB.max && boundariesB.min < boundariesA.max;
     if (!collision.doCollide)
         return (collision);
 
-    float axisDepth = std::min(maxB - minA, maxA - minB);
+    float axisDepth = std::min(boundariesB.max - boundariesA.min, boundariesA.max -  boundariesB.min);
     if (axisDepth < collision.depth)
     {
         collision.depth = axisDepth;
@@ -165,27 +134,39 @@ Collision CollisionChecker::CirclePolygonCollision(PolygonRenderer* polygon, Cir
 {
     Collision collision = CirclePolygonCollision(circle, polygon);
     if (collision.doCollide)
-    {
         collision.normal = -collision.normal;
-    }
 
     return (collision);
 }   
 
-glm::vec2 CollisionChecker::ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis)
+Boundaries CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis)
 {
-    glm::vec2 direction = glm::normalize(axis);
-    glm::vec2 directionAndRadius = direction * circle->GetRadius();
+    Boundaries boundaries;
+    boundaries.min = std::numeric_limits<float>::max();
+    boundaries.max = std::numeric_limits<float>::min();
+    for (int i = 0; i < 4; i++)
+    {
+        float proj = glm::dot(vertices[i], axis);
+        if (proj < boundaries.min)
+            boundaries.min = proj;
+        if (proj > boundaries.max)
+            boundaries.max = proj;
+    }
 
-    glm::vec2 p1 = circle->GetPosition() + directionAndRadius;
-    glm::vec2 p2 = circle->GetPosition() - directionAndRadius;
+    return (boundaries);
+}
 
-    float min = glm::dot(p1, axis);
-    float max = glm::dot(p2, axis);
-    if (min > max)
-        std::swap(min, max);
+Boundaries CollisionChecker::ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis)
+{
+    glm::vec2 directionAndRadius = glm::normalize(axis) * circle->GetRadius();
 
-    return (glm::vec2(min, max));
+    Boundaries boundaries;
+    boundaries.min = glm::dot(circle->GetPosition() + directionAndRadius, axis);
+    boundaries.max = glm::dot(circle->GetPosition() - directionAndRadius, axis);
+    if (boundaries.min > boundaries.max)
+        std::swap(boundaries.min, boundaries.max);
+
+    return (boundaries);
 }
 
 glm::vec2 CollisionChecker::findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices)
