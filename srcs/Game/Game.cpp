@@ -95,6 +95,10 @@ void Game::ProcessInput()
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_DOWN) - WindowManager::IsKeyPressed(GLFW_KEY_UP);
     if (direction != glm::vec2(0, 0))
         squares[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
+    if (WindowManager::IsKeyPressed(GLFW_KEY_O))
+        squares[0]->Rotate(speed * Time::getDeltaTime() * 100.0f);
+    if (WindowManager::IsKeyPressed(GLFW_KEY_P))
+        squares[0]->Rotate(-speed * Time::getDeltaTime() * 100.0f);
 }
 
 void Game::CheckCollisions()

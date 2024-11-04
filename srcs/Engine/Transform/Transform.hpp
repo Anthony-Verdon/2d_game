@@ -13,6 +13,7 @@ class Transform
         ~Transform();
 
         void Move(const glm::vec2 &amount);
+        void Rotate(float amount);
         
         void SetPosition(const glm::vec2 &position);
         void SetRotation(float rotation);

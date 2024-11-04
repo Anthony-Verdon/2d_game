@@ -22,6 +22,11 @@ void Transform::Move(const glm::vec2 &amount)
     position += amount;
 }
 
+void Transform::Rotate(float amount)
+{
+    rotation += amount;
+}
+
 void Transform::SetPosition(const glm::vec2 &position)
 {
     this->position = position;

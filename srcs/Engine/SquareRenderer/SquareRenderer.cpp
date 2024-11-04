@@ -1,6 +1,7 @@
 #include "Engine/SquareRenderer/SquareRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 SquareRenderer::SquareRenderer(): Transform(), ARenderer()
 {
@@ -38,13 +39,13 @@ void SquareRenderer::CalculateMesh()
 {
     float vertices[] = { 
         // pos      
-        position.x,           position.y + size.y, 
-        position.x + size.x,  position.y, 
-        position.x,           position.y, 
-    
-        position.x,           position.y + size.y,
-        position.x + size.x,  position.y + size.y, 
-        position.x + size.x,  position.y, 
+        0, 1, 
+        1, 0, 
+        0, 0, 
+
+        0, 1,
+        1, 1, 
+        1, 0, 
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -55,6 +56,15 @@ void SquareRenderer::Draw()
 {
     Shader *squareShader = RessourceManager::GetShader("Square");
     squareShader->use();
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position, 0.0f));  
+
+    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); 
+    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
+
+    model = glm::scale(model, glm::vec3(size, 1.0f)); 
+    squareShader->setMat4("model", model);
     squareShader->setVec3("color", color);
 
     glBindVertexArray(VAO);
