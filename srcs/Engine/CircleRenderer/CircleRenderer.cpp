@@ -31,17 +31,6 @@ void CircleRenderer::Init()
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
 
-    CalculateMesh();
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-}
-
-void CircleRenderer::CalculateMesh()
-{
     std::vector<float> vertices;
     float prevX = position.x;
     float prevY = position.y - radius;
@@ -49,10 +38,10 @@ void CircleRenderer::CalculateMesh()
     
     for (unsigned int i = 0; i <= numTriangles; i++)
     {
-        float newX = radius * sin(angle * i) + position.x;
-        float newY = radius * cos(angle * i) + position.y;
-        vertices.push_back(position.x);
-        vertices.push_back(position.y);
+        float newX = radius * sin(angle * i);
+        float newY = radius * cos(angle * i);
+        vertices.push_back(0);
+        vertices.push_back(0);
         vertices.push_back(prevX);
         vertices.push_back(prevY);
         vertices.push_back(newX);
@@ -64,12 +53,26 @@ void CircleRenderer::CalculateMesh()
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void CircleRenderer::Draw()
 {
     Shader *circleShader = RessourceManager::GetShader("Circle");
     circleShader->use();
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position, 0.0f));  
+
+    model = glm::translate(model, glm::vec3(radius, radius, 0.0f)); 
+    model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    model = glm::translate(model, glm::vec3(-radius, -radius, 0.0f));
+
+    circleShader->setMat4("model", model);
     circleShader->setVec3("color", color);
 
     glBindVertexArray(VAO);

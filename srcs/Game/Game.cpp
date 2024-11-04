@@ -64,14 +64,9 @@ void Game::Run()
     ProcessInput();
     CheckCollisions();
     for (int i = 0; i < nbCircle; i++)
-    {
-        circles[i]->CalculateMesh();
         circles[i]->Draw();
-    }
     for (int i = 0; i < nbSquare; i++)
-    {
         squares[i]->Draw();
-    }
     /*
     line.Draw();
     barrel.Draw();
