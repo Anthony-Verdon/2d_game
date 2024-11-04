@@ -14,10 +14,13 @@ class Game: public AGame
     private:
         Player player;
         Barrel barrel;
-        SquareRenderer square;
         LineRenderer line;
 
+        int nbCircle;
         std::vector<std::unique_ptr<CircleRenderer>> circles;
+        int nbSquare;
+        std::vector<std::unique_ptr<SquareRenderer>> squares;
+        
         void ProcessInput();
         void CheckCollisions();
         

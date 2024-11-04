@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <ctime>
 
-int nbCircle = 10;
 Game::Game()
 {
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
@@ -33,12 +32,8 @@ Game::Game()
     line.SetColor(glm::vec3(1,1,1));
     line.CalculateMesh();
 
-    square.SetColor(glm::vec3(1.0f, 0.5f, 0.2f));
-    square.SetPosition(glm::vec2(3 * WINDOW_WIDTH / 4 , 3 * WINDOW_HEIGHT / 4 ));
-    square.SetSize(glm::vec2(100, 100));
-    square.CalculateMesh();
-
     srand(time(NULL));
+    nbCircle = 5;
     int radius = 20;
     for (int i = 0; i < nbCircle; i++)
     {
@@ -47,6 +42,14 @@ Game::Game()
         circles.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
     }
 
+    nbSquare = 5;
+    glm::vec2 size = {40, 40};
+    for (int i = 0; i < nbSquare; i++)
+    {
+        glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
+        glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
+        squares.push_back(std::make_unique<SquareRenderer>(position, 0, size, color));
+    }
 
 }
 
@@ -65,11 +68,15 @@ void Game::Run()
         circles[i]->CalculateMesh();
         circles[i]->Draw();
     }
+    for (int i = 0; i < nbSquare; i++)
+    {
+        squares[i]->CalculateMesh();
+        squares[i]->Draw();
+    }
     /*
     line.Draw();
     barrel.Draw();
     player.Draw();
-    square.Draw();
     */
 }
 
@@ -78,12 +85,16 @@ void Game::ProcessInput()
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
 
+    float speed = 1.5f;
     glm::vec2 direction;
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    float speed = 1.5f;
     if (direction != glm::vec2(0, 0))
         circles[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
+    direction.x = WindowManager::IsKeyPressed(GLFW_KEY_RIGHT) - WindowManager::IsKeyPressed(GLFW_KEY_LEFT);
+    direction.y = WindowManager::IsKeyPressed(GLFW_KEY_DOWN) - WindowManager::IsKeyPressed(GLFW_KEY_UP);
+    if (direction != glm::vec2(0, 0))
+        squares[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
 }
 
 void Game::CheckCollisions()
