@@ -72,10 +72,6 @@ void CircleRenderer::Draw()
     circleShader->use();
     circleShader->setVec3("color", color);
 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));  
-    circleShader->setMat4("model", model);
-
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, (numTriangles + 1) * 3);
     glBindVertexArray(0);
