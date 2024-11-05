@@ -41,9 +41,9 @@ Game::Game()
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         if (i % 2)
-            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
-        else
             shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
+        else
+            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
     }
 }
 
@@ -60,6 +60,28 @@ void Game::Run()
     for (int i = 0; i < nbShape; i++)
     {
         shapes[i]->Step();
+
+        glm::vec2 size;
+        CircleRenderer* circle = dynamic_cast<CircleRenderer*>(shapes[i].get());
+        if (circle)
+            size = glm::vec2(circle->GetRadius(), circle->GetRadius());
+        else
+        {
+            PolygonRenderer* polygon = dynamic_cast<PolygonRenderer*>(shapes[i].get());
+            if (polygon)
+                size = polygon->GetSize();
+        }
+        glm::vec2 newPos = shapes[i]->GetPosition();
+        if (newPos.x + size.x < 0)
+            newPos.x = newPos.x + size.x + WINDOW_WIDTH;
+        else if (newPos.x > WINDOW_WIDTH)
+            newPos.x = newPos.x - WINDOW_WIDTH;
+         if (newPos.y + size.y < 0)
+            newPos.y = newPos.y + size.y + WINDOW_HEIGHT;
+        else if (newPos.y > WINDOW_HEIGHT)
+            newPos.y = newPos.y - WINDOW_HEIGHT;
+        shapes[i]->SetPosition(newPos);
+        
         shapes[i]->Draw();
     }
     /*
@@ -98,12 +120,12 @@ void Game::CheckCollisions()
                 shapes[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
                 shapes[j]->Move(collision.normal * collision.depth / 2.0f);
 
-                glm::vec2 relativeVelocity = shapes[j]->linearVelocity - shapes[i]->linearVelocity;
+                glm::vec2 relativeVelocity = shapes[j]->GetVelocity() - shapes[i]->GetVelocity();
                 float e = 1;
                 float j2 = -(1.0 + e) * glm::dot(relativeVelocity, collision.normal);
                 j2 = j2 / (1.0 / 1.0 + 1.0 / 1.0);
-                shapes[i]->linearVelocity -= j2 / 1.0f * collision.normal; 
-                shapes[j]->linearVelocity += j2 / 1.0f * collision.normal; 
+                shapes[i]->AddVelocity(-j2 / 1.0f * collision.normal); 
+                shapes[j]->AddVelocity(j2 / 1.0f * collision.normal); 
             }
         }
     }

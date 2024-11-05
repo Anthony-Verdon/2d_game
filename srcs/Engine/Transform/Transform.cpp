@@ -1,4 +1,5 @@
 #include "Engine/Transform/Transform.hpp"
+#include "Engine/Time/Time.hpp"
 
 Transform::Transform()
 {
@@ -27,6 +28,25 @@ void Transform::Rotate(float amount)
     rotation += amount;
 }
 
+void Transform::AddForce(const glm::vec2 amount)
+{
+    force += amount;
+}
+
+void Transform::AddVelocity(const glm::vec2 amount)
+{
+    velocity += amount;
+}
+
+
+void Transform::Step()
+{
+    velocity += force * Time::getDeltaTime() * 10.0f;
+    position += velocity * Time::getDeltaTime() * 10.0f;
+    
+    force = glm::vec2(0, 0);
+}
+
 void Transform::SetPosition(const glm::vec2 &position)
 {
     this->position = position;
@@ -45,6 +65,11 @@ glm::vec2 Transform::GetPosition() const
 float Transform::GetRotation() const
 {
     return (rotation);
+}
+
+glm::vec2 Transform::GetVelocity() const
+{
+    return (velocity);
 }
 
 
