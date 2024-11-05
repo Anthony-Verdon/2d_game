@@ -5,14 +5,14 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 
-CircleRenderer::CircleRenderer(): GameObject(), Transform(), ARenderer()
+CircleRenderer::CircleRenderer(): ARenderer()
 {
     numTriangles = 30;
     radius = 10;
     Init();
 }
 
-CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation): GameObject(), Transform(position, rotation), ARenderer(color)
+CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation): ARenderer(color, position, rotation)
 {
     this->numTriangles = numTriangles;
     this->radius = radius;

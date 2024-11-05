@@ -30,7 +30,7 @@
        3, 2, 1                                \
 }   
 
-class PolygonRenderer: public Transform, public ARenderer
+class PolygonRenderer: public ARenderer
 {
     private:
         void Init();

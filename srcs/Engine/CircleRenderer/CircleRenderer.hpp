@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Engine/GameObject/GameObject.hpp"
-#include "Engine/Transform/Transform.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
 
-class CircleRenderer: public GameObject, public Transform, public ARenderer
+class CircleRenderer: public ARenderer
 {
      private:
         unsigned int numTriangles;

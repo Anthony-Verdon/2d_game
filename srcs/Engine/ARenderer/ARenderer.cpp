@@ -1,11 +1,11 @@
 #include "Engine/ARenderer/ARenderer.hpp"
 
-ARenderer::ARenderer()
+ARenderer::ARenderer(): GameObject()
 {
     color = glm::vec3(0, 0, 0);
 }
 
-ARenderer::ARenderer(const glm::vec3 &color)
+ARenderer::ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation): GameObject(position, rotation)
 {
     this->color = color;
 }

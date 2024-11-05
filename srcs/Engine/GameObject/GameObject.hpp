@@ -3,14 +3,16 @@
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
+#include "Engine/Transform/Transform.hpp"
 
-class GameObject
+class GameObject: public Transform
 {
     protected:
         std::vector<std::unique_ptr<GameObject>> childrens;
 
     public:
         GameObject();
+        GameObject(const glm::vec2 &position, float rotation);
         virtual ~GameObject();
 
         template <typename T>

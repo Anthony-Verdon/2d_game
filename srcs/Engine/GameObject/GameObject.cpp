@@ -1,6 +1,10 @@
 #include "Engine/GameObject/GameObject.hpp"
 
-GameObject::GameObject()
+GameObject::GameObject(): Transform()
+{
+}
+
+GameObject::GameObject(const glm::vec2 &position, float rotation): Transform(position, rotation)
 {
 }
 

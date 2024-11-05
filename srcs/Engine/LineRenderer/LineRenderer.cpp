@@ -2,12 +2,12 @@
 #include "Engine/Shader/Shader.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 
-LineRenderer::LineRenderer(): GameObject(), LineData(), ARenderer()
+LineRenderer::LineRenderer():  LineData(), ARenderer()
 {
     Init();
 }
 
-LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end,const glm::vec3 &color):  GameObject(), LineData(start, end), ARenderer(color)
+LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color):  LineData(start, end), ARenderer(color, position, rotation)
 {
     Init();
 }

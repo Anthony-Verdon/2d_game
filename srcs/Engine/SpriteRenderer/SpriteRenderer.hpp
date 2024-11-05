@@ -2,11 +2,9 @@
 
 #include <glm/glm.hpp>
 #include <string>
-#include "Engine/Transform/Transform.hpp"
-#include "Engine/GameObject/GameObject.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
 
-class SpriteRenderer: public GameObject, public Transform, public ARenderer
+class SpriteRenderer: public ARenderer
 {
     private:
         std::string texture;

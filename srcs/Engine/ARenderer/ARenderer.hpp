@@ -1,8 +1,9 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "Engine/GameObject/GameObject.hpp"
 
-class ARenderer
+class ARenderer: public GameObject
 {
     protected:
         unsigned int VAO;
@@ -13,7 +14,7 @@ class ARenderer
         virtual void Init() = 0;
     public:
         ARenderer();
-        ARenderer(const glm::vec3 &color);
+        ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation);
         virtual ~ARenderer();
 
         virtual void Draw() = 0;

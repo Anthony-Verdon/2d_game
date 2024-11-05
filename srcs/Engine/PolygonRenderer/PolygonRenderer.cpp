@@ -3,13 +3,13 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-PolygonRenderer::PolygonRenderer(): Transform(), ARenderer()
+PolygonRenderer::PolygonRenderer(): ARenderer()
 {
     size = glm::vec2(10, 10);
     Init();
 }
 
-PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color): Transform(position, rotation), ARenderer(color)
+PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color): ARenderer(color, position, rotation)
 {
     this->size = size;
     this->vertices = vertices;
