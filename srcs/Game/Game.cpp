@@ -33,26 +33,8 @@ Game::Game()
     line.CalculateMesh();
 
     srand(time(NULL));
-    nbShape = 10;
-    int radius = 20;
-    glm::vec2 size = glm::vec2(40,40);
-    for (int i = 0; i < nbShape; i++)
-    {
-        glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
-        bool isStatic = rand() % 2;
-        if (i == 0)
-            isStatic = false;
-        glm::vec3 color;
-        if (isStatic)
-            color = glm::vec3(0,0,0);
-        else
-            color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-
-        if (i % 2)
-            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color, 1, 1, isStatic));
-        else
-            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0, 1, 1, isStatic));
-    }
+    nbShape = 1;
+    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
 }
 
 Game::~Game()
@@ -67,7 +49,8 @@ void Game::Run()
     CheckCollisions();
     for (int i = 0; i < nbShape; i++)
     {
-        shapes[i]->Step();
+        if (!shapes[i]->IsStatic())
+            shapes[i]->Step();  
 
         glm::vec2 size;
         CircleRenderer* circle = dynamic_cast<CircleRenderer*>(shapes[i].get());
@@ -104,6 +87,22 @@ void Game::ProcessInput()
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
 
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    {
+        glm::vec2 size = glm::vec2(40,40);
+        glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
+        shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 1, 1, false));
+        nbShape++;
+    }
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    {
+        int radius = 20;
+        glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
+        shapes.push_back(std::make_unique<CircleRenderer>(WindowManager::GetMousePosition(), radius, color, 100, 0, 1, 1, false));
+        nbShape++;
+    }
+
+    /*
     float speed = 1.0f;
     glm::vec2 direction;
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
@@ -114,6 +113,7 @@ void Game::ProcessInput()
         shapes[0]->Rotate(speed * Time::getDeltaTime() * 100.0f);
     if (WindowManager::IsKeyPressed(GLFW_KEY_P))
         shapes[0]->Rotate(-speed * Time::getDeltaTime() * 100.0f);
+    */
 }
 
 void Game::CheckCollisions()

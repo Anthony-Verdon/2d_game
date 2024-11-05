@@ -4,6 +4,9 @@
 #include <stdexcept>
 
 GLFWwindow *WindowManager::window = NULL;
+glm::vec2 WindowManager::mousePosition = glm::vec2(0,0);
+
+void mouse_callback(GLFWwindow *window, double xPos, double yPos);
 
 void WindowManager::InitWindow(const std::string &name, unsigned int width, unsigned int height)
 {
@@ -18,7 +21,7 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     if (!window)
         throw(std::runtime_error("INIT_WINDOW::INITIALIZATION_FAILED"));
     glfwMakeContextCurrent(window);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         throw(std::runtime_error("INIT_OPENGL::INITIALIZATION_FAILED"));
@@ -36,6 +39,8 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glfwSetCursorPosCallback(window, mouse_callback);
 }
 
 void WindowManager::DestructWindowManager()
@@ -71,12 +76,23 @@ bool WindowManager::IsMouseButtonPressed(int mouseButton)
     return (glfwGetMouseButton(window, mouseButton) == GLFW_PRESS);
 }
 
-void WindowManager::SetCursorPosCallback(void (*func)(GLFWwindow *window, double xPos, double yPos))
+void WindowManager::SetMousePosition(double xPos, double yPos)
 {
-    glfwSetCursorPosCallback(window, func);
+    mousePosition = glm::vec2(xPos, yPos);
+}
+
+glm::vec2 WindowManager::GetMousePosition()
+{
+    return (mousePosition);
 }
 
 void WindowManager::SetCharCallback(void (*func)(GLFWwindow *window, unsigned int character))
 {
     glfwSetCharCallback(window, func);
+}
+
+void mouse_callback(GLFWwindow *window, double xPos, double yPos)
+{
+    (void)window;
+    WindowManager::SetMousePosition(xPos, yPos);
 }

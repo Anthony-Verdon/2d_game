@@ -3,11 +3,13 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "Engine/AGame/AGame.hpp"
+#include <glm/glm.hpp>
 
 class WindowManager
 {
   private:
     static GLFWwindow *window;
+    static glm::vec2 mousePosition;
 
     WindowManager() = delete;
     ~WindowManager() = delete;
@@ -21,6 +23,8 @@ class WindowManager
     static bool IsKeyPressed(int key);
     static bool IsMouseButtonPressed(int mouseButton);
 
-    static void SetCursorPosCallback(void (*func)(GLFWwindow *window, double xPos, double yPos));
+    static glm::vec2 GetMousePosition();
+    static void SetMousePosition(double xPos, double yPos);
+
     static void SetCharCallback(void (*func)(GLFWwindow *window, unsigned int character));
 };
