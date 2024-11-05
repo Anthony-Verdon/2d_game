@@ -4,7 +4,6 @@
 #include "Engine/AGame/AGame.hpp"
 #include "Game/Player/Player.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
-#include "Engine/ARenderer/ARenderer.hpp"
 #include "Engine/LineRenderer/LineRenderer.hpp"
 #include "Game/Barrel/Barrel.hpp"
 #include <vector>

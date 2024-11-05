@@ -18,7 +18,11 @@ class ARenderer: public GameObject
         virtual ~ARenderer();
 
         virtual void Draw() = 0;
-
         void SetColor(const glm::vec3 &color);
         glm::vec3 GetColor() const;
+        
+        glm::vec2 linearVelocity;
+        glm::vec2 force;
+        void Step();
+        void AddForce(const glm::vec2 amount);
 };

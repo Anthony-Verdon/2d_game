@@ -35,7 +35,7 @@ Game::Game()
     srand(time(NULL));
     nbShape = 10;
     int radius = 20;
-    glm::vec2 size = {40, 40};
+    glm::vec2 size = glm::vec2(40,40);
     for (int i = 0; i < nbShape; i++)
     {
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
@@ -58,7 +58,10 @@ void Game::Run()
     ProcessInput();
     CheckCollisions();
     for (int i = 0; i < nbShape; i++)
+    {
+        shapes[i]->Step();
         shapes[i]->Draw();
+    }
     /*
     barrel.Draw();
     player.Draw();
@@ -76,7 +79,7 @@ void Game::ProcessInput()
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
     if (direction != glm::vec2(0, 0))
-        shapes[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
+        shapes[0]->AddForce(glm::normalize(direction) * speed);
     if (WindowManager::IsKeyPressed(GLFW_KEY_O))
         shapes[0]->Rotate(speed * Time::getDeltaTime() * 100.0f);
     if (WindowManager::IsKeyPressed(GLFW_KEY_P))
@@ -94,6 +97,13 @@ void Game::CheckCollisions()
             {
                 shapes[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
                 shapes[j]->Move(collision.normal * collision.depth / 2.0f);
+
+                glm::vec2 relativeVelocity = shapes[j]->linearVelocity - shapes[i]->linearVelocity;
+                float e = 1;
+                float j2 = -(1.0 + e) * glm::dot(relativeVelocity, collision.normal);
+                j2 = j2 / (1.0 / 1.0 + 1.0 / 1.0);
+                shapes[i]->linearVelocity -= j2 / 1.0f * collision.normal; 
+                shapes[j]->linearVelocity += j2 / 1.0f * collision.normal; 
             }
         }
     }
