@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/ARenderer/ARenderer.hpp"
-#include "Engine/Transform/Transform.hpp"
 #include <vector>
 
 #define SQUARE_VERTICES std::vector<float> {    \

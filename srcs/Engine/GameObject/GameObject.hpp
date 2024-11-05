@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
-#include "Engine/Transform/Transform.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
 
-class GameObject: public Transform
+class GameObject: public PhysicBody
 {
     protected:
         std::vector<std::unique_ptr<GameObject>> childrens;

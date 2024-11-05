@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-class Transform
+class PhysicBody
 {
     protected:
         glm::vec2 velocity;
@@ -10,9 +10,9 @@ class Transform
         float rotation;
 
     public:
-        Transform();
-        Transform(const glm::vec2 &position, float rotation);
-        ~Transform();
+        PhysicBody();
+        PhysicBody(const glm::vec2 &position, float rotation);
+        ~PhysicBody();
 
         void Move(const glm::vec2 &amount);
         void Rotate(float amount);

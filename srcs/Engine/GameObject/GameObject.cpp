@@ -1,10 +1,10 @@
 #include "Engine/GameObject/GameObject.hpp"
 
-GameObject::GameObject(): Transform()
+GameObject::GameObject(): PhysicBody()
 {
 }
 
-GameObject::GameObject(const glm::vec2 &position, float rotation): Transform(position, rotation)
+GameObject::GameObject(const glm::vec2 &position, float rotation): PhysicBody(position, rotation)
 {
 }
 
