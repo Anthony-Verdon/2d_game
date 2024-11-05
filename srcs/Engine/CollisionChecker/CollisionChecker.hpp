@@ -26,13 +26,15 @@ class CollisionChecker
         CollisionChecker() = delete;
         ~CollisionChecker() = delete;
 
-        static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
-        static Boundaries ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
-        static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
-    public:
         static Collision CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB);
         static Collision PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB);
         static Collision CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon);
         static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle);
+
+        static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
+        static Boundaries ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
+        static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
+    public:
+        static Collision CheckCollision(ARenderer *shapeA, ARenderer *shapeB);
 
 };

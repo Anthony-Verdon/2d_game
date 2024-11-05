@@ -3,6 +3,33 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
 
+Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
+{
+    CircleRenderer* circleA = NULL;
+    CircleRenderer* circleB = NULL;
+    PolygonRenderer* polygonA = NULL;
+    PolygonRenderer* polygonB = NULL;
+
+    circleA = dynamic_cast<CircleRenderer*>(shapeA);
+    if (!circleA)
+        polygonA = dynamic_cast<PolygonRenderer*>(shapeA);
+
+    circleB = dynamic_cast<CircleRenderer*>(shapeB);
+    if (!circleB)
+        polygonB = dynamic_cast<PolygonRenderer*>(shapeB);
+
+    if (circleA && circleB)
+        return (CircleCircleCollision(circleA, circleB));
+    else if (polygonA && polygonB)
+        return (PolygonPolygonCollision(polygonA, polygonB));
+    else if (circleA && polygonB)
+        return (CirclePolygonCollision(circleA, polygonB));
+    else if (polygonA && circleB)
+        return (CirclePolygonCollision(polygonA, circleB));
+    else
+        return (Collision({false, glm::vec2(0, 0), 0}));
+}
+
 Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
 {
     Collision collision;

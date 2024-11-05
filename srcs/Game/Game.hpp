@@ -3,8 +3,8 @@
 #include <iostream>
 #include "Engine/AGame/AGame.hpp"
 #include "Game/Player/Player.hpp"
-#include "Engine/CircleRenderer/CircleRenderer.hpp"
-#include "Engine/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
+#include "Engine/ARenderer/ARenderer.hpp"
 #include "Engine/LineRenderer/LineRenderer.hpp"
 #include "Game/Barrel/Barrel.hpp"
 #include <vector>
@@ -16,10 +16,8 @@ class Game: public AGame
         Barrel barrel;
         LineRenderer line;
 
-        int nbCircle;
-        std::vector<std::unique_ptr<CircleRenderer>> circles;
-        int nbSquare;
-        std::vector<std::unique_ptr<PolygonRenderer>> squares;
+        int nbShape;
+        std::vector<std::unique_ptr<ARenderer>> shapes;
         
         void ProcessInput();
         void CheckCollisions();

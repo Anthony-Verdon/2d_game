@@ -33,26 +33,17 @@ Game::Game()
     line.CalculateMesh();
 
     srand(time(NULL));
-    nbCircle = 5;
+    nbShape = 10;
     int radius = 20;
-    for (int i = 0; i < nbCircle; i++)
+    glm::vec2 size = {40, 40};
+    for (int i = 0; i < nbShape; i++)
     {
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        circles.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
-    }
-
-    nbSquare = 5;
-    glm::vec2 size = {40, 40};
-    for (int i = 0; i < nbSquare; i++)
-    {
-        glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
-        glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         if (i % 2)
-            squares.push_back(std::make_unique<PolygonRenderer>(PENTAGON_VERTICES, PENTAGON_FACES, position, 0, size, color));
+            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
         else
-            squares.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
-
+            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
     }
 }
 
@@ -66,11 +57,8 @@ void Game::Run()
     Time::updateTime();
     ProcessInput();
     CheckCollisions();
-    for (int i = 0; i < nbSquare; i++)
-        squares[i]->Draw();
-    for (int i = 0; i < nbCircle; i++)
-        circles[i]->Draw();
-
+    for (int i = 0; i < nbShape; i++)
+        shapes[i]->Draw();
     /*
     barrel.Draw();
     player.Draw();
@@ -88,52 +76,24 @@ void Game::ProcessInput()
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
     if (direction != glm::vec2(0, 0))
-        circles[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
-    direction.x = WindowManager::IsKeyPressed(GLFW_KEY_RIGHT) - WindowManager::IsKeyPressed(GLFW_KEY_LEFT);
-    direction.y = WindowManager::IsKeyPressed(GLFW_KEY_DOWN) - WindowManager::IsKeyPressed(GLFW_KEY_UP);
-    if (direction != glm::vec2(0, 0))
-        squares[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
+        shapes[0]->Move(glm::normalize(direction) * speed * Time::getDeltaTime() * 100.0f);
     if (WindowManager::IsKeyPressed(GLFW_KEY_O))
-        squares[0]->Rotate(speed * Time::getDeltaTime() * 100.0f);
+        shapes[0]->Rotate(speed * Time::getDeltaTime() * 100.0f);
     if (WindowManager::IsKeyPressed(GLFW_KEY_P))
-        squares[0]->Rotate(-speed * Time::getDeltaTime() * 100.0f);
+        shapes[0]->Rotate(-speed * Time::getDeltaTime() * 100.0f);
 }
 
 void Game::CheckCollisions()
 {
-    for (int i = 0; i < nbCircle - 1; i++)
+    for (int i = 0; i < nbShape - 1; i++)
     {
-        for (int j = i + 1; j < nbCircle; j++)
+        for (int j = i + 1; j < nbShape; j++)
         {
-            Collision collision = CollisionChecker::CircleCircleCollision(circles[i].get(), circles[j].get());
+            Collision collision = CollisionChecker::CheckCollision(shapes[i].get(), shapes[j].get());
             if (collision.doCollide)
             {
-                circles[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
-                circles[j]->Move(collision.normal * collision.depth / 2.0f);
-            }
-        }
-    }
-    for (int i = 0; i < nbSquare - 1; i++)
-    {
-        for (int j = i + 1; j < nbSquare; j++)
-        {
-            Collision collision = CollisionChecker::PolygonPolygonCollision(squares[i].get(), squares[j].get());
-            if (collision.doCollide)
-            {
-                squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
-                squares[j]->Move(collision.normal * collision.depth / 2.0f);
-            }
-        }
-    }
-    for (int i = 0; i < nbSquare; i++)
-    {
-        for (int j = 0; j < nbCircle; j++)
-        {
-            Collision collision = CollisionChecker::CirclePolygonCollision(squares[i].get(), circles[j].get());
-            if (collision.doCollide)
-            {
-                squares[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
-                circles[j]->Move(collision.normal * collision.depth / 2.0f);
+                shapes[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
+                shapes[j]->Move(collision.normal * collision.depth / 2.0f);
             }
         }
     }
