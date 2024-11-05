@@ -41,9 +41,9 @@ Game::Game()
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         if (i % 2)
-            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
+            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color, 1, 1));
         else
-            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
+            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0, 1, 1));
     }
 }
 
@@ -121,11 +121,11 @@ void Game::CheckCollisions()
                 shapes[j]->Move(collision.normal * collision.depth / 2.0f);
 
                 glm::vec2 relativeVelocity = shapes[j]->GetVelocity() - shapes[i]->GetVelocity();
-                float e = 1;
+                float e = std::min(shapes[i]->GetRestitution(), shapes[j]->GetRestitution());
                 float j2 = -(1.0 + e) * glm::dot(relativeVelocity, collision.normal);
-                j2 = j2 / (1.0 / 1.0 + 1.0 / 1.0);
-                shapes[i]->AddVelocity(-j2 / 1.0f * collision.normal); 
-                shapes[j]->AddVelocity(j2 / 1.0f * collision.normal); 
+                j2 = j2 / (1.0 / shapes[i]->GetMass() + 1.0 / shapes[j]->GetMass());
+                shapes[i]->AddVelocity(-j2 / shapes[i]->GetMass() * collision.normal); 
+                shapes[j]->AddVelocity(j2 / shapes[j]->GetMass() * collision.normal); 
             }
         }
     }

@@ -10,7 +10,7 @@ class LineRenderer: public LineData, public ARenderer
         
     public: 
         LineRenderer();
-        LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color);
+        LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution);
         ~LineRenderer();
 
         void CalculateMesh();

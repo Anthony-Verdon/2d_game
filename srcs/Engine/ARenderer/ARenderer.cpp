@@ -6,7 +6,7 @@ ARenderer::ARenderer(): GameObject()
     
 }
 
-ARenderer::ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation): GameObject(position, rotation)
+ARenderer::ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation, float mass, float restitution): GameObject(position, rotation, mass, restitution)
 {
     this->color = color;
 }

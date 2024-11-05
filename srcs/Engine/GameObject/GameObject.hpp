@@ -12,7 +12,7 @@ class GameObject: public PhysicBody
 
     public:
         GameObject();
-        GameObject(const glm::vec2 &position, float rotation);
+        GameObject(const glm::vec2 &position, float rotation, float mass, float restitution);
         virtual ~GameObject();
 
         template <typename T>

@@ -41,7 +41,7 @@ class PolygonRenderer: public ARenderer
 
     public:
         PolygonRenderer();
-        PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces,const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color);
+        PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces,const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution);
         ~PolygonRenderer();
 
         void Draw();

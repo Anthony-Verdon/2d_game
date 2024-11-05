@@ -5,12 +5,16 @@ PhysicBody::PhysicBody()
 {
     position = glm::vec2(0, 0);
     rotation = 0;
+    mass = 1;
+    restitution = 1;
 }
 
-PhysicBody::PhysicBody(const glm::vec2 &position, float rotation)
+PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution)
 {
     this->position = position;
     this->rotation = rotation;
+    this->mass = mass;
+    this->restitution = restitution;
 }
 
 PhysicBody::~PhysicBody()
@@ -57,6 +61,16 @@ void PhysicBody::SetRotation(float rotation)
     this->rotation = rotation;
 }
 
+void PhysicBody::SetMass(float mass)
+{
+    this->mass = mass;
+}
+
+void PhysicBody::SetRestitution(float restitution)
+{
+    this->restitution = restitution;
+}
+
 glm::vec2 PhysicBody::GetPosition() const
 {
     return (position);
@@ -72,4 +86,13 @@ glm::vec2 PhysicBody::GetVelocity() const
     return (velocity);
 }
 
+float PhysicBody::GetMass() const
+{
+    return (mass);
+}
+
+float PhysicBody::GetRestitution() const
+{
+    return (restitution);
+}
 

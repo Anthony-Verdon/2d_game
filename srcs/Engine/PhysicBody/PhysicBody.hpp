@@ -6,12 +6,15 @@ class PhysicBody
     protected:
         glm::vec2 velocity;
         glm::vec2 force;
+        float mass;
+        float restitution;
+
         glm::vec2 position;
         float rotation;
 
     public:
         PhysicBody();
-        PhysicBody(const glm::vec2 &position, float rotation);
+        PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution);
         ~PhysicBody();
 
         void Move(const glm::vec2 &amount);
@@ -21,9 +24,13 @@ class PhysicBody
         
         void SetPosition(const glm::vec2 &position);
         void SetRotation(float rotation);
+        void SetMass(float mass);
+        void SetRestitution(float restitution);
 
         void Step();
         glm::vec2 GetPosition() const;
         float GetRotation() const;
+        float GetMass() const;
+        float GetRestitution() const;
         glm::vec2 GetVelocity() const;
 };
