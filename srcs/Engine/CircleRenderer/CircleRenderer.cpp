@@ -12,7 +12,7 @@ CircleRenderer::CircleRenderer(): ARenderer()
     Init();
 }
 
-CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution): ARenderer(color, position, rotation, mass, restitution)
+CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic)
 {
     this->numTriangles = numTriangles;
     this->radius = radius;

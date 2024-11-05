@@ -9,7 +9,7 @@ Player::Player(): GameObject()
     coords = glm::vec2(0, 0);
     speed = 200;
 
-    AddComponent(std::make_unique<SpriteRenderer>("TileMapDungeon", 5.0f * glm::vec2(16, 16), coords, 0, glm::vec3(1, 1, 1), 1, 1));
+    AddComponent(std::make_unique<SpriteRenderer>("TileMapDungeon", 5.0f * glm::vec2(16, 16), coords, 0, glm::vec3(1, 1, 1), 1, 1, false));
     GetComponent<SpriteRenderer>()->SetSprite(glm::vec2(12,11), glm::vec2(0,7));
 }
 

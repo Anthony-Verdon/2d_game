@@ -4,7 +4,7 @@ GameObject::GameObject(): PhysicBody()
 {
 }
 
-GameObject::GameObject(const glm::vec2 &position, float rotation, float mass, float restitution): PhysicBody(position, rotation, mass, restitution)
+GameObject::GameObject(const glm::vec2 &position, float rotation, float mass, float restitution, bool isStatic): PhysicBody(position, rotation, mass, restitution, isStatic)
 {
 }
 

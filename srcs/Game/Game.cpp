@@ -39,11 +39,19 @@ Game::Game()
     for (int i = 0; i < nbShape; i++)
     {
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, radius * 2, WINDOW_WIDTH - radius * 2), glm::clamp(rand() % WINDOW_HEIGHT, radius * 2, WINDOW_HEIGHT - radius * 2));
-        glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        if (i % 2)
-            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color, 1, 1));
+        bool isStatic = rand() % 2;
+        if (i == 0)
+            isStatic = false;
+        glm::vec3 color;
+        if (isStatic)
+            color = glm::vec3(0,0,0);
         else
-            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0, 1, 1));
+            color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
+
+        if (i % 2)
+            shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color, 1, 1, isStatic));
+        else
+            shapes.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0, 1, 1, isStatic));
     }
 }
 
@@ -96,7 +104,7 @@ void Game::ProcessInput()
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
 
-    float speed = 1.5f;
+    float speed = 1.0f;
     glm::vec2 direction;
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
@@ -114,18 +122,32 @@ void Game::CheckCollisions()
     {
         for (int j = i + 1; j < nbShape; j++)
         {
+            if (shapes[i]->IsStatic() && shapes[j]->IsStatic())
+                continue;
+
             Collision collision = CollisionChecker::CheckCollision(shapes[i].get(), shapes[j].get());
             if (collision.doCollide)
             {
-                shapes[i]->Move(-1.0f * collision.normal * collision.depth / 2.0f);
-                shapes[j]->Move(collision.normal * collision.depth / 2.0f);
+                if (shapes[i]->IsStatic())
+                {
+                    shapes[j]->Move(collision.normal * collision.depth);
+                }
+                else if (shapes[j]->IsStatic())
+                {
+                    shapes[i]->Move(-collision.normal * collision.depth);
+                }
+                else
+                {
+                    shapes[i]->Move(-collision.normal * collision.depth / 2.0f);
+                    shapes[j]->Move(collision.normal * collision.depth / 2.0f);
+                }
 
                 glm::vec2 relativeVelocity = shapes[j]->GetVelocity() - shapes[i]->GetVelocity();
                 float e = std::min(shapes[i]->GetRestitution(), shapes[j]->GetRestitution());
                 float j2 = -(1.0 + e) * glm::dot(relativeVelocity, collision.normal);
-                j2 = j2 / (1.0 / shapes[i]->GetMass() + 1.0 / shapes[j]->GetMass());
-                shapes[i]->AddVelocity(-j2 / shapes[i]->GetMass() * collision.normal); 
-                shapes[j]->AddVelocity(j2 / shapes[j]->GetMass() * collision.normal); 
+                j2 = j2 / (shapes[i]->GetInversedMass() + shapes[j]->GetInversedMass());
+                shapes[i]->AddVelocity(-j2 * shapes[i]->GetInversedMass() * collision.normal); 
+                shapes[j]->AddVelocity(j2 * shapes[j]->GetInversedMass() * collision.normal); 
             }
         }
     }

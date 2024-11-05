@@ -9,7 +9,7 @@ PolygonRenderer::PolygonRenderer(): ARenderer()
     Init();
 }
 
-PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution): ARenderer(color, position, rotation, mass, restitution)
+PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic)
 {
     this->size = size;
     this->vertices = vertices;

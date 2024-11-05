@@ -13,7 +13,7 @@ class SpriteRenderer: public ARenderer
         
     public: 
         SpriteRenderer();
-        SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution);
+        SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic);
         ~SpriteRenderer();
 
         void Draw();

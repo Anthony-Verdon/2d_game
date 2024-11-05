@@ -11,7 +11,7 @@ SpriteRenderer::SpriteRenderer(): ARenderer()
     Init();
 }
 
-SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution): ARenderer(color, position, rotation, mass, restitution)
+SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic)
 {
     this->texture = texture;
     this->size = size;

@@ -15,7 +15,7 @@ class CircleRenderer: public ARenderer
         
     public: 
         CircleRenderer();
-        CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution);
+        CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic);
         ~CircleRenderer();
 
         void Draw();

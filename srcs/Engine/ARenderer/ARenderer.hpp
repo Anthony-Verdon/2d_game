@@ -14,7 +14,7 @@ class ARenderer: public GameObject
         virtual void Init() = 0;
     public:
         ARenderer();
-        ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation, float mass, float restitution);
+        ARenderer(const glm::vec3 &color, const glm::vec2 &position, float rotation, float mass, float restitution, bool isStatic);
         virtual ~ARenderer();
 
         virtual void Draw() = 0;

@@ -7,7 +7,7 @@ LineRenderer::LineRenderer():  LineData(), ARenderer()
     Init();
 }
 
-LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution):  LineData(start, end), ARenderer(color, position, rotation, mass, restitution)
+LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic):  LineData(start, end), ARenderer(color, position, rotation, mass, restitution, isStatic)
 {
     Init();
 }

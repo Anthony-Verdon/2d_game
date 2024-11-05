@@ -4,17 +4,28 @@
 PhysicBody::PhysicBody()
 {
     position = glm::vec2(0, 0);
+    velocity = glm::vec2(0, 0);
+    force = glm::vec2(0, 0);
     rotation = 0;
     mass = 1;
+    inversedMass = 1;
     restitution = 1;
+    isStatic = false;
 }
 
-PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution)
+PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution, bool isStatic)
 {
     this->position = position;
+    velocity = glm::vec2(0, 0);
+    force = glm::vec2(0, 0);
     this->rotation = rotation;
     this->mass = mass;
     this->restitution = restitution;
+    this->isStatic = isStatic;
+    if (isStatic)
+        inversedMass = 0;
+    else
+        inversedMass = 1 / mass;
 }
 
 PhysicBody::~PhysicBody()
@@ -64,6 +75,10 @@ void PhysicBody::SetRotation(float rotation)
 void PhysicBody::SetMass(float mass)
 {
     this->mass = mass;
+    if (isStatic)
+        inversedMass = 0;
+    else
+        inversedMass = 1 / mass;
 }
 
 void PhysicBody::SetRestitution(float restitution)
@@ -71,6 +86,14 @@ void PhysicBody::SetRestitution(float restitution)
     this->restitution = restitution;
 }
 
+void PhysicBody::SetStatic(bool isStatic)
+{
+    this->isStatic = isStatic;
+    if (isStatic)
+        inversedMass = 0;
+    else
+        inversedMass = 1 / mass;
+}
 glm::vec2 PhysicBody::GetPosition() const
 {
     return (position);
@@ -91,8 +114,17 @@ float PhysicBody::GetMass() const
     return (mass);
 }
 
+float PhysicBody::GetInversedMass() const
+{
+    return (inversedMass);
+}
+
 float PhysicBody::GetRestitution() const
 {
     return (restitution);
 }
 
+bool PhysicBody::IsStatic() const
+{
+    return (isStatic);
+}
