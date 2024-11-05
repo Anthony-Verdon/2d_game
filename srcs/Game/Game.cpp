@@ -42,15 +42,18 @@ Game::Game()
         circles.push_back(std::make_unique<CircleRenderer>(position, radius, color, 100, 0));
     }
 
-    nbSquare = 2;
+    nbSquare = 5;
     glm::vec2 size = {40, 40};
     for (int i = 0; i < nbSquare; i++)
     {
         glm::vec2 position = glm::vec2(glm::clamp(rand() % WINDOW_WIDTH, (int)size.x, WINDOW_WIDTH - (int)size.x), glm::clamp(rand() % WINDOW_HEIGHT, (int)size.y, WINDOW_HEIGHT - (int)size.y));
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        squares.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
-    }
+        if (i % 2)
+            squares.push_back(std::make_unique<PolygonRenderer>(PENTAGON_VERTICES, PENTAGON_FACES, position, 0, size, color));
+        else
+            squares.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, position, 0, size, color));
 
+    }
 }
 
 Game::~Game()

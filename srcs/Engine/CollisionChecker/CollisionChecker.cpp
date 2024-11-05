@@ -39,9 +39,9 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
         for (unsigned int i = 0; i < vertices.size(); i++)
         {
             glm::vec2 va = vertices[i];
-            glm::vec2 vb = vertices[(i  + 1) % 4];
-        
-            glm::vec2 edge = vb - va;
+            glm::vec2 vb = vertices[(i  + 1) % vertices.size()];
+
+            glm::vec2 edge = va - vb;
             glm::vec2 axis = glm::vec2(-edge.y, edge.x);
 
             Boundaries boundariesA = ProjectVertices(verticesA, axis);
@@ -84,9 +84,9 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
     for (unsigned int i = 0; i < vertices.size(); i++)
     {
         glm::vec2 va = vertices[i];
-        glm::vec2 vb = vertices[(i  + 1) % 4];
+        glm::vec2 vb = vertices[(i  + 1) % vertices.size()];
     
-        glm::vec2 edge = vb - va;
+        glm::vec2 edge = va - vb;
         glm::vec2 axis = glm::vec2(-edge.y, edge.x);
 
         Boundaries boundariesA = ProjectVertices(vertices, axis);
@@ -144,7 +144,7 @@ Boundaries CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &verti
     Boundaries boundaries;
     boundaries.min = std::numeric_limits<float>::max();
     boundaries.max = std::numeric_limits<float>::min();
-    for (int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i < vertices.size(); i++)
     {
         float proj = glm::dot(vertices[i], axis);
         if (proj < boundaries.min)
