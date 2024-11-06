@@ -34,8 +34,7 @@ Game::Game()
 
     srand(time(NULL));
     shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
-    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.45, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
-    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.5), 30, glm::vec2(WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.05), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
 }
 
 Game::~Game()
@@ -92,7 +91,7 @@ void Game::ProcessInput()
     static bool mouseButton2 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2);
     if (!mouseButton1 && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        glm::vec2 size = glm::vec2(20 + rand() % 20,20 + rand() % 20);
+        glm::vec2 size = glm::vec2(40,40);
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 1, 1, false));
     }
