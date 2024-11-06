@@ -19,8 +19,9 @@ class CircleRenderer: public ARenderer
         ~CircleRenderer();
 
         void Draw();
-
         
         void SetRadius(float radius);
         float GetRadius() const;
+
+        void CalculateInertia();
 };

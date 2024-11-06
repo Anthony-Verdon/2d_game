@@ -10,10 +10,13 @@ class PhysicBody
         float inversedMass;
         float restitution;
         bool isStatic;
+        float inertia;
+        float inversedInertia;
 
         glm::vec2 position;
         float rotation;
 
+        virtual void CalculateInertia();
     public:
         PhysicBody();
         PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution, bool isStatic);

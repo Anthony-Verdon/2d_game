@@ -11,6 +11,7 @@ PhysicBody::PhysicBody()
     inversedMass = 1;
     restitution = 1;
     isStatic = false;
+
 }
 
 PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, float restitution, bool isStatic)
@@ -131,4 +132,8 @@ float PhysicBody::GetRestitution() const
 bool PhysicBody::IsStatic() const
 {
     return (isStatic);
+}
+
+void PhysicBody::CalculateInertia()
+{
 }

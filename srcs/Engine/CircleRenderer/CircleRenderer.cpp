@@ -99,3 +99,13 @@ float CircleRenderer::GetRadius() const
 {
     return (radius);
 }
+
+void CircleRenderer::CalculateInertia()
+{
+    inertia = 1.0f / 2.0f * mass * radius * radius;
+    if (isStatic)
+        inversedInertia = 0;
+    else
+        inversedInertia = 1 / inertia;
+}
+

@@ -104,3 +104,13 @@ std::vector<glm::vec2> PolygonRenderer::CalculateVerticesPosition() const
 
     return (verticesMoved);
 }
+
+void PolygonRenderer::CalculateInertia()
+{
+    // formula for square
+    inertia = 1.0f / 12.0f * mass * (size.x * size.x + size.y * size.y);
+    if (isStatic)
+        inversedInertia = 0;
+    else
+        inversedInertia = 1 / inertia;
+}

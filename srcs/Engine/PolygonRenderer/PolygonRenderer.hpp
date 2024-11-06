@@ -51,4 +51,6 @@ class PolygonRenderer: public ARenderer
         glm::vec2 GetSize() const;
         float GetWidth() const;
         float GetHeight() const;
+
+        void CalculateInertia();
 };
