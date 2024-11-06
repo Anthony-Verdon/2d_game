@@ -16,7 +16,6 @@ class Game: public AGame
         Barrel barrel;
         LineRenderer line;
 
-        int nbShape;
         std::vector<std::unique_ptr<ARenderer>> shapes;
         std::vector<Collision> collisions;        
         void ProcessInput();

@@ -33,7 +33,6 @@ Game::Game()
     line.CalculateMesh();
 
     srand(time(NULL));
-    nbShape = 3;
     shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
     shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.45, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
     shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
@@ -52,12 +51,12 @@ void Game::Run()
     for (int it = 0; it < iterations; it++)
     {
         CheckCollisions();
-        for (int i = 0; i < nbShape; i++)
+        for (unsigned int i = 0; i < shapes.size(); i++)
         {
             shapes[i]->Step(iterations);  
         }
     }
-    for (int i = 0; i < nbShape; i++)
+    for (unsigned int i = 0; i < shapes.size(); i++)
     {
         shapes[i]->Draw();
     }
@@ -89,14 +88,12 @@ void Game::ProcessInput()
         glm::vec2 size = glm::vec2(40,40);
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 1, 1, false));
-        nbShape++;
     }
     if (!mouseButton2 && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
         int radius = 20;
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         shapes.push_back(std::make_unique<CircleRenderer>(WindowManager::GetMousePosition(), radius, color, 100, 0, 1, 1, false));
-        nbShape++;
     }
     mouseButton1 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1);
     mouseButton2 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2);
@@ -119,9 +116,9 @@ void Game::CheckCollisions()
 {
     collisions.clear();
 
-    for (int i = 0; i < nbShape - 1; i++)
+    for (unsigned int i = 0; i < shapes.size() - 1; i++)
     {
-        for (int j = i + 1; j < nbShape; j++)
+        for (unsigned int j = i + 1; j < shapes.size(); j++)
         {
             if (shapes[i]->IsStatic() && shapes[j]->IsStatic())
                 continue;
