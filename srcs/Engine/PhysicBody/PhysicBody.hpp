@@ -30,7 +30,7 @@ class PhysicBody
         void SetRestitution(float restitution);
         void SetStatic(bool isStatic);
 
-        void Step();
+        void Step(int iterations);
         glm::vec2 GetPosition() const;
         float GetRotation() const;
         float GetMass() const;

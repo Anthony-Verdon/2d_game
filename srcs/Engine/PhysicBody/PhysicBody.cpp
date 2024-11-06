@@ -54,11 +54,14 @@ void PhysicBody::AddVelocity(const glm::vec2 amount)
 }
 
 
-void PhysicBody::Step()
+void PhysicBody::Step(int iterations)
 {
+    if (isStatic)
+        return;
+
     //velocity += force * Time::getDeltaTime() * 10.0f;
-    velocity += glm::vec2(0, 9.81f) * Time::getDeltaTime() * 10.0f; //gravity
-    position += velocity * Time::getDeltaTime() * 10.0f;
+    velocity += glm::vec2(0, 9.81f) * (Time::getDeltaTime() / iterations) * 10.0f; //gravity
+    position += velocity * (Time::getDeltaTime() / iterations) * 10.0f;
     
     force = glm::vec2(0, 0);
 }

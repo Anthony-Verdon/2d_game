@@ -46,14 +46,20 @@ void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
-    CheckCollisions();
+    int iterations = 20;
+    for (int it = 0; it < iterations; it++)
+    {
+        CheckCollisions();
+        for (int i = 0; i < nbShape; i++)
+        {
+            shapes[i]->Step(iterations);  
+        }
+    }
     for (int i = 0; i < nbShape; i++)
     {
-        if (!shapes[i]->IsStatic())
-            shapes[i]->Step();  
-        
         shapes[i]->Draw();
     }
+
     /*
     barrel.Draw();
     player.Draw();
