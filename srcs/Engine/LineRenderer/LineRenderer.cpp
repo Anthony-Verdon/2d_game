@@ -2,12 +2,12 @@
 #include "Engine/Shader/Shader.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 
-LineRenderer::LineRenderer():  LineData(), ARenderer()
+LineRenderer::LineRenderer():  LineData(), ARenderer(RendererType::Line)
 {
     Init();
 }
 
-LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic):  LineData(start, end), ARenderer(color, position, rotation, mass, restitution, isStatic)
+LineRenderer::LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic):  LineData(start, end), ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Line)
 {
     Init();
 }

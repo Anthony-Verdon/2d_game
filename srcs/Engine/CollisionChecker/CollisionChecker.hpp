@@ -44,7 +44,8 @@ class CollisionChecker
         static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle);
 
         static Collision InitCollisionStruct(ARenderer *shapeA, ARenderer *shapeB);
-        static AABB GetAABB(ARenderer *shape);
+        static AABB GetAABB(CircleRenderer *shape);
+        static AABB GetAABB(PolygonRenderer *shape);
         static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
         static Boundaries ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
         static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
