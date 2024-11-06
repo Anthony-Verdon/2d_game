@@ -27,15 +27,12 @@ Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
     else if (polygonA && circleB)
         return (CirclePolygonCollision(polygonA, circleB));
     else
-        return (Collision({false, glm::vec2(0, 0), 0}));
+        return (InitCollisionStruct(shapeA, shapeB));
 }
 
 Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
 {
-    Collision collision;
-    collision.doCollide = false;
-    collision.normal = glm::vec2(0, 0);
-    collision.depth = 0;
+    Collision collision = InitCollisionStruct(circleA, circleB);
 
     float distance = glm::length(circleA->GetPosition() - circleB->GetPosition());
     float bothRadius = circleA->GetRadius() + circleB->GetRadius();
@@ -53,9 +50,7 @@ Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, Circl
 
 Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB)
 {
-    Collision collision;
-    collision.doCollide = false;
-    collision.normal = glm::vec2(0, 0);
+    Collision collision = InitCollisionStruct(polygonA, polygonB);
     collision.depth = std::numeric_limits<float>::max();
 
     std::vector<glm::vec2> verticesA = polygonA->CalculateVerticesPosition();
@@ -103,9 +98,7 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
 {
     std::vector<glm::vec2> vertices = polygon->CalculateVerticesPosition();
 
-    Collision collision;
-    collision.doCollide = false;
-    collision.normal = glm::vec2(0, 0);
+    Collision collision = InitCollisionStruct(circle, polygon);
     collision.depth = std::numeric_limits<float>::max();
 
     for (unsigned int i = 0; i < vertices.size(); i++)
@@ -165,6 +158,21 @@ Collision CollisionChecker::CirclePolygonCollision(PolygonRenderer* polygon, Cir
 
     return (collision);
 }   
+
+Collision CollisionChecker::InitCollisionStruct(ARenderer *shapeA, ARenderer* shapeB)
+{
+    Collision collision;
+    collision.shapeA = shapeA;
+    collision.shapeB = shapeB;
+    collision.doCollide = false;
+    collision.normal = glm::vec2(0, 0);
+    collision.depth = 0;
+    collision.contact1 = glm::vec2(0, 0);
+    collision.contact2 = glm::vec2(0, 0);
+    collision.contactCount = 0;
+
+    return (collision);
+}
 
 Boundaries CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis)
 {
