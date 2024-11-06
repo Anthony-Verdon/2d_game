@@ -5,6 +5,9 @@
 
 Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
 {
+    if (!IntersectAABB(GetAABB(shapeA), GetAABB(shapeB)))
+        return (InitCollisionStruct(shapeA, shapeB));
+
     CircleRenderer* circleA = NULL;
     CircleRenderer* circleB = NULL;
     PolygonRenderer* polygonA = NULL;
@@ -28,6 +31,52 @@ Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
         return (CirclePolygonCollision(polygonA, circleB));
     else
         return (InitCollisionStruct(shapeA, shapeB));
+}
+
+AABB CollisionChecker::GetAABB(ARenderer* shape)
+{
+    CircleRenderer* circle = NULL;
+    PolygonRenderer* polygon = NULL;
+
+    AABB AABB_shape;
+    AABB_shape.min.x = std::numeric_limits<float>::max();
+    AABB_shape.min.y = std::numeric_limits<float>::max();
+    AABB_shape.max.x = std::numeric_limits<float>::min();
+    AABB_shape.max.y = std::numeric_limits<float>::min();
+    circle = dynamic_cast<CircleRenderer*>(shape);
+    if (circle)
+    {
+        AABB_shape.min.x = circle->GetPosition().x - circle->GetRadius();
+        AABB_shape.min.y = circle->GetPosition().y - circle->GetRadius();
+        AABB_shape.max.x = circle->GetPosition().x + circle->GetRadius();
+        AABB_shape.max.y = circle->GetPosition().y + circle->GetRadius();
+        return (AABB_shape);        
+    }
+
+    polygon = dynamic_cast<PolygonRenderer*>(shape);
+    if (polygon)
+    {
+        std::vector<glm::vec2> vertices = polygon->CalculateVerticesPosition();
+        for (unsigned int i = 0; i < vertices.size(); i++)
+        {
+            if (vertices[i].x < AABB_shape.min.x)
+                AABB_shape.min.x = vertices[i].x;
+            if (vertices[i].x > AABB_shape.max.x)
+                AABB_shape.max.x = vertices[i].x;
+            if (vertices[i].y < AABB_shape.min.y)
+                AABB_shape.min.y = vertices[i].y;
+            if (vertices[i].y > AABB_shape.max.y)
+                AABB_shape.max.y = vertices[i].y;
+        }
+        return (AABB_shape);      
+    }
+
+    return (AABB_shape);        
+}
+
+bool CollisionChecker::IntersectAABB(AABB a, AABB b)
+{
+    return (a.max.x > b.min.x && b.max.x > b.min.x && a.max.y > b.min.y && b.max.y > b.min.y);
 }
 
 Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
