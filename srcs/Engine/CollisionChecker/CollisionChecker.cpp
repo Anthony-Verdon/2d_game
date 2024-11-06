@@ -2,7 +2,8 @@
 #include <limits>
 #include <glm/gtc/matrix_transform.hpp>
 #include <algorithm>
-
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/norm.hpp>
 Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
 {
     AABB AABB_shapeA;
@@ -217,6 +218,45 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
     if (glm::dot(direction, collision.normal) < 0)
         collision.normal = -collision.normal;
 
+    // collision point 
+    float minDistanceSquared = std::numeric_limits<float>::max();
+    for (unsigned int i = 0; i < vertices.size(); i++)
+    {
+        // point segment distance
+        glm::vec2 va = vertices[i];
+        glm::vec2 vb = vertices[(i  + 1) % vertices.size()];
+
+        glm::vec2 ab = vb - va;
+        glm::vec2 ac = circle->GetPosition() - va;
+        float proj = glm::dot(ac, ab);
+        float lengthSquared = glm::length2(ab); // return glm::length * glm::length
+        float d = proj / lengthSquared;
+
+        glm::vec2 contact;
+        if (d <= 0)
+        {
+            contact = va;
+        }
+        else if (d >= 1)
+        {
+            contact = vb;
+        }
+        else
+        {
+            contact = va + ab * d;
+        }
+
+        float distanceSquared = glm::distance2(circle->GetPosition(), contact); // return glm::distance * glm::distance
+        // end point segment distance
+
+        if (distanceSquared < minDistanceSquared)
+        {
+            minDistanceSquared = distanceSquared;
+            collision.contact1 = contact;
+        }
+        
+    }
+    collision.contactCount = 1;
     return (collision);
 }
 
