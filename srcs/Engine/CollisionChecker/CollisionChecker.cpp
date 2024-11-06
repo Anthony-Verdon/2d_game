@@ -162,6 +162,105 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
     if (glm::dot(direction, collision.normal) < 0)
         collision.normal = -collision.normal;
     
+    // collision point 
+    float minDistanceSquared = std::numeric_limits<float>::max();
+    for (unsigned int i = 0; i < verticesA.size(); i++)
+    {
+        glm::vec2 vc = verticesA[i];
+        for (unsigned int j = 0; j < verticesB.size(); j++)
+        {
+            // point segment distance
+            glm::vec2 va = verticesB[j];
+            glm::vec2 vb = verticesB[(j  + 1) % verticesB.size()];
+
+            glm::vec2 ab = vb - va;
+            glm::vec2 ac = vc - va;
+            float proj = glm::dot(ac, ab);
+            float lengthSquared = glm::length2(ab); // return glm::length * glm::length
+            float d = proj / lengthSquared;
+
+            glm::vec2 contact;
+            if (d <= 0)
+            {
+                contact = va;
+            }
+            else if (d >= 1)
+            {
+                contact = vb;
+            }
+            else
+            {
+                contact = va + ab * d;
+            }
+
+            float distanceSquared = glm::distance2(vc, contact); // return glm::distance * glm::distance
+            // end point segment distance
+
+            if (std::abs(minDistanceSquared - distanceSquared) <= 0.005f) // to avoid problem of comparaison == or != with float values
+            {
+                if (std::abs(contact.x - collision.contact1.x) > 0.005f || std::abs(contact.y - collision.contact1.y) > 0.005f) // to avoid problem of comparaison == or != with float values 
+                {
+                    collision.contact2 = contact;
+                    collision.contactCount = 2;
+                }
+            }
+            else if (distanceSquared < minDistanceSquared)
+            {
+                minDistanceSquared = distanceSquared;
+                collision.contact1 = contact;
+                collision.contactCount = 1;
+            }
+        }
+    }
+    // second part
+    for (unsigned int i = 0; i < verticesB.size(); i++)
+    {
+        glm::vec2 vc = verticesB[i];
+        for (unsigned int j = 0; j < verticesA.size(); j++)
+        {
+            // point segment distance
+            glm::vec2 va = verticesA[j];
+            glm::vec2 vb = verticesA[(j  + 1) % verticesA.size()];
+
+            glm::vec2 ab = vb - va;
+            glm::vec2 ac = vc - va;
+            float proj = glm::dot(ac, ab);
+            float lengthSquared = glm::length2(ab); // return glm::length * glm::length
+            float d = proj / lengthSquared;
+
+            glm::vec2 contact;
+            if (d <= 0)
+            {
+                contact = va;
+            }
+            else if (d >= 1)
+            {
+                contact = vb;
+            }
+            else
+            {
+                contact = va + ab * d;
+            }
+
+            float distanceSquared = glm::distance2(vc, contact); // return glm::distance * glm::distance
+            // end point segment distance
+            
+            if (std::abs(minDistanceSquared - distanceSquared) <= 0.005f) // to avoid problem of comparaison == or != with float values
+            {
+                if (std::abs(contact.x - collision.contact1.x) > 0.005f || std::abs(contact.y - collision.contact1.y) > 0.005f) // to avoid problem of comparaison == or != with float values
+                {
+                    collision.contact2 = contact;
+                    collision.contactCount = 2;
+                }
+            }
+            else if (distanceSquared < minDistanceSquared)
+            {
+                minDistanceSquared = distanceSquared;
+                collision.contact1 = contact;
+                collision.contactCount = 1;
+            }
+        }
+    }
     return (collision);
 }
 

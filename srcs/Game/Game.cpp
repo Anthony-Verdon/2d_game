@@ -47,7 +47,7 @@ void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
-    int iterations = 20;
+    int iterations = 100;
     for (int it = 0; it < iterations; it++)
     {
         CheckCollisions();
@@ -62,11 +62,18 @@ void Game::Run()
     }
     for (unsigned int i = 0; i < collisions.size(); i++)
     {
+        glm::vec2 size = glm::vec2(5,5);
         if (collisions[i].contactCount == 1)
         {
-            glm::vec2 size = glm::vec2(5,5);
             std::unique_ptr<PolygonRenderer> polygon = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
             polygon->Draw();
+        }
+        else if (collisions[i].contactCount == 2)
+        {
+            std::unique_ptr<PolygonRenderer> polygonA = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            std::unique_ptr<PolygonRenderer> polygonB = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact2 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            polygonA->Draw();
+            polygonB->Draw();
         }
     }
     /*
@@ -85,7 +92,7 @@ void Game::ProcessInput()
     static bool mouseButton2 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2);
     if (!mouseButton1 && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        glm::vec2 size = glm::vec2(40,40);
+        glm::vec2 size = glm::vec2(20 + rand() % 20,20 + rand() % 20);
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
         shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 1, 1, false));
     }
