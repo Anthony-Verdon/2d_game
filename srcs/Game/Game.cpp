@@ -51,27 +51,6 @@ void Game::Run()
     {
         if (!shapes[i]->IsStatic())
             shapes[i]->Step();  
-
-        glm::vec2 size;
-        CircleRenderer* circle = dynamic_cast<CircleRenderer*>(shapes[i].get());
-        if (circle)
-            size = glm::vec2(circle->GetRadius(), circle->GetRadius());
-        else
-        {
-            PolygonRenderer* polygon = dynamic_cast<PolygonRenderer*>(shapes[i].get());
-            if (polygon)
-                size = polygon->GetSize();
-        }
-        glm::vec2 newPos = shapes[i]->GetPosition();
-        if (newPos.x + size.x < 0)
-            newPos.x = newPos.x + size.x + WINDOW_WIDTH;
-        else if (newPos.x > WINDOW_WIDTH)
-            newPos.x = newPos.x - WINDOW_WIDTH;
-         if (newPos.y + size.y < 0)
-            newPos.y = newPos.y + size.y + WINDOW_HEIGHT;
-        else if (newPos.y > WINDOW_HEIGHT)
-            newPos.y = newPos.y - WINDOW_HEIGHT;
-        shapes[i]->SetPosition(newPos);
         
         shapes[i]->Draw();
     }
