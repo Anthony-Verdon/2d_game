@@ -107,6 +107,8 @@ void Game::ProcessInput()
 
 void Game::CheckCollisions()
 {
+    collisions.clear();
+
     for (int i = 0; i < nbShape - 1; i++)
     {
         for (int j = i + 1; j < nbShape; j++)
@@ -131,13 +133,18 @@ void Game::CheckCollisions()
                     shapes[j]->Move(collision.normal * collision.depth / 2.0f);
                 }
 
-                glm::vec2 relativeVelocity = shapes[j]->GetVelocity() - shapes[i]->GetVelocity();
-                float e = std::min(shapes[i]->GetRestitution(), shapes[j]->GetRestitution());
-                float j2 = -(1.0 + e) * glm::dot(relativeVelocity, collision.normal);
-                j2 = j2 / (shapes[i]->GetInversedMass() + shapes[j]->GetInversedMass());
-                shapes[i]->AddVelocity(-j2 * shapes[i]->GetInversedMass() * collision.normal); 
-                shapes[j]->AddVelocity(j2 * shapes[j]->GetInversedMass() * collision.normal); 
+                collisions.push_back(collision);
             }
         }
+    }
+
+    for (unsigned int i = 0; i < collisions.size(); i++)
+    {
+        glm::vec2 relativeVelocity = collisions[i].shapeB->GetVelocity() - collisions[i].shapeA->GetVelocity();
+        float e = std::min(collisions[i].shapeA->GetRestitution(), collisions[i].shapeB->GetRestitution());
+        float j = -(1.0 + e) * glm::dot(relativeVelocity, collisions[i].normal);
+        j = j / (collisions[i].shapeA->GetInversedMass() + collisions[i].shapeB->GetInversedMass());
+        collisions[i].shapeA->AddVelocity(-j * collisions[i].shapeA->GetInversedMass() * collisions[i].normal); 
+        collisions[i].shapeB->AddVelocity(j * collisions[i].shapeB->GetInversedMass() * collisions[i].normal); 
     }
 }
