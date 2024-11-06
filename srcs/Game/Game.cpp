@@ -33,8 +33,10 @@ Game::Game()
     line.CalculateMesh();
 
     srand(time(NULL));
-    nbShape = 1;
+    nbShape = 3;
     shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.45, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.55, WINDOW_HEIGHT * 0.5), 0, glm::vec2(WINDOW_WIDTH * 0.05, WINDOW_HEIGHT * 0.3), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
 }
 
 Game::~Game()
@@ -59,7 +61,15 @@ void Game::Run()
     {
         shapes[i]->Draw();
     }
-
+    for (unsigned int i = 0; i < collisions.size(); i++)
+    {
+        if (collisions[i].contactCount == 1)
+        {
+            glm::vec2 size = glm::vec2(5,5);
+            std::unique_ptr<PolygonRenderer> polygon = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            polygon->Draw();
+        }
+    }
     /*
     barrel.Draw();
     player.Draw();
