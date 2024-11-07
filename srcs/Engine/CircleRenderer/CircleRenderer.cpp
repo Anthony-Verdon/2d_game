@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include "Engine/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/LineRenderer/LineRenderer.hpp"
 #include <vector>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
@@ -80,6 +81,14 @@ void CircleRenderer::Draw()
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, (numTriangles + 1) * 3);
     glBindVertexArray(0);
+
+    LineRenderer line;
+    line.SetColor(glm::vec3(1, 1, 1));
+    line.SetStart(position);
+    line.SetEnd(position + glm::vec2(radius, 0));
+    line.CalculateMesh();
+    line.Draw();
+
 }
 
 void CircleRenderer::SetNumTriangles(unsigned int numTriangles)
