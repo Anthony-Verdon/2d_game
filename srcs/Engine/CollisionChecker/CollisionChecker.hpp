@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "Engine/CircleBody/CircleBody.hpp"
-#include "Engine/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/PolygonBody/PolygonBody.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 #include <map>
@@ -39,13 +39,13 @@ class CollisionChecker
 
         static bool IntersectAABB(AABB a, AABB b);
         static Collision CircleCircleCollision(CircleBody* circleA, CircleBody* circleB);
-        static Collision PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB);
-        static Collision CirclePolygonCollision(CircleBody* circle, PolygonRenderer* polygon);
-        static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleBody* circle);
+        static Collision PolygonPolygonCollision(PolygonBody* polygonA, PolygonBody* polygonB);
+        static Collision CirclePolygonCollision(CircleBody* circle, PolygonBody* polygon);
+        static Collision CirclePolygonCollision(PolygonBody* polygon, CircleBody* circle);
 
         static Collision InitCollisionStruct(ARenderer *shapeA, ARenderer *shapeB);
         static AABB GetAABB(CircleBody *shape);
-        static AABB GetAABB(PolygonRenderer *shape);
+        static AABB GetAABB(PolygonBody *shape);
         static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
         static Boundaries ProjectCircle(CircleBody* circle, const glm::vec2 &axis);
         static glm::vec2 findClosestVertex(CircleBody* circle, const std::vector<glm::vec2> &vertices);

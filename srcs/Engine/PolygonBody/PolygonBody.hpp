@@ -29,7 +29,7 @@
        3, 2, 1                                \
 }   
 
-class PolygonRenderer: public ARenderer
+class PolygonBody: public ARenderer
 {
     private:
         void Init();
@@ -40,9 +40,9 @@ class PolygonRenderer: public ARenderer
         glm::mat4 CalculateModelMatrix() const;
 
     public:
-        PolygonRenderer();
-        PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces,const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution, bool isStatic);
-        ~PolygonRenderer();
+        PolygonBody();
+        PolygonBody(const std::vector<float> &vertices, const std::vector<int> &faces,const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution, bool isStatic);
+        ~PolygonBody();
 
         void Draw();
         std::vector<glm::vec2> CalculateVerticesPosition() const;

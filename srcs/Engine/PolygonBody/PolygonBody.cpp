@@ -1,16 +1,16 @@
-#include "Engine/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/PolygonBody/PolygonBody.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-PolygonRenderer::PolygonRenderer(): ARenderer(RendererType::Polygon)
+PolygonBody::PolygonBody(): ARenderer(RendererType::Polygon)
 {
     size = glm::vec2(10, 10);
     CalculateInertia();
     Init();
 }
 
-PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Polygon)
+PolygonBody::PolygonBody(const std::vector<float> &vertices, const std::vector<int> &faces, const glm::vec2 &position, float rotation, const glm::vec2 &size, const glm::vec3 &color, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Polygon)
 {
     this->size = size;
     this->vertices = vertices;
@@ -19,14 +19,14 @@ PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::
     Init();
 }
 
-PolygonRenderer::~PolygonRenderer()
+PolygonBody::~PolygonBody()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &VBO);
 }
 
-void PolygonRenderer::Init()
+void PolygonBody::Init()
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -47,7 +47,7 @@ void PolygonRenderer::Init()
     
 }
 
-void PolygonRenderer::Draw()
+void PolygonBody::Draw()
 {
     Shader *squareShader = RessourceManager::GetShader("Square");
     squareShader->use();
@@ -60,7 +60,7 @@ void PolygonRenderer::Draw()
     glBindVertexArray(0);
 }
 
-glm::mat4 PolygonRenderer::CalculateModelMatrix() const
+glm::mat4 PolygonBody::CalculateModelMatrix() const
 {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  
@@ -72,27 +72,27 @@ glm::mat4 PolygonRenderer::CalculateModelMatrix() const
     return (model);
 }
 
-void PolygonRenderer::SetSize(const glm::vec2 &size)
+void PolygonBody::SetSize(const glm::vec2 &size)
 {
     this->size = size;
 }
 
-glm::vec2 PolygonRenderer::GetSize() const
+glm::vec2 PolygonBody::GetSize() const
 {
     return (size);
 }
 
-float PolygonRenderer::GetWidth() const
+float PolygonBody::GetWidth() const
 {
     return (size.x);
 }
 
-float PolygonRenderer::GetHeight() const
+float PolygonBody::GetHeight() const
 {
     return (size.y);
 }
 
-std::vector<glm::vec2> PolygonRenderer::CalculateVerticesPosition() const
+std::vector<glm::vec2> PolygonBody::CalculateVerticesPosition() const
 {
     glm::mat4 model = CalculateModelMatrix();
 
@@ -107,7 +107,7 @@ std::vector<glm::vec2> PolygonRenderer::CalculateVerticesPosition() const
     return (verticesMoved);
 }
 
-void PolygonRenderer::CalculateInertia()
+void PolygonBody::CalculateInertia()
 {
     // formula for square
     inertia = 1.0f / 12.0f * mass * (size.x * size.x + size.y * size.y);
@@ -117,7 +117,7 @@ void PolygonRenderer::CalculateInertia()
         inversedInertia = 1 / inertia;
 }
 
-glm::vec2 PolygonRenderer::GetPosition() const
+glm::vec2 PolygonBody::GetPosition() const
 {
     return (position + size / 2.0f);
 }

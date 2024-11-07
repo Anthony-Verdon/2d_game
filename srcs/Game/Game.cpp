@@ -35,9 +35,9 @@ Game::Game()
     line.CalculateMesh();
 
     srand(time(NULL));
-    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
-    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.5), 30, glm::vec2(WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.05), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
-    shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.2), 330, glm::vec2(WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.05), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.5), 30, glm::vec2(WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.05), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
+    shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.2), 330, glm::vec2(WINDOW_WIDTH * 0.35, WINDOW_HEIGHT * 0.05), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
 }
 
 Game::~Game()
@@ -69,7 +69,7 @@ void Game::Run()
     {
         shapes[i]->Draw();
         glm::vec2 size = glm::vec2(5, 5);
-        std::unique_ptr<PolygonRenderer> polygon = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, shapes[i]->GetPosition() - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+        std::unique_ptr<PolygonBody> polygon = std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, shapes[i]->GetPosition() - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
         polygon->Draw();
     }
     for (unsigned int i = 0; i < collisions.size(); i++)
@@ -77,13 +77,13 @@ void Game::Run()
         glm::vec2 size = glm::vec2(5,5);
         if (collisions[i].contactCount == 1)
         {
-            std::unique_ptr<PolygonRenderer> polygon = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            std::unique_ptr<PolygonBody> polygon = std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
             polygon->Draw();
         }
         else if (collisions[i].contactCount == 2)
         {
-            std::unique_ptr<PolygonRenderer> polygonA = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
-            std::unique_ptr<PolygonRenderer> polygonB = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact2 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            std::unique_ptr<PolygonBody> polygonA = std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact1 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+            std::unique_ptr<PolygonBody> polygonB = std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, collisions[i].contact2 - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
             polygonA->Draw();
             polygonB->Draw();
         }
@@ -107,7 +107,7 @@ void Game::ProcessInput()
     {
         glm::vec2 size = glm::vec2(40, 40);
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 40, 0.5, false));
+        shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 40, 0.5, false));
     }
     if (!mouseButton2 && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
