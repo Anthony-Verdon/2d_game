@@ -4,44 +4,80 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-SpriteRenderer::SpriteRenderer(): ARenderer(RendererType::Sprite)
-{
-    texture = "";
-    size = glm::vec2(1, 1);
-    Init();
-}
-
-SpriteRenderer::SpriteRenderer(const std::string &texture, const glm::vec2 &size, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Sprite)
-{
-    this->texture = texture;
-    this->size = size;
-    Init();
-}
-
-SpriteRenderer::~SpriteRenderer()
-{
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-}
+unsigned int SpriteRenderer::VAO = -1;
+unsigned int SpriteRenderer::VBO = -1;
+bool SpriteRenderer::isInit = false;
 
 void SpriteRenderer::Init()
 {
+    if (isInit)
+    {
+        std::cerr << "SpriteRenderer already initialized" << std::endl;
+        return;
+    }
+
+    RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     
-    SetSprite(glm::vec2(1,1), glm::vec2(0,0));
+    float positions[] = { 
+        0.0f, 1.0f, 
+        1.0f, 0.0f, 
+        0.0f, 0.0f, 
+    
+        0.0f, 1.0f, 
+        1.0f, 1.0f, 
+        1.0f, 0.0f
+    };
+
+    float textures[] = {
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f, 
+
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions) + sizeof(textures), NULL, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positions), positions);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(positions), sizeof(textures), textures);
 
     glBindVertexArray(VAO);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)sizeof(positions));
+    glEnableVertexAttribArray(1);
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);  
     glBindVertexArray(0);
+
+    isInit = true;
 }
 
-// texture size correspond to the number of sprite on the x axis and the y axis
-void SpriteRenderer::SetSprite(const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
+void SpriteRenderer::Destroy()
 {
+    if (!isInit)
+    {
+        std::cerr << "SpriteRenderer not initialized" << std::endl;
+        return;
+    }
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+}
+
+void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const std::string &texture, const glm::vec2 &textureSize, const glm::vec2 &spriteCoords)
+{
+    if (!isInit)
+    {
+        std::cerr << "SpriteRenderer not initialized" << std::endl;
+        return;
+    }
+
     glm::vec2 TopLeftCoords;
     glm::vec2 BotomRightCoords;
     TopLeftCoords.x = 1.0f / textureSize.x * spriteCoords.x;
@@ -49,32 +85,37 @@ void SpriteRenderer::SetSprite(const glm::vec2 &textureSize, const glm::vec2 &sp
     BotomRightCoords.x = 1.0f / textureSize.x * (spriteCoords.x + 1);
     BotomRightCoords.y = 1.0f / textureSize.y * (spriteCoords.y + 1);
 
-    float vertices[] = { 
-        // pos      // tex
-        0.0f, 1.0f, TopLeftCoords.x,    BotomRightCoords.y,
-        1.0f, 0.0f, BotomRightCoords.x, TopLeftCoords.y,
-        0.0f, 0.0f, TopLeftCoords.x,    TopLeftCoords.y, 
+    float positions[] = { 
+        0.0f, 1.0f, 
+        1.0f, 0.0f, 
+        0.0f, 0.0f, 
     
-        0.0f, 1.0f, TopLeftCoords.x,    BotomRightCoords.y,
-        1.0f, 1.0f, BotomRightCoords.x, BotomRightCoords.y,
-        1.0f, 0.0f, BotomRightCoords.x, TopLeftCoords.y
+        0.0f, 1.0f, 
+        1.0f, 1.0f, 
+        1.0f, 0.0f
+    };
+
+    float textures[] = {
+        TopLeftCoords.x,    BotomRightCoords.y,
+        BotomRightCoords.x, TopLeftCoords.y,
+        TopLeftCoords.x,    TopLeftCoords.y, 
+
+        TopLeftCoords.x,    BotomRightCoords.y,
+        BotomRightCoords.x, BotomRightCoords.y,
+        BotomRightCoords.x, TopLeftCoords.y
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-}   
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(positions), sizeof(textures), textures);
 
-void SpriteRenderer::Draw()
-{
     Shader *spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
+
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  
-
     model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); 
     model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
     model = glm::scale(model, glm::vec3(size, 1.0f)); 
   
     spriteShader->setMat4("model", model);
@@ -86,14 +127,4 @@ void SpriteRenderer::Draw()
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
-}
-
-void SpriteRenderer::SetTexture(const std::string &texture)
-{
-    this->texture = texture;
-}
-
-void SpriteRenderer::SetSize(const glm::vec2 &size)
-{
-    this->size = size;
 }

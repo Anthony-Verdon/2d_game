@@ -17,11 +17,11 @@ Game::Game()
     CircleRenderer::Init();
     PolygonRenderer::Init();
     LineRenderer::Init();
+    SpriteRenderer::Init();
 
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);
 
-    RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT), 0.0f, -1.0f, 1.0f);
@@ -46,6 +46,7 @@ Game::~Game()
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
     LineRenderer::Destroy();
+    SpriteRenderer::Destroy();
 }
 
 void Game::Run()
@@ -54,8 +55,11 @@ void Game::Run()
     ProcessInput();
     //int iterations = 100;
 
+    SpriteRenderer::Draw(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), glm::vec2(64, 64), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10,6));
+    /*
     LineRenderer::Draw(glm::vec2(0, 0), glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT), glm::vec3(0.8, 0.2, 0.3));
     LineRenderer::Draw(glm::vec2(0, WINDOW_HEIGHT), glm::vec2(WINDOW_WIDTH, 0), glm::vec3(0.8, 0.2, 0.3));
+    */
     /*
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), glm::vec2(20, 20), 45, glm::vec3(0.8, 0.2, 0.3));
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), glm::vec2(40, 40), 90, glm::vec3(0.2, 0.8, 0.3));

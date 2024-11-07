@@ -1,5 +1,6 @@
 #version 330 core
-layout (location = 0) in vec4 vertex; // <vec2 position, vec2 texCoords>
+layout (location = 0) in vec2 positions;
+layout (location = 1) in vec2 texturesCoords;
 
 out vec2 TexCoords;
 
@@ -8,6 +9,6 @@ uniform mat4 model;
 
 void main()
 {
-    TexCoords = vertex.zw;
-    gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);
+    TexCoords = texturesCoords;
+    gl_Position = projection * model * vec4(positions, 0.0, 1.0);
 }
