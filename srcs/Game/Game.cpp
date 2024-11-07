@@ -38,13 +38,22 @@ void Game::Run()
     Time::updateTime();
     
     ProcessInput();
-    DebugRendering();
+    Draw();
 }
 
 void Game::ProcessInput()
 {
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
+
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        positions.push_back(WindowManager::GetMousePosition());
+}
+
+void Game::Draw()
+{
+    for (unsigned int i = 0; i < positions.size(); i++)
+        PolygonRenderer::Draw("square", positions[i], glm::vec2(20, 20), 0, glm::vec3(0.8, 0.2, 0.3));
 }
 
 void Game::DebugRendering()
