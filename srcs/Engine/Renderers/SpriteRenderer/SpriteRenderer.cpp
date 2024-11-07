@@ -27,13 +27,13 @@ void SpriteRenderer::Init(unsigned int width, unsigned int height)
     glGenBuffers(1, &VBO);
     
     float positions[] = { 
-        0.0f, 1.0f, 
-        1.0f, 0.0f, 
-        0.0f, 0.0f, 
+        -0.5f, 0.5f, 
+        0.5f, -0.5f, 
+       -0.5f, -0.5f, 
     
-        0.0f, 1.0f, 
-        1.0f, 1.0f, 
-        1.0f, 0.0f
+        -0.5f, 0.5f, 
+        0.5f, 0.5f, 
+        0.5f, -0.5f
     };
 
     float textures[] = {
@@ -91,13 +91,13 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
     BotomRightCoords.y = 1.0f / textureSize.y * (spriteCoords.y + 1);
 
     float positions[] = { 
-        0.0f, 1.0f, 
-        1.0f, 0.0f, 
-        0.0f, 0.0f, 
+        -0.5f, 0.5f, 
+        0.5f, -0.5f, 
+       -0.5f, -0.5f, 
     
-        0.0f, 1.0f, 
-        1.0f, 1.0f, 
-        1.0f, 0.0f
+        -0.5f, 0.5f, 
+        0.5f, 0.5f, 
+        0.5f, -0.5f
     };
 
     float textures[] = {
@@ -118,9 +118,7 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  
-    model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); 
     model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
     model = glm::scale(model, glm::vec3(size, 1.0f)); 
   
     spriteShader->setMat4("model", model);
