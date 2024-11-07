@@ -114,3 +114,8 @@ void PolygonRenderer::CalculateInertia()
     else
         inversedInertia = 1 / inertia;
 }
+
+glm::vec2 PolygonRenderer::GetPosition() const
+{
+    return (position + size / 2.0f);
+}

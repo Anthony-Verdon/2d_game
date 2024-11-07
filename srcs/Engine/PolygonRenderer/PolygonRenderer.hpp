@@ -53,4 +53,5 @@ class PolygonRenderer: public ARenderer
         float GetHeight() const;
 
         void CalculateInertia();
+        glm::vec2 GetPosition() const;
 };

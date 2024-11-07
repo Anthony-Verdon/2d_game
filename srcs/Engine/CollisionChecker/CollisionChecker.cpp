@@ -4,6 +4,7 @@
 #include <algorithm>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/norm.hpp>
+
 Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
 {
     AABB AABB_shapeA;
@@ -134,8 +135,9 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
             glm::vec2 va = vertices[i];
             glm::vec2 vb = vertices[(i  + 1) % vertices.size()];
 
-            glm::vec2 edge = va - vb;
+            glm::vec2 edge = vb - va;
             glm::vec2 axis = glm::vec2(-edge.y, edge.x);
+            axis = glm::normalize(axis);
 
             Boundaries boundariesA = ProjectVertices(verticesA, axis);
             Boundaries boundariesB = ProjectVertices(verticesB, axis);
@@ -153,10 +155,6 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
 
         vertices = polygonB->CalculateVerticesPosition();
     }
-
-    collision.doCollide = true;
-    collision.depth = collision.depth / glm::length(collision.normal);
-    collision.normal = glm::normalize(collision.normal);
 
     glm::vec2 direction = polygonB->GetPosition() - polygonA->GetPosition();
     if (glm::dot(direction, collision.normal) < 0)
@@ -276,8 +274,9 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
         glm::vec2 va = vertices[i];
         glm::vec2 vb = vertices[(i  + 1) % vertices.size()];
     
-        glm::vec2 edge = va - vb;
+        glm::vec2 edge = vb - va;
         glm::vec2 axis = glm::vec2(-edge.y, edge.x);
+        axis = glm::normalize(axis);
 
         Boundaries boundariesA = ProjectVertices(vertices, axis);
         Boundaries boundariesB = ProjectCircle(circle, axis);
@@ -295,6 +294,7 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
 
     glm::vec2 closestPoint = findClosestVertex(circle, vertices);
     glm::vec2 axis = closestPoint - circle->GetPosition();
+    axis = glm::normalize(axis);
 
     Boundaries boundariesA = ProjectVertices(vertices, axis);
     Boundaries boundariesB = ProjectCircle(circle, axis);
@@ -308,10 +308,6 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
         collision.depth = axisDepth;
         collision.normal = axis;
     }
-
-    collision.doCollide = true;
-    collision.depth = collision.depth / glm::length(collision.normal);
-    collision.normal = glm::normalize(collision.normal);
 
     glm::vec2 direction = polygon->GetPosition() - circle->GetPosition();
     if (glm::dot(direction, collision.normal) < 0)

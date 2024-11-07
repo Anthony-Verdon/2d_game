@@ -61,7 +61,7 @@ void PhysicBody::Step(int iterations)
         return;
 
     //velocity += force * Time::getDeltaTime() * 10.0f;
-    velocity += glm::vec2(0, 9.81f) * (Time::getDeltaTime() / iterations) * 10.0f; //gravity
+    velocity += glm::vec2(0, 9.81f) * (Time::getDeltaTime() / iterations) * 2.0f; //gravity
     position += velocity * (Time::getDeltaTime() / iterations) * 10.0f;
     
     force = glm::vec2(0, 0);

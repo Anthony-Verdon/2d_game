@@ -34,7 +34,7 @@ class PhysicBody
         void SetStatic(bool isStatic);
 
         void Step(int iterations);
-        glm::vec2 GetPosition() const;
+        virtual glm::vec2 GetPosition() const;
         float GetRotation() const;
         float GetMass() const;
         float GetInversedMass() const;
