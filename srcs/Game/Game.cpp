@@ -2,6 +2,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/CollisionChecker/CollisionChecker.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
@@ -11,9 +12,10 @@
 
 Game::Game()
 {
+    CircleRenderer::Init();
+
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
-    RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
     RessourceManager::AddShader("Square", "shaders/square/square.vs", "shaders/square/square.fs");
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
     
@@ -40,14 +42,21 @@ Game::Game()
 
 Game::~Game()
 {
-
+    CircleRenderer::Destroy();
 }
 
 void Game::Run()
 {
     Time::updateTime();
     ProcessInput();
-    int iterations = 100;
+    //int iterations = 100;
+
+    CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20, 0, glm::vec3(0.8, 0.2, 0.3));
+    CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), 40, 0, glm::vec3(0.2, 0.8, 0.3));
+    CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4), 60, 0, glm::vec3(0.2, 0.3, 0.8));
+    CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 * 3), 80, 0, glm::vec3(0.6, 0.4, 0.8));
+    CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4 * 3), 100, 0, glm::vec3(0.7, 0, 0.8));
+    /*
     for (int it = 0; it < iterations; it++)
     {
         CheckCollisions();
@@ -79,6 +88,7 @@ void Game::Run()
             polygonB->Draw();
         }
     }
+    */
     /*
     barrel.Draw();
     player.Draw();
