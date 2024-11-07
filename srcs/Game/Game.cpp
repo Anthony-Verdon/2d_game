@@ -32,8 +32,8 @@ Game::Game()
     RessourceManager::GetShader("Line")->setMat4("projection", projection);
     RessourceManager::GetShader("Circle")->use();
     RessourceManager::GetShader("Circle")->setMat4("projection", projection);
-    RessourceManager::GetShader("Square")->use();
-    RessourceManager::GetShader("Square")->setMat4("projection", projection);
+    RessourceManager::GetShader("Polygon")->use();
+    RessourceManager::GetShader("Polygon")->setMat4("projection", projection);
 
     srand(time(NULL));
     shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
@@ -55,18 +55,18 @@ void Game::Run()
     ProcessInput();
     //int iterations = 100;
 
+    /*
     SpriteRenderer::Draw(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), glm::vec2(64, 64), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10,6));
+    */
     /*
     LineRenderer::Draw(glm::vec2(0, 0), glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT), glm::vec3(0.8, 0.2, 0.3));
     LineRenderer::Draw(glm::vec2(0, WINDOW_HEIGHT), glm::vec2(WINDOW_WIDTH, 0), glm::vec3(0.8, 0.2, 0.3));
     */
-    /*
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), glm::vec2(20, 20), 45, glm::vec3(0.8, 0.2, 0.3));
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), glm::vec2(40, 40), 90, glm::vec3(0.2, 0.8, 0.3));
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4), glm::vec2(60, 60), 180, glm::vec3(0.2, 0.3, 0.8));
     PolygonRenderer::Draw("pentagon", glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 * 3), glm::vec2(80, 80), 270, glm::vec3(0.6, 0.4, 0.8));
     PolygonRenderer::Draw("pentagon", glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4 * 3), glm::vec2(100, 100), 360, glm::vec3(0.7, 0, 0.8));
-    */
     /*
     CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20, 0, glm::vec3(0.8, 0.2, 0.3));
     CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), 40, 0, glm::vec3(0.2, 0.8, 0.3));

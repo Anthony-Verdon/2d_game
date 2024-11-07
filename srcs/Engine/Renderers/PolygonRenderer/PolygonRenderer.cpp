@@ -14,7 +14,7 @@ void PolygonRenderer::Init()
         return;
     }
 
-    RessourceManager::AddShader("Square", "shaders/square/square.vs", "shaders/square/square.fs");
+    RessourceManager::AddShader("Polygon", "shaders/polygon/polygon.vs", "shaders/polygon/polygon.fs");
     isInit = true;
 }
 
@@ -92,7 +92,7 @@ void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &posi
         return;
     }
 
-    Shader *squareShader = RessourceManager::GetShader("Square");
+    Shader *squareShader = RessourceManager::GetShader("Polygon");
     squareShader->use();
 
     glm::mat4 model = glm::mat4(1.0f);
