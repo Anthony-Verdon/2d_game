@@ -79,12 +79,14 @@ void CircleBody::Draw()
     glDrawArrays(GL_TRIANGLES, 0, (numTriangles + 1) * 3);
     glBindVertexArray(0);
 
+    /*
     LineRenderer line;
     line.SetColor(glm::vec3(1, 1, 1));
     line.SetStart(position);
     line.SetEnd(position + glm::vec2(cos(glm::radians(rotation)), sin(glm::radians(rotation)))  * radius);
     line.CalculateMesh();
     line.Draw();
+    */
 
 }
 

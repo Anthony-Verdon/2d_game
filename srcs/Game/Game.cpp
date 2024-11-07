@@ -4,6 +4,7 @@
 #include "Engine/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/LineRenderer/LineRenderer.hpp"
 #include "Engine/CollisionChecker/CollisionChecker.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
@@ -15,12 +16,12 @@ Game::Game()
 {
     CircleRenderer::Init();
     PolygonRenderer::Init();
+    LineRenderer::Init();
 
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);
 
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
-    RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT), 0.0f, -1.0f, 1.0f);
@@ -33,10 +34,6 @@ Game::Game()
     RessourceManager::GetShader("Circle")->setMat4("projection", projection);
     RessourceManager::GetShader("Square")->use();
     RessourceManager::GetShader("Square")->setMat4("projection", projection);
-    line.SetStart(glm::vec2(0,0));
-    line.SetEnd(glm::vec2(100,100));
-    line.SetColor(glm::vec3(1,1,1));
-    line.CalculateMesh();
 
     srand(time(NULL));
     shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
@@ -48,6 +45,7 @@ Game::~Game()
 {
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
+    LineRenderer::Destroy();
 }
 
 void Game::Run()
@@ -56,11 +54,15 @@ void Game::Run()
     ProcessInput();
     //int iterations = 100;
 
+    LineRenderer::Draw(glm::vec2(0, 0), glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT), glm::vec3(0.8, 0.2, 0.3));
+    LineRenderer::Draw(glm::vec2(0, WINDOW_HEIGHT), glm::vec2(WINDOW_WIDTH, 0), glm::vec3(0.8, 0.2, 0.3));
+    /*
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), glm::vec2(20, 20), 45, glm::vec3(0.8, 0.2, 0.3));
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), glm::vec2(40, 40), 90, glm::vec3(0.2, 0.8, 0.3));
     PolygonRenderer::Draw("square", glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4), glm::vec2(60, 60), 180, glm::vec3(0.2, 0.3, 0.8));
     PolygonRenderer::Draw("pentagon", glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4 * 3), glm::vec2(80, 80), 270, glm::vec3(0.6, 0.4, 0.8));
     PolygonRenderer::Draw("pentagon", glm::vec2(WINDOW_WIDTH / 4 * 3, WINDOW_HEIGHT / 4 * 3), glm::vec2(100, 100), 360, glm::vec3(0.7, 0, 0.8));
+    */
     /*
     CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), 20, 0, glm::vec3(0.8, 0.2, 0.3));
     CircleRenderer::Draw(glm::vec2(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4), 40, 0, glm::vec3(0.2, 0.8, 0.3));

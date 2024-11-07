@@ -4,7 +4,6 @@
 #include "Engine/AGame/AGame.hpp"
 #include "Game/Player/Player.hpp"
 #include "Engine/ARenderer/ARenderer.hpp"
-#include "Engine/LineRenderer/LineRenderer.hpp"
 #include "Engine/CollisionChecker/CollisionChecker.hpp"
 #include "Game/Barrel/Barrel.hpp"
 #include <vector>
@@ -14,7 +13,6 @@ class Game: public AGame
     private:
         Player player;
         Barrel barrel;
-        LineRenderer line;
 
         std::vector<std::unique_ptr<ARenderer>> shapes;
         std::vector<Collision> collisions;        

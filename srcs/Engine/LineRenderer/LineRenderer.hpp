@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Engine/LineData/LineData.hpp"
-#include "Engine/ARenderer/ARenderer.hpp"
+#include <glm/glm.hpp>
 
-class LineRenderer: public LineData, public ARenderer
+class LineRenderer
 {
     private:
-        void Init();
-        
-    public: 
-        LineRenderer();
-        LineRenderer(const glm::vec2 &start, const glm::vec2 &end, const glm::vec2 &position, float rotation, const glm::vec3 &color, float mass, float restitution, bool isStatic);
-        ~LineRenderer();
+        static unsigned int VAO;
+        static unsigned int VBO;
+        static bool isInit;
 
-        void CalculateMesh();
-        void Draw();
+        LineRenderer() = delete;
+        ~LineRenderer() = delete;
+    public: 
+        static void Init();
+        static void Destroy();
+        static void Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color);
 };
