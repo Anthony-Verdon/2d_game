@@ -1,12 +1,12 @@
 #define _USE_MATH_DEFINES
-#include "Engine/CircleRenderer/CircleRenderer.hpp"
+#include "Engine/CircleBody/CircleBody.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/LineRenderer/LineRenderer.hpp"
 #include <vector>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 
-CircleRenderer::CircleRenderer(): ARenderer(RendererType::Circle)
+CircleBody::CircleBody(): ARenderer(RendererType::Circle)
 {
     numTriangles = 30;
     radius = 10;
@@ -14,7 +14,7 @@ CircleRenderer::CircleRenderer(): ARenderer(RendererType::Circle)
     Init();
 }
 
-CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Circle)
+CircleBody::CircleBody(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic): ARenderer(color, position, rotation, mass, restitution, isStatic, RendererType::Circle)
 {
     this->numTriangles = numTriangles;
     this->radius = radius;
@@ -22,13 +22,13 @@ CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const gl
     Init();
 }
 
-CircleRenderer::~CircleRenderer()
+CircleBody::~CircleBody()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }
 
-void CircleRenderer::Init()
+void CircleBody::Init()
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -64,14 +64,14 @@ void CircleRenderer::Init()
     glBindVertexArray(0);
 }
 
-void CircleRenderer::Draw()
+void CircleBody::Draw()
 {
     Shader *circleShader = RessourceManager::GetShader("Circle");
     circleShader->use();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  
     model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    
+
     circleShader->setMat4("model", model);
     circleShader->setVec3("color", color);
 
@@ -88,27 +88,27 @@ void CircleRenderer::Draw()
 
 }
 
-void CircleRenderer::SetNumTriangles(unsigned int numTriangles)
+void CircleBody::SetNumTriangles(unsigned int numTriangles)
 {
     this->numTriangles = numTriangles;
 }
 
-unsigned int CircleRenderer::GetNumTriangles() const
+unsigned int CircleBody::GetNumTriangles() const
 {
     return (numTriangles);
 }
 
-void CircleRenderer::SetRadius(float radius)
+void CircleBody::SetRadius(float radius)
 {
     this->radius = radius;
 }
 
-float CircleRenderer::GetRadius() const
+float CircleBody::GetRadius() const
 {
     return (radius);
 }
 
-void CircleRenderer::CalculateInertia()
+void CircleBody::CalculateInertia()
 {
     inertia = 1.0f / 2.0f * mass * radius * radius;
     if (isStatic)

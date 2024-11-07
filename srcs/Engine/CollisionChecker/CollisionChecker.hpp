@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Engine/CircleRenderer/CircleRenderer.hpp"
+#include "Engine/CircleBody/CircleBody.hpp"
 #include "Engine/PolygonRenderer/PolygonRenderer.hpp"
 #include <glm/glm.hpp>
 #include <vector>
@@ -38,17 +38,17 @@ class CollisionChecker
         ~CollisionChecker() = delete;
 
         static bool IntersectAABB(AABB a, AABB b);
-        static Collision CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB);
+        static Collision CircleCircleCollision(CircleBody* circleA, CircleBody* circleB);
         static Collision PolygonPolygonCollision(PolygonRenderer* polygonA, PolygonRenderer* polygonB);
-        static Collision CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon);
-        static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle);
+        static Collision CirclePolygonCollision(CircleBody* circle, PolygonRenderer* polygon);
+        static Collision CirclePolygonCollision(PolygonRenderer* polygon, CircleBody* circle);
 
         static Collision InitCollisionStruct(ARenderer *shapeA, ARenderer *shapeB);
-        static AABB GetAABB(CircleRenderer *shape);
+        static AABB GetAABB(CircleBody *shape);
         static AABB GetAABB(PolygonRenderer *shape);
         static Boundaries ProjectVertices(const std::vector<glm::vec2> &vertices, const glm::vec2 &axis);
-        static Boundaries ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis);
-        static glm::vec2 findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices);
+        static Boundaries ProjectCircle(CircleBody* circle, const glm::vec2 &axis);
+        static glm::vec2 findClosestVertex(CircleBody* circle, const std::vector<glm::vec2> &vertices);
     public:
         static Collision CheckCollision(ARenderer *shapeA, ARenderer *shapeB);
 

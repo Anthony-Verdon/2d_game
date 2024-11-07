@@ -2,7 +2,7 @@
 
 #include "Engine/ARenderer/ARenderer.hpp"
 
-class CircleRenderer: public ARenderer
+class CircleBody: public ARenderer
 {
      private:
         unsigned int numTriangles;
@@ -14,9 +14,9 @@ class CircleRenderer: public ARenderer
         unsigned int GetNumTriangles() const;
         
     public: 
-        CircleRenderer();
-        CircleRenderer(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic);
-        ~CircleRenderer();
+        CircleBody();
+        CircleBody(const glm::vec2 &position, float radius, const glm::vec3 &color, unsigned int numTriangles, float rotation, float mass, float restitution, bool isStatic);
+        ~CircleBody();
 
         void Draw();
         

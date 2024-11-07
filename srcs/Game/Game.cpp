@@ -103,7 +103,7 @@ void Game::ProcessInput()
     {
         int radius = 20;
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        shapes.push_back(std::make_unique<CircleRenderer>(WindowManager::GetMousePosition(), radius, color, 100, 0, 40, 0.5, false));
+        shapes.push_back(std::make_unique<CircleBody>(WindowManager::GetMousePosition(), radius, color, 100, 0, 40, 0.5, false));
     }
     mouseButton1 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1);
     mouseButton2 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2);

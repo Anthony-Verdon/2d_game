@@ -10,14 +10,14 @@ Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
     AABB AABB_shapeA;
     AABB AABB_shapeB;
 
-    CircleRenderer* circleA = NULL;
-    CircleRenderer* circleB = NULL;
+    CircleBody* circleA = NULL;
+    CircleBody* circleB = NULL;
     PolygonRenderer* polygonA = NULL;
     PolygonRenderer* polygonB = NULL;
 
     if (shapeA->GetType() == RendererType::Circle)
     {
-        circleA = dynamic_cast<CircleRenderer*>(shapeA);
+        circleA = dynamic_cast<CircleBody*>(shapeA);
         AABB_shapeA = GetAABB(circleA);
     }
     else if (shapeA->GetType() == RendererType::Polygon)
@@ -28,7 +28,7 @@ Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
 
     if (shapeB->GetType() == RendererType::Circle)
     {
-        circleB = dynamic_cast<CircleRenderer*>(shapeB);
+        circleB = dynamic_cast<CircleBody*>(shapeB);
         AABB_shapeB = GetAABB(circleB);
     }
     else if (shapeB->GetType() == RendererType::Polygon)
@@ -52,7 +52,7 @@ Collision CollisionChecker::CheckCollision(ARenderer *shapeA, ARenderer* shapeB)
         return (InitCollisionStruct(shapeA, shapeB));
 }
 
-AABB CollisionChecker::GetAABB(CircleRenderer* circle)
+AABB CollisionChecker::GetAABB(CircleBody* circle)
 {
     AABB AABB_shape;
 
@@ -97,7 +97,7 @@ bool CollisionChecker::IntersectAABB(AABB a, AABB b)
     return (a.max.x > b.min.x && b.max.x > b.min.x && a.max.y > b.min.y && b.max.y > b.min.y);
 }
 
-Collision CollisionChecker::CircleCircleCollision(CircleRenderer* circleA, CircleRenderer* circleB)
+Collision CollisionChecker::CircleCircleCollision(CircleBody* circleA, CircleBody* circleB)
 {
     Collision collision = InitCollisionStruct(circleA, circleB);
 
@@ -262,7 +262,7 @@ Collision CollisionChecker::PolygonPolygonCollision(PolygonRenderer* polygonA, P
     return (collision);
 }
 
-Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, PolygonRenderer* polygon)
+Collision CollisionChecker::CirclePolygonCollision(CircleBody* circle, PolygonRenderer* polygon)
 {
     std::vector<glm::vec2> vertices = polygon->CalculateVerticesPosition();
 
@@ -355,7 +355,7 @@ Collision CollisionChecker::CirclePolygonCollision(CircleRenderer* circle, Polyg
     return (collision);
 }
 
-Collision CollisionChecker::CirclePolygonCollision(PolygonRenderer* polygon, CircleRenderer* circle)
+Collision CollisionChecker::CirclePolygonCollision(PolygonRenderer* polygon, CircleBody* circle)
 {
     Collision collision = CirclePolygonCollision(circle, polygon);
     if (collision.doCollide)
@@ -396,7 +396,7 @@ Boundaries CollisionChecker::ProjectVertices(const std::vector<glm::vec2> &verti
     return (boundaries);
 }
 
-Boundaries CollisionChecker::ProjectCircle(CircleRenderer* circle, const glm::vec2 &axis)
+Boundaries CollisionChecker::ProjectCircle(CircleBody* circle, const glm::vec2 &axis)
 {
     glm::vec2 directionAndRadius = glm::normalize(axis) * circle->GetRadius();
 
@@ -409,7 +409,7 @@ Boundaries CollisionChecker::ProjectCircle(CircleRenderer* circle, const glm::ve
     return (boundaries);
 }
 
-glm::vec2 CollisionChecker::findClosestVertex(CircleRenderer* circle, const std::vector<glm::vec2> &vertices)
+glm::vec2 CollisionChecker::findClosestVertex(CircleBody* circle, const std::vector<glm::vec2> &vertices)
 {
     int index = -1;
     float minDistance = std::numeric_limits<float>::max();
