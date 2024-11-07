@@ -13,6 +13,8 @@ class PhysicBody
         bool isStatic;
         float inertia;
         float inversedInertia;
+        float dynamicFriction;
+        float staticFriction;
 
         glm::vec2 position;
         float rotation;
@@ -46,4 +48,7 @@ class PhysicBody
         glm::vec2 GetVelocity() const;
         float GetAngularVelocity() const;
         bool IsStatic() const;
+
+        float GetStaticFriction() const;
+        float GetDynamicFriction() const;
 };

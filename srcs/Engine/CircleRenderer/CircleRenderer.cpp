@@ -70,11 +70,8 @@ void CircleRenderer::Draw()
     circleShader->use();
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  
-
-    model = glm::translate(model, glm::vec3(radius, radius, 0.0f)); 
     model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    model = glm::translate(model, glm::vec3(-radius, -radius, 0.0f));
-
+    
     circleShader->setMat4("model", model);
     circleShader->setVec3("color", color);
 
@@ -85,7 +82,7 @@ void CircleRenderer::Draw()
     LineRenderer line;
     line.SetColor(glm::vec3(1, 1, 1));
     line.SetStart(position);
-    line.SetEnd(position + glm::vec2(radius, 0));
+    line.SetEnd(position + glm::vec2(cos(glm::radians(rotation)), sin(glm::radians(rotation)))  * radius);
     line.CalculateMesh();
     line.Draw();
 

@@ -59,6 +59,9 @@ void Game::Run()
     for (unsigned int i = 0; i < shapes.size(); i++)
     {
         shapes[i]->Draw();
+        glm::vec2 size = glm::vec2(5, 5);
+        std::unique_ptr<PolygonRenderer> polygon = std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, shapes[i]->GetPosition() - size / 2.0f, 0, size, glm::vec3(0.8,0.3,0.2), 1, 1, true);
+        polygon->Draw();
     }
     for (unsigned int i = 0; i < collisions.size(); i++)
     {
@@ -94,13 +97,13 @@ void Game::ProcessInput()
     {
         glm::vec2 size = glm::vec2(40, 40);
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 40, 1, false));
+        shapes.push_back(std::make_unique<PolygonRenderer>(SQUARE_VERTICES, SQUARE_FACES, WindowManager::GetMousePosition(), 0, size, color, 40, 0.5, false));
     }
     if (!mouseButton2 && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
         int radius = 20;
         glm::vec3 color = glm::vec3((float)(rand() % 256) / 255, (float)(rand() % 256) / 255, (float)(rand() % 256) / 255);
-        shapes.push_back(std::make_unique<CircleRenderer>(WindowManager::GetMousePosition(), radius, color, 100, 0, 20, 1, false));
+        shapes.push_back(std::make_unique<CircleRenderer>(WindowManager::GetMousePosition(), radius, color, 100, 0, 40, 0.5, false));
     }
     mouseButton1 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1);
     mouseButton2 = WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2);
@@ -155,10 +158,13 @@ void Game::CheckCollisions()
     for (unsigned int i = 0; i < collisions.size(); i++)
     {
         float e = std::min(collisions[i].shapeA->GetRestitution(), collisions[i].shapeB->GetRestitution());
+
         glm::vec2 contactsPoints[2] = {collisions[i].contact1, collisions[i].contact2};
         glm::vec2 impulseArray[2] = {glm::vec2(0, 0), glm::vec2(0, 0)};
+        glm::vec2 impulseFrictionArray[2] = {glm::vec2(0, 0), glm::vec2(0, 0)};
         glm::vec2 raArray[2] = {glm::vec2(0, 0), glm::vec2(0, 0)};
         glm::vec2 rbArray[2] = {glm::vec2(0, 0), glm::vec2(0, 0)};
+        float jArray[2] = {0, 0};
 
         for (unsigned int c = 0; c < collisions[i].contactCount; c++)
         {
@@ -182,10 +188,10 @@ void Game::CheckCollisions()
             float rbPerpDotN = glm::dot(rbPerp, collisions[i].normal);
 
             float denom = collisions[i].shapeA->GetInversedMass() + collisions[i].shapeB->GetInversedMass() + (raPerpDotN * raPerpDotN) * collisions[i].shapeA->GetInversedInertia() + (rbPerpDotN * rbPerpDotN) * collisions[i].shapeB->GetInversedInertia();
-            float j = -(1.0f + e) * contactVelocityMag / denom;
-            j = j / collisions[i].contactCount;
+            jArray[c] = -(1.0f + e) * contactVelocityMag / denom;
+            jArray[c] = jArray[c] / collisions[i].contactCount;
 
-            impulseArray[c] = j * collisions[i].normal;
+            impulseArray[c] = jArray[c] * collisions[i].normal;
         }
 
         for (unsigned int c = 0; c < collisions[i].contactCount; c++)
@@ -195,6 +201,47 @@ void Game::CheckCollisions()
             
             collisions[i].shapeB->AddVelocity(impulseArray[c] * collisions[i].shapeB->GetInversedMass());
             collisions[i].shapeB->AddAngularVelocity(glm::cross(glm::vec3(rbArray[c], 0), glm::vec3(impulseArray[c], 0)).z * collisions[i].shapeB->GetInversedInertia());
+        }
+
+        for (unsigned int c = 0; c < collisions[i].contactCount; c++)
+        {
+            glm::vec2 ra = contactsPoints[c] - collisions[i].shapeA->GetPosition();
+            glm::vec2 rb = contactsPoints[c] - collisions[i].shapeB->GetPosition();
+
+            raArray[c] = ra;
+            rbArray[c] = rb;
+
+            glm::vec2 raPerp = glm::vec2(-ra.y, ra.x);
+            glm::vec2 rbPerp = glm::vec2(-rb.y, rb.x);
+
+            glm::vec2 angularLinearVelocityA = raPerp * collisions[i].shapeA->GetAngularVelocity();
+            glm::vec2 angularLinearVelocityB = rbPerp * collisions[i].shapeB->GetAngularVelocity();
+
+            glm::vec2 relativeVelocity = (collisions[i].shapeB->GetVelocity() + angularLinearVelocityB) - (collisions[i].shapeA->GetVelocity() + angularLinearVelocityA);
+
+            glm::vec2 tangent = relativeVelocity - glm::dot(relativeVelocity, collisions[i].normal) * collisions[i].normal;
+            if (std::abs(tangent.x) < 0.005f && std::abs(tangent.y) < 0.005f) // to avoid problem of comparaison == or != with float values, here nearly zero
+                continue;
+            else
+                tangent = glm::normalize(tangent);
+
+            float raPerpDotT = glm::dot(raPerp, tangent);
+            float rbPerpDotT = glm::dot(rbPerp, tangent);
+
+            float denom = collisions[i].shapeA->GetInversedMass() + collisions[i].shapeB->GetInversedMass() + (raPerpDotT * raPerpDotT) * collisions[i].shapeA->GetInversedInertia() + (rbPerpDotT * rbPerpDotT) * collisions[i].shapeB->GetInversedInertia();
+            float jt = -glm::dot(relativeVelocity, tangent) / denom;
+            jt = jt / collisions[i].contactCount;
+            
+            impulseFrictionArray[c] = jt * tangent;
+        }
+
+        for (unsigned int c = 0; c < collisions[i].contactCount; c++)
+        {
+            collisions[i].shapeA->AddVelocity(-impulseFrictionArray[c] * collisions[i].shapeA->GetInversedMass());
+            collisions[i].shapeA->AddAngularVelocity(-1.0f * glm::cross(glm::vec3(raArray[c], 0), glm::vec3(impulseFrictionArray[c], 0)).z * collisions[i].shapeA->GetInversedInertia());
+            
+            collisions[i].shapeB->AddVelocity(impulseFrictionArray[c] * collisions[i].shapeB->GetInversedMass());
+            collisions[i].shapeB->AddAngularVelocity(glm::cross(glm::vec3(rbArray[c], 0), glm::vec3(impulseFrictionArray[c], 0)).z * collisions[i].shapeB->GetInversedInertia());
         }
     }
 }

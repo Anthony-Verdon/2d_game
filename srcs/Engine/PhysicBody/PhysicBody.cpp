@@ -13,6 +13,8 @@ PhysicBody::PhysicBody()
     restitution = 1;
     isStatic = false;
     inertia = 10;
+    staticFriction = 0.6f;
+    dynamicFriction = 0.4f;
     inversedInertia = 1 / inertia;
 
 }
@@ -36,6 +38,8 @@ PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, fl
         inversedInertia = 0;
     else
         inversedInertia = 1 / inertia;
+    staticFriction = 0.6f;
+    dynamicFriction = 0.4f;
 }
 
 PhysicBody::~PhysicBody()
@@ -166,4 +170,14 @@ bool PhysicBody::IsStatic() const
 
 void PhysicBody::CalculateInertia()
 {
+}
+
+float PhysicBody::GetStaticFriction() const
+{
+    return (staticFriction);
+}
+
+float PhysicBody::GetDynamicFriction() const
+{
+    return (dynamicFriction);
 }
