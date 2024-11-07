@@ -10,7 +10,7 @@ unsigned int CircleRenderer::VAO = -1;
 unsigned int CircleRenderer::nbTriangles = 30;
 bool CircleRenderer::isInit = false;
 
-void CircleRenderer::Init()
+void CircleRenderer::Init(unsigned int width, unsigned int height)
 {
     if (isInit)
     {
@@ -19,6 +19,10 @@ void CircleRenderer::Init()
     }
 
     RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
+    Shader *circleShader = RessourceManager::GetShader("Circle");
+    circleShader->use();
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+    circleShader->setMat4("projection", projection);
 
     // define circle data
     glm::vec2 position = glm::vec2(0, 0);

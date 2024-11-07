@@ -12,7 +12,7 @@ class LineRenderer
         LineRenderer() = delete;
         ~LineRenderer() = delete;
     public: 
-        static void Init();
+        static void Init(unsigned int width, unsigned int height);
         static void Destroy();
         static void Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color);
 };

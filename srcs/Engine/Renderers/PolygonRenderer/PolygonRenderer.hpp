@@ -21,7 +21,7 @@ class PolygonRenderer
         PolygonRenderer() = delete;
         ~PolygonRenderer() = delete;
     public: 
-        static void Init();
+        static void Init(unsigned int width, unsigned int height);
         static void Destroy();
         static void LoadPolygon(const std::string &polygonName, const std::vector<float> &vertices, const std::vector<int> &faces);
         static void Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color);

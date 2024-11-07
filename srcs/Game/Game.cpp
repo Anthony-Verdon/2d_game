@@ -14,26 +14,15 @@
 
 Game::Game()
 {
-    CircleRenderer::Init();
-    PolygonRenderer::Init();
-    LineRenderer::Init();
-    SpriteRenderer::Init();
+    CircleRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    PolygonRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    SpriteRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);
 
     RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
-    
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT), 0.0f, -1.0f, 1.0f);
-    RessourceManager::GetShader("Sprite")->use();
-    RessourceManager::GetShader("Sprite")->setInt("image", 0);
-    RessourceManager::GetShader("Sprite")->setMat4("projection", projection);
-    RessourceManager::GetShader("Line")->use();
-    RessourceManager::GetShader("Line")->setMat4("projection", projection);
-    RessourceManager::GetShader("Circle")->use();
-    RessourceManager::GetShader("Circle")->setMat4("projection", projection);
-    RessourceManager::GetShader("Polygon")->use();
-    RessourceManager::GetShader("Polygon")->setMat4("projection", projection);
 
     srand(time(NULL));
     shapes.push_back(std::make_unique<PolygonBody>(SQUARE_VERTICES, SQUARE_FACES, glm::vec2(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.8), 0, glm::vec2(WINDOW_WIDTH * 0.8, WINDOW_HEIGHT * 0.1), glm::vec3(40.0 / 255, 40.0 / 255, 40.0 / 255), 1, 0.5, true));
