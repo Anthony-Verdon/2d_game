@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/GameObject/GameObject.hpp"
 
 class Player: public GameObject

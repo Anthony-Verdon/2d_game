@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include "Engine/CircleRenderer/CircleRenderer.hpp"
+#include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <vector>
 #include <cmath>

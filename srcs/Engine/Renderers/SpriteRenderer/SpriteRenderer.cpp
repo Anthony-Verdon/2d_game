@@ -1,4 +1,4 @@
-#include "Engine/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>

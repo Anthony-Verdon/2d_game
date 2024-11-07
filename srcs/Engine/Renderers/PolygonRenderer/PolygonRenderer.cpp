@@ -1,4 +1,4 @@
-#include "Engine/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>

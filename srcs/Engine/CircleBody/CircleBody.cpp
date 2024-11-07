@@ -1,7 +1,7 @@
 #define _USE_MATH_DEFINES
 #include "Engine/CircleBody/CircleBody.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
-#include "Engine/LineRenderer/LineRenderer.hpp"
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include <vector>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>

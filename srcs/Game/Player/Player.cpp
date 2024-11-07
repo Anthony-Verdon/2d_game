@@ -2,7 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Engine/Time/Time.hpp"
 #include <iostream>
-#include "Engine/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 
 Player::Player(): GameObject()
 {

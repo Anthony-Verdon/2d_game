@@ -1,4 +1,4 @@
-#include "Engine/LineRenderer/LineRenderer.hpp"
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
