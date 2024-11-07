@@ -5,12 +5,15 @@ PhysicBody::PhysicBody()
 {
     position = glm::vec2(0, 0);
     velocity = glm::vec2(0, 0);
+    angularVelocity = 0;
     force = glm::vec2(0, 0);
     rotation = 0;
     mass = 1;
     inversedMass = 1;
     restitution = 1;
     isStatic = false;
+    inertia = 10;
+    inversedInertia = 1 / inertia;
 
 }
 
@@ -18,6 +21,7 @@ PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, fl
 {
     this->position = position;
     velocity = glm::vec2(0, 0);
+    angularVelocity = 0;
     force = glm::vec2(0, 0);
     this->rotation = rotation;
     this->mass = mass;
@@ -27,6 +31,11 @@ PhysicBody::PhysicBody(const glm::vec2 &position, float rotation, float mass, fl
         inversedMass = 0;
     else
         inversedMass = 1 / mass;
+    inertia = 10;
+    if (isStatic)
+        inversedInertia = 0;
+    else
+        inversedInertia = 1 / inertia;
 }
 
 PhysicBody::~PhysicBody()
@@ -54,6 +63,10 @@ void PhysicBody::AddVelocity(const glm::vec2 amount)
     velocity += amount;
 }
 
+void PhysicBody::AddAngularVelocity(float amount)
+{
+    angularVelocity += amount;
+}
 
 void PhysicBody::Step(int iterations)
 {
@@ -63,6 +76,7 @@ void PhysicBody::Step(int iterations)
     //velocity += force * Time::getDeltaTime() * 10.0f;
     velocity += glm::vec2(0, 9.81f) * (Time::getDeltaTime() / iterations) * 2.0f; //gravity
     position += velocity * (Time::getDeltaTime() / iterations) * 10.0f;
+    rotation += angularVelocity * (Time::getDeltaTime() / iterations) * 100.0f;
     
     force = glm::vec2(0, 0);
 }
@@ -114,6 +128,12 @@ glm::vec2 PhysicBody::GetVelocity() const
     return (velocity);
 }
 
+float PhysicBody::GetAngularVelocity() const
+{
+    return (angularVelocity);
+}
+
+
 float PhysicBody::GetMass() const
 {
     return (mass);
@@ -122,6 +142,16 @@ float PhysicBody::GetMass() const
 float PhysicBody::GetInversedMass() const
 {
     return (inversedMass);
+}
+
+float PhysicBody::GetInertia() const
+{
+    return (inertia);
+}
+
+float PhysicBody::GetInversedInertia() const
+{
+    return (inversedInertia);
 }
 
 float PhysicBody::GetRestitution() const

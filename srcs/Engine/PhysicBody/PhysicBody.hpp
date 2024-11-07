@@ -4,7 +4,8 @@
 class PhysicBody
 {
     protected:
-        glm::vec2 velocity;
+        glm::vec2 velocity; //rename linearVelocity
+        float angularVelocity;
         glm::vec2 force;
         float mass;
         float inversedMass;
@@ -25,6 +26,7 @@ class PhysicBody
         void Move(const glm::vec2 &amount);
         void Rotate(float amount);
         void AddVelocity(const glm::vec2 amount);
+        void AddAngularVelocity(float amount);
         void AddForce(const glm::vec2 amount);
         
         void SetPosition(const glm::vec2 &position);
@@ -38,7 +40,10 @@ class PhysicBody
         float GetRotation() const;
         float GetMass() const;
         float GetInversedMass() const;
+        float GetInertia() const;
+        float GetInversedInertia() const;
         float GetRestitution() const;
         glm::vec2 GetVelocity() const;
+        float GetAngularVelocity() const;
         bool IsStatic() const;
 };

@@ -6,6 +6,7 @@
 PolygonRenderer::PolygonRenderer(): ARenderer(RendererType::Polygon)
 {
     size = glm::vec2(10, 10);
+    CalculateInertia();
     Init();
 }
 
@@ -14,6 +15,7 @@ PolygonRenderer::PolygonRenderer(const std::vector<float> &vertices, const std::
     this->size = size;
     this->vertices = vertices;
     this->faces = faces;
+    CalculateInertia();
     Init();
 }
 

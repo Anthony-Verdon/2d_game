@@ -9,6 +9,7 @@ CircleRenderer::CircleRenderer(): ARenderer(RendererType::Circle)
 {
     numTriangles = 30;
     radius = 10;
+    CalculateInertia();
     Init();
 }
 
@@ -16,6 +17,7 @@ CircleRenderer::CircleRenderer(const glm::vec2 &position, float radius, const gl
 {
     this->numTriangles = numTriangles;
     this->radius = radius;
+    CalculateInertia();
     Init();
 }
 
