@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/AGame/AGame.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
 #include <vector>
 #include <glm/glm.hpp>
 #include <Box2D/Box2D.h>
@@ -15,8 +16,8 @@ class Game: public AGame
 
         // Box2D
         b2WorldId worldId;
-        b2BodyId groundId;
-        std::vector<b2BodyId> boxes;
+        PhysicBody ground;
+        std::vector<PhysicBody> boxes;
         float timeStep;
         int subStepCount;
 

@@ -6,6 +6,7 @@
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Shapes/pentagon.hpp"
 #include "Shapes/square.hpp"
 #include "globals.hpp"
@@ -14,19 +15,8 @@
 #include <ctime>
 #include <iostream>
 
-const float pixelPerMeter = 50;
 const glm::vec2 littleSquareSize = glm::vec2(10, 10);
 const glm::vec2 GroundSize = glm::vec2(500, 100);
-
-float WorldToPixel(float value)
-{
-    return (value * pixelPerMeter);
-}
-
-float PixelToWorld(float value)
-{
-    return (value / pixelPerMeter);
-}
 
 Game::Game()
 {
@@ -46,13 +36,7 @@ Game::Game()
     worldId = b2CreateWorld(&worldDef);
 
     // create a ground
-    b2BodyDef groundBodyDef = b2DefaultBodyDef();
-    groundBodyDef.position = (b2Vec2){PixelToWorld(WINDOW_WIDTH / 2), PixelToWorld(WINDOW_HEIGHT * 0.8)};
-    groundId = b2CreateBody(worldId, &groundBodyDef);
-    b2Polygon groundBox = b2MakeBox(PixelToWorld(GroundSize.x / 2), PixelToWorld(GroundSize.y / 2));
-    b2ShapeDef groundShapeDef = b2DefaultShapeDef();
-    b2CreatePolygonShape(groundId, &groundShapeDef, &groundBox);
-    boxes.push_back(groundId);
+    ground = PhysicBody::Builder().SetPosition(glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.8)).SetSize(GroundSize).Build(worldId);
 
     timeStep = 1.0f / 60.0f;
     subStepCount = 4;
@@ -84,17 +68,8 @@ void Game::ProcessInput()
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        b2BodyDef bodyDef = b2DefaultBodyDef();
-        bodyDef.type = b2_dynamicBody;
-        glm::vec2 mousePosition = WindowManager::GetMousePosition();
-        bodyDef.position = (b2Vec2){PixelToWorld(mousePosition.x), PixelToWorld(mousePosition.y)};
-        b2BodyId bodyId = b2CreateBody(worldId, &bodyDef);
-        b2Polygon dynamicBox = b2MakeBox(PixelToWorld(littleSquareSize.x / 2), PixelToWorld(littleSquareSize.y / 2));
-        b2ShapeDef shapeDef = b2DefaultShapeDef();
-        shapeDef.density = 1.0f;
-        shapeDef.friction = 0.3f;
-        b2CreatePolygonShape(bodyId, &shapeDef, &dynamicBox);
-        boxes.push_back(bodyId);
+        PhysicBody body = PhysicBody::Builder().SetPosition(WindowManager::GetMousePosition()).SetType(b2_dynamicBody).SetSize(littleSquareSize).SetDensity(1.0f).SetFriction(0.3f).Build(worldId);
+        boxes.push_back(body);
     }
 }
 
@@ -102,18 +77,10 @@ void Game::Draw()
 {
     for (unsigned int i = 0; i < boxes.size(); i++)
     {
-        b2Vec2 b2Position = b2Body_GetPosition(boxes[i]);
-        glm::vec2 position = glm::vec2(WorldToPixel(b2Position.x), WorldToPixel(b2Position.y));
-        float rotation = b2Rot_GetAngle(b2Body_GetRotation(boxes[i]));
-        rotation = glm::degrees(rotation);
-        PolygonRenderer::Draw("square", position, littleSquareSize, rotation, glm::vec3(0.8, 0.2, 0.3));
+        PolygonRenderer::Draw("square", boxes[i].GetPosition(), littleSquareSize, boxes[i].GetAngle(), glm::vec3(0.8, 0.2, 0.3));
     }
 
-    b2Vec2 b2Position = b2Body_GetPosition(groundId);
-    glm::vec2 position = glm::vec2(WorldToPixel(b2Position.x), WorldToPixel(b2Position.y));
-    float rotation = b2Rot_GetAngle(b2Body_GetRotation(groundId));
-    rotation = glm::degrees(rotation);
-    PolygonRenderer::Draw("square", position, GroundSize, rotation, glm::vec3(0.8, 0.2, 0.3));
+    PolygonRenderer::Draw("square", ground.GetPosition(), GroundSize, ground.GetAngle(), glm::vec3(0.8, 0.2, 0.3));
 }
 
 void Game::DebugRendering()
