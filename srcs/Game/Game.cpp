@@ -5,8 +5,9 @@
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
-#include "Engine/CollisionChecker/CollisionChecker.hpp"
 #include "Engine/Time/Time.hpp"
+#include "Shapes/pentagon.hpp"
+#include "Shapes/square.hpp"
 #include "globals.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstdlib>
