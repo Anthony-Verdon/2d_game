@@ -5,6 +5,8 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <Box2D/Box2D.h>
+#include "Game/Player/Player.hpp"
+#include "Game/Barrel/Barrel.hpp"
 
 class Game: public AGame
 {
@@ -16,10 +18,11 @@ class Game: public AGame
 
         // Box2D
         b2WorldId worldId;
-        PhysicBody ground;
-        std::vector<PhysicBody> boxes;
         float timeStep;
         int subStepCount;
+
+        Player player;
+        Barrel barrel;
 
     public:
         Game();

@@ -28,6 +28,11 @@ float PhysicBody::PixelToWorld(float value)
     return (value / pixelPerMeter);
 }
 
+b2BodyId PhysicBody::GetBodyId() const
+{
+    return (id);
+}
+
 glm::vec2 PhysicBody::GetPosition() const
 {
     b2Vec2 worldPosition = b2Body_GetPosition(id);

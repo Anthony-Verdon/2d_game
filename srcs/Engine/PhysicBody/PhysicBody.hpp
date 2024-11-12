@@ -13,6 +13,7 @@ class PhysicBody
         PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef, const b2ShapeDef& shapeDef, const b2Polygon& polygon);
         ~PhysicBody();
 
+        b2BodyId GetBodyId() const;
         glm::vec2 GetPosition() const;
         float GetAngle() const;
 
