@@ -15,19 +15,20 @@
 #include <ctime>
 #include <iostream>
 
-void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius,b2HexColor color, void *ctx) 
+void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx) 
 {
     (void)ctx;
     (void)radius;
     glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
-    glm::vec2 newTransform = glm::vec2(PhysicBody::WorldToPixel(transform.p.x), PhysicBody::WorldToPixel(transform.p.y));
+    float cosAngle = cos(b2Rot_GetAngle(transform.q));
+    float sinAngle = sin(b2Rot_GetAngle(transform.q));
     for (int i = 0; i < verticesCount; i++)
     {   
         b2Vec2 b2va = vertices[i];
         b2Vec2 b2vb = vertices[(i + 1) % verticesCount];
-        glm::vec2 va = glm::vec2(PhysicBody::WorldToPixel(b2va.x), PhysicBody::WorldToPixel(b2va.y));
-        glm::vec2 vb = glm::vec2(PhysicBody::WorldToPixel(b2vb.x), PhysicBody::WorldToPixel(b2vb.y));
-        LineRenderer::Draw(va + newTransform, vb + newTransform, newColor);
+        glm::vec2 va = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2va.x * cosAngle - b2va.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2va.x * sinAngle + b2va.y * cosAngle));
+        glm::vec2 vb = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2vb.x * cosAngle - b2vb.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2vb.x * sinAngle + b2vb.y * cosAngle));
+        LineRenderer::Draw(va, vb, newColor);
     }
 };
 

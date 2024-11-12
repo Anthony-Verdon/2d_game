@@ -67,6 +67,12 @@ PhysicBody::Builder& PhysicBody::Builder::SetType(b2BodyType type)
     return (*this);
 }
 
+PhysicBody::Builder& PhysicBody::Builder::SetFixedRotation(bool fixedRotation)
+{
+    bodyDef.fixedRotation = fixedRotation;
+    return (*this);
+}
+
 PhysicBody::Builder &PhysicBody::Builder::SetSize(const glm::vec2 &size)
 {
     polygon = b2MakeBox(PixelToWorld(size.x / 2), PixelToWorld(size.y / 2));

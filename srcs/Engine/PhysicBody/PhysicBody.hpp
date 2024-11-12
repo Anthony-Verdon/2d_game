@@ -36,6 +36,7 @@ class PhysicBody
                 Builder& SetSize(const glm::vec2 &size);
                 Builder& SetDensity(float density);
                 Builder& SetFriction(float friction);
+                Builder& SetFixedRotation(bool fixedRotation);
 
                 PhysicBody Build(const b2WorldId &worldId);
         };
