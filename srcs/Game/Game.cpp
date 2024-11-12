@@ -15,6 +15,22 @@
 #include <ctime>
 #include <iostream>
 
+void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius,b2HexColor color, void *ctx) 
+{
+    (void)ctx;
+    (void)radius;
+    glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
+    glm::vec2 newTransform = glm::vec2(PhysicBody::WorldToPixel(transform.p.x), PhysicBody::WorldToPixel(transform.p.y));
+    for (int i = 0; i < verticesCount; i++)
+    {   
+        b2Vec2 b2va = vertices[i];
+        b2Vec2 b2vb = vertices[(i + 1) % verticesCount];
+        glm::vec2 va = glm::vec2(PhysicBody::WorldToPixel(b2va.x), PhysicBody::WorldToPixel(b2va.y));
+        glm::vec2 vb = glm::vec2(PhysicBody::WorldToPixel(b2vb.x), PhysicBody::WorldToPixel(b2vb.y));
+        LineRenderer::Draw(va + newTransform, vb + newTransform, newColor);
+    }
+};
+
 Game::Game()
 {
     CircleRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -37,6 +53,41 @@ Game::Game()
 
     player.Init(worldId);
     barrel.Init(worldId);
+
+    InitDebugDraw();
+    debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
+    debugDraw.drawShapes = true;
+}
+
+void Game::InitDebugDraw()
+{
+    debugDraw.context = NULL;
+    debugDraw.DrawCapsule = NULL;
+    debugDraw.DrawCircle = NULL;
+    debugDraw.DrawPoint = NULL;
+    debugDraw.DrawPolygon = NULL;
+    debugDraw.DrawSegment = NULL;
+    debugDraw.DrawSolidCapsule = NULL;
+    debugDraw.DrawSolidCircle = NULL;
+    debugDraw.DrawSolidPolygon = NULL;
+    debugDraw.DrawString = NULL;
+    debugDraw.DrawTransform = NULL;
+
+    debugDraw.drawAABBs = false;
+    debugDraw.drawContactImpulses = false;
+    debugDraw.drawContactNormals = false;
+    debugDraw.drawContacts = false;
+    debugDraw.drawFrictionImpulses = false;
+    debugDraw.drawGraphColors = false;
+    debugDraw.drawJointExtras = false;
+    debugDraw.drawJoints = false;
+    debugDraw.drawMass = false;
+    debugDraw.drawShapes = false;
+    debugDraw.useDrawingBounds = false;
+
+    float val = 100;
+    b2AABB bounds = {{-val, -val}, {val, val}};
+    debugDraw.drawingBounds = bounds;
 }
 
 Game::~Game()
@@ -81,6 +132,7 @@ void Game::Draw()
 {
     player.Draw();
     barrel.Draw();
+    b2World_Draw(worldId, &debugDraw);
 }
 
 void Game::DebugRendering()

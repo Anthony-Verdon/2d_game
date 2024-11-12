@@ -20,6 +20,8 @@ class Game: public AGame
         b2WorldId worldId;
         float timeStep;
         int subStepCount;
+        b2DebugDraw debugDraw;
+        void InitDebugDraw();
 
         Player player;
         Barrel barrel;
