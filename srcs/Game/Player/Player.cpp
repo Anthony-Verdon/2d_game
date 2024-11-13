@@ -17,7 +17,11 @@ Player::~Player()
 void Player::Draw()
 {
     animator.Update();
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), "player", glm::vec2(6, 10), animator.GetFrame());
+    Sprite sprite;
+    sprite.textureName = "player";
+    sprite.textureSize = glm::vec2(6, 10);
+    sprite.spriteCoords = animator.GetFrame();
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), sprite);
 }
 
 void Player::Move(const glm::vec2 &amount)

@@ -29,5 +29,11 @@ void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Ph
 void Tilemap::Draw()
 {
     for (unsigned int i = 0; i < tiles.size(); i++)
-        SpriteRenderer::Draw(tiles[i].position, tiles[i].size, 0, glm::vec3(1, 1, 1), "grass", glm::vec2(1, 1), glm::vec2(0, 0));
+    {   
+        Sprite sprite;
+        sprite.textureName = "grass";
+        sprite.textureSize = glm::vec2(1, 1);
+        sprite.spriteCoords = glm::vec2(0, 0);
+        SpriteRenderer::Draw(tiles[i].position, tiles[i].size, 0, glm::vec3(1, 1, 1), sprite);
+    }
 }
