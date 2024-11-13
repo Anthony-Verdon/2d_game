@@ -1,37 +1,37 @@
-#include "Engine/Animator/Animator.hpp"
+#include "Engine/Animation/Animation.hpp"
 #include "Engine/Time/Time.hpp"
 #include <iostream>
 
-Animator::Animator()
+Animation::Animation()
 {
     animationSpeed = 1;
     timer = 0;
     frameIndex = 0;
 }
 
-Animator::Animator(float animationSpeed)
+Animation::Animation(float animationSpeed)
 {
     this->animationSpeed = animationSpeed;
     timer = 0;
     frameIndex = 0;
 }
 
-Animator::~Animator()
+Animation::~Animation()
 {
     
 }
 
-void Animator::AddFrame(const Sprite &frame)
+void Animation::AddFrame(const Sprite &frame)
 {
     frames.push_back(frame);
 }
 
-void Animator::SetAnimationSpeed(float animationSpeed)
+void Animation::SetAnimationSpeed(float animationSpeed)
 {
     this->animationSpeed = animationSpeed;
 }
 
-void Animator::Update()
+void Animation::Update()
 {
     if (frames.size() == 0)
         return;
@@ -44,10 +44,10 @@ void Animator::Update()
     }
 }
 
-Sprite Animator::GetFrame() const
+Sprite Animation::GetFrame() const
 {
     if (frames.size() == 0)
-        std::cerr << "Animator: no frame" << std::endl;
+        std::cerr << "Animation: no frame" << std::endl;
 
     return (frames[frameIndex]);
 }

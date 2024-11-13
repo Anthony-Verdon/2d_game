@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-class Animator
+class Animation
 {
     private:
         std::vector<Sprite> frames;
@@ -13,9 +13,9 @@ class Animator
         unsigned int frameIndex;
 
     public:
-        Animator();
-        Animator(float animationSpeed);
-        ~Animator();
+        Animation();
+        Animation(float animationSpeed);
+        ~Animation();
 
         void AddFrame(const Sprite &frame);
         void SetAnimationSpeed(float animationSpeed);
