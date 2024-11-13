@@ -7,7 +7,13 @@ Player::Player()
 {
     animator.SetAnimationSpeed(0.2);
     for (int i = 0; i < 6; i++)
-        animator.AddFrame(glm::vec2(i, 3));
+    {
+         Sprite sprite;
+        sprite.textureName = "player";
+        sprite.textureSize = glm::vec2(6, 10);
+        sprite.spriteCoords = glm::vec2(i, 3);
+        animator.AddFrame(sprite);
+    }
 }
 
 Player::~Player()
@@ -17,11 +23,7 @@ Player::~Player()
 void Player::Draw()
 {
     animator.Update();
-    Sprite sprite;
-    sprite.textureName = "player";
-    sprite.textureSize = glm::vec2(6, 10);
-    sprite.spriteCoords = animator.GetFrame();
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), sprite);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame());
 }
 
 void Player::Move(const glm::vec2 &amount)
