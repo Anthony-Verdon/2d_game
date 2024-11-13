@@ -1,5 +1,5 @@
 #include "Game/Barrel/Barrel.hpp"
-#include "Game/Game.hpp"
+#include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 
@@ -21,5 +21,8 @@ void Barrel::Init(b2WorldId worldId)
 {
     glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.5);
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
-    body = PhysicBody::Builder().SetPosition(position).SetSize(size).Build(worldId);
+    b2Filter filter;
+    filter.categoryBits = CategoriesFilter::Entities;
+    filter.maskBits = CategoriesFilter::Wall;
+    body = PhysicBody::Builder().SetPosition(position).SetSize(size).SetFilter(filter).Build(worldId);
 }

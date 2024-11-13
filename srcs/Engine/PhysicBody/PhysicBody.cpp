@@ -91,6 +91,12 @@ PhysicBody::Builder& PhysicBody::Builder::SetFriction(float friction)
     return (*this);
 }
 
+PhysicBody::Builder& PhysicBody::Builder::SetFilter(const b2Filter &filter)
+{
+    shapeDef.filter = filter;
+    return (*this);
+}
+
 PhysicBody PhysicBody::Builder::Build(const b2WorldId &worldId)
 {
     return (PhysicBody(worldId, bodyDef, shapeDef, polygon));

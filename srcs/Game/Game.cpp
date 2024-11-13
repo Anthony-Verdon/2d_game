@@ -10,6 +10,7 @@
 #include "Shapes/pentagon.hpp"
 #include "Shapes/square.hpp"
 #include "globals.hpp"
+#include "Game/CategoriesFilter.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstdlib>
 #include <ctime>
@@ -146,7 +147,11 @@ void Game::ProcessInput()
         glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
         mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.AddTile(mousePosition, glm::vec2(SPRITE_SIZE, SPRITE_SIZE));
+        glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+        b2Filter filter;
+        filter.categoryBits = CategoriesFilter::Wall;
+        filter.maskBits = CategoriesFilter::Entities;
+        tilemap.AddTile(mousePosition, size, PhysicBody::Builder().SetPosition(mousePosition).SetSize(size).SetType(b2_staticBody).SetFilter(filter).Build(worldId));
     }
 
 }

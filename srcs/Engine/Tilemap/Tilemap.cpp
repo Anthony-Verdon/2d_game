@@ -17,11 +17,12 @@ void Tilemap::AddTile(const Tile &tile)
         tiles.push_back(tile);
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size)
+void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body)
 {
     Tile tile;
     tile.position = position;
     tile.size = size;
+    tile.body = body;
     AddTile(tile);
 }
 
