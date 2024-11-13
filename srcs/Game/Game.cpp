@@ -146,7 +146,7 @@ void Game::ProcessInput()
         glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
         mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.AddTile(mousePosition);
+        tilemap.AddTile(mousePosition, glm::vec2(SPRITE_SIZE, SPRITE_SIZE));
     }
 
 }
