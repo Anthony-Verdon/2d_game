@@ -16,4 +16,5 @@ class Player
         void Draw();
         void Move(const glm::vec2 &amount);
         void Init(b2WorldId worldId);
+        glm::vec2 GetPosition() const;
 };

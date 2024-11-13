@@ -107,6 +107,20 @@ void Game::Run()
     
     ProcessInput();
     b2World_Step(worldId, timeStep, subStepCount);
+
+    // tmp, the "camera" follow the player
+    glm::vec2 focus = player.GetPosition();
+    float left = focus.x - WINDOW_WIDTH / 2;
+    float right = focus.x + WINDOW_WIDTH / 2;
+    float top = focus.y - WINDOW_HEIGHT / 2;
+    float bottom = focus.y + WINDOW_HEIGHT / 2;
+    glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+    RessourceManager::GetShader("Sprite")->use();
+    RessourceManager::GetShader("Sprite")->setMat4("projection", projection);
+    RessourceManager::GetShader("Line")->use();
+    RessourceManager::GetShader("Line")->setMat4("projection", projection);
+    // end tmp
+
     Draw();
 }
 

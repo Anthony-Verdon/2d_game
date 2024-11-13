@@ -27,4 +27,8 @@ void Player::Init(b2WorldId worldId)
     body = PhysicBody::Builder().SetPosition(position).SetSize(size).SetType(b2_dynamicBody).SetFixedRotation(true).Build(worldId);
 }
 
+glm::vec2 Player::GetPosition() const
+{
+    return (body.GetPosition());
+}
 
