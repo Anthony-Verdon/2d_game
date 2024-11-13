@@ -20,12 +20,12 @@ PhysicBody::~PhysicBody()
 
 float PhysicBody::WorldToPixel(float value)
 {
-    return (value * pixelPerMeter);
+    return (value * PIXEL_PER_METER);
 }
 
 float PhysicBody::PixelToWorld(float value)
 {
-    return (value / pixelPerMeter);
+    return (value / PIXEL_PER_METER);
 }
 
 b2BodyId PhysicBody::GetBodyId() const
