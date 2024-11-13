@@ -20,6 +20,6 @@ void Barrel::Draw()
 void Barrel::Init(b2WorldId worldId)
 {
     glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.5);
-    size = glm::vec2(64, 64);
+    size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
     body = PhysicBody::Builder().SetPosition(position).SetSize(size).Build(worldId);
 }

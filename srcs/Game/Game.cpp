@@ -144,8 +144,8 @@ void Game::ProcessInput()
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
         glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        mousePosition.x = (int)(mousePosition.x / 64.0f) * 64.0f + 32.0f;
-        mousePosition.y = (int)(mousePosition.y / 64.0f) * 64.0f + 32.0f;
+        mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
+        mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         tilemap.AddTile(mousePosition);
     }
 
@@ -157,9 +157,9 @@ void Game::Draw()
     player.Draw();
     barrel.Draw();
 
-    for (unsigned int i = 0; i < WINDOW_WIDTH; i += 64)
+    for (unsigned int i = 0; i < WINDOW_WIDTH; i += SPRITE_SIZE)
         LineRenderer::Draw(glm::vec2(i, 0), glm::vec2(i, WINDOW_HEIGHT), glm::vec3(1, 1, 1));
-    for (unsigned int i = 0; i < WINDOW_HEIGHT; i += 64)
+    for (unsigned int i = 0; i < WINDOW_HEIGHT; i += SPRITE_SIZE)
         LineRenderer::Draw(glm::vec2(0, i), glm::vec2(WINDOW_WIDTH, i), glm::vec3(1, 1, 1));
 
     b2World_Draw(worldId, &debugDraw);
@@ -167,8 +167,8 @@ void Game::Draw()
 
 void Game::DebugRendering()
 {
-    SpriteRenderer::Draw(glm::vec2(32, 32), glm::vec2(64, 64), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10,6));
-    SpriteRenderer::Draw(glm::vec2(32, 96), glm::vec2(64, 64), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(0,7));
+    SpriteRenderer::Draw(glm::vec2(32, 32), glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10,6));
+    SpriteRenderer::Draw(glm::vec2(32, 96), glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(0,7));
     
     LineRenderer::Draw(glm::vec2(64, 0), glm::vec2(128, 0), glm::vec3(0.8, 0.2, 0.3));
     LineRenderer::Draw(glm::vec2(128, 0), glm::vec2(128, 64), glm::vec3(0.8, 0.2, 0.3));
