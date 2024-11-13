@@ -43,7 +43,9 @@ Game::Game()
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);
 
-    RessourceManager::AddTexture("TileMapDungeon", "assets/tilemap_packed.png");
+    RessourceManager::AddTexture("player", "assets/Player/Player.png");
+    RessourceManager::AddTexture("grass", "assets/Tiles/Grass_Middle.png");
+    RessourceManager::AddTexture("chest", "assets/Outdoor decoration/Chest.png");
 
     // create world
     b2WorldDef worldDef = b2DefaultWorldDef();
@@ -172,9 +174,6 @@ void Game::Draw()
 
 void Game::DebugRendering()
 {
-    SpriteRenderer::Draw(glm::vec2(32, 32), glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10,6));
-    SpriteRenderer::Draw(glm::vec2(32, 96), glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(0,7));
-    
     LineRenderer::Draw(glm::vec2(64, 0), glm::vec2(128, 0), glm::vec3(0.8, 0.2, 0.3));
     LineRenderer::Draw(glm::vec2(128, 0), glm::vec2(128, 64), glm::vec3(0.8, 0.2, 0.3));
     LineRenderer::Draw(glm::vec2(128, 64), glm::vec2(64, 64), glm::vec3(0.8, 0.2, 0.3));

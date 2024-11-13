@@ -14,7 +14,7 @@ Barrel::~Barrel()
 
 void Barrel::Draw()
 {
-    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(10, 6));
+    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), "chest", glm::vec2(1, 1), glm::vec2(0, 0));
 }
 
 void Barrel::Init(b2WorldId worldId)
