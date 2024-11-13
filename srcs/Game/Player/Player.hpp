@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/Animation/Animation.hpp"
+#include "Engine/Animator/Animator.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -10,7 +10,7 @@ class Player
     private:
         glm::vec2 size;
         PhysicBody body;
-        Animation animation;
+        Animator animator;
         
     public:
         Player();

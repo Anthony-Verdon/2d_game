@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+    Animation animation;
     animation.SetAnimationSpeed(0.2);
     for (int i = 0; i < 6; i++)
     {
@@ -14,6 +15,9 @@ Player::Player()
         sprite.spriteCoords = glm::vec2(i, 3);
         animation.AddFrame(sprite);
     }
+    
+    animator.AddAnimation("walkDown", animation);
+    animator.Play("walkDown");
 }
 
 Player::~Player()
@@ -22,8 +26,8 @@ Player::~Player()
 }
 void Player::Draw()
 {
-    animation.Update();
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animation.GetFrame());
+    animator.Update();
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame());
 }
 
 void Player::Move(const glm::vec2 &amount)
