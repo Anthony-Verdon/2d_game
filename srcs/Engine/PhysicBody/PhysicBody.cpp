@@ -61,6 +61,12 @@ PhysicBody::Builder& PhysicBody::Builder::SetPosition(const glm::vec2 &position)
     return (*this);
 }
 
+PhysicBody::Builder& PhysicBody::Builder::SetEnable(bool enable)
+{
+    bodyDef.isEnabled = enable;
+    return (*this);
+}
+
 PhysicBody::Builder& PhysicBody::Builder::SetType(b2BodyType type)
 {
     bodyDef.type = type;

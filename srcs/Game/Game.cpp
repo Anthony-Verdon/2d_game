@@ -153,7 +153,7 @@ void Game::ProcessInput()
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
         filter.maskBits = CategoriesFilter::Entities;
-        tilemap.AddTile(mousePosition, size, PhysicBody::Builder().SetPosition(mousePosition).SetSize(size).SetType(b2_staticBody).SetFilter(filter).Build(worldId));
+        tilemap.AddTile(mousePosition, size, PhysicBody::Builder().SetPosition(mousePosition).SetEnable(false).SetSize(size).SetType(b2_staticBody).SetFilter(filter).Build(worldId));
     }
 
 }

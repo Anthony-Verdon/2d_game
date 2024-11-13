@@ -32,6 +32,7 @@ class PhysicBody
                 ~Builder();
 
                 Builder& SetPosition(const glm::vec2 &position);
+                Builder& SetEnable(bool enable);
                 Builder& SetType(b2BodyType type);
                 Builder& SetSize(const glm::vec2 &size);
                 Builder& SetDensity(float density);
