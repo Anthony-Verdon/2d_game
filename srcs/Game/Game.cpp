@@ -141,12 +141,27 @@ void Game::ProcessInput()
         player.Move( glm::vec2(0, 0));
     }
 
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    {
+        glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        mousePosition.x = (int)(mousePosition.x / 64.0f) * 64.0f + 32.0f;
+        mousePosition.y = (int)(mousePosition.y / 64.0f) * 64.0f + 32.0f;
+        tilemap.AddTile(mousePosition);
+    }
+
 }
 
 void Game::Draw()
 {
+    tilemap.Draw();
     player.Draw();
     barrel.Draw();
+
+    for (unsigned int i = 0; i < WINDOW_WIDTH; i += 64)
+        LineRenderer::Draw(glm::vec2(i, 0), glm::vec2(i, WINDOW_HEIGHT), glm::vec3(1, 1, 1));
+    for (unsigned int i = 0; i < WINDOW_HEIGHT; i += 64)
+        LineRenderer::Draw(glm::vec2(0, i), glm::vec2(WINDOW_WIDTH, i), glm::vec3(1, 1, 1));
+
     b2World_Draw(worldId, &debugDraw);
 }
 
