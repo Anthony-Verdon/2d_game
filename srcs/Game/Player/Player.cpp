@@ -4,6 +4,12 @@
 
 Player::Player()
 {
+    animator.SetAnimationSpeed(0.2);
+    animator.AddFrame(glm::vec2(0, 7));
+    animator.AddFrame(glm::vec2(1, 7));
+    animator.AddFrame(glm::vec2(2, 7));
+    animator.AddFrame(glm::vec2(3, 7));
+    animator.AddFrame(glm::vec2(4, 7));
 }
 
 Player::~Player()
@@ -12,7 +18,8 @@ Player::~Player()
 }
 void Player::Draw()
 {
-    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), glm::vec2(0, 7));
+    animator.Update();
+    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), "TileMapDungeon", glm::vec2(12,11), animator.GetFrame());
 }
 
 void Player::Move(const glm::vec2 &amount)
