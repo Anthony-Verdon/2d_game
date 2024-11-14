@@ -2,47 +2,68 @@
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
-
+#include "Engine/WindowManager/WindowManager.hpp"
 Player::Player()
 {
-    Animation walkDownAnimation;
-    walkDownAnimation.SetAnimationSpeed(0.2);
-    for (int i = 0; i < 6; i++)
     {
-        Sprite sprite;
-        sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 10);
-        sprite.spriteCoords = glm::vec2(i, 3);
-        walkDownAnimation.AddFrame(sprite);
+        Animation walkDownAnimation;
+        walkDownAnimation.SetAnimationSpeed(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player";
+            sprite.textureSize = glm::vec2(6, 10);
+            sprite.spriteCoords = glm::vec2(i, 3);
+            walkDownAnimation.AddFrame(sprite);
+        }
+        
+        animator.AddAnimation("walkDown", walkDownAnimation);
     }
-    
-    animator.AddAnimation("walkDown", walkDownAnimation);
 
-    Animation walkSideAnimation;
-    walkSideAnimation.SetAnimationSpeed(0.2);
-    for (int i = 0; i < 6; i++)
     {
-        Sprite sprite;
-        sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 10);
-        sprite.spriteCoords = glm::vec2(i, 4);
-        walkSideAnimation.AddFrame(sprite);
+        Animation walkSideAnimation;
+        walkSideAnimation.SetAnimationSpeed(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player";
+            sprite.textureSize = glm::vec2(6, 10);
+            sprite.spriteCoords = glm::vec2(i, 4);
+            walkSideAnimation.AddFrame(sprite);
+        }
+        
+        animator.AddAnimation("walkSide", walkSideAnimation);
     }
     
-    animator.AddAnimation("walkSide", walkSideAnimation);
+    {
+        Animation walkUpAnimation;
+        walkUpAnimation.SetAnimationSpeed(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player";
+            sprite.textureSize = glm::vec2(6, 10);
+            sprite.spriteCoords = glm::vec2(i, 5);
+            walkUpAnimation.AddFrame(sprite);
+        }
+        
+        animator.AddAnimation("walkUp", walkUpAnimation);
+    }
 
-    Animation walkUpAnimation;
-    walkUpAnimation.SetAnimationSpeed(0.2);
-    for (int i = 0; i < 6; i++)
     {
-        Sprite sprite;
-        sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 10);
-        sprite.spriteCoords = glm::vec2(i, 5);
-        walkUpAnimation.AddFrame(sprite);
+        Animation attackAnimation;
+        attackAnimation.SetAnimationSpeed(0.2);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player";
+            sprite.textureSize = glm::vec2(6, 10);
+            sprite.spriteCoords = glm::vec2(i, 6);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        animator.AddAnimation("attack", attackAnimation);
     }
-    
-    animator.AddAnimation("walkUp", walkUpAnimation);
 
     animator.Play("walkDown");
 }
@@ -69,6 +90,10 @@ void Player::Draw()
         if (velocity.x < 0)
             flipHorizontally = true;
     }
+
+
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+        animator.Play("attack");
 
     animator.Update();
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), flipHorizontally, false);
