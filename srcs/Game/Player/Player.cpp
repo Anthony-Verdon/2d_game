@@ -75,20 +75,36 @@ void Player::Draw()
 
     bool flipHorizontally = false;
     b2Vec2 velocity = b2Body_GetLinearVelocity(body.GetBodyId());
+    b2ShapeId swordId = body.GetShape("sword");
+    b2Polygon swordPolygon;
     if (velocity.x == 0)
     {
         if (velocity.y < 0)
+        {
             animator.Play("walkUp");
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(0, -SWORD_HITBOX_OFFSET));
+        }
         else
+        {
             animator.Play("walkDown");
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(0, SWORD_HITBOX_OFFSET));
+        }
     }
     else
     {
         animator.Play("walkSide");
         if (velocity.x < 0)
+        {
             flipHorizontally = true;
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(-SWORD_HITBOX_OFFSET, 0));
+        }
+        else
+        {
+            flipHorizontally = false;
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(SWORD_HITBOX_OFFSET, 0));
+        }
     }
-
+    b2Shape_SetPolygon(swordId, &swordPolygon);
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
         animator.Play("attack");
@@ -116,7 +132,7 @@ void Player::Init(b2WorldId worldId)
     filter.categoryBits = CategoriesFilter::Entities;
     filter.maskBits = CategoriesFilter::Wall;
     body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size)); // body
-    body.AddShape("sword", PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(glm::vec2(16, 16), glm::vec2(48, 0)));
+    body.AddShape("sword", PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE));
 }
 
 glm::vec2 Player::GetPosition() const
