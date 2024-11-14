@@ -162,9 +162,7 @@ void Game::ProcessInput()
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
         filter.maskBits = CategoriesFilter::Entities;
-        b2ShapeDef shape = PhysicBody::ShapeBuilder().SetFilter(filter).Build();
-
-        body.AddShape(shape, PhysicBody::PolygonBuilder::Build(size));
+        body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
         tilemap.AddTile(mousePosition, size, body);
     }

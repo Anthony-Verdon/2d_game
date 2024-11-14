@@ -115,8 +115,8 @@ void Player::Init(b2WorldId worldId)
     b2Filter filter;
     filter.categoryBits = CategoriesFilter::Entities;
     filter.maskBits = CategoriesFilter::Wall;
-    body.AddShape(PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size)); // body
-    body.AddShape(PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(glm::vec2(16, 16), glm::vec2(48, 0))); // sword
+    body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size)); // body
+    body.AddShape("sword", PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(glm::vec2(16, 16), glm::vec2(48, 0)));
 }
 
 glm::vec2 Player::GetPosition() const

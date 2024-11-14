@@ -30,8 +30,5 @@ void Barrel::Init(b2WorldId worldId)
     filter.maskBits = CategoriesFilter::Wall;
 
     body = PhysicBody::BodyBuilder().SetPosition(position).SetType(b2_kinematicBody).Build(worldId);
-        
-    b2ShapeDef shape = PhysicBody::ShapeBuilder().Build();
-
-    body.AddShape(shape, PhysicBody::PolygonBuilder::Build(size));
+    body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 }

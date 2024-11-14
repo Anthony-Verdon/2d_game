@@ -9,8 +9,9 @@ class Player
 {
     private:
         glm::vec2 size;
-        PhysicBody body;
         Animator animator;
+        
+        PhysicBody body;
         
     public:
         Player();

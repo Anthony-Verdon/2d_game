@@ -2,22 +2,27 @@
 
 #include <Box2D/Box2D.h>
 #include <glm/glm.hpp>
+#include <string>
+#include <map>
 
 class PhysicBody
 {
     private:
         b2BodyId id;
+        std::map<std::string, b2ShapeId> shapes;
 
     public:
         PhysicBody();
         PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef);
         ~PhysicBody();
 
-        void AddShape(const b2ShapeDef& shapeDef, const b2Polygon& polygon);
+        void AddShape(const std::string &name, const b2ShapeDef& shapeDef, const b2Polygon& polygon);
 
         b2BodyId GetBodyId() const;
+        b2ShapeId GetShape(const std::string &name) const;
         glm::vec2 GetPosition() const;
         float GetAngle() const;
+
 
         static float WorldToPixel(float value);
         static float PixelToWorld(float value);

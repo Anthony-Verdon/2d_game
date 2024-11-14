@@ -21,9 +21,9 @@ PhysicBody::~PhysicBody()
 
 }
 
-void PhysicBody::AddShape(const b2ShapeDef& shapeDef, const b2Polygon& polygon)
+void PhysicBody::AddShape(const std::string &name, const b2ShapeDef& shapeDef, const b2Polygon& polygon)
 {
-    b2CreatePolygonShape(id, &shapeDef, &polygon);
+    shapes[name] = b2CreatePolygonShape(id, &shapeDef, &polygon);
 }
 
 float PhysicBody::WorldToPixel(float value)
@@ -39,6 +39,11 @@ float PhysicBody::PixelToWorld(float value)
 b2BodyId PhysicBody::GetBodyId() const
 {
     return (id);
+}
+
+b2ShapeId PhysicBody::GetShape(const std::string &name) const
+{
+    return (shapes.find(name)->second);
 }
 
 glm::vec2 PhysicBody::GetPosition() const
