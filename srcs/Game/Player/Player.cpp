@@ -157,7 +157,7 @@ void Player::InitAnimations()
     }
 
     bodyAnimator.Play("walkDown");
-    toolAnimator.Play("iron_sword_attack1Down");
+    toolAnimator.Play("none");
 }
 
 void Player::Update()
@@ -248,6 +248,8 @@ void Player::Draw()
     
     if (toolAnimation != "")
         toolAnimator.Play(toolAnimation + directionString);
+    else
+        toolAnimator.Play("none");
     
     if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
         SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false);

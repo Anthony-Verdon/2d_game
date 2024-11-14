@@ -2,6 +2,8 @@
 #include "Engine/Time/Time.hpp"
 #include <iostream>
 
+Animation Animation::none;
+
 Animation::Animation(float animationSpeed, bool stoppable)
 {
     this->animationSpeed = animationSpeed;

@@ -29,4 +29,6 @@ class Animation
         bool Ended() const;
         Sprite GetFrame() const;
         unsigned int GetFrameIndex() const;
+
+        static Animation none;
 };

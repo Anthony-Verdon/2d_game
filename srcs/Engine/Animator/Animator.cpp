@@ -1,9 +1,12 @@
 #include "Engine/Animator/Animator.hpp"
 #include <iostream>
 
+
 Animator::Animator()
 {
-    currentAnimation = "";
+    currentAnimation = "none";
+    animations[currentAnimation] = Animation::none;
+
 }
 
 Animator::~Animator()
@@ -32,12 +35,11 @@ void Animator::Play(const std::string &name)
 
     currentAnimation = name;
     animations[currentAnimation].Reset();
-
 }
 
 void Animator::Update()
 {
-    if (currentAnimation != "")
+    if (currentAnimation != "none")
         animations[currentAnimation].Update();
 }
 
