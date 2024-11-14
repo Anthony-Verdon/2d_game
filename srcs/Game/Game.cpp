@@ -108,6 +108,7 @@ void Game::Run()
 {
     Time::updateTime();
     
+    player.Update();
     ProcessInput();
     b2World_Step(worldId, timeStep, subStepCount);
 
@@ -137,18 +138,6 @@ void Game::ProcessInput()
 {
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
-
-    glm::vec2 direction;
-    direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
-    direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    if (direction != glm::vec2(0, 0))
-    {
-        player.Move(glm::normalize(direction) * 200.0f * Time::getDeltaTime());
-    }
-    else
-    {
-        player.Move( glm::vec2(0, 0));
-    }
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {

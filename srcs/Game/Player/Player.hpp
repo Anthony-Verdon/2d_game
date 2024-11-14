@@ -12,16 +12,22 @@ class Player
 {
     private:
         glm::vec2 size;
+        glm::vec2 direction;
+
         Animator animator;
-        
         PhysicBody body;
         
+        void InitAnimations();
+
+        void Move();
+        void UpdateSwordHitbox();
+
     public:
         Player();
         ~Player();
 
-        void Draw();
-        void Move(const glm::vec2 &amount);
         void Init(b2WorldId worldId);
+        void Update();
+        void Draw();
         glm::vec2 GetPosition() const;
 };
