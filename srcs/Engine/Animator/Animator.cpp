@@ -41,14 +41,18 @@ void Animator::Update()
         animations[currentAnimation].Update();
 }
 
-Sprite Animator::GetFrame()
+Sprite Animator::GetFrame() const
 {
-    if (currentAnimation == "")
+    auto it = animations.find(currentAnimation);
+    if (it == animations.end())
         std::cerr << "Animator::GetFrame() : no animation added" << std::endl;
-    return (animations[currentAnimation].GetFrame());
+    return (it->second.GetFrame());
 }
 
-bool Animator::CurrentAnimationEnded()
+bool Animator::CurrentAnimationEnded() const
 {
-    return (animations[currentAnimation].IsStoppable() || animations[currentAnimation].Ended());
+    auto it = animations.find(currentAnimation);
+    if (it == animations.end())
+        std::cerr << "Animator::CurrentAnimationEnded() : no animation added" << std::endl;
+    return (it->second.IsStoppable() || it->second.Ended());
 }
