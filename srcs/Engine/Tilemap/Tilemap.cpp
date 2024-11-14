@@ -34,6 +34,6 @@ void Tilemap::Draw()
         sprite.textureName = "grass";
         sprite.textureSize = glm::vec2(1, 1);
         sprite.spriteCoords = glm::vec2(0, 0);
-        SpriteRenderer::Draw(tiles[i].position, tiles[i].size, 0, glm::vec3(1, 1, 1), sprite);
+        SpriteRenderer::Draw(tiles[i].position, tiles[i].size, 0, glm::vec3(1, 1, 1), sprite, false, false);
     }
 }

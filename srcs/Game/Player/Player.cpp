@@ -11,38 +11,25 @@ Player::Player()
     {
         Sprite sprite;
         sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 13);
-        sprite.spriteCoords = glm::vec2(i, 4);
+        sprite.textureSize = glm::vec2(6, 10);
+        sprite.spriteCoords = glm::vec2(i, 3);
         walkDownAnimation.AddFrame(sprite);
     }
     
     animator.AddAnimation("walkDown", walkDownAnimation);
 
-    Animation walkRightAnimation;
-    walkRightAnimation.SetAnimationSpeed(0.2);
+    Animation walkSideAnimation;
+    walkSideAnimation.SetAnimationSpeed(0.2);
     for (int i = 0; i < 6; i++)
     {
         Sprite sprite;
         sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 13);
-        sprite.spriteCoords = glm::vec2(i, 5);
-        walkRightAnimation.AddFrame(sprite);
+        sprite.textureSize = glm::vec2(6, 10);
+        sprite.spriteCoords = glm::vec2(i, 4);
+        walkSideAnimation.AddFrame(sprite);
     }
     
-    animator.AddAnimation("walkRight", walkRightAnimation);
-
-    Animation walkLeftAnimation;
-    walkLeftAnimation.SetAnimationSpeed(0.2);
-    for (int i = 0; i < 6; i++)
-    {
-        Sprite sprite;
-        sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 13);
-        sprite.spriteCoords = glm::vec2(i, 6);
-        walkLeftAnimation.AddFrame(sprite);
-    }
-    
-    animator.AddAnimation("walkLeft", walkLeftAnimation);
+    animator.AddAnimation("walkSide", walkSideAnimation);
 
     Animation walkUpAnimation;
     walkUpAnimation.SetAnimationSpeed(0.2);
@@ -50,8 +37,8 @@ Player::Player()
     {
         Sprite sprite;
         sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 13);
-        sprite.spriteCoords = glm::vec2(i, 7);
+        sprite.textureSize = glm::vec2(6, 10);
+        sprite.spriteCoords = glm::vec2(i, 5);
         walkUpAnimation.AddFrame(sprite);
     }
     
@@ -64,29 +51,31 @@ Player::~Player()
 {
 
 }
+
 void Player::Draw()
 {
-    animator.Update();
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame());
-}
-
-void Player::Move(const glm::vec2 &amount)
-{
-    if (amount.x == 0)
+    bool flipHorizontally = false;
+    b2Vec2 velocity = b2Body_GetLinearVelocity(body.GetBodyId());
+    if (velocity.x == 0)
     {
-        if (amount.y < 0)
+        if (velocity.y < 0)
             animator.Play("walkUp");
         else
             animator.Play("walkDown");
     }
     else
     {
-        if (amount.x < 0)
-            animator.Play("walkLeft");
-        else
-            animator.Play("walkRight");
+        animator.Play("walkSide");
+        if (velocity.x < 0)
+            flipHorizontally = true;
     }
 
+    animator.Update();
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), flipHorizontally, false);
+}
+
+void Player::Move(const glm::vec2 &amount)
+{
     b2Body_SetLinearVelocity(body.GetBodyId(), {amount.x, amount.y});
 }
 

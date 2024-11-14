@@ -75,7 +75,7 @@ void SpriteRenderer::Destroy()
     glDeleteBuffers(1, &VBO);
 }
 
-void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite)
+void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically)
 {
     if (!isInit)
     {
@@ -89,6 +89,11 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
     TopLeftCoords.y = 1.0f / sprite.textureSize.y * sprite.spriteCoords.y;
     BotomRightCoords.x = 1.0f / sprite.textureSize.x * (sprite.spriteCoords.x + 1);
     BotomRightCoords.y = 1.0f / sprite.textureSize.y * (sprite.spriteCoords.y + 1);
+
+    if (flipHorizontally)
+        std::swap(TopLeftCoords.x, BotomRightCoords.x);
+    if (flipVertically)
+        std::swap(TopLeftCoords.y, BotomRightCoords.y);
 
     float positions[] = { 
         -0.5f, 0.5f, 
