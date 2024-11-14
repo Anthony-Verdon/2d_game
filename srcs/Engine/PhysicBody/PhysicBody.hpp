@@ -10,8 +10,10 @@ class PhysicBody
 
     public:
         PhysicBody();
-        PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef, const b2ShapeDef& shapeDef, const b2Polygon& polygon);
+        PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef);
         ~PhysicBody();
+
+        void AddShape(const b2ShapeDef& shapeDef, const b2Polygon& polygon);
 
         b2BodyId GetBodyId() const;
         glm::vec2 GetPosition() const;
@@ -20,26 +22,46 @@ class PhysicBody
         static float WorldToPixel(float value);
         static float PixelToWorld(float value);
 
-        class Builder
+        class BodyBuilder
         {
             private:
                 b2BodyDef bodyDef;
-                b2Polygon polygon;
+            
+            public:
+                BodyBuilder();
+                ~BodyBuilder();
+
+                BodyBuilder& SetPosition(const glm::vec2 &position);
+                BodyBuilder& SetEnable(bool enable);
+                BodyBuilder& SetType(b2BodyType type);
+                BodyBuilder& SetFixedRotation(bool fixedRotation);
+
+                PhysicBody Build(const b2WorldId &worldId);
+        };
+
+        class ShapeBuilder
+        {
+            private:
                 b2ShapeDef shapeDef;
             
             public:
-                Builder();
-                ~Builder();
+                ShapeBuilder();
+                ~ShapeBuilder();
 
-                Builder& SetPosition(const glm::vec2 &position);
-                Builder& SetEnable(bool enable);
-                Builder& SetType(b2BodyType type);
-                Builder& SetSize(const glm::vec2 &size);
-                Builder& SetDensity(float density);
-                Builder& SetFriction(float friction);
-                Builder& SetFixedRotation(bool fixedRotation);
-                Builder& SetFilter(const b2Filter &filter);
+                ShapeBuilder& SetDensity(float density);
+                ShapeBuilder& SetFriction(float friction);
+                ShapeBuilder& SetFilter(const b2Filter &filter);
+                ShapeBuilder& IsSensor(bool isSensor);
 
-                PhysicBody Build(const b2WorldId &worldId);
+                b2ShapeDef Build();
+        };
+
+        class PolygonBuilder
+        {
+            public:
+                PolygonBuilder() = delete;
+                ~PolygonBuilder() = delete;
+
+                static b2Polygon Build(const glm::vec2 &size, const glm::vec2 &position = glm::vec2(0, 0), float rotation = 0);
         };
 };

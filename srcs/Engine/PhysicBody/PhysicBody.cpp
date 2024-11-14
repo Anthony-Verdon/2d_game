@@ -2,40 +2,28 @@
 #include <iostream>
 #include "globals.hpp"
 
+//***************************************
+// PHYSICBODY
+//***************************************
+
 PhysicBody::PhysicBody()
 {
     
 }
 
-PhysicBody::PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef, const b2ShapeDef& shapeDef, const b2Polygon& polygon)
+PhysicBody::PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef)
 {
     id = b2CreateBody(worldId, &bodyDef);
-    b2CreatePolygonShape(id, &shapeDef, &polygon);
-    {
-        b2ShapeDef newShapeDef = b2DefaultShapeDef();
-        newShapeDef.isSensor = true;
-
-        b2Vec2 points[4];
-        int size = 16;
-        points[0] = {PixelToWorld(-size), PixelToWorld(-size)};
-        points[1] = {PixelToWorld(size), PixelToWorld(-size)};
-        points[2] = {PixelToWorld(size), PixelToWorld(size)};
-        points[3] = {PixelToWorld(-size), PixelToWorld(size)};
-        b2Hull hull = b2ComputeHull(points, 4);
-
-        b2Transform transform;
-        transform.p = (b2Vec2){PixelToWorld(32 * 2), 0};
-        transform.q = b2MakeRot(glm::radians(0.0f));
-
-        b2Polygon offsetPolygon = b2MakeOffsetPolygon(&hull, 0, transform);
-    
-        b2CreatePolygonShape(id, &newShapeDef, &offsetPolygon);
-    }
 }
 
 PhysicBody::~PhysicBody()
 {
 
+}
+
+void PhysicBody::AddShape(const b2ShapeDef& shapeDef, const b2Polygon& polygon)
+{
+    b2CreatePolygonShape(id, &shapeDef, &polygon);
 }
 
 float PhysicBody::WorldToPixel(float value)
@@ -64,66 +52,113 @@ float PhysicBody::GetAngle() const
     return (glm::degrees(b2Rot_GetAngle(b2Body_GetRotation(id))));
 }
 
-PhysicBody::Builder::Builder()
+//***************************************
+// BODYBUILDER
+//***************************************
+
+PhysicBody::BodyBuilder::BodyBuilder()
 {
     bodyDef = b2DefaultBodyDef();
-    shapeDef = b2DefaultShapeDef();
 }
 
-PhysicBody::Builder::~Builder()
+PhysicBody::BodyBuilder::~BodyBuilder()
 {
 
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetPosition(const glm::vec2 &position)
+PhysicBody::BodyBuilder& PhysicBody::BodyBuilder::SetPosition(const glm::vec2 &position)
 {
     bodyDef.position = (b2Vec2){PixelToWorld(position.x), PixelToWorld(position.y)};
     return (*this);
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetEnable(bool enable)
+PhysicBody::BodyBuilder& PhysicBody::BodyBuilder::SetEnable(bool enable)
 {
     bodyDef.isEnabled = enable;
     return (*this);
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetType(b2BodyType type)
+PhysicBody::BodyBuilder& PhysicBody::BodyBuilder::SetType(b2BodyType type)
 {
     bodyDef.type = type;
     return (*this);
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetFixedRotation(bool fixedRotation)
+PhysicBody::BodyBuilder& PhysicBody::BodyBuilder::SetFixedRotation(bool fixedRotation)
 {
     bodyDef.fixedRotation = fixedRotation;
     return (*this);
 }
 
-PhysicBody::Builder &PhysicBody::Builder::SetSize(const glm::vec2 &size)
+PhysicBody PhysicBody::BodyBuilder::Build(const b2WorldId &worldId)
 {
-    polygon = b2MakeBox(PixelToWorld(size.x / 2), PixelToWorld(size.y / 2));
-    return (*this);
+    return (PhysicBody(worldId, bodyDef));
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetDensity(float density)
+//***************************************
+// SHAPEBUILDER
+//***************************************
+PhysicBody::ShapeBuilder::ShapeBuilder()
+{
+    shapeDef = b2DefaultShapeDef();
+}
+
+PhysicBody::ShapeBuilder::~ShapeBuilder()
+{
+}
+
+PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::SetDensity(float density)
 {
     shapeDef.density = density;
     return (*this);
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetFriction(float friction)
+PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::SetFriction(float friction)
 {
     shapeDef.friction = friction;
     return (*this);
 }
 
-PhysicBody::Builder& PhysicBody::Builder::SetFilter(const b2Filter &filter)
+PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::SetFilter(const b2Filter &filter)
 {
     shapeDef.filter = filter;
     return (*this);
 }
 
-PhysicBody PhysicBody::Builder::Build(const b2WorldId &worldId)
+PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::IsSensor(bool isSensor)
 {
-    return (PhysicBody(worldId, bodyDef, shapeDef, polygon));
+    shapeDef.isSensor = isSensor;
+    return (*this);
+}
+
+b2ShapeDef PhysicBody::ShapeBuilder::Build()
+{
+    return (shapeDef);
+}
+
+//***************************************
+// POLYGONBUILDER
+//***************************************
+
+b2Polygon PhysicBody::PolygonBuilder::Build(const glm::vec2 &size, const glm::vec2 &position, float rotation)
+{
+    if (position == glm::vec2(0, 0))
+    {
+        return (b2MakeBox(PixelToWorld(size.x / 2), PixelToWorld(size.y / 2)));
+    }
+    else
+    {
+        b2Vec2 points[4];
+        points[0] = {PixelToWorld(-size.x / 2), PixelToWorld(-size.y / 2)};
+        points[1] = {PixelToWorld(size.x / 2), PixelToWorld(-size.y / 2)};
+        points[2] = {PixelToWorld(size.x / 2), PixelToWorld(size.y / 2)};
+        points[3] = {PixelToWorld(-size.x / 2), PixelToWorld(size.y / 2)};
+        b2Hull hull = b2ComputeHull(points, 4);
+
+        b2Transform transform;
+        transform.p = (b2Vec2){PixelToWorld(position.x), PixelToWorld(position.y)};
+        transform.q = b2MakeRot(glm::radians(rotation));
+
+        return (b2MakeOffsetPolygon(&hull, 0, transform));
+    }
 }

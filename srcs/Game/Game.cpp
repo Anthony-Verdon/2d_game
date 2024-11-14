@@ -156,10 +156,17 @@ void Game::ProcessInput()
         mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+
+        PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetEnable(false).SetType(b2_staticBody).Build(worldId);
+        
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
         filter.maskBits = CategoriesFilter::Entities;
-        tilemap.AddTile(mousePosition, size, PhysicBody::Builder().SetPosition(mousePosition).SetEnable(false).SetSize(size).SetType(b2_staticBody).SetFilter(filter).Build(worldId));
+        b2ShapeDef shape = PhysicBody::ShapeBuilder().SetFilter(filter).Build();
+
+        body.AddShape(shape, PhysicBody::PolygonBuilder::Build(size));
+
+        tilemap.AddTile(mousePosition, size, body);
     }
 
 }

@@ -109,10 +109,14 @@ void Player::Init(b2WorldId worldId)
 {
     glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.4, WINDOW_HEIGHT * 0.5);
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+    
+    body = PhysicBody::BodyBuilder().SetPosition(position).SetFixedRotation(true).SetType(b2_dynamicBody).Build(worldId);
+        
     b2Filter filter;
     filter.categoryBits = CategoriesFilter::Entities;
     filter.maskBits = CategoriesFilter::Wall;
-    body = PhysicBody::Builder().SetPosition(position).SetSize(size).SetType(b2_dynamicBody).SetFixedRotation(true).SetFilter(filter).Build(worldId);
+    body.AddShape(PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size)); // body
+    body.AddShape(PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(glm::vec2(16, 16), glm::vec2(48, 0))); // sword
 }
 
 glm::vec2 Player::GetPosition() const
