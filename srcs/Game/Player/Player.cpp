@@ -5,18 +5,58 @@
 
 Player::Player()
 {
-    Animation animation;
-    animation.SetAnimationSpeed(0.2);
+    Animation walkDownAnimation;
+    walkDownAnimation.SetAnimationSpeed(0.2);
     for (int i = 0; i < 6; i++)
     {
         Sprite sprite;
         sprite.textureName = "player";
-        sprite.textureSize = glm::vec2(6, 10);
-        sprite.spriteCoords = glm::vec2(i, 3);
-        animation.AddFrame(sprite);
+        sprite.textureSize = glm::vec2(6, 13);
+        sprite.spriteCoords = glm::vec2(i, 4);
+        walkDownAnimation.AddFrame(sprite);
     }
     
-    animator.AddAnimation("walkDown", animation);
+    animator.AddAnimation("walkDown", walkDownAnimation);
+
+    Animation walkRightAnimation;
+    walkRightAnimation.SetAnimationSpeed(0.2);
+    for (int i = 0; i < 6; i++)
+    {
+        Sprite sprite;
+        sprite.textureName = "player";
+        sprite.textureSize = glm::vec2(6, 13);
+        sprite.spriteCoords = glm::vec2(i, 5);
+        walkRightAnimation.AddFrame(sprite);
+    }
+    
+    animator.AddAnimation("walkRight", walkRightAnimation);
+
+    Animation walkLeftAnimation;
+    walkLeftAnimation.SetAnimationSpeed(0.2);
+    for (int i = 0; i < 6; i++)
+    {
+        Sprite sprite;
+        sprite.textureName = "player";
+        sprite.textureSize = glm::vec2(6, 13);
+        sprite.spriteCoords = glm::vec2(i, 6);
+        walkLeftAnimation.AddFrame(sprite);
+    }
+    
+    animator.AddAnimation("walkLeft", walkLeftAnimation);
+
+    Animation walkUpAnimation;
+    walkUpAnimation.SetAnimationSpeed(0.2);
+    for (int i = 0; i < 6; i++)
+    {
+        Sprite sprite;
+        sprite.textureName = "player";
+        sprite.textureSize = glm::vec2(6, 13);
+        sprite.spriteCoords = glm::vec2(i, 7);
+        walkUpAnimation.AddFrame(sprite);
+    }
+    
+    animator.AddAnimation("walkUp", walkUpAnimation);
+
     animator.Play("walkDown");
 }
 
@@ -32,6 +72,21 @@ void Player::Draw()
 
 void Player::Move(const glm::vec2 &amount)
 {
+    if (amount.x == 0)
+    {
+        if (amount.y < 0)
+            animator.Play("walkUp");
+        else
+            animator.Play("walkDown");
+    }
+    else
+    {
+        if (amount.x < 0)
+            animator.Play("walkLeft");
+        else
+            animator.Play("walkRight");
+    }
+
     b2Body_SetLinearVelocity(body.GetBodyId(), {amount.x, amount.y});
 }
 
