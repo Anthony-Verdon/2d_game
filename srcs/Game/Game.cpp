@@ -43,9 +43,11 @@ Game::Game()
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);
 
-    RessourceManager::AddTexture("player", "assets/Player/Player.png");
-    RessourceManager::AddTexture("grass", "assets/Tiles/Grass_Middle.png");
-    RessourceManager::AddTexture("chest", "assets/Outdoor decoration/Chest.png");
+    RessourceManager::AddTexture("player_idle_run_death", "assets/Player/Player_New/Player_Anim/Player_Idle_Run_Death_Anim.png");
+    RessourceManager::AddTexture("player_attack", "assets/Player/Player_New/Player_Anim/Player_Attack_Anim.png");
+    RessourceManager::AddTexture("iron_sword", "assets/Player/Player_New/Weapons/Iron_Sword.png");
+    RessourceManager::AddTexture("grass", "assets/Tiles/Grass/Grass_1_Middle.png");
+    RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
 
     // create world
     b2WorldDef worldDef = b2DefaultWorldDef();

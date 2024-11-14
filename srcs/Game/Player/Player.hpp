@@ -14,7 +14,8 @@ class Player
         glm::vec2 size;
         glm::vec2 direction;
 
-        Animator animator;
+        Animator bodyAnimator;
+        Animator toolAnimator;
         PhysicBody body;
         
         void InitAnimations();

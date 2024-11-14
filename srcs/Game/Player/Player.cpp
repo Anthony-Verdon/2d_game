@@ -35,13 +35,13 @@ void Player::InitAnimations()
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
-            sprite.textureName = "player";
-            sprite.textureSize = glm::vec2(6, 10);
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
             sprite.spriteCoords = glm::vec2(i, 3);
             walkDownAnimation.AddFrame(sprite);
         }
         
-        animator.AddAnimation("walkDown", walkDownAnimation);
+        bodyAnimator.AddAnimation("walkDown", walkDownAnimation);
     }
 
     {
@@ -49,13 +49,13 @@ void Player::InitAnimations()
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
-            sprite.textureName = "player";
-            sprite.textureSize = glm::vec2(6, 10);
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
             sprite.spriteCoords = glm::vec2(i, 4);
             walkSideAnimation.AddFrame(sprite);
         }
         
-        animator.AddAnimation("walkSide", walkSideAnimation);
+        bodyAnimator.AddAnimation("walkSide", walkSideAnimation);
     }
     
     {
@@ -63,13 +63,13 @@ void Player::InitAnimations()
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
-            sprite.textureName = "player";
-            sprite.textureSize = glm::vec2(6, 10);
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
             sprite.spriteCoords = glm::vec2(i, 5);
             walkUpAnimation.AddFrame(sprite);
         }
         
-        animator.AddAnimation("walkUp", walkUpAnimation);
+        bodyAnimator.AddAnimation("walkUp", walkUpAnimation);
     }
 
     {
@@ -77,16 +77,87 @@ void Player::InitAnimations()
         for (int i = 0; i < 4; i++)
         {
             Sprite sprite;
-            sprite.textureName = "player";
-            sprite.textureSize = glm::vec2(6, 10);
-            sprite.spriteCoords = glm::vec2(i, 6);
+            sprite.textureName = "player_attack";
+            sprite.textureSize = glm::vec2(4, 9);
+            sprite.spriteCoords = glm::vec2(i, 0);
             attackAnimation.AddFrame(sprite);
         }
         
-        animator.AddAnimation("attack", attackAnimation);
+        bodyAnimator.AddAnimation("attack1Down", attackAnimation);
     }
 
-    animator.Play("walkDown");
+    {
+        Animation attackAnimation(0.2, false);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_attack";
+            sprite.textureSize = glm::vec2(4, 9);
+            sprite.spriteCoords = glm::vec2(i, 4);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("attack1Side", attackAnimation);
+    }
+
+    {
+        Animation attackAnimation(0.2, false);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_attack";
+            sprite.textureSize = glm::vec2(4, 9);
+            sprite.spriteCoords = glm::vec2(i, 7);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("attack1Up", attackAnimation);
+    }
+
+    {
+        Animation attackAnimation(0.2, false);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_sword";
+            sprite.textureSize = glm::vec2(6, 9);
+            sprite.spriteCoords = glm::vec2(i, 0);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_sword_attack1Down", attackAnimation);
+    }
+
+    {
+        Animation attackAnimation(0.2, false);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_sword";
+            sprite.textureSize = glm::vec2(6, 9);
+            sprite.spriteCoords = glm::vec2(i, 4);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_sword_attack1Side", attackAnimation);
+    }
+
+    {
+        Animation attackAnimation(0.2, false);
+        for (int i = 0; i < 4; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_sword";
+            sprite.textureSize = glm::vec2(6, 9);
+            sprite.spriteCoords = glm::vec2(i, 7);
+            attackAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_sword_attack1Up", attackAnimation);
+    }
+
+    bodyAnimator.Play("walkDown");
+    toolAnimator.Play("iron_sword_attack1Down");
 }
 
 void Player::Update()
@@ -100,7 +171,7 @@ void Player::Move()
     glm::vec2 velocity;
     velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    if (animator.CurrentAnimationEnded() && velocity != glm::vec2(0, 0))
+    if (bodyAnimator.CurrentAnimationEnded() && velocity != glm::vec2(0, 0))
     {
         direction = velocity;
         glm::vec2 movement = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
@@ -137,29 +208,49 @@ void Player::UpdateSwordHitbox()
 
 void Player::Draw()
 {
-    animator.Update();
+    bodyAnimator.Update();
+    toolAnimator.Update();
+
+    // action
+    std::string bodyActionAnimation = "";
+    std::string toolAnimation = "";
+
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    {
+        bodyActionAnimation = "attack1";
+        toolAnimation = "iron_sword_attack1";
+    }
+    else
+        bodyActionAnimation = "walk";
+
+    // direction
+    std::string directionString = "";
     bool flipHorizontally = false;
-    
+
     if (direction.x == 0)
     {
         if (direction.y < 0)
-            animator.Play("walkUp");
+            directionString = "Up";
         else
-            animator.Play("walkDown");
+            directionString = "Down";
     }
     else
     {
-        animator.Play("walkSide");
+        directionString = "Side";
         if (direction.x < 0)
             flipHorizontally = true;
         else
             flipHorizontally = false;
     }
 
-    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
-        animator.Play("attack");
-
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), flipHorizontally, false);
+    bodyAnimator.Play(bodyActionAnimation + directionString);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false);
+    
+    if (toolAnimation != "")
+        toolAnimator.Play(toolAnimation + directionString);
+    
+    if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
+        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false);
 }
 
 
