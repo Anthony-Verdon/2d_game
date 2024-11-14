@@ -18,13 +18,21 @@ void Animator::AddAnimation(const std::string &name, const Animation &animation)
 
 void Animator::Play(const std::string &name)
 {
+    if (!animations[currentAnimation].IsStoppable() && !animations[currentAnimation].Ended())
+        return;
+    
     if (animations.find(name) == animations.end())
     {
         std::cerr << "Animator::Play() : animation " << name << " not found" << std::endl;
         return;
     }
 
+    if (currentAnimation == name)
+        return;
+
     currentAnimation = name;
+    animations[currentAnimation].Reset();
+
 }
 
 void Animator::Update()

@@ -6,8 +6,7 @@
 Player::Player()
 {
     {
-        Animation walkDownAnimation;
-        walkDownAnimation.SetAnimationSpeed(0.2);
+        Animation walkDownAnimation(0.2);
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
@@ -21,8 +20,7 @@ Player::Player()
     }
 
     {
-        Animation walkSideAnimation;
-        walkSideAnimation.SetAnimationSpeed(0.2);
+        Animation walkSideAnimation(0.2);
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
@@ -36,8 +34,7 @@ Player::Player()
     }
     
     {
-        Animation walkUpAnimation;
-        walkUpAnimation.SetAnimationSpeed(0.2);
+        Animation walkUpAnimation(0.2);
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
@@ -51,8 +48,7 @@ Player::Player()
     }
 
     {
-        Animation attackAnimation;
-        attackAnimation.SetAnimationSpeed(0.2);
+        Animation attackAnimation(0.2, false);
         for (int i = 0; i < 4; i++)
         {
             Sprite sprite;
@@ -75,6 +71,8 @@ Player::~Player()
 
 void Player::Draw()
 {
+    animator.Update();
+    
     bool flipHorizontally = false;
     b2Vec2 velocity = b2Body_GetLinearVelocity(body.GetBodyId());
     if (velocity.x == 0)
@@ -95,7 +93,6 @@ void Player::Draw()
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
         animator.Play("attack");
 
-    animator.Update();
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), flipHorizontally, false);
 }
 

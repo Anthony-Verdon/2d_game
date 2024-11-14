@@ -11,15 +11,22 @@ class Animation
         float animationSpeed;
         float timer;
         unsigned int frameIndex;
+        bool stoppable;
+        bool ended;
 
     public:
-        Animation();
-        Animation(float animationSpeed);
+        Animation(float animationSpeed = 1.0f, bool stoppable = true);
         ~Animation();
 
         void AddFrame(const Sprite &frame);
-        void SetAnimationSpeed(float animationSpeed);
         void Update();
+        void Reset();
 
+        void SetAnimationSpeed(float animationSpeed);
+        void SetStoppable(bool stoppable);
+
+        bool IsStoppable() const;
+        bool Ended() const;
         Sprite GetFrame() const;
+        unsigned int GetFrameIndex() const;
 };
