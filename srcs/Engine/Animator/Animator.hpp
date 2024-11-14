@@ -18,4 +18,5 @@ class Animator
         void Play(const std::string &name);
         void Update();
         Sprite GetFrame();
+        bool CurrentAnimationEnded();
 };

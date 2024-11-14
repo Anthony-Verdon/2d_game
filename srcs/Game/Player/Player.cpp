@@ -72,7 +72,7 @@ Player::~Player()
 void Player::Draw()
 {
     animator.Update();
-    
+
     bool flipHorizontally = false;
     b2Vec2 velocity = b2Body_GetLinearVelocity(body.GetBodyId());
     if (velocity.x == 0)
@@ -98,8 +98,12 @@ void Player::Draw()
 
 void Player::Move(const glm::vec2 &amount)
 {
-    b2Body_SetLinearVelocity(body.GetBodyId(), {amount.x, amount.y});
-}
+    if (animator.CurrentAnimationEnded())
+        b2Body_SetLinearVelocity(body.GetBodyId(), {amount.x, amount.y});
+    else
+        b2Body_SetLinearVelocity(body.GetBodyId(), {0, 0});
+
+}   
 
 void Player::Init(b2WorldId worldId)
 {

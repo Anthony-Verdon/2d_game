@@ -47,3 +47,8 @@ Sprite Animator::GetFrame()
         std::cerr << "Animator::GetFrame() : no animation added" << std::endl;
     return (animations[currentAnimation].GetFrame());
 }
+
+bool Animator::CurrentAnimationEnded()
+{
+    return (animations[currentAnimation].IsStoppable() || animations[currentAnimation].Ended());
+}
