@@ -124,6 +124,12 @@ void Game::Run()
     RessourceManager::GetShader("Line")->setMat4("projection", projection);
     // end tmp
 
+    b2SensorEvents sensorEvents = b2World_GetSensorEvents(worldId);
+    for (int i = 0; i < sensorEvents.beginCount; ++i)
+    {
+        std::cout << "sensor " << i << std::endl;
+    }
+    
     Draw();
 }
 
