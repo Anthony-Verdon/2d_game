@@ -4,11 +4,12 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <map>
+#include <memory>
 
 class PhysicBody
 {
     private:
-        b2BodyId id;
+        std::shared_ptr<b2BodyId> id;
         std::map<std::string, b2ShapeId> shapes;
 
     public:

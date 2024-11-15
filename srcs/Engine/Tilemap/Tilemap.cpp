@@ -13,8 +13,7 @@ Tilemap::~Tilemap()
 
 void Tilemap::AddTile(const Tile &tile)
 {
-    if (std::find(tiles.begin(), tiles.end(), tile) == tiles.end())
-        tiles.push_back(tile);
+    tiles.insert(tile);
 }
 
 void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body)
@@ -28,27 +27,24 @@ void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Ph
 
 void Tilemap::SuppressTile(const glm::vec2 &position)
 {
-    for (auto it = tiles.begin(); it != tiles.end(); )
+    for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
         if (it->position == position)
         {
-            it = tiles.erase(it);
-        }
-        else
-        {
-            it++;
+            tiles.erase(it);
+            return;
         }
     }
 }
 
 void Tilemap::Draw()
 {
-    for (unsigned int i = 0; i < tiles.size(); i++)
+    for (auto it = tiles.begin(); it != tiles.end(); it++)
     {   
         Sprite sprite;
         sprite.textureName = "grass";
         sprite.textureSize = glm::vec2(1, 1);
         sprite.spriteCoords = glm::vec2(0, 0);
-        SpriteRenderer::Draw(tiles[i].position, tiles[i].size, 0, glm::vec3(1, 1, 1), sprite, false, false);
+        SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), sprite, false, false);
     }
 }

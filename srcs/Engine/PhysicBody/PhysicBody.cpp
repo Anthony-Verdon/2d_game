@@ -8,22 +8,24 @@
 
 PhysicBody::PhysicBody()
 {
-    
+    id = std::make_shared<b2BodyId>(b2_nullBodyId);
 }
 
 PhysicBody::PhysicBody(const b2WorldId& worldId, const b2BodyDef& bodyDef)
 {
-    id = b2CreateBody(worldId, &bodyDef);
+    id = std::make_shared<b2BodyId>(b2CreateBody(worldId, &bodyDef));
 }
+
 
 PhysicBody::~PhysicBody()
 {
-
+    if (id.use_count() == 1 && b2Body_IsValid(*id))
+        b2DestroyBody(*id);
 }
 
 void PhysicBody::AddShape(const std::string &name, const b2ShapeDef& shapeDef, const b2Polygon& polygon)
 {
-    shapes[name] = b2CreatePolygonShape(id, &shapeDef, &polygon);
+    shapes[name] = b2CreatePolygonShape(*id, &shapeDef, &polygon);
 }
 
 float PhysicBody::WorldToPixel(float value)
@@ -38,23 +40,27 @@ float PhysicBody::PixelToWorld(float value)
 
 b2BodyId PhysicBody::GetBodyId() const
 {
-    return (id);
+    return (*id);
 }
 
 b2ShapeId PhysicBody::GetShape(const std::string &name) const
 {
-    return (shapes.find(name)->second);
+    auto it = shapes.find(name);
+    if (it != shapes.end())
+        return (it->second);
+    else
+        return (b2_nullShapeId);
 }
 
 glm::vec2 PhysicBody::GetPosition() const
 {
-    b2Vec2 worldPosition = b2Body_GetPosition(id);
+    b2Vec2 worldPosition = b2Body_GetPosition(*id);
     return (glm::vec2(WorldToPixel(worldPosition.x), WorldToPixel(worldPosition.y)));
 }
 
 float PhysicBody::GetAngle() const
 {
-    return (glm::degrees(b2Rot_GetAngle(b2Body_GetRotation(id))));
+    return (glm::degrees(b2Rot_GetAngle(b2Body_GetRotation(*id))));
 }
 
 //***************************************

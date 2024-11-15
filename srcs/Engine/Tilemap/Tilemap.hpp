@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <vector>
+#include <set>
 #include "Engine/PhysicBody/PhysicBody.hpp"
 
 struct Tile
@@ -13,12 +13,15 @@ struct Tile
     bool operator==(const Tile &other) const {
         return position == other.position && size == other.size; 
     }
+    bool operator<(const Tile &other) const {
+        return position.x < other.position.x || position.y < other.position.y; 
+    }
 };
 
 class Tilemap
 {
     private:
-        std::vector<Tile> tiles;
+        std::set<Tile> tiles;
 
     public:
         Tilemap();
