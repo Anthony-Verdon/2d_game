@@ -192,12 +192,9 @@ void Player::UpdateSwordHitbox()
     b2Filter filter = b2Shape_GetFilter(swordId);
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
     {
-        if (filter.categoryBits != CategoriesFilter::Everything)
-        {
-            filter.categoryBits = CategoriesFilter::Everything;
-            filter.maskBits = CategoriesFilter::Everything;
-            oldDirection = glm::vec2(0, 0); // reset the polygon to trigger events
-        }
+        filter.categoryBits = CategoriesFilter::Everything;
+        filter.maskBits = CategoriesFilter::Everything;
+        oldDirection = glm::vec2(0, 0); // reset the polygon to trigger events
     }
     else
     {
