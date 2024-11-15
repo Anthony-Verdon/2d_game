@@ -46,6 +46,7 @@ Game::Game()
     RessourceManager::AddTexture("player_idle_run_death", "assets/Player/Player_New/Player_Anim/Player_Idle_Run_Death_Anim.png");
     RessourceManager::AddTexture("player_attack", "assets/Player/Player_New/Player_Anim/Player_Attack_Anim.png");
     RessourceManager::AddTexture("iron_sword", "assets/Player/Player_New/Weapons/Iron_Sword.png");
+    RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("grass", "assets/Tiles/Grass/Grass_1_Middle.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
 
@@ -59,6 +60,7 @@ Game::Game()
 
     player.Init(worldId);
     barrel.Init(worldId);
+    skeletton.Init(worldId);
 
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
@@ -164,6 +166,7 @@ void Game::Draw()
 {
     tilemap.Draw();
     player.Draw();
+    skeletton.Draw();
     barrel.Draw();
 
     for (unsigned int i = 0; i < WINDOW_WIDTH; i += SPRITE_SIZE)

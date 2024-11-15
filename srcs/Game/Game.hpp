@@ -8,6 +8,7 @@
 #include <Box2D/Box2D.h>
 #include "Game/Player/Player.hpp"
 #include "Game/Barrel/Barrel.hpp"
+#include "Game/Skeletton/Skeletton.hpp"
 
 class Game: public AGame
 {
@@ -26,6 +27,7 @@ class Game: public AGame
 
         Player player;
         Barrel barrel;
+        Skeletton skeletton;
 
         Tilemap tilemap;
 
