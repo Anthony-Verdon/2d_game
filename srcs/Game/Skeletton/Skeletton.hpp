@@ -17,5 +17,7 @@ class Skeletton
         ~Skeletton();
 
         void Init(b2WorldId worldId);
+        void Update();
+        void PlayAnimation(const std::string &name);
         void Draw();
 };

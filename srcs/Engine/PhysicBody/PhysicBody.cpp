@@ -136,6 +136,12 @@ PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::IsSensor(bool isSensor)
     return (*this);
 }
 
+PhysicBody::ShapeBuilder& PhysicBody::ShapeBuilder::SetUserData(void *ptr)
+{
+    shapeDef.userData = ptr;
+    return (*this);
+}
+
 b2ShapeDef PhysicBody::ShapeBuilder::Build()
 {
     return (shapeDef);

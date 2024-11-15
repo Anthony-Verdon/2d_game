@@ -18,7 +18,7 @@ void Skeletton::Init(b2WorldId worldId)
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
     body = PhysicBody::BodyBuilder().SetPosition(position).SetFixedRotation(true).SetType(b2_kinematicBody).Build(worldId);
         
-    body.AddShape("body", PhysicBody::ShapeBuilder().Build(), PhysicBody::PolygonBuilder::Build(size));
+    body.AddShape("body", PhysicBody::ShapeBuilder().SetUserData(this).Build(), PhysicBody::PolygonBuilder::Build(size));
     
     InitAnimations();
 }
@@ -41,7 +41,7 @@ void Skeletton::InitAnimations()
 
     {
         Animation hurtAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             Sprite sprite;
             sprite.textureName = "skeletton_mage";
@@ -56,8 +56,20 @@ void Skeletton::InitAnimations()
     animator.Play("idleDown");
 }
 
+
+void Skeletton::Update()
+{
+    animator.Update(); // should always be update before any other use
+    if (animator.CurrentAnimationEnded())
+        animator.Play("idleDown");
+}
+
+void Skeletton::PlayAnimation(const std::string &name)
+{
+    animator.Play(name);
+}
+
 void Skeletton::Draw()
 {
-    animator.Update();
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), false, false);
 }

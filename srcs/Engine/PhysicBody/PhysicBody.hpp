@@ -57,6 +57,7 @@ class PhysicBody
                 ShapeBuilder& SetFriction(float friction);
                 ShapeBuilder& SetFilter(const b2Filter &filter);
                 ShapeBuilder& IsSensor(bool isSensor);
+                ShapeBuilder& SetUserData(void *ptr);
 
                 b2ShapeDef Build();
         };

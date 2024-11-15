@@ -113,6 +113,7 @@ void Game::Run()
     Time::updateTime();
     
     player.Update();
+    skeletton.Update();
     ProcessInput();
     b2World_Step(worldId, timeStep, subStepCount);
 
@@ -132,7 +133,11 @@ void Game::Run()
     b2SensorEvents sensorEvents = b2World_GetSensorEvents(worldId);
     for (int i = 0; i < sensorEvents.beginCount; ++i)
     {
-        std::cout << "sensor " << i << std::endl;
+        b2SensorBeginTouchEvent* beginTouch = sensorEvents.beginEvents + i;
+        void* myUserData = b2Shape_GetUserData(beginTouch->visitorShapeId);
+        Skeletton *skeletton = reinterpret_cast<Skeletton*>(myUserData); // not safe
+        if (skeletton)
+            skeletton->PlayAnimation("hurtDown");
     }
     
     Draw();
