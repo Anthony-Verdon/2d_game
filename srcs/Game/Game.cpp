@@ -155,7 +155,7 @@ void Game::ProcessInput()
         mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
         glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
 
-        PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetEnable(false).SetType(b2_staticBody).Build(worldId);
+        PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
         
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
@@ -164,7 +164,13 @@ void Game::ProcessInput()
 
         tilemap.AddTile(mousePosition, size, body);
     }
-
+    else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    {
+        glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
+        mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
+        tilemap.SuppressTile(mousePosition);
+    }
 }
 
 void Game::Draw()

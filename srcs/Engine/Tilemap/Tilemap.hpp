@@ -26,5 +26,6 @@ class Tilemap
 
         void AddTile(const Tile &tile);
         void AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body);
+        void SuppressTile(const glm::vec2 &position);
         void Draw();
 };

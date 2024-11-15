@@ -190,7 +190,7 @@ void Player::UpdateSwordHitbox()
     
     // activate or not
     b2Filter filter = b2Shape_GetFilter(swordId);
-    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
+    if (WindowManager::IsKeyPressed(GLFW_KEY_E) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
     {
         filter.categoryBits = CategoriesFilter::Everything;
         filter.maskBits = CategoriesFilter::Everything;
@@ -239,7 +239,7 @@ void Player::Draw()
     std::string bodyActionAnimation = "";
     std::string toolAnimation = "";
 
-    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    if (WindowManager::IsKeyPressed(GLFW_KEY_E))
     {
         bodyActionAnimation = "attack1";
         toolAnimation = "iron_sword_attack1";

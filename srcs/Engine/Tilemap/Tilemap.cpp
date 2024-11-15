@@ -26,6 +26,21 @@ void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Ph
     AddTile(tile);
 }
 
+void Tilemap::SuppressTile(const glm::vec2 &position)
+{
+    for (auto it = tiles.begin(); it != tiles.end(); )
+    {
+        if (it->position == position)
+        {
+            it = tiles.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}
+
 void Tilemap::Draw()
 {
     for (unsigned int i = 0; i < tiles.size(); i++)
