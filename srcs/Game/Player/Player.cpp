@@ -185,6 +185,13 @@ void Player::Move()
 
 void Player::UpdateSwordHitbox()
 {
+    static glm::vec2 oldDirection = glm::vec2(0, 0);
+
+    if (oldDirection == direction)
+        return;
+
+    oldDirection = direction;
+
     b2ShapeId swordId = body.GetShape("sword");
     b2Polygon swordPolygon;
 
