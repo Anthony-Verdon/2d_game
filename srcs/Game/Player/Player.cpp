@@ -186,21 +186,41 @@ void Player::Move()
 void Player::UpdateSwordHitbox()
 {
     static glm::vec2 oldDirection = glm::vec2(0, 0);
+    b2ShapeId swordId = body.GetShape("sword");
+    
+    // activate or not
+    b2Filter filter = b2Shape_GetFilter(swordId);
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
+    {
+        if (filter.categoryBits != CategoriesFilter::Everything)
+        {
+            filter.categoryBits = CategoriesFilter::Everything;
+            filter.maskBits = CategoriesFilter::Everything;
+            oldDirection = glm::vec2(0, 0); // reset the polygon to trigger events
+        }
+    }
+    else
+    {
+        filter.categoryBits = CategoriesFilter::Nothing;
+        filter.maskBits = CategoriesFilter::Nothing;
+    }
+    b2Shape_SetFilter(swordId, filter);
+
+    // direction
 
     if (oldDirection == direction)
         return;
 
     oldDirection = direction;
 
-    b2ShapeId swordId = body.GetShape("sword");
     b2Polygon swordPolygon;
 
     if (direction.x == 0)
     {
         if (direction.y < 0)
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(0, -SWORD_HITBOX_OFFSET));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, -SWORD_HITBOX_OFFSET));
         else
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(0, SWORD_HITBOX_OFFSET));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, SWORD_HITBOX_OFFSET));
     }
     else
     {

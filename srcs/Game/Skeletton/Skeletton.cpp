@@ -17,8 +17,11 @@ void Skeletton::Init(b2WorldId worldId)
     glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.2, WINDOW_HEIGHT * 0.5);
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
     body = PhysicBody::BodyBuilder().SetPosition(position).SetFixedRotation(true).SetType(b2_kinematicBody).Build(worldId);
-        
-    body.AddShape("body", PhysicBody::ShapeBuilder().SetUserData(this).Build(), PhysicBody::PolygonBuilder::Build(size));
+    
+    b2Filter filter = b2DefaultFilter();
+    filter.categoryBits = CategoriesFilter::Everything;
+    filter.maskBits = CategoriesFilter::Everything;
+    body.AddShape("body", PhysicBody::ShapeBuilder().SetUserData(this).SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
     
     InitAnimations();
 }

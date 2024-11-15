@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-constexpr glm::vec2 SWORD_HITBOX_SIZE = glm::vec2(16, 16);
+constexpr glm::vec2 SWORD_HITBOX_SIZE = glm::vec2(32, 96);
 constexpr float SWORD_HITBOX_OFFSET = 48;
 
 class Player
