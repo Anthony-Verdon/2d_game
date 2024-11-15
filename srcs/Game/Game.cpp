@@ -65,6 +65,8 @@ Game::Game()
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
     debugDraw.drawShapes = true;
+
+    tilemap.Load(worldId);
 }
 
 void Game::InitDebugDraw()
@@ -100,6 +102,8 @@ void Game::InitDebugDraw()
 
 Game::~Game()
 {
+    tilemap.Save();
+
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
     LineRenderer::Destroy();

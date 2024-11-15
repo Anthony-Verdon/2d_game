@@ -4,3 +4,4 @@
 .xmake
 build
 2d_game.exe
+saves/*
