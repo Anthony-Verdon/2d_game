@@ -34,6 +34,9 @@ void Tilemap::Load(const b2WorldId &worldId)
         filter.categoryBits = it["filter"]["category"];
         filter.maskBits = it["filter"]["mask"];
         tile.body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(tile.size));
+        tile.sprite.textureName = it["sprite"]["texture"]["name"];
+        tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
+        tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["texture"]["size"][1]);
         AddTile(tile);
     }
 }
@@ -52,6 +55,9 @@ void Tilemap::Save()
         b2Filter filter = b2Shape_GetFilter(it->body.GetShape("tile"));
         file["tiles"][i]["filter"]["category"] = filter.categoryBits;
         file["tiles"][i]["filter"]["mask"] = filter.maskBits;
+        file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
+        file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
+        file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
         i++;
     }
 
@@ -64,12 +70,13 @@ void Tilemap::AddTile(const Tile &tile)
     tiles.insert(tile);
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body)
+void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite)
 {
     Tile tile;
     tile.position = position;
     tile.size = size;
     tile.body = body;
+    tile.sprite = sprite;
     AddTile(tile);
 }
 
@@ -89,10 +96,6 @@ void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {   
-        Sprite sprite;
-        sprite.textureName = "grass";
-        sprite.textureSize = glm::vec2(1, 1);
-        sprite.spriteCoords = glm::vec2(0, 0);
-        SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), sprite, false, false);
+        SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false);
     }
 }

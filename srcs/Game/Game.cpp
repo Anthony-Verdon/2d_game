@@ -49,6 +49,7 @@ Game::Game()
     RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("grass", "assets/Tiles/Grass/Grass_1_Middle.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
+    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1_Blob_TEST.png");
 
     // create world
     b2WorldDef worldDef = b2DefaultWorldDef();
@@ -67,6 +68,8 @@ Game::Game()
     debugDraw.drawShapes = true;
 
     tilemap.Load(worldId);
+
+    srand(time(NULL));
 }
 
 void Game::InitDebugDraw()
@@ -164,9 +167,13 @@ void Game::ProcessInput()
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
         filter.maskBits = CategoriesFilter::Entities;
+        Sprite sprite;
+        sprite.textureName = "grass_tiles";
+        sprite.textureSize = glm::vec2(7, 7);
+        sprite.spriteCoords = glm::vec2(rand() % 7, rand() % 7);
         body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
-        tilemap.AddTile(mousePosition, size, body);
+        tilemap.AddTile(mousePosition, size, body, sprite);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
