@@ -86,9 +86,19 @@ glm::vec2 WindowManager::GetMousePosition()
     return (mousePosition);
 }
 
+void WindowManager::SetUserPointer(void *ptr)
+{
+    glfwSetWindowUserPointer(window, ptr);
+}
+
 void WindowManager::SetCharCallback(void (*func)(GLFWwindow *window, unsigned int character))
 {
     glfwSetCharCallback(window, func);
+}
+
+void WindowManager::SetScrollCallback(void (*func)(GLFWwindow *window, double xOffset, double yOffset))
+{
+    glfwSetScrollCallback(window, func);
 }
 
 void mouse_callback(GLFWwindow *window, double xPos, double yPos)

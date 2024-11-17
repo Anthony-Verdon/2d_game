@@ -39,4 +39,5 @@ class Game: public AGame
         ~Game();
 
         void Run();
+        void ScrollCallback(double xOffset, double yOffset);
 };

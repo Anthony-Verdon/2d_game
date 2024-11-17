@@ -26,5 +26,8 @@ class WindowManager
     static glm::vec2 GetMousePosition();
     static void SetMousePosition(double xPos, double yPos);
 
+    static void SetUserPointer(void *ptr);
+    
     static void SetCharCallback(void (*func)(GLFWwindow *window, unsigned int character));
+    static void SetScrollCallback(void (*func)(GLFWwindow *window, double xOffset, double yOffset));
 };
