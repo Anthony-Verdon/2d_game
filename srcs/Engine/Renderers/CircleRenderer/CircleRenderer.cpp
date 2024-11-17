@@ -19,7 +19,7 @@ void CircleRenderer::Init(unsigned int width, unsigned int height)
     }
 
     RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
-    Shader *circleShader = RessourceManager::GetShader("Circle");
+    std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
     circleShader->use();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
     circleShader->setMat4("projection", projection);
@@ -89,7 +89,7 @@ void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotatio
         return;
     }
     
-    Shader *circleShader = RessourceManager::GetShader("Circle");
+    std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
 
     circleShader->use();
     glm::mat4 model = glm::mat4(1.0f);

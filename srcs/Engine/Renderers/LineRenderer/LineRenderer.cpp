@@ -17,7 +17,7 @@ void LineRenderer::Init(unsigned int width, unsigned int height)
     }
 
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
-    Shader *lineShader = RessourceManager::GetShader("Line");
+    std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
     lineShader->setMat4("projection", projection);
@@ -61,7 +61,7 @@ void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec
         return;
     }
 
-    Shader *lineShader = RessourceManager::GetShader("Line");
+    std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
     lineShader->setVec3("color", color);
     

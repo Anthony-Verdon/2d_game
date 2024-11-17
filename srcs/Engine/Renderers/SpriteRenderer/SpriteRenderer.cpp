@@ -17,7 +17,7 @@ void SpriteRenderer::Init(unsigned int width, unsigned int height)
     }
 
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
-    Shader *spriteShader = RessourceManager::GetShader("Sprite");
+    std::shared_ptr<Shader> spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
     spriteShader->setInt("image", 0);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
@@ -118,7 +118,7 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(positions), sizeof(textures), textures);
 
-    Shader *spriteShader = RessourceManager::GetShader("Sprite");
+    std::shared_ptr<Shader> spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
 
     glm::mat4 model = glm::mat4(1.0f);

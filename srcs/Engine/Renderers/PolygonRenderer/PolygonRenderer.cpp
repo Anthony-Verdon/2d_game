@@ -15,7 +15,7 @@ void PolygonRenderer::Init(unsigned int width, unsigned int height)
     }
 
     RessourceManager::AddShader("Polygon", "shaders/polygon/polygon.vs", "shaders/polygon/polygon.fs");
-    Shader *polygonShader = RessourceManager::GetShader("Polygon");
+    std::shared_ptr<Shader> polygonShader = RessourceManager::GetShader("Polygon");
     polygonShader->use();
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
     polygonShader->setMat4("projection", projection);
@@ -97,7 +97,7 @@ void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &posi
         return;
     }
 
-    Shader *squareShader = RessourceManager::GetShader("Polygon");
+    std::shared_ptr<Shader> squareShader = RessourceManager::GetShader("Polygon");
     squareShader->use();
 
     glm::mat4 model = glm::mat4(1.0f);
