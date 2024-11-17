@@ -22,3 +22,8 @@ std::shared_ptr<Shader> RessourceManager::GetShader(const std::string &name)
 {
     return (shaders[name]);
 }
+
+std::map<std::string, std::shared_ptr<Shader>> RessourceManager::GetShaders()
+{
+    return (shaders);
+}

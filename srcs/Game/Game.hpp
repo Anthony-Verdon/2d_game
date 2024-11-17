@@ -3,6 +3,7 @@
 #include "Engine/AGame/AGame.hpp"
 #include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Engine/Tilemap/Tilemap.hpp"
+#include "Engine/Camera/Camera.hpp"
 #include <vector>
 #include <glm/glm.hpp>
 #include <Box2D/Box2D.h>
@@ -30,6 +31,7 @@ class Game: public AGame
         Skeletton skeletton;
 
         Tilemap tilemap;
+        Camera camera;
 
 
     public:
