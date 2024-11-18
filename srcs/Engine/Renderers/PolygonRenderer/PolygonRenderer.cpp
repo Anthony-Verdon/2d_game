@@ -1,6 +1,6 @@
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
-#include <iostream>
+#include "Engine/macros.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 std::unordered_map<std::string, PolygonGl> PolygonRenderer::polygons;
@@ -8,11 +8,7 @@ bool PolygonRenderer::isInit = false;
 
 void PolygonRenderer::Init()
 {
-    if (isInit)
-    {
-        std::cerr << "PolygonRenderer already initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(!isInit, "PolygonRenderer already initialized");
 
     RessourceManager::AddShader("Polygon", "shaders/polygon/polygon.vs", "shaders/polygon/polygon.fs");
     std::shared_ptr<Shader> polygonShader = RessourceManager::GetShader("Polygon");
@@ -25,11 +21,7 @@ void PolygonRenderer::Init()
 
 void PolygonRenderer::Destroy()
 {
-    if (!isInit)
-    {
-        std::cerr << "PolygonRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "PolygonRenderer not initialized");
 
     for (auto it = polygons.begin(); it != polygons.end(); it++)
     {
@@ -40,17 +32,8 @@ void PolygonRenderer::Destroy()
 
 void PolygonRenderer::LoadPolygon(const std::string &polygonName, const std::vector<float> &vertices, const std::vector<int> &faces)
 {
-    if (!isInit)
-    {
-        std::cerr << "PolygonRenderer not initialized" << std::endl;
-        return;
-    }
-
-    if (polygons.find(polygonName) != polygons.end())
-    {
-        std::cerr << polygonName << " already intialized into PolygonRenderer" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "PolygonRenderer not initialized");
+    CHECK_AND_RETURN_VOID((polygons.find(polygonName) == polygons.end()), polygonName + " already initialized into PolygonRenderer");
 
     unsigned int VAO;
     unsigned int VBO;
@@ -85,17 +68,8 @@ void PolygonRenderer::LoadPolygon(const std::string &polygonName, const std::vec
 
 void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color)
 {
-    if (!isInit)
-    {
-        std::cerr << "PolygonRenderer not initialized" << std::endl;
-        return;
-    }
-
-    if (polygons.find(polygonName) == polygons.end())
-    {
-        std::cerr << polygonName << " not found into PolygonRenderer" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "PolygonRenderer not initialized");
+    CHECK_AND_RETURN_VOID((polygons.find(polygonName) != polygons.end()), polygonName + " not found into PolygonRenderer");
 
     std::shared_ptr<Shader> squareShader = RessourceManager::GetShader("Polygon");
     squareShader->use();

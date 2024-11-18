@@ -1,6 +1,6 @@
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
-#include <iostream>
+#include "Engine/macros.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -10,11 +10,8 @@ bool LineRenderer::isInit = false;
 
 void LineRenderer::Init()
 {
-    if (isInit)
-    {
-        std::cerr << "LineRenderer already initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(!isInit, "LineRenderer already initialized");
+
 
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
@@ -43,11 +40,7 @@ void LineRenderer::Init()
 
 void LineRenderer::Destroy()
 {
-    if (!isInit)
-    {
-        std::cerr << "LineRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "LineRenderer not initialized");
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -55,11 +48,7 @@ void LineRenderer::Destroy()
 
 void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color)
 {
-    if (!isInit)
-    {
-        std::cerr << "LineRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "LineRenderer not initialized");
 
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();

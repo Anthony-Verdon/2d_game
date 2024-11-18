@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
+#include "Engine/macros.hpp"
 
 unsigned int CircleRenderer::VAO = -1;
 unsigned int CircleRenderer::nbTriangles = 30;
@@ -12,11 +12,7 @@ bool CircleRenderer::isInit = false;
 
 void CircleRenderer::Init()
 {
-    if (isInit)
-    {
-        std::cerr << "CircleRenderer already initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(!isInit, "CircleRenderer already initialized");
 
     RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
     std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
@@ -73,21 +69,14 @@ void CircleRenderer::Init()
 
 void CircleRenderer::Destroy()
 {
-    if (!isInit)
-    {
-        std::cerr << "CircleRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "CircleRenderer not initialized");
+
     glDeleteVertexArrays(1, &VAO);
 }
 
 void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &color)
 {
-    if (!isInit)
-    {
-        std::cerr << "CircleRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "CircleRenderer not initialized");
     
     std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
 

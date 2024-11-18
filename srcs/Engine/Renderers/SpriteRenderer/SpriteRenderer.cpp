@@ -2,7 +2,7 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <iostream>
+#include "Engine/macros.hpp"
 
 unsigned int SpriteRenderer::VAO = -1;
 unsigned int SpriteRenderer::VBO = -1;
@@ -10,11 +10,7 @@ bool SpriteRenderer::isInit = false;
 
 void SpriteRenderer::Init()
 {
-    if (isInit)
-    {
-        std::cerr << "SpriteRenderer already initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(!isInit, "SpriteRenderer already initialized");
 
     RessourceManager::AddShader("Sprite", "shaders/sprite/sprite.vs", "shaders/sprite/sprite.fs");
     std::shared_ptr<Shader> spriteShader = RessourceManager::GetShader("Sprite");
@@ -65,11 +61,7 @@ void SpriteRenderer::Init()
 
 void SpriteRenderer::Destroy()
 {
-    if (!isInit)
-    {
-        std::cerr << "SpriteRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "SpriteRenderer not initialized");
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -77,11 +69,7 @@ void SpriteRenderer::Destroy()
 
 void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically)
 {
-    if (!isInit)
-    {
-        std::cerr << "SpriteRenderer not initialized" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID(isInit, "SpriteRenderer not initialized");
 
     glm::vec2 TopLeftCoords;
     glm::vec2 BotomRightCoords;
