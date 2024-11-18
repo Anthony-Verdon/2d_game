@@ -9,3 +9,4 @@ constexpr float PIXEL_PER_METER = 50;
 
 // sprite
 constexpr float SPRITE_SIZE = 64;
+constexpr float TILE_SIZE = 16;

@@ -105,21 +105,24 @@ void Editor::CreateTileSelector()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     ImGui::Begin("Tile Selector");
-    ImVec2 size = ImVec2(32.0f, 32.0f);
+    
+    std::string textureName = "grass_tiles";
+    glm::vec2 textureSize = glm::vec2(8, 10);
+    ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
     ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
     ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-    for (int j = 0; j < 160; j += 16)
+    for (int j = 0; j < textureSize.y; j++)
     {
-        for (int i = 0; i < 128; i+= 16)
+        for (int i = 0; i < textureSize.x; i++)
         {
-            ImVec2 uv0 = ImVec2((float)i / 128,(float)j / 160); 
-            ImVec2 uv1 = ImVec2((float)(i + 16) / 128, (float)(j + 16) / 160);
+            ImVec2 uv0 = ImVec2((float)i / textureSize.x,(float)j / textureSize.y); 
+            ImVec2 uv1 = ImVec2((float)(i + 1) / textureSize.x, (float)(j + 1) / textureSize.y);
             std::string button = std::to_string(j) + "_" + std::to_string(i);
-            if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture("grass_tiles")->getID(), size, uv0, uv1, bg_col, tint_col))
+            if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(textureName)->getID(), size, uv0, uv1, bg_col, tint_col))
             {
-                actualSprite.textureName = "grass_tiles"; 
-                actualSprite.textureSize = glm::vec2(8, 10); 
-                actualSprite.spriteCoords = glm::vec2(i / 16,j / 16); 
+                actualSprite.textureName = textureName; 
+                actualSprite.textureSize = textureSize; 
+                actualSprite.spriteCoords = glm::vec2(i, j); 
             }
             ImGui::SameLine();
         }
