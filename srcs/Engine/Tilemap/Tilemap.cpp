@@ -67,6 +67,7 @@ void Tilemap::Save()
 
 void Tilemap::AddTile(const Tile &tile)
 {
+    SuppressTile(tile.position);
     tiles.insert(tile);
 }
 
