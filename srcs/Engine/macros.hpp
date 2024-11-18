@@ -6,7 +6,7 @@
     if (!condition)                 \
         std::cerr << __FILE__ << "(" << __LINE__ << ") : " << message << std::endl;
 
-#define CHECK_AND_RETURN(condition, message)                                            \
+#define CHECK_AND_RETURN_VOID(condition, message)                                            \
     if (!condition)                                                                     \
     {                                                                                   \
         std::cerr << __FILE__ << "(" << __LINE__ << ") : " << message << std::endl;     \
