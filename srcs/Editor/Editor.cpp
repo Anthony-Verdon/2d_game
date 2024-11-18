@@ -20,7 +20,7 @@ Editor::Editor()
     WindowManager::SetScrollCallback(scroll_callback);
     WindowManager::SetUserPointer(this);
 
-    LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT); // @todo erase this parameter and just call camera.UpdateShaders()
     SpriteRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1.png");
@@ -35,7 +35,7 @@ Editor::Editor()
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
     debugDraw.drawShapes = true;
 
-    camera.SetPosition(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2));
+    camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
     tilemap.Load(worldId);
     actualSprite.textureName = "";
@@ -167,7 +167,7 @@ void Editor::UpdateTilemap()
     {
         if (actualSprite.textureName == "")
             return;
-        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2.0f) * camera.GetZoom() / 100.0f;
+        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
@@ -192,7 +192,7 @@ void Editor::UpdateTilemap()
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
-        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2.0f) * camera.GetZoom() / 100.0f;
+        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
@@ -214,10 +214,10 @@ void Editor::Draw()
     glm::vec2 pos = camera.GetPosition();
     float zoom = camera.GetZoom() / 100;
     int spriteSize = SPRITE_SIZE;
-    int startX = (int)(pos.x - WINDOW_WIDTH / 2 * zoom) / spriteSize * spriteSize - spriteSize;
-    int endX = (int)(pos.x + WINDOW_WIDTH / 2 * zoom) / spriteSize * spriteSize + spriteSize;
-    int startY = (int)(pos.y - WINDOW_HEIGHT / 2 * zoom) / spriteSize * spriteSize - spriteSize;
-    int endY = (int)(pos.y + WINDOW_HEIGHT / 2 * zoom) / spriteSize * spriteSize + spriteSize;
+    int startX = (int)(pos.x - WindowManager::GetWindowWidth() / 2 * zoom) / spriteSize * spriteSize - spriteSize;
+    int endX = (int)(pos.x + WindowManager::GetWindowWidth() / 2 * zoom) / spriteSize * spriteSize + spriteSize;
+    int startY = (int)(pos.y - WindowManager::GetWindowHeight() / 2 * zoom) / spriteSize * spriteSize - spriteSize;
+    int endY = (int)(pos.y + WindowManager::GetWindowHeight() / 2 * zoom) / spriteSize * spriteSize + spriteSize;
     for (int i = startX; i <= endX; i += spriteSize)
         LineRenderer::Draw(glm::vec2(i, startY), glm::vec2(i, endY), glm::vec3(1, 1, 1));
     for (int i = startY; i <= endY; i += spriteSize)

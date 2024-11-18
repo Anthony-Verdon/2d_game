@@ -1,9 +1,10 @@
 #include "Game/Player/Player.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "globals.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
+#include "globals.hpp"
+
 Player::Player()
 {
 }
@@ -14,7 +15,7 @@ Player::~Player()
 
 void Player::Init(b2WorldId worldId)
 {
-    glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.4, WINDOW_HEIGHT * 0.5);
+    glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() * 0.4, WindowManager::GetWindowHeight() * 0.5);
     direction = glm::vec2(0, 1);
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
     body = PhysicBody::BodyBuilder().SetPosition(position).SetFixedRotation(true).SetType(b2_dynamicBody).Build(worldId);

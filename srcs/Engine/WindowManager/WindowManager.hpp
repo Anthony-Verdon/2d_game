@@ -9,6 +9,7 @@ class WindowManager
 {
   private:
     static GLFWwindow *window;
+    static glm::vec2 windowSize;
     static glm::vec2 mousePosition;
 
     WindowManager() = delete;
@@ -24,6 +25,10 @@ class WindowManager
     static bool IsMouseButtonPressed(int mouseButton);
     
     static GLFWwindow *GetWindow();
+
+    static glm::vec2 GetWindowSize();
+    static unsigned int GetWindowWidth();
+    static unsigned int GetWindowHeight();
 
     static glm::vec2 GetMousePosition();
     static void SetMousePosition(double xPos, double yPos);

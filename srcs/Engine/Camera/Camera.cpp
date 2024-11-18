@@ -1,7 +1,7 @@
 #include "Engine/Camera/Camera.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
-#include "globals.hpp"
 #include <glm/gtc/matrix_transform.hpp>
+#include "Engine/WindowManager/WindowManager.hpp"
 
 Camera::Camera()
 {
@@ -41,10 +41,10 @@ void Camera::Zoom(float amount)
 
 void Camera::UpdateShaders() const
 {
-    float left = position.x - WINDOW_WIDTH / 2 * zoom / 100;
-    float right = position.x + WINDOW_WIDTH / 2 * zoom / 100;
-    float top = position.y - WINDOW_HEIGHT / 2 * zoom / 100;
-    float bottom = position.y + WINDOW_HEIGHT / 2 * zoom / 100;
+    float left = position.x - WindowManager::GetWindowWidth() / 2 * zoom / 100;
+    float right = position.x + WindowManager::GetWindowWidth() / 2 * zoom / 100;
+    float top = position.y - WindowManager::GetWindowHeight() / 2 * zoom / 100;
+    float bottom = position.y + WindowManager::GetWindowHeight() / 2 * zoom / 100;
     glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 
     std::map<std::string, std::shared_ptr<Shader>> shaders = RessourceManager::GetShaders();

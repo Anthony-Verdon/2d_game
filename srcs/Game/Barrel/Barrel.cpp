@@ -2,6 +2,7 @@
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
+#include "Engine/WindowManager/WindowManager.hpp"
 
 Barrel::Barrel()
 {
@@ -23,7 +24,7 @@ void Barrel::Draw()
 
 void Barrel::Init(b2WorldId worldId)
 {
-    glm::vec2 position = glm::vec2(WINDOW_WIDTH * 0.5, WINDOW_HEIGHT * 0.5);
+    glm::vec2 position = WindowManager::GetWindowSize() * 0.5f;
     size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
     b2Filter filter;
     filter.categoryBits = CategoriesFilter::Entities;
