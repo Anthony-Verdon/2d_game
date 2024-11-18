@@ -36,8 +36,7 @@ float Camera::GetZoom() const
 
 void Camera::Zoom(float amount)
 {
-    const float zoom_factor = 5;
-    zoom = glm::clamp(zoom + amount * zoom_factor, 50.0f, 200.0f);
+    zoom = glm::clamp(zoom + amount * zoomFactor, 50.0f, 200.0f);
 }
 
 void Camera::UpdateShaders() const

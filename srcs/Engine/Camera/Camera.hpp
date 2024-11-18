@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+constexpr float zoomFactor = 5;
+
 class Camera
 {
     private:
