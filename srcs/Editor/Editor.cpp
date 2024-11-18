@@ -210,10 +210,17 @@ void Editor::Draw()
 {
     tilemap.Draw();
 
-    for (unsigned int i = 0; i < WINDOW_WIDTH; i += SPRITE_SIZE)
-        LineRenderer::Draw(glm::vec2(i, 0), glm::vec2(i, WINDOW_HEIGHT), glm::vec3(1, 1, 1));
-    for (unsigned int i = 0; i < WINDOW_HEIGHT; i += SPRITE_SIZE)
-        LineRenderer::Draw(glm::vec2(0, i), glm::vec2(WINDOW_WIDTH, i), glm::vec3(1, 1, 1));
+    glm::vec2 pos = camera.GetPosition();
+    float zoom = camera.GetZoom() / 100;
+    int spriteSize = SPRITE_SIZE;
+    int startX = (int)(pos.x - WINDOW_WIDTH / 2 * zoom) / spriteSize * spriteSize - spriteSize;
+    int endX = (int)(pos.x + WINDOW_WIDTH / 2 * zoom) / spriteSize * spriteSize + spriteSize;
+    int startY = (int)(pos.y - WINDOW_HEIGHT / 2 * zoom) / spriteSize * spriteSize - spriteSize;
+    int endY = (int)(pos.y + WINDOW_HEIGHT / 2 * zoom) / spriteSize * spriteSize + spriteSize;
+    for (int i = startX; i <= endX; i += spriteSize)
+        LineRenderer::Draw(glm::vec2(i, startY), glm::vec2(i, endY), glm::vec3(1, 1, 1));
+    for (int i = startY; i <= endY; i += spriteSize)
+        LineRenderer::Draw(glm::vec2(startX, i), glm::vec2(endX, i), glm::vec3(1, 1, 1));
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
