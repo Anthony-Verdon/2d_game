@@ -2,7 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
-#include "Engine/AGame/AGame.hpp"
+#include "Engine/AProgram/AProgram.hpp"
 #include <glm/glm.hpp>
 
 class WindowManager
@@ -16,7 +16,7 @@ class WindowManager
 
   public:
     static void InitWindow(const std::string &name, unsigned int width, unsigned int height);
-    static void StartUpdateLoop(AGame *game);
+    static void StartUpdateLoop(AProgram *game);
     static void StopUpdateLoop();
     static void DestructWindowManager();
 

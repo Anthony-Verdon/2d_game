@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/AGame/AGame.hpp"
+#include "Engine/AProgram/AProgram.hpp"
 #include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Camera/Camera.hpp"
@@ -11,7 +11,7 @@
 #include "Game/Barrel/Barrel.hpp"
 #include "Game/Skeletton/Skeletton.hpp"
 
-class Game: public AGame
+class Game: public AProgram
 {
     private:
         void ProcessInput();

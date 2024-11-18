@@ -48,7 +48,7 @@ void WindowManager::DestructWindowManager()
     glfwTerminate();
 }
 
-void WindowManager::StartUpdateLoop(AGame *game)
+void WindowManager::StartUpdateLoop(AProgram *game)
 {
     while (!glfwWindowShouldClose(window))
     {

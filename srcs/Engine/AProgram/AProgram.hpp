@@ -1,10 +1,10 @@
 #pragma once
 
-class AGame
+class AProgram
 {
     public:
-    AGame();
-    virtual ~AGame();
+    AProgram();
+    virtual ~AProgram();
 
     virtual void Run() = 0;
 };
