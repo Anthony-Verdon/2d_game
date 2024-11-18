@@ -14,14 +14,19 @@ Camera::~Camera()
 
 }
 
+glm::vec2 Camera::GetPosition() const
+{
+    return (position);
+}
+
 void Camera::SetPosition(const glm::vec2 &position)
 {
     this->position = position;
 }
 
-glm::vec2 Camera::GetPosition() const
+void Camera::Move(const glm::vec2 &amount)
 {
-    return (position);
+    this->position += amount;
 }
 
 void Camera::Zoom(float amount)

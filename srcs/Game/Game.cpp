@@ -132,50 +132,6 @@ void Game::ProcessInput()
 {
     if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
-
-    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-    {
-        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        if (mousePosition.x < 0)
-            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
-        else
-            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE);
-        if (mousePosition.y < 0)
-            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) - 1;
-        else
-            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
-
-        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
-
-        PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
-        
-        b2Filter filter;
-        filter.categoryBits = CategoriesFilter::Wall;
-        filter.maskBits = CategoriesFilter::Entities;
-        Sprite sprite;
-        sprite.textureName = "grass_tiles";
-        sprite.textureSize = glm::vec2(7, 7);
-        sprite.spriteCoords = glm::vec2(rand() % 7, rand() % 7);
-        body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
-
-        tilemap.AddTile(mousePosition, size, body, sprite);
-    }
-    else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
-    {
-        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        if (mousePosition.x < 0)
-            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
-        else
-            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE);
-        if (mousePosition.y < 0)
-            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) - 1;
-        else
-            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
-
-        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition);
-    }
 }
 
 void Game::Draw()
@@ -184,11 +140,6 @@ void Game::Draw()
     player.Draw();
     skeletton.Draw();
     barrel.Draw();
-
-    for (unsigned int i = 0; i < WINDOW_WIDTH; i += SPRITE_SIZE)
-        LineRenderer::Draw(glm::vec2(i, 0), glm::vec2(i, WINDOW_HEIGHT), glm::vec3(1, 1, 1));
-    for (unsigned int i = 0; i < WINDOW_HEIGHT; i += SPRITE_SIZE)
-        LineRenderer::Draw(glm::vec2(0, i), glm::vec2(WINDOW_WIDTH, i), glm::vec3(1, 1, 1));
 
     b2World_Draw(worldId, &debugDraw);
 }
@@ -215,7 +166,7 @@ void Game::ScrollCallback(double xOffset, double yOffset)
     camera.Zoom(yOffset);
 }
 
-void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx) 
+static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx) 
 {
     (void)ctx;
     (void)radius;
@@ -232,7 +183,7 @@ void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int vert
     }
 }
 
-void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
+static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
 {
     Game *game = reinterpret_cast<Game*>(glfwGetWindowUserPointer(window));
     game->ScrollCallback(xOffset, yOffset);

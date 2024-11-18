@@ -3,5 +3,6 @@
 .vscode
 .xmake
 build
-2d_game.exe
+game.exe
+editor.exe
 saves/*
