@@ -10,7 +10,7 @@ Texture::Texture(const std::string &path)
 {
     if (std::filesystem::is_regular_file(path))
         loadTexture(path);
-    else if (std::filesystem::is_directory(path))
+    else if (std::filesystem::is_directory(path)) //@todo erase skybox from lib
         loadSkybox(path);
 }
 
@@ -20,10 +20,10 @@ Texture::~Texture()
 
 void Texture::loadTexture(const std::string &path)
 {
-    int width;
+    int width; //@todo should save width, height and path
     int height;
     int nrChannels;
-
+    //@todo check path
     stbi_set_flip_vertically_on_load(false);
     unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 

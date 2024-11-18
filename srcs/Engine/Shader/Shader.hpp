@@ -10,12 +10,11 @@ class Shader
   private:
     unsigned int ID;
 
-
     const std::string readShaderFile(const std::string &shaderPath);
     unsigned int compileShader(const char *shaderCode, const GLenum &shaderType);
     void compileProgram(unsigned int vertex, unsigned int fragment);
 
-    class Exception : public std::exception
+    class Exception : public std::exception //@todo update this assert (maybe a Shadr::none or something like that could be return)
     {
       public:
         Exception(const std::string &functionName, const std::string &errorMessage, const std::string &infoLog);

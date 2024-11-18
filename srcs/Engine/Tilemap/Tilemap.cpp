@@ -14,15 +14,15 @@ Tilemap::~Tilemap()
 
 }
 
-void Tilemap::Load(const b2WorldId &worldId)
+void Tilemap::Load(const b2WorldId &worldId) //@todo does the tilemap should init physicbody ?
 {
-    if (!std::filesystem::exists("saves/save.json"))
+    if (!std::filesystem::exists("saves/save.json")) // @todo: should be a parameter
         return;
 
     std::ifstream input("saves/save.json");
     nlohmann::json file =  nlohmann::json::parse(input);
 
-    auto itTiles = file.find("tiles");
+    auto itTiles = file.find("tiles"); //@todo error check
     for (auto it : *itTiles)
     {
         Tile tile;

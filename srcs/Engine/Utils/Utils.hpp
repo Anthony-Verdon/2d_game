@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+//@todo should do some clean in this class (maybe delete it)
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 class Utils
 {
