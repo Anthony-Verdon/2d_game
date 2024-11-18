@@ -36,7 +36,7 @@ void Tilemap::Load(const b2WorldId &worldId)
         tile.body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(tile.size));
         tile.sprite.textureName = it["sprite"]["texture"]["name"];
         tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
-        tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["texture"]["size"][1]);
+        tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
         AddTile(tile);
     }
 }
