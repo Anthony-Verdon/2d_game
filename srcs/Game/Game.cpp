@@ -135,9 +135,17 @@ void Game::ProcessInput()
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
-        mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
+        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        if (mousePosition.x < 0)
+            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
+        else
+            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE);
+        if (mousePosition.y < 0)
+            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) - 1;
+        else
+            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
+
+        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
         glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
 
         PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
@@ -155,9 +163,17 @@ void Game::ProcessInput()
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
-        glm::vec2 mousePosition = player.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
-        mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) * SPRITE_SIZE + SPRITE_SIZE / 2;
+        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        if (mousePosition.x < 0)
+            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
+        else
+            mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE);
+        if (mousePosition.y < 0)
+            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE) - 1;
+        else
+            mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
+
+        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
         tilemap.SuppressTile(mousePosition);
     }
 }
