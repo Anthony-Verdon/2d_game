@@ -3,6 +3,7 @@
 #include "Engine/AGame/AGame.hpp"
 #include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Camera/Camera.hpp"
+#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include <Box2D/Box2D.h>
 
 class Editor: public AGame
@@ -10,6 +11,7 @@ class Editor: public AGame
     private:
         Tilemap tilemap;
         Camera camera;
+        Sprite actualSprite;
 
         b2WorldId worldId;
         float timeStep;
@@ -17,6 +19,7 @@ class Editor: public AGame
         b2DebugDraw debugDraw;
         void InitDebugDraw();
 
+        void CreateTileSelector();
         void ProcessInput();
         void UpdateCamera();
         void UpdateTilemap();

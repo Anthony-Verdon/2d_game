@@ -9,6 +9,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <iostream>
+#include <string>
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
@@ -21,7 +23,7 @@ Editor::Editor()
     LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
     SpriteRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1_Blob_TEST.png");
+    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1.png");
 
     // box2D
     b2WorldDef worldDef = b2DefaultWorldDef();
@@ -36,6 +38,7 @@ Editor::Editor()
     camera.SetPosition(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2));
     camera.UpdateShaders();
     tilemap.Load(worldId);
+    actualSprite.textureName = "";
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -91,14 +94,38 @@ void Editor::Run()
 {
     Time::updateTime();
 
+    CreateTileSelector();
+    ProcessInput();
+    Draw();
+}
+
+void Editor::CreateTileSelector()
+{
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::ShowDemoWindow(); // Show demo window! :)
-    ProcessInput();
-    Draw();
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImGui::Begin("Tile Selector");
+    ImVec2 size = ImVec2(32.0f, 32.0f);
+    ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+    ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    for (int j = 0; j < 160; j += 16)
+    {
+        for (int i = 0; i < 128; i+= 16)
+        {
+            ImVec2 uv0 = ImVec2((float)i / 128,(float)j / 160); 
+            ImVec2 uv1 = ImVec2((float)(i + 16) / 128, (float)(j + 16) / 160);
+            std::string button = std::to_string(j) + "_" + std::to_string(i);
+            if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture("grass_tiles")->getID(), size, uv0, uv1, bg_col, tint_col))
+            {
+                actualSprite.textureName = "grass_tiles"; 
+                actualSprite.textureSize = glm::vec2(8, 10); 
+                actualSprite.spriteCoords = glm::vec2(i / 16,j / 16); 
+            }
+            ImGui::SameLine();
+        }
+        ImGui::NewLine();
+    }
+    ImGui::End();
 }
 
 void Editor::ProcessInput()
@@ -127,6 +154,8 @@ void Editor::UpdateTilemap()
 {
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
+        if (actualSprite.textureName == "")
+            return;
         glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
@@ -145,13 +174,10 @@ void Editor::UpdateTilemap()
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
         filter.maskBits = CategoriesFilter::Entities;
-        Sprite sprite;
-        sprite.textureName = "grass_tiles";
-        sprite.textureSize = glm::vec2(7, 7);
-        sprite.spriteCoords = glm::vec2(rand() % 7, rand() % 7);
+        
         body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
-        tilemap.AddTile(mousePosition, size, body, sprite);
+        tilemap.AddTile(mousePosition, size, body, actualSprite);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
@@ -178,6 +204,9 @@ void Editor::Draw()
         LineRenderer::Draw(glm::vec2(i, 0), glm::vec2(i, WINDOW_HEIGHT), glm::vec3(1, 1, 1));
     for (unsigned int i = 0; i < WINDOW_HEIGHT; i += SPRITE_SIZE)
         LineRenderer::Draw(glm::vec2(0, i), glm::vec2(WINDOW_WIDTH, i), glm::vec3(1, 1, 1));
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Editor::ScrollCallback(double xOffset, double yOffset)
