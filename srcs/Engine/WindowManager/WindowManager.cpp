@@ -76,6 +76,11 @@ bool WindowManager::IsMouseButtonPressed(int mouseButton)
     return (glfwGetMouseButton(window, mouseButton) == GLFW_PRESS);
 }
 
+GLFWwindow* WindowManager::GetWindow()
+{
+    return (window);
+}
+
 void WindowManager::SetMousePosition(double xPos, double yPos)
 {
     mousePosition = glm::vec2(xPos, yPos);

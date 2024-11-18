@@ -22,6 +22,8 @@ class WindowManager
 
     static bool IsKeyPressed(int key);
     static bool IsMouseButtonPressed(int mouseButton);
+    
+    static GLFWwindow *GetWindow();
 
     static glm::vec2 GetMousePosition();
     static void SetMousePosition(double xPos, double yPos);

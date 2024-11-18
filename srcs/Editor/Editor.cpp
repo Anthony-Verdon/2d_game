@@ -6,6 +6,9 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 #include "Game/CategoriesFilter.hpp"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
@@ -33,6 +36,16 @@ Editor::Editor()
     camera.SetPosition(glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2));
     camera.UpdateShaders();
     tilemap.Load(worldId);
+
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplOpenGL3_Init();
 }
 
 void Editor::InitDebugDraw()
@@ -69,14 +82,23 @@ void Editor::InitDebugDraw()
 Editor::~Editor()
 {
     tilemap.Save();
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 }
 
 void Editor::Run()
 {
     Time::updateTime();
 
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+    ImGui::ShowDemoWindow(); // Show demo window! :)
     ProcessInput();
     Draw();
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Editor::ProcessInput()
