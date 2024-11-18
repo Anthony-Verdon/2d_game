@@ -23,10 +23,10 @@ Game::Game()
 {
     WindowManager::SetScrollCallback(scroll_callback);
     WindowManager::SetUserPointer(this);
-    CircleRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
-    PolygonRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
-    LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
-    SpriteRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    CircleRenderer::Init();
+    PolygonRenderer::Init();
+    LineRenderer::Init();
+    SpriteRenderer::Init();
 
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     PolygonRenderer::LoadPolygon("pentagon", PENTAGON_VERTICES, PENTAGON_FACES);

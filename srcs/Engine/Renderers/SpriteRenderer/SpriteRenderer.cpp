@@ -8,7 +8,7 @@ unsigned int SpriteRenderer::VAO = -1;
 unsigned int SpriteRenderer::VBO = -1;
 bool SpriteRenderer::isInit = false;
 
-void SpriteRenderer::Init(unsigned int width, unsigned int height)
+void SpriteRenderer::Init()
 {
     if (isInit)
     {
@@ -20,7 +20,7 @@ void SpriteRenderer::Init(unsigned int width, unsigned int height)
     std::shared_ptr<Shader> spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
     spriteShader->setInt("image", 0);
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
     spriteShader->setMat4("projection", projection);
 
     glGenVertexArrays(1, &VAO);

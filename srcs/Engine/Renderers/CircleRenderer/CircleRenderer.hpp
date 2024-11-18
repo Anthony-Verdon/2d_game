@@ -12,7 +12,7 @@ class CircleRenderer
         CircleRenderer() = delete;
         ~CircleRenderer() = delete;
     public: 
-        static void Init(unsigned int width, unsigned int height);
+        static void Init();
         static void Destroy();
         static void Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &color);
 };

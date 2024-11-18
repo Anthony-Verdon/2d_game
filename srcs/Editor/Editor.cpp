@@ -20,8 +20,8 @@ Editor::Editor()
     WindowManager::SetScrollCallback(scroll_callback);
     WindowManager::SetUserPointer(this);
 
-    LineRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT); // @todo erase this parameter and just call camera.UpdateShaders()
-    SpriteRenderer::Init(WINDOW_WIDTH, WINDOW_HEIGHT);
+    LineRenderer::Init();
+    SpriteRenderer::Init();
 
     RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1.png");
 

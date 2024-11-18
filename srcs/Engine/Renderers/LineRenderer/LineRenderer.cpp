@@ -8,7 +8,7 @@ unsigned int LineRenderer::VAO = -1;
 unsigned int LineRenderer::VBO = -1;
 bool LineRenderer::isInit = false;
 
-void LineRenderer::Init(unsigned int width, unsigned int height)
+void LineRenderer::Init()
 {
     if (isInit)
     {
@@ -19,7 +19,7 @@ void LineRenderer::Init(unsigned int width, unsigned int height)
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
     lineShader->setMat4("projection", projection);
 
     glGenVertexArrays(1, &VAO);

@@ -21,7 +21,7 @@ class SpriteRenderer
         ~SpriteRenderer() = delete;
         
     public: 
-        static void Init(unsigned int width, unsigned int height);
+        static void Init();
         static void Destroy();
         static void Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically);
 };

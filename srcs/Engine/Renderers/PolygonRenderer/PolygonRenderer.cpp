@@ -6,7 +6,7 @@
 std::unordered_map<std::string, PolygonGl> PolygonRenderer::polygons;
 bool PolygonRenderer::isInit = false;
 
-void PolygonRenderer::Init(unsigned int width, unsigned int height)
+void PolygonRenderer::Init()
 {
     if (isInit)
     {
@@ -17,7 +17,7 @@ void PolygonRenderer::Init(unsigned int width, unsigned int height)
     RessourceManager::AddShader("Polygon", "shaders/polygon/polygon.vs", "shaders/polygon/polygon.fs");
     std::shared_ptr<Shader> polygonShader = RessourceManager::GetShader("Polygon");
     polygonShader->use();
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
     polygonShader->setMat4("projection", projection);
 
     isInit = true;
