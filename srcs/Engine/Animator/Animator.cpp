@@ -1,12 +1,10 @@
 #include "Engine/Animator/Animator.hpp"
-#include <iostream>
-
+#include "Engine/macros.hpp"
 
 Animator::Animator()
 {
     currentAnimation = "none";
     animations[currentAnimation] = Animation::none;
-
 }
 
 Animator::~Animator()
@@ -24,11 +22,7 @@ void Animator::Play(const std::string &name)
     if (!animations[currentAnimation].IsStoppable() && !animations[currentAnimation].Ended())
         return;
     
-    if (animations.find(name) == animations.end())
-    {
-        std::cerr << "Animator::Play() : animation " << name << " not found" << std::endl;
-        return;
-    }
+    CHECK_AND_RETURN_VOID((animations.find(name) != animations.end()), "animation " + name + " not found");
 
     if (currentAnimation == name)
         return;
