@@ -92,8 +92,9 @@ Editor::~Editor()
 
 void Editor::Run()
 {
+    
     Time::updateTime();
-    ImGuiWindowFocused = false;
+    ImGuiWindowHoweredOrFocused = false;
 
     CreateTileSelector();
     ProcessInput();
@@ -107,8 +108,8 @@ void Editor::CreateTileSelector()
     ImGui::NewFrame();
     ImGui::Begin("Tile Selector");
 
-    if (ImGui::IsWindowFocused())
-        ImGuiWindowFocused = true;
+    if (ImGui::IsWindowHovered() || ImGui::IsWindowFocused())
+        ImGuiWindowHoweredOrFocused = true;
 
     std::string textureName = "grass_tiles";
     glm::vec2 textureSize = glm::vec2(8, 10);
@@ -159,7 +160,7 @@ void Editor::UpdateCamera()
 
 void Editor::UpdateTilemap()
 {
-    if (ImGuiWindowFocused)
+    if (ImGuiWindowHoweredOrFocused)
         return;
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))

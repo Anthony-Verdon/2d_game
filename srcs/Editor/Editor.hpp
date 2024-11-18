@@ -12,7 +12,7 @@ class Editor: public AGame
         Tilemap tilemap;
         Camera camera;
         Sprite actualSprite;
-        bool ImGuiWindowFocused;
+        bool ImGuiWindowHoweredOrFocused;
 
         b2WorldId worldId;
         float timeStep;
