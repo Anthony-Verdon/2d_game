@@ -16,6 +16,7 @@ class Camera
         void SetPosition(const glm::vec2 &position);
         void Move(const glm::vec2 &amount);
         
+        float GetZoom() const;
         void Zoom(float amount);
         void UpdateShaders() const;
 };

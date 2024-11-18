@@ -29,6 +29,11 @@ void Camera::Move(const glm::vec2 &amount)
     this->position += amount;
 }
 
+float Camera::GetZoom() const
+{
+    return (zoom);
+}
+
 void Camera::Zoom(float amount)
 {
     const float zoom_factor = 5;

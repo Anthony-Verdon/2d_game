@@ -166,7 +166,7 @@ void Editor::UpdateTilemap()
     {
         if (actualSprite.textureName == "")
             return;
-        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
@@ -191,7 +191,7 @@ void Editor::UpdateTilemap()
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
-        glm::vec2 mousePosition = camera.GetPosition() + WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - glm::vec2(WINDOW_WIDTH, WINDOW_HEIGHT) / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
