@@ -47,7 +47,7 @@ Sprite Animator::GetFrame() const
 {
     auto it = animations.find(currentAnimation);
     if (it == animations.end())
-        std::cerr << "Animator::GetFrame() : no animation added" << std::endl;
+        std::cerr << "Animator::GetFrame() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
     return (it->second.GetFrame());
 }
 
@@ -55,6 +55,6 @@ bool Animator::CurrentAnimationEnded() const
 {
     auto it = animations.find(currentAnimation);
     if (it == animations.end())
-        std::cerr << "Animator::CurrentAnimationEnded() : no animation added" << std::endl;
+        std::cerr << "Animator::CurrentAnimationEnded() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
     return (it->second.IsStoppable() || it->second.Ended());
 }

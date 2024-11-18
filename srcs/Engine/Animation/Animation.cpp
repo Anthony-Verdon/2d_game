@@ -61,7 +61,7 @@ void Animation::Reset()
 Sprite Animation::GetFrame() const
 {
     if (frames.size() == 0)
-        std::cerr << "Animation: no frame" << std::endl;
+        std::cerr << "Animation: no frame" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
 
     return (frames[frameIndex]);
 }
