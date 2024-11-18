@@ -37,7 +37,7 @@ Game::Game()
     RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("grass", "assets/Tiles/Grass/Grass_1_Middle.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
-    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1_Blob_TEST.png");
+    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1.png");
 
     // create world
     b2WorldDef worldDef = b2DefaultWorldDef();
