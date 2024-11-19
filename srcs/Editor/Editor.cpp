@@ -147,7 +147,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        glm::vec2 size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+        glm::vec2 size = actualSprite.size;
 
         PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
         

@@ -48,6 +48,7 @@ void TileSelector::InputFields()
         data.name = name;
         data.path = path;
         data.nbSprite = nbSprite;
+        data.spriteScale = 1.0f;
         texturesData.push_back(data);
         
         RessourceManager::AddTexture(name, path);
@@ -58,6 +59,7 @@ void TileSelector::InputFields()
     }
 }
 
+#include <iostream>
 void TileSelector::TilesAdded()
 {
     for (auto it = texturesData.begin(); it != texturesData.end(); )
@@ -65,6 +67,10 @@ void TileSelector::TilesAdded()
         bool closable_group = true;
         if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
         {
+            if (ImGui::InputFloat("scale", &it->spriteScale, 1, 128, "%.3f"))
+            {
+                tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+            }
             ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -80,13 +86,13 @@ void TileSelector::TilesAdded()
                         tileSelected.textureName = it->name; 
                         tileSelected.textureSize = it->nbSprite; 
                         tileSelected.spriteCoords = glm::vec2(i, j); 
+                        tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
                     }
                     ImGui::SameLine();
                 }
                 ImGui::NewLine();
             }
         }
-
         if (closable_group)
             it++;
         else
@@ -109,6 +115,7 @@ void TileSelector::Load()
         data.name = it["name"];
         data.path = it["path"];
         data.nbSprite = glm::vec2(it["nbSprite"][0], it["nbSprite"][1]);
+        data.spriteScale = it["scale"];
         texturesData.push_back(data);
         RessourceManager::AddTexture(data.name, data.path);
     }
@@ -125,6 +132,7 @@ void TileSelector::Save()
         file["textures"][i]["name"] = it->name;
         file["textures"][i]["path"] = it->path;
         file["textures"][i]["nbSprite"] = {it->nbSprite.x, it->nbSprite.y};
+        file["textures"][i]["scale"] = it->spriteScale;
         i++;
     }
 

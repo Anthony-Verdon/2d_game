@@ -12,6 +12,7 @@ struct TextureData
     std::string name;
     std::string path;
     glm::vec2 nbSprite;
+    float spriteScale;
 };
 
 class TileSelector
