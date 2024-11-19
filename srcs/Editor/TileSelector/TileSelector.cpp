@@ -4,6 +4,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "globals.hpp"
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 TileSelector::TileSelector()
 {
@@ -44,9 +46,12 @@ void TileSelector::InputFields()
     {
         TextureData data;
         data.name = name;
-        data.size = nbSprite;
-        RessourceManager::AddTexture(data.name, path);
+        data.path = path;
+        data.nbSprite = nbSprite;
         texturesData.push_back(data);
+        
+        RessourceManager::AddTexture(name, path);
+
         name[0] = 0;
         path[0] = 0;
         nbSprite = glm::vec2(0, 0);
@@ -60,7 +65,7 @@ void TileSelector::TilesAdded()
         std::string textureName = texturesData[x].name;
         if (ImGui::CollapsingHeader(textureName.c_str()))
         {
-            glm::vec2 textureSize = texturesData[x].size;
+            glm::vec2 textureSize = texturesData[x].nbSprite;
             ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -83,6 +88,44 @@ void TileSelector::TilesAdded()
             }
         }
     }
+}
+
+void TileSelector::Load()
+{
+    if (!std::filesystem::exists("saves/textures.json")) // @todo: should be a parameter
+        return;
+    
+    std::ifstream input("saves/textures.json");
+    nlohmann::json file =  nlohmann::json::parse(input);
+
+    auto itTextures = file.find("textures"); //@todo error check
+    for (auto it : *itTextures)
+    {
+        TextureData data;
+        data.name = it["name"];
+        data.path = it["path"];
+        data.nbSprite = glm::vec2(it["nbSprite"][0], it["nbSprite"][1]);
+        texturesData.push_back(data);
+        RessourceManager::AddTexture(data.name, data.path);
+    }
+}
+
+void TileSelector::Save()
+{
+    nlohmann::json file;
+
+    file["textures"] = {};
+    int i = 0;
+    for (auto it = texturesData.begin(); it != texturesData.end(); it++)
+    {
+        file["textures"][i]["name"] = it->name;
+        file["textures"][i]["path"] = it->path;
+        file["textures"][i]["nbSprite"] = {it->nbSprite.x, it->nbSprite.y};
+        i++;
+    }
+
+    std::ofstream o("saves/textures.json");
+    o << std::setw(4) << file << std::endl;
 }
 
 Sprite TileSelector::GetTile() const

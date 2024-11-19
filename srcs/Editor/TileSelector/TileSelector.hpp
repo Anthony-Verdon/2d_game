@@ -5,18 +5,21 @@
 #include <glm/glm.hpp>
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 
+constexpr int arraySize = 100;
+
 struct TextureData
 {
     std::string name;
-    glm::vec2 size;
+    std::string path;
+    glm::vec2 nbSprite;
 };
 
 class TileSelector
 {
     private:
         // input data
-        char name[100];
-        char path[100];
+        char name[arraySize];
+        char path[arraySize];
         glm::vec2 nbSprite;
 
         bool isHoveredOrFocused;
@@ -32,6 +35,9 @@ class TileSelector
         ~TileSelector();
 
         void Draw();
+
+        void Load();
+        void Save();
 
         Sprite GetTile() const;
         bool IsHoveredOrFocused() const;

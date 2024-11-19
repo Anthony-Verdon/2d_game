@@ -37,6 +37,7 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
+    tileSelector.Load();
     tilemap.Load(worldId);
 
     // Setup Dear ImGui context
@@ -83,6 +84,7 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
+    tileSelector.Save();
     tilemap.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
