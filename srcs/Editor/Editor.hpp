@@ -6,6 +6,15 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include <Box2D/Box2D.h>
 
+#include <string>
+#include <vector>
+
+struct TextureData
+{
+    std::string name;
+    glm::vec2 size;
+
+};
 class Editor: public AProgram
 {
     private:
@@ -13,7 +22,8 @@ class Editor: public AProgram
         Camera camera;
         Sprite actualSprite;
         bool ImGuiWindowHoweredOrFocused;
-
+        std::vector<TextureData> texturesData;
+        
         b2WorldId worldId;
         float timeStep;
         int subStepCount;
