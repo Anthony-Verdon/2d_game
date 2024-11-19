@@ -38,7 +38,6 @@ Editor::Editor()
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
     tilemap.Load(worldId);
-    actualSprite.textureName = "";
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -96,69 +95,10 @@ void Editor::Run()
     Time::updateTime();
     ImGuiWindowHoweredOrFocused = false;
 
-    CreateTileSelector();
+    tileSelector.Draw();
+    ImGuiWindowHoweredOrFocused = tileSelector.IsHoveredOrFocused();
     ProcessInput();
     Draw();
-}
-
-void Editor::CreateTileSelector()
-{
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-    ImGui::Begin("Tile Selector");
-
-    if (ImGui::IsWindowHovered() || ImGui::IsWindowFocused())
-        ImGuiWindowHoweredOrFocused = true;
-
-    static char name[100] = {0};
-    static char path[100] = {0};
-    static glm::vec2 size = glm::vec2(0, 0);
-    ImGui::InputText("##name", name, IM_ARRAYSIZE(name));
-    ImGui::InputText("##path", path, IM_ARRAYSIZE(path));
-    ImGui::InputFloat("x", &size.x, 1, 128, "%.3f");
-    ImGui::InputFloat("y", &size.y, 1, 128, "%.3f");
-    if (ImGui::Button("new texture", ImVec2(100, 40)))
-    {
-        TextureData data;
-        data.name = name;
-        data.size = size;
-        RessourceManager::AddTexture(data.name, path);
-        texturesData.push_back(data);
-        name[0] = 0;
-        path[0] = 0;
-        size = glm::vec2(0, 0);
-    }
-
-    for (size_t x = 0; x < texturesData.size(); x++)
-    {
-        std::string textureName = texturesData[x].name;
-        if (ImGui::CollapsingHeader(textureName.c_str()))
-        {
-            glm::vec2 textureSize = texturesData[x].size;
-            ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
-            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-            for (int j = 0; j < textureSize.y; j++)
-            {
-                for (int i = 0; i < textureSize.x; i++)
-                {
-                    ImVec2 uv0 = ImVec2((float)i / textureSize.x,(float)j / textureSize.y); 
-                    ImVec2 uv1 = ImVec2((float)(i + 1) / textureSize.x, (float)(j + 1) / textureSize.y);
-                    std::string button = std::to_string(j) + "_" + std::to_string(i);
-                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(textureName)->getID(), size, uv0, uv1, bg_col, tint_col))
-                    {
-                        actualSprite.textureName = textureName; 
-                        actualSprite.textureSize = textureSize; 
-                        actualSprite.spriteCoords = glm::vec2(i, j); 
-                    }
-                    ImGui::SameLine();
-                }
-                ImGui::NewLine();
-            }
-        }
-    }
-    ImGui::End();
 }
 
 void Editor::ProcessInput()
@@ -193,6 +133,7 @@ void Editor::UpdateTilemap()
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
+        Sprite actualSprite = tileSelector.GetTile();
         if (actualSprite.textureName == "")
             return;
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;

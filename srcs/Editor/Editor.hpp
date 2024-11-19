@@ -4,33 +4,23 @@
 #include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Camera/Camera.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Editor/TileSelector/TileSelector.hpp"
 #include <Box2D/Box2D.h>
 
-#include <string>
-#include <vector>
-
-struct TextureData
-{
-    std::string name;
-    glm::vec2 size;
-
-};
 class Editor: public AProgram
 {
     private:
         Tilemap tilemap;
         Camera camera;
-        Sprite actualSprite;
         bool ImGuiWindowHoweredOrFocused;
-        std::vector<TextureData> texturesData;
-        
+        TileSelector tileSelector;
+
         b2WorldId worldId;
         float timeStep;
         int subStepCount;
         b2DebugDraw debugDraw;
         void InitDebugDraw();
 
-        void CreateTileSelector();
         void ProcessInput();
         void UpdateCamera();
         void UpdateTilemap();

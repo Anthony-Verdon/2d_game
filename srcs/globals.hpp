@@ -1,8 +1,8 @@
 #pragma once
 
 // window
-constexpr int WINDOW_WIDTH = 1080;
-constexpr int WINDOW_HEIGHT = 720;
+constexpr int WINDOW_WIDTH = 1920;
+constexpr int WINDOW_HEIGHT = 1080;
 
 // box2d
 constexpr float PIXEL_PER_METER = 50;
