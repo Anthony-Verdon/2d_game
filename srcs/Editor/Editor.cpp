@@ -23,8 +23,6 @@ Editor::Editor()
     LineRenderer::Init();
     SpriteRenderer::Init();
 
-    RessourceManager::AddTexture("grass_tiles", "assets/Tiles/Grass/Grass_Tiles_1.png");
-
     // box2D
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = (b2Vec2){0.0f, 0.0f};

@@ -9,6 +9,7 @@ class Texture
     void loadSkybox(const std::string &path);
 
     unsigned int ID;
+    std::string path;
 
   public:
     Texture() = delete;
@@ -19,4 +20,5 @@ class Texture
     ~Texture();
 
     unsigned int getID() const;
+    std::string getPath() const;
 };

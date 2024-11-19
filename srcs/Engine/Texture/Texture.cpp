@@ -8,6 +8,8 @@
 
 Texture::Texture(const std::string &path)
 {
+    this->path = path;
+
     if (std::filesystem::is_regular_file(path))
         loadTexture(path);
     else if (std::filesystem::is_directory(path)) //@todo erase skybox from lib
@@ -20,7 +22,7 @@ Texture::~Texture()
 
 void Texture::loadTexture(const std::string &path)
 {
-    int width; //@todo should save width, height and path
+    int width; //@todo should save width, height
     int height;
     int nrChannels;
     //@todo check path
@@ -87,4 +89,9 @@ void Texture::loadSkybox(const std::string &path)
 unsigned int Texture::getID() const
 {
     return (ID);
+}
+
+std::string Texture::getPath() const
+{
+    return (path);
 }

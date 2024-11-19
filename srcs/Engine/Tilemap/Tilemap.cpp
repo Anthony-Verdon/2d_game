@@ -1,4 +1,5 @@
 #include "Engine/Tilemap/Tilemap.hpp"
+#include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -16,12 +17,17 @@ Tilemap::~Tilemap()
 
 void Tilemap::Load(const b2WorldId &worldId) //@todo does the tilemap should init physicbody ?
 {
-    if (!std::filesystem::exists("saves/save.json")) // @todo: should be a parameter
+    if (!std::filesystem::exists("saves/map.json")) // @todo: should be a parameter
         return;
 
-    std::ifstream input("saves/save.json");
+    std::ifstream input("saves/map.json");
     nlohmann::json file =  nlohmann::json::parse(input);
 
+    auto itTextures = file.find("textures"); //@todo error check
+    for (auto it : *itTextures)
+    {
+        RessourceManager::AddTexture(it["name"], it["path"]);
+    }
     auto itTiles = file.find("tiles"); //@todo error check
     for (auto it : *itTiles)
     {
@@ -45,6 +51,9 @@ void Tilemap::Save()
 {
     nlohmann::json file;
 
+    file["textures"] = {};
+    std::set<std::string> textures;
+
     file["tiles"] = {};
     int i = 0;
     for (auto it = tiles.begin(); it != tiles.end(); it++)
@@ -58,10 +67,21 @@ void Tilemap::Save()
         file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
         file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
         file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
+
         i++;
+
+        textures.insert(it->sprite.textureName);
     }
 
-    std::ofstream o("saves/save.json");
+    i = 0;
+    for (auto it = textures.begin(); it != textures.end(); it++)
+    {
+        file["textures"][i]["name"] = *it;
+        file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
+
+        i++;
+    }
+    std::ofstream o("saves/map.json");
     o << std::setw(4) << file << std::endl;
 }
 
