@@ -147,6 +147,9 @@ void Editor::ProcessInput()
 
 void Editor::UpdateCamera()
 {
+    if (ImGuiWindowHoweredOrFocused)
+        return;
+    
     glm::vec2 direction;
     direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
@@ -229,6 +232,9 @@ void Editor::Draw()
 
 void Editor::ScrollCallback(double xOffset, double yOffset)
 {
+    if (ImGuiWindowHoweredOrFocused)
+        return;
+    
     (void)xOffset;
     camera.Zoom(yOffset);
     camera.UpdateShaders();
