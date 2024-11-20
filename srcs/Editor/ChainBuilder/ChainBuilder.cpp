@@ -32,10 +32,11 @@ void ChainBuilder::Draw()
     {
         if (ImGui::CollapsingHeader(std::to_string(i).c_str()))
         {
-            std::vector<glm::vec2> chain = chains[i];
+            std::vector<glm::vec2> &chain = chains[i];
             for (size_t j = 0; j < chain.size(); j++)
             {
-                ImGui::Text("point %zu: (%g, %g)", j, chain[j].x, chain[j].y);
+                std::string name = "point " + std::to_string(j);
+                ImGui::InputFloat2(name.c_str(), &chain[j][0]);
             }
         }
     }
