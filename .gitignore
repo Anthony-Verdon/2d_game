@@ -6,3 +6,4 @@ build
 game.exe
 editor.exe
 saves/*
+imgui.ini
