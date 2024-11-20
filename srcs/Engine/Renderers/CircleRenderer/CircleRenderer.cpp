@@ -1,5 +1,6 @@
 #define _USE_MATH_DEFINES
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <vector>
 #include <cmath>
@@ -9,6 +10,7 @@
 unsigned int CircleRenderer::VAO = -1;
 unsigned int CircleRenderer::nbTriangles = 30;
 bool CircleRenderer::isInit = false;
+std::vector<float> CircleRenderer::vertices;
 
 void CircleRenderer::Init()
 {
@@ -21,13 +23,11 @@ void CircleRenderer::Init()
     circleShader->setMat4("projection", projection);
 
     // define circle data
-    glm::vec2 position = glm::vec2(0, 0);
     unsigned int radius = 1;
 
     // calculate vertices
-    std::vector<float> vertices;
-    float prevX = position.x;
-    float prevY = position.y - radius;
+    float prevX = radius * sin(0);
+    float prevY = radius * cos(0);
     float angle = M_PI * 2.0 / nbTriangles;
     
     for (unsigned int i = 0; i <= nbTriangles; i++)
@@ -74,22 +74,42 @@ void CircleRenderer::Destroy()
     glDeleteVertexArrays(1, &VAO);
 }
 
-void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &color)
+void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor)
+{
+    CircleRenderer::Draw(position, radius, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1));
+}
+void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor)
 {
     CHECK_AND_RETURN_VOID(isInit, "CircleRenderer not initialized");
     
-    std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
+    if (fillColor.w != 0)
+    {
+        std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
 
-    circleShader->use();
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));  
-    model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    model = glm::scale(model, glm::vec3(radius, radius, 1.0f)); 
+        circleShader->use();
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(position, 0.0f));  
+        model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
+        model = glm::scale(model, glm::vec3(radius, radius, 1.0f)); 
 
-    circleShader->setMat4("model", model);
-    circleShader->setVec3("color", color);
+        circleShader->setMat4("model", model);
+        circleShader->setVec4("color", fillColor);
 
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, (nbTriangles + 1) * 3);
-    glBindVertexArray(0);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, (nbTriangles + 1) * 3);
+        glBindVertexArray(0);
+    }
+    
+    if (edgeColor.w != 0)
+    {
+        for (unsigned int i = 0; i < vertices.size(); i += 6)
+        {
+            glm::vec2 va = {vertices[i + 2], vertices[i + 3]};
+            glm::vec2 vb = {vertices[i + 4], vertices[i + 5]};
+            va = va * radius + position;
+            vb = vb * radius + position;
+
+            LineRenderer::Draw(va, vb, edgeColor);
+        }
+    }
 }

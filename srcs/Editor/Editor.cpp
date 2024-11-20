@@ -5,6 +5,7 @@
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "globals.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "imgui.h"
@@ -24,6 +25,7 @@ Editor::Editor()
     LineRenderer::Init();
     SpriteRenderer::Init();
     PolygonRenderer::Init();
+    CircleRenderer::Init();
 
     PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     // box2D
@@ -94,6 +96,7 @@ Editor::~Editor()
     LineRenderer::Destroy();
     SpriteRenderer::Destroy();
     PolygonRenderer::Destroy();
+    CircleRenderer::Destroy();
 }
 
 void Editor::Run()
@@ -185,9 +188,9 @@ void Editor::UpdateTilemap()
 
 void Editor::Draw()
 {
-    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, glm::vec2(100, 100), 45, glm::vec3(1, 1, 1));
-    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), 0, glm::vec4(1, 1, 1, 1), glm::vec4(1, 0, 0, 1));
-    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 4.0f * 3.0f, glm::vec2(100, 100), 45, glm::vec4(1, 1, 1, 0), glm::vec4(1, 0, 0, 1));
+    CircleRenderer::Draw(WindowManager::GetWindowSize() / 2.0f, 50, 0, glm::vec3(1, 1, 1));
+    CircleRenderer::Draw(WindowManager::GetWindowSize() / 4.0f, 50, 0, glm::vec4(1, 1, 1, 0), glm::vec4(1, 0, 0, 1));
+    CircleRenderer::Draw(WindowManager::GetWindowSize() / 4.0f * 3.0f, 50, 0, glm::vec3(1, 1, 1), glm::vec3(1,0,0));
     return;
     tilemap.Draw();
 
