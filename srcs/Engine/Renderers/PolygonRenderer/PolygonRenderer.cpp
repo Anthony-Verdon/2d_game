@@ -1,4 +1,5 @@
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/macros.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -62,30 +63,61 @@ void PolygonRenderer::LoadPolygon(const std::string &polygonName, const std::vec
     PolygonGl newPolygon;
     newPolygon.VAO = VAO;
     newPolygon.EBO = EBO;
+    newPolygon.vertices = vertices;
     newPolygon.nbFaces = faces.size();
     polygons[polygonName] = newPolygon;
 }
 
-void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color)
+void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor)
+{
+    PolygonRenderer::Draw(polygonName, position, size, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1));
+}
+
+void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor)
 {
     CHECK_AND_RETURN_VOID(isInit, "PolygonRenderer not initialized");
     CHECK_AND_RETURN_VOID((polygons.find(polygonName) != polygons.end()), polygonName + " not found into PolygonRenderer");
 
-    std::shared_ptr<Shader> squareShader = RessourceManager::GetShader("Polygon");
-    squareShader->use();
+    if (fillColor.w != 0)
+    {
+        std::shared_ptr<Shader> squareShader = RessourceManager::GetShader("Polygon");
+        squareShader->use();
 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));  
-    model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
-    model = glm::scale(model, glm::vec3(size, 1.0f)); 
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(position, 0.0f));  
+        model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
+        model = glm::scale(model, glm::vec3(size, 1.0f)); 
 
-    squareShader->setMat4("model", model);
-    squareShader->setVec3("color", color);
+        squareShader->setMat4("model", model);
+        squareShader->setVec4("color", fillColor);
 
-    PolygonGl polygon = polygons[polygonName];
-    glBindVertexArray(polygon.VAO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, polygon.EBO);
-    glDrawElements(GL_TRIANGLES, polygon.nbFaces, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        PolygonGl polygon = polygons[polygonName];
+        glBindVertexArray(polygon.VAO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, polygon.EBO);
+        glDrawElements(GL_TRIANGLES, polygon.nbFaces, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
+    if (edgeColor.w != 0)
+    {
+        PolygonGl polygon = polygons[polygonName];
+        for (unsigned int i = 0; i < polygon.vertices.size(); i += 2)
+        {
+            // @todo move this part into lineRenderer draw because it's duplicated from DrawSolidPolygonFcn()
+            glm::vec2 va = {polygon.vertices[i], polygon.vertices[i + 1]};
+            glm::vec2 vb = {polygon.vertices[(i + 2) % polygon.vertices.size()], polygon.vertices[(i + 3) % polygon.vertices.size()]} ;
+            vb = vb * size;
+            va = va * size;
+            float x;
+            float y;
+            x = va.x * cos(glm::radians(rotation)) - va.y * sin(glm::radians(rotation));
+            y = va.x * sin(glm::radians(rotation)) + va.y * cos(glm::radians(rotation));
+            va = glm::vec2(x, y) + position;
+            x = vb.x * cos(glm::radians(rotation)) - vb.y * sin(glm::radians(rotation));
+            y = vb.x * sin(glm::radians(rotation)) + vb.y * cos(glm::radians(rotation));
+            vb = glm::vec2(x, y) + position;
+            LineRenderer::Draw(va, vb, edgeColor); //@todo should be init in PolygonRenderer in case it's not done before
+        }
+    }
 }

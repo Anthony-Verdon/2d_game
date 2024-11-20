@@ -48,11 +48,16 @@ void LineRenderer::Destroy()
 
 void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color)
 {
+    LineRenderer::Draw(va, vb, glm::vec4(color, 1));
+}
+
+void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec4 &color)
+{
     CHECK_AND_RETURN_VOID(isInit, "LineRenderer not initialized");
 
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
-    lineShader->setVec3("color", color);
+    lineShader->setVec4("color", color);
     
     float vertices[] = {va.x, va.y, 
                         vb.x, vb.y};

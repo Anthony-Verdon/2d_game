@@ -15,4 +15,5 @@ class LineRenderer
         static void Init();
         static void Destroy();
         static void Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color);
+        static void Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec4 &color); //@todo add something to change lineWidth
 };

@@ -4,6 +4,7 @@
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "globals.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "imgui.h"
@@ -11,7 +12,7 @@
 #include "imgui_impl_opengl3.h"
 #include <iostream>
 #include <string>
-
+#include "Shapes/square.hpp"
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
 
@@ -22,7 +23,9 @@ Editor::Editor()
 
     LineRenderer::Init();
     SpriteRenderer::Init();
+    PolygonRenderer::Init();
 
+    PolygonRenderer::LoadPolygon("square", SQUARE_VERTICES, SQUARE_FACES);
     // box2D
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = (b2Vec2){0.0f, 0.0f};
@@ -90,6 +93,7 @@ Editor::~Editor()
 
     LineRenderer::Destroy();
     SpriteRenderer::Destroy();
+    PolygonRenderer::Destroy();
 }
 
 void Editor::Run()
@@ -181,6 +185,10 @@ void Editor::UpdateTilemap()
 
 void Editor::Draw()
 {
+    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, glm::vec2(100, 100), 45, glm::vec3(1, 1, 1));
+    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), 0, glm::vec4(1, 1, 1, 1), glm::vec4(1, 0, 0, 1));
+    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 4.0f * 3.0f, glm::vec2(100, 100), 45, glm::vec4(1, 1, 1, 0), glm::vec4(1, 0, 0, 1));
+    return;
     tilemap.Draw();
 
     glm::vec2 pos = camera.GetPosition();

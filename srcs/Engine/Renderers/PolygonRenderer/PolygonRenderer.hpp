@@ -9,6 +9,7 @@ struct PolygonGl
 {
     unsigned int VAO;
     unsigned int EBO;
+    std::vector<float> vertices;
     unsigned int nbFaces;
 };
 
@@ -24,5 +25,6 @@ class PolygonRenderer
         static void Init();
         static void Destroy();
         static void LoadPolygon(const std::string &polygonName, const std::vector<float> &vertices, const std::vector<int> &faces);
-        static void Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color);
+        static void Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor = glm::vec3(0, 0, 0));
+        static void Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor = glm::vec4(0, 0, 0, 0));
 };
