@@ -67,7 +67,7 @@ void ChainBuilder::Load()
 
 void ChainBuilder::Save()
 {
-nlohmann::json file;
+    nlohmann::json file;
 
     file["chains"] = {};
     for (size_t i = 0; i < chains.size(); i++)

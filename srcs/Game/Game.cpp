@@ -15,9 +15,13 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
+void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context);
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
+void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context);
 
 Game::Game()
 {
@@ -41,21 +45,55 @@ Game::Game()
     b2WorldDef worldDef = b2DefaultWorldDef();
     worldDef.gravity = (b2Vec2){0.0f, 0.0f};
     worldId = b2CreateWorld(&worldDef);
-
     timeStep = 1.0f / 60.0f;
     subStepCount = 4;
 
+    LoadChains();
     player.Init(worldId);
     barrel.Init(worldId);
     skeletton.Init(worldId);
+    tilemap.Load(worldId);
 
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
+    debugDraw.DrawSegment = DrawSegmentFcn;
+    debugDraw.DrawPoint = DrawPointFcn;
     debugDraw.drawShapes = true;
+}
 
-    tilemap.Load(worldId);
+void Game::LoadChains()
+{
+    if (!std::filesystem::exists("saves/hitbox.json")) // @todo: should be a parameter
+        return;
+    
+    std::ifstream input("saves/hitbox.json");
+    nlohmann::json file =  nlohmann::json::parse(input);
 
-    srand(time(NULL));
+    auto itChains = file.find("chains"); //@todo error check
+    for (auto itChain : *itChains)
+    {
+        std::vector<b2Vec2> chain;
+        auto itPoints = itChain.find("points"); //@todo error check
+        for (auto itPoint : *itPoints)
+        {
+            chain.push_back({PhysicBody::PixelToWorld(itPoint[0]), PhysicBody::PixelToWorld(itPoint[1])});
+        }
+
+        b2BodyDef bodyDef = b2DefaultBodyDef();
+        bodyDef.type = b2_staticBody;
+        b2BodyId myBodyId = b2CreateBody(worldId, &bodyDef);
+
+        b2Filter filter;
+        filter.categoryBits = CategoriesFilter::Wall;
+        filter.maskBits = CategoriesFilter::Entities;
+        b2ChainDef chainDef = b2DefaultChainDef();
+        chainDef.points = chain.data();
+        chainDef.count = chain.size();
+        chainDef.filter = filter;
+        chainDef.isLoop = true;
+        
+        b2CreateChain(myBodyId, &chainDef);
+    }
 }
 
 void Game::InitDebugDraw()
@@ -113,16 +151,6 @@ void Game::Run()
     camera.SetPosition(player.GetPosition());
     camera.UpdateShaders();
 
-    b2SensorEvents sensorEvents = b2World_GetSensorEvents(worldId);
-    for (int i = 0; i < sensorEvents.beginCount; ++i)
-    {
-        b2SensorBeginTouchEvent* beginTouch = sensorEvents.beginEvents + i;
-        void* myUserData = b2Shape_GetUserData(beginTouch->visitorShapeId);
-        Skeletton *skeletton = reinterpret_cast<Skeletton*>(myUserData); // not safe
-        if (skeletton)
-            skeletton->PlayAnimation("hurtDown");
-    }
-    
     Draw();
 }
 
@@ -181,6 +209,22 @@ static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, i
     }
 }
 
+static void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context)
+{
+    (void)p;
+    (void)size;
+    (void)color;
+    (void)context;
+}
+static void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context)
+{
+    (void)context;
+    glm::vec2 va = glm::vec2({PhysicBody::WorldToPixel(p1.x), PhysicBody::WorldToPixel(p1.y)}); // @todo WorldToPixel overload taking a glm::vec2 or a b2Vec2 as parameter
+    glm::vec2 vb = glm::vec2({PhysicBody::WorldToPixel(p2.x), PhysicBody::WorldToPixel(p2.y)});
+    glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
+    LineRenderer::Draw(va, vb, newColor);
+
+}
 static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
 {
     Game *game = reinterpret_cast<Game*>(glfwGetWindowUserPointer(window));

@@ -25,6 +25,7 @@ class Game: public AProgram
         int subStepCount;
         b2DebugDraw debugDraw;
         void InitDebugDraw();
+        void LoadChains();
 
         Player player;
         Barrel barrel;
