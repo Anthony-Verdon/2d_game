@@ -42,6 +42,7 @@ Editor::Editor()
     camera.UpdateShaders();
     tileSelector.Load();
     tilemap.Load(worldId);
+    chainBuilder.Load();
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -89,6 +90,7 @@ Editor::~Editor()
 {
     tileSelector.Save();
     tilemap.Save();
+    chainBuilder.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

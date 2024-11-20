@@ -44,6 +44,45 @@ void ChainBuilder::Draw()
     ImGui::End();
 }
 
+void ChainBuilder::Load()
+{
+    if (!std::filesystem::exists("saves/hitbox.json")) // @todo: should be a parameter
+        return;
+    
+    std::ifstream input("saves/hitbox.json");
+    nlohmann::json file =  nlohmann::json::parse(input);
+
+    auto itChains = file.find("chains"); //@todo error check
+    for (auto itChain : *itChains)
+    {
+        std::vector<glm::vec2> chain;
+        auto itPoints = itChain.find("points"); //@todo error check
+        for (auto itPoint : *itPoints)
+        {
+            chain.push_back(glm::vec2(itPoint[0], itPoint[1]));
+        }
+        chains.push_back(chain);
+    }
+}
+
+void ChainBuilder::Save()
+{
+nlohmann::json file;
+
+    file["chains"] = {};
+    for (size_t i = 0; i < chains.size(); i++)
+    {   
+        std::vector<glm::vec2> chain = chains[i];
+        for (size_t j = 0; j < chain.size(); j++)
+        {
+            file["chains"][i]["points"][j] = {chain[j].x, chain[j].y};
+        }
+    }
+
+    std::ofstream o("saves/hitbox.json");
+    o << std::setw(4) << file << std::endl;
+}
+
 bool ChainBuilder::IsHoveredOrFocused() const
 {
     return (isHoveredOrFocused);

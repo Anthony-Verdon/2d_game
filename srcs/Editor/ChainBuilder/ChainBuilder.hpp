@@ -16,6 +16,9 @@ class ChainBuilder
         ~ChainBuilder();
 
         void Draw();
+        
+        void Load();
+        void Save();
 
         bool IsHoveredOrFocused() const;
         bool IsBuildingChain() const;
