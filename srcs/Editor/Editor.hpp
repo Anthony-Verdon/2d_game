@@ -5,7 +5,10 @@
 #include "Engine/Camera/Camera.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/TileSelector/TileSelector.hpp"
+#include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include <Box2D/Box2D.h>
+#include <vector>
+#include <glm/glm.hpp>
 
 class Editor: public AProgram
 {
@@ -14,7 +17,8 @@ class Editor: public AProgram
         Camera camera;
         bool ImGuiWindowHoweredOrFocused;
         TileSelector tileSelector;
-
+        ChainBuilder chainBuilder;
+        
         b2WorldId worldId;
         float timeStep;
         int subStepCount;
@@ -23,6 +27,7 @@ class Editor: public AProgram
 
         void ProcessInput();
         void UpdateCamera();
+        void UpdateChain();
         void UpdateTilemap();
 
         void Draw();

@@ -101,12 +101,19 @@ Editor::~Editor()
 
 void Editor::Run()
 {
-    
     Time::updateTime();
     ImGuiWindowHoweredOrFocused = false;
 
+    // windows
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
     tileSelector.Draw();
+    chainBuilder.Draw();
+
     ImGuiWindowHoweredOrFocused = tileSelector.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || chainBuilder.IsHoveredOrFocused();
+
     ProcessInput();
     Draw();
 }
@@ -117,7 +124,10 @@ void Editor::ProcessInput()
         WindowManager::StopUpdateLoop();
     
     UpdateCamera();
-    UpdateTilemap();
+    if (chainBuilder.IsBuildingChain())
+        UpdateChain();
+    else
+        UpdateTilemap();
 }
 
 void Editor::UpdateCamera()
@@ -134,6 +144,27 @@ void Editor::UpdateCamera()
         camera.Move(glm::normalize(direction) * 200.0f * Time::getDeltaTime());
         camera.UpdateShaders();
     }
+}
+
+void Editor::UpdateChain()
+{
+    if (ImGuiWindowHoweredOrFocused)
+        return;
+    
+    static bool mouseButton1Enable = true;
+
+    if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    {
+        chainBuilder.AddPointToChain(WindowManager::GetMousePosition());
+        mouseButton1Enable = false;
+    }
+    else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    {
+        chainBuilder.CloseChain();
+    }
+
+    if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        mouseButton1Enable = true;
 }
 
 void Editor::UpdateTilemap()
@@ -188,12 +219,9 @@ void Editor::UpdateTilemap()
 
 void Editor::Draw()
 {
-    CircleRenderer::Draw(WindowManager::GetWindowSize() / 2.0f, 50, 0, glm::vec3(1, 1, 1));
-    CircleRenderer::Draw(WindowManager::GetWindowSize() / 4.0f, 50, 0, glm::vec4(1, 1, 1, 0), glm::vec4(1, 0, 0, 1));
-    CircleRenderer::Draw(WindowManager::GetWindowSize() / 4.0f * 3.0f, 50, 0, glm::vec3(1, 1, 1), glm::vec3(1,0,0));
-    return;
     tilemap.Draw();
 
+    // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();
     float zoom = camera.GetZoom() / 100;
     int spriteSize = SPRITE_SIZE;
@@ -205,6 +233,27 @@ void Editor::Draw()
         LineRenderer::Draw(glm::vec2(i, startY), glm::vec2(i, endY), glm::vec3(1, 1, 1));
     for (int i = startY; i <= endY; i += spriteSize)
         LineRenderer::Draw(glm::vec2(startX, i), glm::vec2(endX, i), glm::vec3(1, 1, 1));
+    // end region
+
+    // @todo move this region to another part
+    std::vector<std::vector<glm::vec2>> chains = chainBuilder.GetChains();
+    for (size_t i = 0; i < chains.size(); i++)
+    {
+        std::vector<glm::vec2> chain = chains[i];
+        if (chain.size() == 0)
+            continue;
+
+        for (size_t j = 0; j < chain.size() - 1; j++)
+        {
+            LineRenderer::Draw(chain[j], chain[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
+        }
+        if (chainBuilder.IsBuildingChain() && i == chains.size() - 1)
+            LineRenderer::Draw(chain[chain.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
+        else
+            LineRenderer::Draw(chain[chain.size() - 1], chain[0], glm::vec3(0, 0, 0));
+
+    }
+    // end region
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

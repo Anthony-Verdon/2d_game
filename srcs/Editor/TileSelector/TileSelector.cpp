@@ -22,9 +22,6 @@ TileSelector::~TileSelector()
 
 void TileSelector::Draw()
 {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
     ImGui::Begin("Tile Selector");
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
@@ -59,7 +56,6 @@ void TileSelector::InputFields()
     }
 }
 
-#include <iostream>
 void TileSelector::TilesAdded()
 {
     for (auto it = texturesData.begin(); it != texturesData.end(); )
