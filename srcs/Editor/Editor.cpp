@@ -112,9 +112,11 @@ void Editor::Run()
     ImGui::NewFrame();
     tileSelector.Draw();
     chainBuilder.Draw(camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f);
+    toolSelector.Draw();
 
     ImGuiWindowHoweredOrFocused = tileSelector.IsHoveredOrFocused();
     ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || chainBuilder.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || toolSelector.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();

@@ -6,6 +6,7 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/TileSelector/TileSelector.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
+#include "Editor/ToolSelector/ToolSelector.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -18,6 +19,7 @@ class Editor: public AProgram
         bool ImGuiWindowHoweredOrFocused;
         TileSelector tileSelector;
         ChainBuilder chainBuilder;
+        ToolSelector toolSelector;
         
         b2WorldId worldId;
         float timeStep;
