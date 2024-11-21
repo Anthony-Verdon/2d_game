@@ -111,7 +111,7 @@ void Editor::Run()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     tileSelector.Draw();
-    chainBuilder.Draw();
+    chainBuilder.Draw(camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f);
 
     ImGuiWindowHoweredOrFocused = tileSelector.IsHoveredOrFocused();
     ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || chainBuilder.IsHoveredOrFocused();
@@ -254,6 +254,10 @@ void Editor::Draw()
         else
             LineRenderer::Draw(chain[chain.size() - 1], chain[0], glm::vec3(0, 0, 0));
 
+        for (size_t j = 0; j < chain.size(); j++)
+        {
+            CircleRenderer::Draw(chain[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
+        }
     }
     // end region
 

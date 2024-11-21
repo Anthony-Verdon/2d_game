@@ -15,7 +15,7 @@ class ChainBuilder
         ChainBuilder();
         ~ChainBuilder();
 
-        void Draw();
+        void Draw(const glm::vec2 &mouse);
         
         void Load();
         void Save();

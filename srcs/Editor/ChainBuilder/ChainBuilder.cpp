@@ -5,6 +5,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <string>
+#include "globals.hpp"
 
 ChainBuilder::ChainBuilder()
 {
@@ -16,7 +17,7 @@ ChainBuilder::~ChainBuilder()
 
 }
 
-void ChainBuilder::Draw()
+void ChainBuilder::Draw(const glm::vec2 &mouse)
 {
     ImGui::Begin("Chain Builder");
 
@@ -37,6 +38,8 @@ void ChainBuilder::Draw()
             {
                 std::string name = "point " + std::to_string(j);
                 ImGui::InputFloat2(name.c_str(), &chain[j][0]);
+                if (glm::length(mouse - chain[j]) < CHAIN_POINT_RADIUS)
+                    ImGui::Text("hover it");
             }
         }
     }
