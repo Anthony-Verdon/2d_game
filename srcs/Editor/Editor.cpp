@@ -41,7 +41,6 @@ Editor::Editor()
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
     tilemap.Load(worldId);
-    chainBuilder.Load();
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -88,7 +87,6 @@ void Editor::InitDebugDraw()
 Editor::~Editor()
 {
     tilemap.Save();
-    chainBuilder.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -108,11 +106,9 @@ void Editor::Run()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    chainBuilder.Draw(camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f);
     toolSelector.Draw();
 
-    ImGuiWindowHoweredOrFocused = chainBuilder.IsHoveredOrFocused();
-    ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || toolSelector.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
@@ -124,7 +120,7 @@ void Editor::ProcessInput()
         WindowManager::StopUpdateLoop();
     
     UpdateCamera();
-    if (chainBuilder.IsBuildingChain())
+    if (true)
         UpdateChain();
     else
         UpdateTilemap();
@@ -152,15 +148,17 @@ void Editor::UpdateChain()
         return;
     
     static bool mouseButton1Enable = true;
-
+    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetTool().get());
+    if (!chainBuilder)
+        return;
     if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        chainBuilder.AddPointToChain(WindowManager::GetMousePosition());
+        chainBuilder->AddPointToChain(WindowManager::GetMousePosition());
         mouseButton1Enable = false;
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
-        chainBuilder.CloseChain();
+        chainBuilder->CloseChain();
     }
 
     if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
@@ -236,25 +234,29 @@ void Editor::Draw()
     // end region
 
     // @todo move this region to another part
-    std::vector<std::vector<glm::vec2>> chains = chainBuilder.GetChains();
-    for (size_t i = 0; i < chains.size(); i++)
+    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetTool().get());
+    if (chainBuilder)
     {
-        std::vector<glm::vec2> chain = chains[i];
-        if (chain.size() == 0)
-            continue;
-
-        for (size_t j = 0; j < chain.size() - 1; j++)
+        std::vector<std::vector<glm::vec2>> chains = chainBuilder->GetChains();
+        for (size_t i = 0; i < chains.size(); i++)
         {
-            LineRenderer::Draw(chain[j], chain[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
-        }
-        if (chainBuilder.IsBuildingChain() && i == chains.size() - 1)
-            LineRenderer::Draw(chain[chain.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
-        else
-            LineRenderer::Draw(chain[chain.size() - 1], chain[0], glm::vec3(0, 0, 0));
+            std::vector<glm::vec2> chain = chains[i];
+            if (chain.size() == 0)
+                continue;
 
-        for (size_t j = 0; j < chain.size(); j++)
-        {
-            CircleRenderer::Draw(chain[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
+            for (size_t j = 0; j < chain.size() - 1; j++)
+            {
+                LineRenderer::Draw(chain[j], chain[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
+            }
+            if (chainBuilder->IsBuildingChain() && i == chains.size() - 1)
+                LineRenderer::Draw(chain[chain.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
+            else
+                LineRenderer::Draw(chain[chain.size() - 1], chain[0], glm::vec3(0, 0, 0));
+
+            for (size_t j = 0; j < chain.size(); j++)
+            {
+                CircleRenderer::Draw(chain[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
+            }
         }
     }
     // end region

@@ -6,7 +6,7 @@
 #include <typeinfo>
 
 //@todo do more class like this, at least for getter/setter
-class ATool
+class ATool // @todo could have is own file
 {
     private:
         std::string name;
@@ -52,5 +52,6 @@ class ToolSelector
         }
 
         bool IsHoveredOrFocused() const;
+        std::shared_ptr<ATool> GetTool() const;
 
 };

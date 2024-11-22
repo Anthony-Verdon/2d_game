@@ -2,25 +2,23 @@
 
 #include <vector>
 #include <glm/glm.hpp>
+#include "Editor/ToolSelector/ToolSelector.hpp"
 
-class ChainBuilder
+class ChainBuilder: public ATool
 {
     private:
-        bool isHoveredOrFocused;
         bool isBuildingChain;
-
         std::vector<std::vector<glm::vec2>> chains;
 
     public:
         ChainBuilder();
         ~ChainBuilder();
 
-        void Draw(const glm::vec2 &mouse);
+        void Draw();
         
         void Load();
         void Save();
 
-        bool IsHoveredOrFocused() const;
         bool IsBuildingChain() const;
 
         void AddPointToChain(const glm::vec2 &point);

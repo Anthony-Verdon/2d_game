@@ -1,5 +1,6 @@
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include "Editor/TileSelector/TileSelector.hpp"
+#include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -22,6 +23,7 @@ ToolSelector::ToolSelector()
     tools.insert({std::make_shared<Temporary>(2), false});
     tools.insert({std::make_shared<Temporary>(3), false});
     tools.insert({std::make_shared<TileSelector>(), false});
+    tools.insert({std::make_shared<ChainBuilder>(), false});
 
     for (auto it = tools.begin(); it != tools.end(); it++)
         it->first->Load();
@@ -70,4 +72,12 @@ void ToolSelector::Draw()
 bool ToolSelector::IsHoveredOrFocused() const
 {
     return (isHoveredOrFocused);
+}
+
+std::shared_ptr<ATool> ToolSelector::GetTool() const
+{
+    if (toolSelected == tools.end())
+        return (NULL);
+    else
+        return (toolSelected->first);
 }

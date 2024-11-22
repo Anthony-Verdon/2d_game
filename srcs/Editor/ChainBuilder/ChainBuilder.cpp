@@ -7,7 +7,7 @@
 #include <string>
 #include "globals.hpp"
 
-ChainBuilder::ChainBuilder()
+ChainBuilder::ChainBuilder(): ATool("Chain Builder")
 {
     isBuildingChain = false;
 }
@@ -17,12 +17,8 @@ ChainBuilder::~ChainBuilder()
 
 }
 
-void ChainBuilder::Draw(const glm::vec2 &mouse)
+void ChainBuilder::Draw()
 {
-    ImGui::Begin("Chain Builder");
-
-    isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
-
     if (ImGui::Button("new chain", ImVec2(100, 40)))
     {
         chains.push_back({});
@@ -38,13 +34,9 @@ void ChainBuilder::Draw(const glm::vec2 &mouse)
             {
                 std::string name = "point " + std::to_string(j);
                 ImGui::InputFloat2(name.c_str(), &chain[j][0]);
-                if (glm::length(mouse - chain[j]) < CHAIN_POINT_RADIUS)
-                    ImGui::Text("hover it");
             }
         }
     }
-
-    ImGui::End();
 }
 
 void ChainBuilder::Load()
@@ -86,11 +78,6 @@ void ChainBuilder::Save()
     o << std::setw(4) << file << std::endl;
 }
 
-bool ChainBuilder::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
-}
-
 bool ChainBuilder::IsBuildingChain() const
 {
     return (isBuildingChain);
@@ -98,7 +85,8 @@ bool ChainBuilder::IsBuildingChain() const
 
 void ChainBuilder::AddPointToChain(const glm::vec2 &point)
 {
-    chains[chains.size() - 1].push_back(point);
+    if (isBuildingChain)
+        chains[chains.size() - 1].push_back(point);
 }
 void ChainBuilder::CloseChain()
 {

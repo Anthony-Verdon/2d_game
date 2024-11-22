@@ -16,7 +16,6 @@ class Editor: public AProgram
         Tilemap tilemap;
         Camera camera;
         bool ImGuiWindowHoweredOrFocused;
-        ChainBuilder chainBuilder;
         ToolSelector toolSelector;
         
         b2WorldId worldId;
