@@ -121,9 +121,9 @@ void Editor::ProcessInput()
         WindowManager::StopUpdateLoop();
     
     UpdateCamera();
-    if (false)
+    if (dynamic_cast<ChainBuilder*>(toolSelector.GetSelectedTool().get()))
         UpdateChain();
-    else
+    else if (dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get()))
         UpdateTilemap();
 }
 
