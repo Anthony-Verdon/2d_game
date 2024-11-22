@@ -5,23 +5,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-class Temporary: public ATool
-{
-    private:
-        int number;
-
-    public:
-        Temporary(int number):ATool(std::to_string(number)) {this->number = number;}
-        ~Temporary() {}
-
-        void Draw() {ImGui::Text("text from Temporary ! My number is %d", number);}
-};
-
 ToolSelector::ToolSelector()
 {
-    tools.insert({std::make_shared<Temporary>(1), false});
-    tools.insert({std::make_shared<Temporary>(2), false});
-    tools.insert({std::make_shared<Temporary>(3), false});
     tools.insert({std::make_shared<TileSelector>(), false});
     tools.insert({std::make_shared<ChainBuilder>(), false});
 
