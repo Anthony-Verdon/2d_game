@@ -4,7 +4,6 @@
 #include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Camera/Camera.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "Editor/TileSelector/TileSelector.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include <Box2D/Box2D.h>
@@ -17,7 +16,6 @@ class Editor: public AProgram
         Tilemap tilemap;
         Camera camera;
         bool ImGuiWindowHoweredOrFocused;
-        TileSelector tileSelector;
         ChainBuilder chainBuilder;
         ToolSelector toolSelector;
         

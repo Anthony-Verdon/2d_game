@@ -7,7 +7,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-TileSelector::TileSelector()
+TileSelector::TileSelector(): ATool("Tile Selector")
 {
     name[0] = 0;
     path[0] = 0;
@@ -22,14 +22,8 @@ TileSelector::~TileSelector()
 
 void TileSelector::Draw()
 {
-    ImGui::Begin("Tile Selector");
-
-    isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
-
     InputFields();
     TilesAdded();
-
-    ImGui::End();
 }
 
 void TileSelector::InputFields()
@@ -139,9 +133,4 @@ void TileSelector::Save()
 Sprite TileSelector::GetTile() const
 {
     return (tileSelected);
-}
-
-bool TileSelector::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }

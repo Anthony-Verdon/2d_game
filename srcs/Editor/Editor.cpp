@@ -40,7 +40,6 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    tileSelector.Load();
     tilemap.Load(worldId);
     chainBuilder.Load();
 
@@ -88,7 +87,6 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
-    tileSelector.Save();
     tilemap.Save();
     chainBuilder.Save();
     ImGui_ImplOpenGL3_Shutdown();
@@ -110,12 +108,10 @@ void Editor::Run()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    tileSelector.Draw();
     chainBuilder.Draw(camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f);
     toolSelector.Draw();
 
-    ImGuiWindowHoweredOrFocused = tileSelector.IsHoveredOrFocused();
-    ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || chainBuilder.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = chainBuilder.IsHoveredOrFocused();
     ImGuiWindowHoweredOrFocused = ImGuiWindowHoweredOrFocused || toolSelector.IsHoveredOrFocused();
 
     ProcessInput();
@@ -178,7 +174,8 @@ void Editor::UpdateTilemap()
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        Sprite actualSprite = tileSelector.GetTile();
+        Sprite actualSprite;// = tileSelector.GetTile();
+        return;
         if (actualSprite.textureName == "")
             return;
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;

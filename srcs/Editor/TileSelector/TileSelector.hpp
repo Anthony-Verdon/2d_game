@@ -4,6 +4,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Editor/ToolSelector/ToolSelector.hpp"
 
 constexpr int arraySize = 100;
 
@@ -15,15 +16,13 @@ struct TextureData
     float spriteScale;
 };
 
-class TileSelector
+class TileSelector: public ATool
 {
     private:
         // input data
         char name[arraySize];
         char path[arraySize];
         glm::vec2 nbSprite;
-
-        bool isHoveredOrFocused;
 
         std::vector<TextureData> texturesData;
         Sprite tileSelected;
@@ -41,5 +40,4 @@ class TileSelector
         void Save();
 
         Sprite GetTile() const;
-        bool IsHoveredOrFocused() const;
 };

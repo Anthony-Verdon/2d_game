@@ -14,6 +14,9 @@ class ATool
         ATool(const std::string &name) {this->name = name;}
         virtual ~ATool() {}
 
+        virtual void Load() {}
+        virtual void Save() {}
+
         virtual void Draw() = 0;
 
         std::string GetName() const {return (name);}
