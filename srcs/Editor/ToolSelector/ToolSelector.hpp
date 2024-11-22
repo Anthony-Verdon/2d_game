@@ -4,18 +4,19 @@
 #include <string>
 #include <memory>
 
+//@todo do more class like this, at least for getter/setter
 class ATool
 {
     private:
         std::string name;
     public:
-        ATool();
-        ATool(const std::string &name);
-        virtual ~ATool();
+        ATool() {name = "";}
+        ATool(const std::string &name) {this->name = name;}
+        virtual ~ATool() {}
 
         virtual void Draw() = 0;
 
-        std::string GetName() const;
+        std::string GetName() const {return (name);}
 };
 
 class ToolSelector

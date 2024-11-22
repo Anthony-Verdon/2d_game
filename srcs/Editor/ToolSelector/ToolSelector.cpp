@@ -15,25 +15,6 @@ class Temporary: public ATool
         void Draw() {ImGui::Text("text from Temporary ! My number is %d", number);}
 };
 
-ATool::ATool()
-{
-    name = "";
-}
-
-ATool::ATool(const std::string &name)
-{
-    this->name = name;
-}
-
-ATool::~ATool()
-{
-}
-
-std::string ATool::GetName() const
-{
-    return (name);
-}
-
 ToolSelector::ToolSelector()
 {
     tools.insert({std::make_shared<Temporary>(1), false});
