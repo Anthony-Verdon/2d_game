@@ -4,24 +4,7 @@
 #include <string>
 #include <memory>
 #include <typeinfo>
-
-//@todo do more class like this, at least for getter/setter
-class ATool // @todo could have is own file
-{
-    private:
-        std::string name;
-    public:
-        ATool() {name = "";}
-        ATool(const std::string &name) {this->name = name;}
-        virtual ~ATool() {}
-
-        virtual void Load() {}
-        virtual void Save() {}
-
-        virtual void Draw() = 0;
-
-        std::string GetName() const {return (name);}
-};
+#include "Editor/ToolSelector/ATool.hpp"
 
 class ToolSelector
 {

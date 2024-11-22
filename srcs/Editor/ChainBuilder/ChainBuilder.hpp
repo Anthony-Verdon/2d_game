@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <glm/glm.hpp>
-#include "Editor/ToolSelector/ToolSelector.hpp"
+#include "Editor/ToolSelector/ATool.hpp"
 
 class ChainBuilder: public ATool
 {
