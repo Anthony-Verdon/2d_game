@@ -32,27 +32,24 @@ void ToolSelector::Draw()
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
-    auto checkboxClicked = tools.end();
     auto toolSelected = tools.end();
 
     for (auto it = tools.begin(); it != tools.end(); it++)
     {
         ImGui::SameLine();
-        if (ImGui::Checkbox(it->first->GetName().c_str(), &it->second))
-            checkboxClicked = it;
+        if (ImGui::Checkbox(it->first->GetName().c_str(), &it->second) && it->second)
+        {
+            toolSelected = it;
+            for (auto it2 = tools.begin(); it2 != tools.end(); it2++)
+            {
+                if (it2 != it)
+                    it2->second = false;
+            }
+            break;
+        }
 
         if (it->second)
             toolSelected = it;
-        
-    }
-
-    if (checkboxClicked != tools.end())
-    {
-        for (auto it = tools.begin(); it != tools.end(); it++)
-        {
-            if (it != toolSelected)
-                it->second = false;
-        }
     }
 
     if (toolSelected != tools.end())
