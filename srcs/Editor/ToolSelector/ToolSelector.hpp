@@ -52,6 +52,20 @@ class ToolSelector
         }
 
         bool IsHoveredOrFocused() const;
-        std::shared_ptr<ATool> GetTool() const;
+
+        std::shared_ptr<ATool> GetSelectedTool() const;
+
+        template <typename T>
+        std::shared_ptr<T> GetTool() const
+        {
+            for (auto it = tools.begin(); it != tools.end(); it++)
+            {
+                std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(it->first);
+                if (ptr)
+                    return (ptr);
+            }
+
+            return (NULL);
+        }
 
 };

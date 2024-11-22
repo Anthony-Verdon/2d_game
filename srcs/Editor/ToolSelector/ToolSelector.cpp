@@ -74,7 +74,7 @@ bool ToolSelector::IsHoveredOrFocused() const
     return (isHoveredOrFocused);
 }
 
-std::shared_ptr<ATool> ToolSelector::GetTool() const
+std::shared_ptr<ATool> ToolSelector::GetSelectedTool() const
 {
     if (toolSelected == tools.end())
         return (NULL);

@@ -148,7 +148,7 @@ void Editor::UpdateChain()
         return;
     
     static bool mouseButton1Enable = true;
-    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetTool().get());
+    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetSelectedTool().get());
     if (!chainBuilder)
         return;
     if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
@@ -234,7 +234,7 @@ void Editor::Draw()
     // end region
 
     // @todo move this region to another part
-    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetTool().get());
+    ChainBuilder* chainBuilder = toolSelector.GetTool<ChainBuilder>().get();
     if (chainBuilder)
     {
         std::vector<std::vector<glm::vec2>> chains = chainBuilder->GetChains();
