@@ -38,8 +38,7 @@ void ToolSelector::Draw()
     ImGui::Begin("Tool Selector");
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
-
-    auto toolSelected = tools.end();
+    toolSelected = tools.end();
 
     for (auto it = tools.begin(); it != tools.end(); it++)
     {

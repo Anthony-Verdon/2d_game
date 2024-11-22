@@ -39,5 +39,6 @@ class TileSelector: public ATool
         void Load();
         void Save();
 
-        Sprite GetTile() const;
+        const void* GetData() const;
+        const std::type_info& GetDataType() const;
 };

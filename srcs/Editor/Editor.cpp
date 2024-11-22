@@ -174,9 +174,8 @@ void Editor::UpdateTilemap()
 
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
     {
-        Sprite actualSprite;// = tileSelector.GetTile();
-        return;
-        if (actualSprite.textureName == "")
+        const Sprite *actualSprite = toolSelector.GetData<Sprite>();
+        if (!actualSprite || actualSprite->textureName == "")
             return;
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
@@ -189,7 +188,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        glm::vec2 size = actualSprite.size;
+        glm::vec2 size = actualSprite->size;
 
         PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
         
@@ -199,7 +198,7 @@ void Editor::UpdateTilemap()
         
         body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
-        tilemap.AddTile(mousePosition, size, body, actualSprite);
+        tilemap.AddTile(mousePosition, size, body, *actualSprite);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
