@@ -9,7 +9,7 @@ class Temporary: public ATool
         int number;
 
     public:
-        Temporary(int number) {this->number = number;}
+        Temporary(int number):ATool(std::to_string(number)) {this->number = number;}
         ~Temporary() {}
 
         void Draw() {ImGui::Text("text from Temporary ! My number is %d", number);}
@@ -17,17 +17,28 @@ class Temporary: public ATool
 
 ATool::ATool()
 {
+    name = "";
+}
+
+ATool::ATool(const std::string &name)
+{
+    this->name = name;
 }
 
 ATool::~ATool()
 {
 }
 
+std::string ATool::GetName() const
+{
+    return (name);
+}
+
 ToolSelector::ToolSelector()
 {
-    tools.insert({"Chain Builder", std::pair<bool, std::shared_ptr<ATool>>(false, std::make_shared<Temporary>(1))});
-    tools.insert({"Tile Selector", std::pair<bool, std::shared_ptr<ATool>>(false, std::make_shared<Temporary>(2))});
-    tools.insert({"Third tool", std::pair<bool, std::shared_ptr<ATool>>(false, std::make_shared<Temporary>(3))});
+    tools.insert({std::make_shared<Temporary>(1), false});
+    tools.insert({std::make_shared<Temporary>(2), false});
+    tools.insert({std::make_shared<Temporary>(3), false});
 }
 
 ToolSelector::~ToolSelector()
@@ -46,10 +57,10 @@ void ToolSelector::Draw()
     for (auto it = tools.begin(); it != tools.end(); it++)
     {
         ImGui::SameLine();
-        if (ImGui::Checkbox(it->first.c_str(), &it->second.first))
+        if (ImGui::Checkbox(it->first->GetName().c_str(), &it->second))
             checkboxClicked = it;
 
-        if (it->second.first)
+        if (it->second)
             toolSelected = it;
         
     }
@@ -59,14 +70,14 @@ void ToolSelector::Draw()
         for (auto it = tools.begin(); it != tools.end(); it++)
         {
             if (it != toolSelected)
-                it->second.first = false;
+                it->second = false;
         }
     }
 
     if (toolSelected != tools.end())
     {
         ImGui::NewLine();
-        toolSelected->second.second->Draw();
+        toolSelected->first->Draw();
     }
 
     ImGui::End();
