@@ -130,12 +130,7 @@ void TileSelector::Save()
     o << std::setw(4) << file << std::endl;
 }
 
-const void* TileSelector::GetData() const
+Sprite TileSelector::GetSprite() const
 {
-    return (&tileSelected);
-}
-
-const std::type_info& TileSelector::GetDataType() const
-{
-    return (typeid(Sprite));
+    return (tileSelected);
 }

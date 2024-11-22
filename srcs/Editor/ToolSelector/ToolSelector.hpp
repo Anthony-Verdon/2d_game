@@ -21,8 +21,6 @@ class ATool // @todo could have is own file
         virtual void Draw() = 0;
 
         std::string GetName() const {return (name);}
-        virtual const void* GetData() const {return(NULL);}
-        virtual const std::type_info& GetDataType() const {return (typeid(NULL));}
 };
 
 class ToolSelector
@@ -39,18 +37,6 @@ class ToolSelector
 
         void Draw();
         
-        template <typename T>
-        const T* GetData() const
-        {
-            if (toolSelected == tools.end())
-                return (NULL);
-            
-            if (toolSelected->first->GetDataType() != typeid(T))
-                return (NULL);
-            
-            return (static_cast<const T*>(toolSelected->first->GetData()));
-        }
-
         bool IsHoveredOrFocused() const;
 
         std::shared_ptr<ATool> GetSelectedTool() const;
