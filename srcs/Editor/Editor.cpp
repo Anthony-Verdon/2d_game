@@ -148,22 +148,44 @@ void Editor::UpdateChain()
     if (ImGuiWindowHoweredOrFocused)
         return;
     
-    static bool mouseButton1Enable = true;
     ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetSelectedTool().get());
     if (!chainBuilder)
         return;
-    if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-    {
-        chainBuilder->AddPointToChain(WindowManager::GetMousePosition());
-        mouseButton1Enable = false;
-    }
-    else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
-    {
-        chainBuilder->CloseChain();
-    }
 
-    if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-        mouseButton1Enable = true;
+    glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
+    if (chainBuilder->IsBuildingChain())
+    {
+        static bool mouseButton1Enable = true;
+        if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        {
+            chainBuilder->AddPointToChain(mousePosition);
+            mouseButton1Enable = false;
+        }
+        else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+        {
+            chainBuilder->CloseChain();
+        }
+
+        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+            mouseButton1Enable = true;
+    }
+    else
+    {
+        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+            return;
+
+        std::vector<Chain> chains = chainBuilder->GetChains();
+        for (size_t i = 0; i < chains.size(); i++)
+        {
+            for (size_t j = 0; j < chains[i].points.size(); j++)
+            {
+                if (glm::length(mousePosition - chains[i].points[j]) < CHAIN_POINT_RADIUS)
+                {
+                    chainBuilder->MovePoint(i, j, mousePosition);
+                }
+            }
+        }
+    }
 }
 
 void Editor::UpdateTilemap()

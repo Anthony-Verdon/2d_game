@@ -96,6 +96,18 @@ void ChainBuilder::AddPointToChain(const glm::vec2 &point)
     if (isBuildingChain)
         chains[chains.size() - 1].points.push_back(point);
 }
+
+void ChainBuilder::MovePoint(size_t chainIndex, size_t pointIndex, const glm::vec2 &position)
+{
+    if (chainIndex >= chains.size())
+        return;
+
+    if (pointIndex >= chains[chainIndex].points.size())
+        return;
+
+    chains[chainIndex].points[pointIndex] = position;
+}
+
 void ChainBuilder::CloseChain()
 {
     isBuildingChain = false;

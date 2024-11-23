@@ -28,6 +28,7 @@ class ChainBuilder: public ATool
         bool IsBuildingChain() const;
 
         void AddPointToChain(const glm::vec2 &point);
+        void MovePoint(size_t chainIndex, size_t pointIndex, const glm::vec2 &position);
         void CloseChain();
 
         std::vector<Chain> GetChains() const;
