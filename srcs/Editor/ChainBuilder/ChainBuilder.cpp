@@ -33,7 +33,7 @@ void ChainBuilder::Draw()
             Chain &chain = chains[i];
             for (size_t j = 0; j < chain.points.size(); j++)
             {
-                std::string name = "point " + std::to_string(j);
+                std::string name = "point " + std::to_string(j) + "##chain " + std::to_string(i);
                 ImGui::InputFloat2(name.c_str(), &chain.points[j][0]);
             }
         }
