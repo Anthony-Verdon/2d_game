@@ -10,6 +10,7 @@
 ChainBuilder::ChainBuilder(): ATool("Chain Builder")
 {
     isBuildingChain = false;
+    pointSelected = glm::vec2(-1, -1);
 }
 
 ChainBuilder::~ChainBuilder()
@@ -97,7 +98,7 @@ void ChainBuilder::AddPointToChain(const glm::vec2 &point)
         chains[chains.size() - 1].points.push_back(point);
 }
 
-void ChainBuilder::MovePoint(size_t chainIndex, size_t pointIndex, const glm::vec2 &position)
+void ChainBuilder::SelectPoint(size_t chainIndex, size_t pointIndex)
 {
     if (chainIndex >= chains.size())
         return;
@@ -105,7 +106,19 @@ void ChainBuilder::MovePoint(size_t chainIndex, size_t pointIndex, const glm::ve
     if (pointIndex >= chains[chainIndex].points.size())
         return;
 
-    chains[chainIndex].points[pointIndex] = position;
+    pointSelected = glm::vec2(chainIndex, pointIndex);
+}
+
+void ChainBuilder::UnselectPoint()
+{
+    pointSelected = glm::vec2(-1, -1);
+}
+
+void ChainBuilder::MoveSelectedPoint(const glm::vec2 &position)
+{
+    if (pointSelected == glm::vec2(-1, -1))
+        return;
+    chains[pointSelected.x].points[pointSelected.y] = position;
 }
 
 void ChainBuilder::CloseChain()

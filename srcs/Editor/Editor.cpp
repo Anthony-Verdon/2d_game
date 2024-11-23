@@ -171,20 +171,26 @@ void Editor::UpdateChain()
     }
     else
     {
-        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-            return;
-
-        std::vector<Chain> chains = chainBuilder->GetChains();
-        for (size_t i = 0; i < chains.size(); i++)
+        if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
         {
-            for (size_t j = 0; j < chains[i].points.size(); j++)
+            std::vector<Chain> chains = chainBuilder->GetChains();
+            for (size_t i = 0; i < chains.size(); i++)
             {
-                if (glm::length(mousePosition - chains[i].points[j]) < CHAIN_POINT_RADIUS)
+                for (size_t j = 0; j < chains[i].points.size(); j++)
                 {
-                    chainBuilder->MovePoint(i, j, mousePosition);
+                    if (glm::length(mousePosition - chains[i].points[j]) < CHAIN_POINT_RADIUS)
+                    {
+                        chainBuilder->SelectPoint(i, j);
+                    }
                 }
             }
         }
+        else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+        {
+             chainBuilder->UnselectPoint();
+        }
+
+        chainBuilder->MoveSelectedPoint(mousePosition);
     }
 }
 

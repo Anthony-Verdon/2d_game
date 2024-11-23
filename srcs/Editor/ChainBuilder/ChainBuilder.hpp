@@ -15,6 +15,7 @@ class ChainBuilder: public ATool
     private:
         bool isBuildingChain;
         std::vector<Chain> chains;
+        glm::vec2 pointSelected;
 
     public:
         ChainBuilder();
@@ -28,8 +29,11 @@ class ChainBuilder: public ATool
         bool IsBuildingChain() const;
 
         void AddPointToChain(const glm::vec2 &point);
-        void MovePoint(size_t chainIndex, size_t pointIndex, const glm::vec2 &position);
         void CloseChain();
+        
+        void SelectPoint(size_t chainIndex, size_t pointIndex);
+        void UnselectPoint();
+        void MoveSelectedPoint(const glm::vec2 &position);
 
         std::vector<Chain> GetChains() const;
 };
