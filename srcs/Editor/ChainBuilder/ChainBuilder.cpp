@@ -22,19 +22,23 @@ void ChainBuilder::Draw()
     if (ImGui::Button("new chain", ImVec2(100, 40)))
     {
         Chain newChain;
+        newChain.loop = false;
         chains.push_back(newChain);
         isBuildingChain = true;
     }
 
     for (size_t i = 0; i < chains.size(); i++)
     {
+        std::string chainSuffix = "##chain " + std::to_string(i);
         if (ImGui::CollapsingHeader(std::to_string(i).c_str()))
         {
             Chain &chain = chains[i];
+            std::string checkboxName = "loop" + chainSuffix;
+            ImGui::Checkbox(checkboxName.c_str(), &chain.loop);
             for (size_t j = 0; j < chain.points.size(); j++)
             {
-                std::string name = "point " + std::to_string(j) + "##chain " + std::to_string(i);
-                ImGui::InputFloat2(name.c_str(), &chain.points[j][0]);
+                std::string pointName = "point " + chainSuffix;
+                ImGui::InputFloat2(pointName.c_str(), &chain.points[j][0]);
             }
         }
     }
@@ -57,6 +61,7 @@ void ChainBuilder::Load()
         {
             chain.points.push_back(glm::vec2(itPoint[0], itPoint[1]));
         }
+        chain.loop = itChain["loop"];
         chains.push_back(chain);
     }
 }
@@ -69,10 +74,12 @@ void ChainBuilder::Save()
     for (size_t i = 0; i < chains.size(); i++)
     {   
         Chain chain = chains[i];
+        file["chains"][i]["points"] = {};
         for (size_t j = 0; j < chain.points.size(); j++)
         {
             file["chains"][i]["points"][j] = {chain.points[j].x, chain.points[j].y};
         }
+        file["chains"][i]["loop"] = chain.loop;
     }
 
     std::ofstream o("saves/hitbox.json");

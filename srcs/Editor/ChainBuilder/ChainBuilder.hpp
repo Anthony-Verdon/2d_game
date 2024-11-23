@@ -7,6 +7,7 @@
 struct Chain
 {
     std::vector<glm::vec2> points;
+    bool loop;
 };
 
 class ChainBuilder: public ATool

@@ -254,7 +254,7 @@ void Editor::Draw()
             }
             if (chainBuilder->IsBuildingChain() && i == chains.size() - 1)
                 LineRenderer::Draw(chain.points[chain.points.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
-            else
+            else if (chain.loop)
                 LineRenderer::Draw(chain.points[chain.points.size() - 1], chain.points[0], glm::vec3(0, 0, 0));
 
             for (size_t j = 0; j < chain.points.size(); j++)
