@@ -241,25 +241,25 @@ void Editor::Draw()
     ChainBuilder* chainBuilder = toolSelector.GetTool<ChainBuilder>().get();
     if (chainBuilder)
     {
-        std::vector<std::vector<glm::vec2>> chains = chainBuilder->GetChains();
+        std::vector<Chain> chains = chainBuilder->GetChains();
         for (size_t i = 0; i < chains.size(); i++)
         {
-            std::vector<glm::vec2> chain = chains[i];
-            if (chain.size() == 0)
+            Chain chain = chains[i];
+            if (chain.points.size() == 0)
                 continue;
 
-            for (size_t j = 0; j < chain.size() - 1; j++)
+            for (size_t j = 0; j < chain.points.size() - 1; j++)
             {
-                LineRenderer::Draw(chain[j], chain[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
+                LineRenderer::Draw(chain.points[j], chain.points[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
             }
             if (chainBuilder->IsBuildingChain() && i == chains.size() - 1)
-                LineRenderer::Draw(chain[chain.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
+                LineRenderer::Draw(chain.points[chain.points.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
             else
-                LineRenderer::Draw(chain[chain.size() - 1], chain[0], glm::vec3(0, 0, 0));
+                LineRenderer::Draw(chain.points[chain.points.size() - 1], chain.points[0], glm::vec3(0, 0, 0));
 
-            for (size_t j = 0; j < chain.size(); j++)
+            for (size_t j = 0; j < chain.points.size(); j++)
             {
-                CircleRenderer::Draw(chain[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
+                CircleRenderer::Draw(chain.points[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
             }
         }
     }

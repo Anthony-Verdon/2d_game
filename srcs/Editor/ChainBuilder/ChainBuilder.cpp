@@ -21,7 +21,8 @@ void ChainBuilder::Draw()
 {
     if (ImGui::Button("new chain", ImVec2(100, 40)))
     {
-        chains.push_back({});
+        Chain newChain;
+        chains.push_back(newChain);
         isBuildingChain = true;
     }
 
@@ -29,11 +30,11 @@ void ChainBuilder::Draw()
     {
         if (ImGui::CollapsingHeader(std::to_string(i).c_str()))
         {
-            std::vector<glm::vec2> &chain = chains[i];
-            for (size_t j = 0; j < chain.size(); j++)
+            Chain &chain = chains[i];
+            for (size_t j = 0; j < chain.points.size(); j++)
             {
                 std::string name = "point " + std::to_string(j);
-                ImGui::InputFloat2(name.c_str(), &chain[j][0]);
+                ImGui::InputFloat2(name.c_str(), &chain.points[j][0]);
             }
         }
     }
@@ -50,11 +51,11 @@ void ChainBuilder::Load()
     auto itChains = file.find("chains"); //@todo error check
     for (auto itChain : *itChains)
     {
-        std::vector<glm::vec2> chain;
+        Chain chain;
         auto itPoints = itChain.find("points"); //@todo error check
         for (auto itPoint : *itPoints)
         {
-            chain.push_back(glm::vec2(itPoint[0], itPoint[1]));
+            chain.points.push_back(glm::vec2(itPoint[0], itPoint[1]));
         }
         chains.push_back(chain);
     }
@@ -67,10 +68,10 @@ void ChainBuilder::Save()
     file["chains"] = {};
     for (size_t i = 0; i < chains.size(); i++)
     {   
-        std::vector<glm::vec2> chain = chains[i];
-        for (size_t j = 0; j < chain.size(); j++)
+        Chain chain = chains[i];
+        for (size_t j = 0; j < chain.points.size(); j++)
         {
-            file["chains"][i]["points"][j] = {chain[j].x, chain[j].y};
+            file["chains"][i]["points"][j] = {chain.points[j].x, chain.points[j].y};
         }
     }
 
@@ -86,14 +87,14 @@ bool ChainBuilder::IsBuildingChain() const
 void ChainBuilder::AddPointToChain(const glm::vec2 &point)
 {
     if (isBuildingChain)
-        chains[chains.size() - 1].push_back(point);
+        chains[chains.size() - 1].points.push_back(point);
 }
 void ChainBuilder::CloseChain()
 {
     isBuildingChain = false;
 }
 
-std::vector<std::vector<glm::vec2>> ChainBuilder::GetChains() const
+std::vector<Chain> ChainBuilder::GetChains() const
 {
     return (chains);
 }
