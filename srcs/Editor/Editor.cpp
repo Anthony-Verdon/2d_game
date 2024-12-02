@@ -108,8 +108,9 @@ void Editor::Run()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     toolSelector.Draw();
+    fileExplorer.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
