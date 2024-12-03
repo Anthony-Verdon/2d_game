@@ -8,6 +8,7 @@
 struct FileNode
 {
     std::string filename;
+    std::string path;
     bool isDirectory;
     std::vector<std::shared_ptr<FileNode>> childrens;
 };

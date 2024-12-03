@@ -68,7 +68,7 @@ void FileExplorer::CreateGuiTree(const std::shared_ptr<FileNode> &root)
             if (ImGui::BeginDragDropSource())
             {
                 // Set payload to carry the index of our item (could be anything)
-                ImGui::SetDragDropPayload("DND_DEMO_CELL", &root->childrens[i]->filename, sizeof(std::string));
+                ImGui::SetDragDropPayload("DND_DEMO_CELL", &root->childrens[i]->path, sizeof(std::string));
                 ImGui::Text("%s", root->childrens[i]->filename.c_str());
                 ImGui::EndDragDropSource();
             }
@@ -83,6 +83,7 @@ void FileExplorer::ReadDirectory(const std::shared_ptr<FileNode> &root, const st
         std::string filename = dir_entry.path().filename().string();
 
         std::shared_ptr<FileNode> child = std::make_shared<FileNode>();
+        child->path = path;
         child->filename = filename;
         child->isDirectory = std::filesystem::is_directory(path);
         root->childrens.push_back(child);
