@@ -4,14 +4,16 @@
 
 FileExplorer::FileExplorer()
 {
-    this->directoryPath = "./";
     root = std::make_shared<Node>();
+    root->filename = "./";
+    root->isDirectory = true;
 }
 
 FileExplorer::FileExplorer(const std::string &directoryPath)
 {
-    this->directoryPath = directoryPath;
     root = std::make_shared<Node>();
+    root->filename = directoryPath;
+    root->isDirectory = true;
 }
 
 FileExplorer::~FileExplorer()
@@ -67,9 +69,7 @@ void FileExplorer::ReadDirectory(const std::shared_ptr<Node> &root, const std::s
 
 void FileExplorer::SetDirectoryPath(const std::string &directoryPath)
 {
-    this->directoryPath = directoryPath;
     root->filename = directoryPath;
-    root->isDirectory = true;
     root->childrens.clear();
     ReadDirectory(root, directoryPath);
 }
