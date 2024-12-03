@@ -14,13 +14,11 @@ class FileExplorer
 {
     private:
         bool isHoveredOrFocused;
-
         std::string directoryPath;
-
         std::shared_ptr<Node> root;
 
         void ReadDirectory(const std::shared_ptr<Node> &root, const std::string &directoryPath);
-
+        void CreateGuiTree(const std::shared_ptr<Node> &root);
     public:
         FileExplorer();
         FileExplorer(const std::string &directoryPath);
