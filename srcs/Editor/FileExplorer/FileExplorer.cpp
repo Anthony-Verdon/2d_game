@@ -4,14 +4,14 @@
 
 FileExplorer::FileExplorer()
 {
-    root = std::make_shared<Node>();
+    root = std::make_shared<FileNode>();
     root->filename = "./";
     root->isDirectory = true;
 }
 
 FileExplorer::FileExplorer(const std::string &directoryPath)
 {
-    root = std::make_shared<Node>();
+    root = std::make_shared<FileNode>();
     root->filename = directoryPath;
     root->isDirectory = true;
 }
@@ -32,7 +32,7 @@ void FileExplorer::Draw()
     ImGui::End();
 }
 
-void FileExplorer::CreateGuiTree(const std::shared_ptr<Node> &root)
+void FileExplorer::CreateGuiTree(const std::shared_ptr<FileNode> &root)
 {
     for (size_t i = 0; i < root->childrens.size(); i++)
     {
@@ -50,14 +50,14 @@ void FileExplorer::CreateGuiTree(const std::shared_ptr<Node> &root)
         }
     }
 }
-void FileExplorer::ReadDirectory(const std::shared_ptr<Node> &root, const std::string &directoryPath)
+void FileExplorer::ReadDirectory(const std::shared_ptr<FileNode> &root, const std::string &directoryPath)
 {
     for (auto const& dir_entry : std::filesystem::directory_iterator{directoryPath})
     {
         std::string path = dir_entry.path().string();
         std::string filename = dir_entry.path().filename().string();
 
-        std::shared_ptr<Node> child = std::make_shared<Node>();
+        std::shared_ptr<FileNode> child = std::make_shared<FileNode>();
         child->filename = filename;
         child->isDirectory = std::filesystem::is_directory(path);
         root->childrens.push_back(child);

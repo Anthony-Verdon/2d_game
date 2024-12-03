@@ -4,21 +4,21 @@
 #include <vector>
 #include <memory>
 
-struct Node
+struct FileNode
 {
     std::string filename;
     bool isDirectory;
-    std::vector<std::shared_ptr<Node>> childrens;
+    std::vector<std::shared_ptr<FileNode>> childrens;
 };
 
 class FileExplorer
 {
     private:
         bool isHoveredOrFocused;
-        std::shared_ptr<Node> root;
+        std::shared_ptr<FileNode> root;
 
-        void ReadDirectory(const std::shared_ptr<Node> &root, const std::string &directoryPath);
-        void CreateGuiTree(const std::shared_ptr<Node> &root);
+        void ReadDirectory(const std::shared_ptr<FileNode> &root, const std::string &directoryPath);
+        void CreateGuiTree(const std::shared_ptr<FileNode> &root);
     public:
         FileExplorer();
         FileExplorer(const std::string &directoryPath);
