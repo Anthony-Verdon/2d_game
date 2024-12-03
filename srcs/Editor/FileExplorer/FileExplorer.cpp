@@ -1,5 +1,4 @@
 #include "Editor/FileExplorer/FileExplorer.hpp"
-#include <filesystem>
 #include "imgui.h"
 
 FileExplorer::FileExplorer()
@@ -22,6 +21,14 @@ FileExplorer::~FileExplorer()
 
 void FileExplorer::Draw()
 {
+    std::filesystem::file_time_type ftime = std::filesystem::last_write_time(std::filesystem::path(root->filename));
+    if (ftime != lastTimeModified)
+    {
+        root->childrens.clear();
+        ReadDirectory(root, root->filename);
+        lastTimeModified = ftime;
+    }
+
     ImGui::Begin("File Explorer");
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
@@ -88,8 +95,10 @@ void FileExplorer::ReadDirectory(const std::shared_ptr<FileNode> &root, const st
 void FileExplorer::SetDirectoryPath(const std::string &directoryPath)
 {
     root->filename = directoryPath;
+
     root->childrens.clear();
-    ReadDirectory(root, directoryPath);
+    ReadDirectory(root, root->filename);
+    lastTimeModified = std::filesystem::last_write_time(std::filesystem::path(root->filename));
 }
 
 bool FileExplorer::IsHoveredOrFocused() const

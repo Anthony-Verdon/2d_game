@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <filesystem>
 
 struct FileNode
 {
@@ -16,6 +17,7 @@ class FileExplorer
     private:
         bool isHoveredOrFocused;
         std::shared_ptr<FileNode> root;
+        std::filesystem::file_time_type lastTimeModified;
 
         void ReadDirectory(const std::shared_ptr<FileNode> &root, const std::string &directoryPath);
         void CreateGuiTree(const std::shared_ptr<FileNode> &root);
