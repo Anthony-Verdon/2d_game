@@ -40,7 +40,7 @@ void FileExplorer::Draw()
     ImGui::Text("drop text: %s", textSelected.c_str());
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_DEMO_CELL"))
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
         {
             textSelected = *(std::string*)payload->Data;
         }
@@ -67,8 +67,7 @@ void FileExplorer::CreateGuiTree(const std::shared_ptr<FileNode> &root)
             ImGui::Selectable(root->childrens[i]->filename.c_str(), false);
             if (ImGui::BeginDragDropSource())
             {
-                // Set payload to carry the index of our item (could be anything)
-                ImGui::SetDragDropPayload("DND_DEMO_CELL", &root->childrens[i]->path, sizeof(std::string));
+                ImGui::SetDragDropPayload("FILE_EXPLORER_SELECTED_DATA", &root->childrens[i]->path, sizeof(std::string));
                 ImGui::Text("%s", root->childrens[i]->filename.c_str());
                 ImGui::EndDragDropSource();
             }
