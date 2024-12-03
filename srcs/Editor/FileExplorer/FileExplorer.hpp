@@ -6,7 +6,8 @@
 
 struct Node
 {
-    std::string data;
+    std::string filename;
+    bool isDirectory;
     std::vector<std::shared_ptr<Node>> childrens;
 };
 

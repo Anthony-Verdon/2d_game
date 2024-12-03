@@ -24,7 +24,7 @@ void FileExplorer::Draw()
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
-    ImGui::Text("directory: %s", root->data.c_str());
+    ImGui::Text("directory: %s", root->filename.c_str());
     CreateGuiTree(root);
 
     ImGui::End();
@@ -34,9 +34,9 @@ void FileExplorer::CreateGuiTree(const std::shared_ptr<Node> &root)
 {
     for (size_t i = 0; i < root->childrens.size(); i++)
     {
-        if (std::filesystem::is_directory(root->childrens[i]->data))
+        if (root->childrens[i]->isDirectory)
         {
-            if (ImGui::TreeNode(root->childrens[i]->data.c_str()))
+            if (ImGui::TreeNode(root->childrens[i]->filename.c_str()))
             {
                 CreateGuiTree(root->childrens[i]);
                 ImGui::TreePop();
@@ -44,7 +44,7 @@ void FileExplorer::CreateGuiTree(const std::shared_ptr<Node> &root)
         }
         else
         {
-            ImGui::Text("%s", root->childrens[i]->data.c_str());
+            ImGui::Text("%s", root->childrens[i]->filename.c_str());
         }
     }
 }
@@ -53,10 +53,14 @@ void FileExplorer::ReadDirectory(const std::shared_ptr<Node> &root, const std::s
     for (auto const& dir_entry : std::filesystem::directory_iterator{directoryPath})
     {
         std::string path = dir_entry.path().string();
+        std::string filename = dir_entry.path().filename().string();
+
         std::shared_ptr<Node> child = std::make_shared<Node>();
-        child->data = path;
+        child->filename = filename;
+        child->isDirectory = std::filesystem::is_directory(path);
         root->childrens.push_back(child);
-        if (std::filesystem::is_directory(path))
+
+        if (child->isDirectory)
             ReadDirectory(child, path);
     }
 }
@@ -64,7 +68,8 @@ void FileExplorer::ReadDirectory(const std::shared_ptr<Node> &root, const std::s
 void FileExplorer::SetDirectoryPath(const std::string &directoryPath)
 {
     this->directoryPath = directoryPath;
-    root->data = "";
+    root->filename = directoryPath;
+    root->isDirectory = true;
     root->childrens.clear();
     ReadDirectory(root, directoryPath);
 }
