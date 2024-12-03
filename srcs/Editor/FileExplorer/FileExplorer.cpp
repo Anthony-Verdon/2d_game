@@ -36,17 +36,6 @@ void FileExplorer::Draw()
     ImGui::Text("directory: %s", root->filename.c_str());
     CreateGuiTree(root);
     
-    static std::string textSelected = "";
-    ImGui::Text("drop text: %s", textSelected.c_str());
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
-        {
-            textSelected = *(std::string*)payload->Data;
-        }
-        ImGui::EndDragDropTarget();
-    }
-
     ImGui::End();
 }
 
