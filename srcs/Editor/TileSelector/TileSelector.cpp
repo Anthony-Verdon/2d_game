@@ -41,8 +41,8 @@ void TileSelector::InputFields()
         ImGui::EndDragDropTarget();
     }
 
-    ImGui::InputFloat("nbSprite x", &nbSprite.x, 1, 128, "%.3f");
-    ImGui::InputFloat("nbSprite y", &nbSprite.y, 1, 128, "%.3f");
+    ImGui::InputFloat2("nbSprite", &nbSprite[0]);
+
     if (ImGui::Button("new texture", ImVec2(100, 40)))
     {
         TextureData data;
