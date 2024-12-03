@@ -29,10 +29,20 @@ void TileSelector::Draw()
 void TileSelector::InputFields()
 {
     ImGui::InputText("name", name, IM_ARRAYSIZE(name));
+
     ImGui::InputText("path", path, IM_ARRAYSIZE(path));
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
+        {
+            std::string data = *(std::string*)payload->Data;
+            std::memcpy(path, data.c_str(), data.size());
+        }
+        ImGui::EndDragDropTarget();
+    }
+
     ImGui::InputFloat("nbSprite x", &nbSprite.x, 1, 128, "%.3f");
     ImGui::InputFloat("nbSprite y", &nbSprite.y, 1, 128, "%.3f");
-
     if (ImGui::Button("new texture", ImVec2(100, 40)))
     {
         TextureData data;
