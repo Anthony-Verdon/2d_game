@@ -1,6 +1,14 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <memory>
+
+struct Node
+{
+    std::string data;
+    std::vector<std::shared_ptr<Node>> childrens;
+};
 
 class FileExplorer
 {
@@ -9,7 +17,9 @@ class FileExplorer
 
         std::string directoryPath;
 
-        void ReadDirectory(const std::string &directoryPath);
+        std::shared_ptr<Node> root;
+
+        void ReadDirectory(const std::shared_ptr<Node> &root, const std::string &directoryPath);
 
     public:
         FileExplorer();
