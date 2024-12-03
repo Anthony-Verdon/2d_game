@@ -64,12 +64,14 @@ void TileSelector::TilesAdded()
         bool closable_group = true;
         if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
         {
-            if (ImGui::InputFloat("scale", &it->spriteScale, 1, 128, "%.3f"))
+            int index = it - texturesData.begin();
+            std::string nbSpriteInput = "nbSprite###" + std::to_string(index);
+            std::string scaleInput = "scale###" + std::to_string(index);
+            ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
+            if (ImGui::InputFloat(scaleInput.c_str(), &it->spriteScale, 1, 128, "%.3f"))
             {
                 tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
             }
-    
-            ImGui::InputFloat2("nbSprite", &it->nbSprite[0]);
         
             ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
