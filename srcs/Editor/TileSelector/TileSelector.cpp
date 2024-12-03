@@ -41,14 +41,12 @@ void TileSelector::InputFields()
         ImGui::EndDragDropTarget();
     }
 
-    ImGui::InputFloat2("nbSprite", &nbSprite[0]);
-
     if (ImGui::Button("new texture", ImVec2(100, 40)))
     {
         TextureData data;
         data.name = name;
         data.path = path;
-        data.nbSprite = nbSprite;
+        data.nbSprite = glm::vec2(1, 1);
         data.spriteScale = 1.0f;
         texturesData.push_back(data);
         
@@ -56,7 +54,6 @@ void TileSelector::InputFields()
 
         name[0] = 0;
         path[0] = 0;
-        nbSprite = glm::vec2(0, 0);
     }
 }
 
@@ -71,6 +68,9 @@ void TileSelector::TilesAdded()
             {
                 tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
             }
+    
+            ImGui::InputFloat2("nbSprite", &it->nbSprite[0]);
+        
             ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
