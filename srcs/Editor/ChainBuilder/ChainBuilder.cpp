@@ -38,7 +38,7 @@ void ChainBuilder::Draw()
             ImGui::Checkbox(checkboxName.c_str(), &chain.loop);
             for (size_t j = 0; j < chain.points.size(); j++)
             {
-                std::string pointName = "point " + chainSuffix;
+                std::string pointName = "point " + chainSuffix + "_" + std::to_string(j);
                 ImGui::InputFloat2(pointName.c_str(), &chain.points[j][0]);
             }
         }
