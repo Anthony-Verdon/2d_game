@@ -3,6 +3,7 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 #include "Editor/Editor.hpp"
+#include <filesystem>
 
 int main()
 {

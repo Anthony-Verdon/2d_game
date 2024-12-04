@@ -6,6 +6,7 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
+#include "Editor/FileExplorer/FileExplorer.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -17,6 +18,7 @@ class Editor: public AProgram
         Camera camera;
         bool ImGuiWindowHoweredOrFocused;
         ToolSelector toolSelector;
+        FileExplorer fileExplorer;
         
         b2WorldId worldId;
         float timeStep;

@@ -90,7 +90,7 @@ void Game::LoadChains()
         chainDef.points = chain.data();
         chainDef.count = chain.size();
         chainDef.filter = filter;
-        chainDef.isLoop = true;
+        chainDef.isLoop = itChain["loop"];
         
         b2CreateChain(myBodyId, &chainDef);
     }

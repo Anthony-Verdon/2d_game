@@ -29,16 +29,24 @@ void TileSelector::Draw()
 void TileSelector::InputFields()
 {
     ImGui::InputText("name", name, IM_ARRAYSIZE(name));
+
     ImGui::InputText("path", path, IM_ARRAYSIZE(path));
-    ImGui::InputFloat("nbSprite x", &nbSprite.x, 1, 128, "%.3f");
-    ImGui::InputFloat("nbSprite y", &nbSprite.y, 1, 128, "%.3f");
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
+        {
+            std::string data = *(std::string*)payload->Data;
+            std::memcpy(path, data.c_str(), data.size() % arraySize);
+        }
+        ImGui::EndDragDropTarget();
+    }
 
     if (ImGui::Button("new texture", ImVec2(100, 40)))
     {
         TextureData data;
         data.name = name;
         data.path = path;
-        data.nbSprite = nbSprite;
+        data.nbSprite = glm::vec2(1, 1);
         data.spriteScale = 1.0f;
         texturesData.push_back(data);
         
@@ -46,7 +54,6 @@ void TileSelector::InputFields()
 
         name[0] = 0;
         path[0] = 0;
-        nbSprite = glm::vec2(0, 0);
     }
 }
 
@@ -57,10 +64,15 @@ void TileSelector::TilesAdded()
         bool closable_group = true;
         if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
         {
-            if (ImGui::InputFloat("scale", &it->spriteScale, 1, 128, "%.3f"))
+            int index = it - texturesData.begin();
+            std::string nbSpriteInput = "nbSprite###" + std::to_string(index);
+            std::string scaleInput = "scale###" + std::to_string(index);
+            ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
+            if (ImGui::InputFloat(scaleInput.c_str(), &it->spriteScale, 1, 128, "%.3f"))
             {
                 tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
             }
+        
             ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);

@@ -18,7 +18,7 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, name.c_str(), glfwGetPrimaryMonitor(), NULL);
+    window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
     if (!window)
         throw(std::runtime_error("INIT_WINDOW::INITIALIZATION_FAILED"));
     glfwMakeContextCurrent(window);

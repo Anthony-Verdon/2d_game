@@ -52,6 +52,8 @@ Editor::Editor()
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
     ImGui_ImplOpenGL3_Init();
+
+    fileExplorer.SetDirectoryPath("assets");
 }
 
 void Editor::InitDebugDraw()
@@ -108,8 +110,9 @@ void Editor::Run()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     toolSelector.Draw();
+    fileExplorer.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
