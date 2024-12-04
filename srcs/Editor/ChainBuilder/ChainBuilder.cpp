@@ -28,20 +28,26 @@ void ChainBuilder::Draw()
         isBuildingChain = true;
     }
 
-    for (size_t i = 0; i < chains.size(); i++)
+    for (auto it = chains.begin(); it != chains.end(); )
     {
-        std::string chainSuffix = "##chain " + std::to_string(i);
-        if (ImGui::CollapsingHeader(std::to_string(i).c_str()))
+        int index = it - chains.begin();
+        std::string chainSuffix = "##chain " + std::to_string(index);
+        bool closable_group = true;
+        if (ImGui::CollapsingHeader(std::to_string(index).c_str(), &closable_group))
         {
-            Chain &chain = chains[i];
             std::string checkboxName = "loop" + chainSuffix;
-            ImGui::Checkbox(checkboxName.c_str(), &chain.loop);
-            for (size_t j = 0; j < chain.points.size(); j++)
+            ImGui::Checkbox(checkboxName.c_str(), &it->loop);
+            for (size_t j = 0; j < it->points.size(); j++)
             {
                 std::string pointName = "point " + chainSuffix + "_" + std::to_string(j);
-                ImGui::InputFloat2(pointName.c_str(), &chain.points[j][0]);
+                ImGui::InputFloat2(pointName.c_str(), &it->points[j][0]);
             }
         }
+
+        if (closable_group)
+            it++;
+        else
+            it = chains.erase(it);
     }
 }
 
