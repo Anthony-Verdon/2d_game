@@ -269,7 +269,7 @@ void Player::Draw()
     }
 
     bodyAnimator.Play(bodyActionAnimation + directionString);
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
     
     if (toolAnimation != "")
         toolAnimator.Play(toolAnimation + directionString);
@@ -277,7 +277,7 @@ void Player::Draw()
         toolAnimator.Play("none");
     
     if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
-        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false);
+        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 

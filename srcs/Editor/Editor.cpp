@@ -257,7 +257,11 @@ void Editor::UpdateTilemap()
 
 void Editor::Draw()
 {
-    tilemap.Draw();
+    static int layerDisplayed = 0;
+    TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
+    if (tileSelector)
+            layerDisplayed = tileSelector->GetLayer();
+    tilemap.Draw(true, layerDisplayed);
 
     // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();

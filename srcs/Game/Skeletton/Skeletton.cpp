@@ -90,5 +90,5 @@ void Skeletton::PlayAnimation(const std::string &name)
 
 void Skeletton::Draw()
 {
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), false, false);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), false, false, 1);
 }

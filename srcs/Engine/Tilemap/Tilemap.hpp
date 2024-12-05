@@ -36,7 +36,7 @@ class Tilemap
         void AddTile(const Tile &tile);
         void AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite, int layer);
         void SuppressTile(const glm::vec2 &position, int layer);
-        void Draw();
+        void Draw(bool displayLayer = false, int layer = 0);
         
         void Load(const b2WorldId &worldId);
         void Save();

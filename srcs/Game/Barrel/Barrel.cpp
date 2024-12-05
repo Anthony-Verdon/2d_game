@@ -19,7 +19,7 @@ void Barrel::Draw()
     sprite.textureName = "chest";
     sprite.textureSize = glm::vec2(6, 1);
     sprite.spriteCoords = glm::vec2(0, 0);
-    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), sprite, false, false);
+    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), glm::vec3(1, 1, 1), sprite, false, false, 1);
 }
 
 void Barrel::Init(b2WorldId worldId)

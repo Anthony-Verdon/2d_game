@@ -116,10 +116,31 @@ void Tilemap::SuppressTile(const glm::vec2 &position, int layer)
     }
 }
 
-void Tilemap::Draw()
+void Tilemap::Draw(bool displayLayer, int layer)
 {
-    for (auto it = tiles.begin(); it != tiles.end(); it++)
-    {   
-        SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false);
+    if (!displayLayer)
+    {
+        for (auto it = tiles.begin(); it != tiles.end(); it++)
+            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, 1);
+    }
+    else
+    {
+        int lastLayerChecked = layer;
+        float opacity = 1;
+        for (auto it = tiles.begin(); it != tiles.end(); it++)
+        {   
+            if (it->layer != lastLayerChecked)
+            {
+                lastLayerChecked = it->layer;
+                if (it->layer == layer)
+                    opacity = 1;
+                else if (it->layer < layer)
+                    opacity = 0.5;
+                else
+                    opacity = 0.2;
+            }
+
+            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, opacity);
+        }
     }
 }

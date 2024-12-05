@@ -67,7 +67,7 @@ void SpriteRenderer::Destroy()
     glDeleteBuffers(1, &VBO);
 }
 
-void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically)
+void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically, float opacity)
 {
     CHECK_AND_RETURN_VOID(isInit, "SpriteRenderer not initialized");
 
@@ -116,6 +116,7 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
   
     spriteShader->setMat4("model", model);
     spriteShader->setVec3("spriteColor", color);
+    spriteShader->setFloat("opacity", opacity);
   
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, RessourceManager::GetTexture(sprite.textureName)->getID());
