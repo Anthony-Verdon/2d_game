@@ -23,6 +23,7 @@ class TileSelector: public ATool
         char name[arraySize];
         char path[arraySize];
         glm::vec2 nbSprite;
+        int layer;
 
         std::vector<TextureData> texturesData;
         Sprite tileSelected;
@@ -40,4 +41,5 @@ class TileSelector: public ATool
         void Save();
 
         Sprite GetSprite() const;
+        int GetLayer() const { return layer; }
 };

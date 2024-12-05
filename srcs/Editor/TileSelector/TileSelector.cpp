@@ -12,6 +12,7 @@ TileSelector::TileSelector(): ATool("Tile Selector")
     name[0] = 0;
     path[0] = 0;
     nbSprite = glm::vec2(0, 0);
+    layer = 0;
 
     tileSelected.textureName = "";
 }
@@ -55,6 +56,8 @@ void TileSelector::InputFields()
         name[0] = 0;
         path[0] = 0;
     }
+
+    ImGui::InputInt("layer", &layer);
 }
 
 void TileSelector::TilesAdded()
