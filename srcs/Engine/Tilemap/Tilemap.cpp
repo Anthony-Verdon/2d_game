@@ -43,6 +43,7 @@ void Tilemap::Load(const b2WorldId &worldId) //@todo does the tilemap should ini
         tile.sprite.textureName = it["sprite"]["texture"]["name"];
         tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
         tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
+        tile.layer = it["layer"];
         AddTile(tile);
     }
 }
@@ -67,6 +68,7 @@ void Tilemap::Save()
         file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
         file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
         file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
+        file["tiles"][i]["layer"] = it->layer;
 
         i++;
 
@@ -91,13 +93,14 @@ void Tilemap::AddTile(const Tile &tile)
     tiles.insert(tile);
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite)
+void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite, int layer)
 {
     Tile tile;
     tile.position = position;
     tile.size = size;
     tile.body = body;
     tile.sprite = sprite;
+    tile.layer = layer;
     AddTile(tile);
 }
 

@@ -231,7 +231,7 @@ void Editor::UpdateTilemap()
         
         body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
-        tilemap.AddTile(mousePosition, size, body, actualSprite);
+        tilemap.AddTile(mousePosition, size, body, actualSprite, 1);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
