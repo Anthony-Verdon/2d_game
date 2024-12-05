@@ -89,7 +89,7 @@ void Tilemap::Save()
 
 void Tilemap::AddTile(const Tile &tile)
 {
-    SuppressTile(tile.position);
+    SuppressTile(tile.position, tile.layer);
     tiles.insert(tile);
 }
 
@@ -104,11 +104,11 @@ void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Ph
     AddTile(tile);
 }
 
-void Tilemap::SuppressTile(const glm::vec2 &position)
+void Tilemap::SuppressTile(const glm::vec2 &position, int layer)
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        if (it->position == position)
+        if (it->position == position && it->layer == layer)
         {
             tiles.erase(it);
             return;

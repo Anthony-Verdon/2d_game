@@ -17,7 +17,10 @@ struct Tile
         return layer == other.layer && position == other.position && size == other.size; 
     }
     bool operator<(const Tile &other) const {
-        return layer < other.layer || position.x < other.position.x || position.y < other.position.y; 
+        if (layer != other.layer)
+            return layer < other.layer;
+        
+        return position.x < other.position.x || position.y < other.position.y; 
     }
 };
 
@@ -32,7 +35,7 @@ class Tilemap
 
         void AddTile(const Tile &tile);
         void AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite, int layer);
-        void SuppressTile(const glm::vec2 &position);
+        void SuppressTile(const glm::vec2 &position, int layer);
         void Draw();
         
         void Load(const b2WorldId &worldId);

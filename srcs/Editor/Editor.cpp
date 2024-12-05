@@ -236,6 +236,10 @@ void Editor::UpdateTilemap()
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
+        TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
+        if (!tileSelector)
+            return;
+        int layer = tileSelector->GetLayer();
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
@@ -247,7 +251,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition);
+        tilemap.SuppressTile(mousePosition, layer);
     }
 }
 
