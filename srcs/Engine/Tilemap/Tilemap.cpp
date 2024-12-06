@@ -15,7 +15,7 @@ Tilemap::~Tilemap()
 
 }
 
-void Tilemap::Load(const b2WorldId &worldId) //@todo does the tilemap should init physicbody ?
+void Tilemap::Load()
 {
     if (!std::filesystem::exists("saves/map.json")) // @todo: should be a parameter
         return;
@@ -34,12 +34,6 @@ void Tilemap::Load(const b2WorldId &worldId) //@todo does the tilemap should ini
         Tile tile;
         tile.position = glm::vec2(it["position"][0], it["position"][1]);
         tile.size = glm::vec2(it["size"][0], it["size"][1]);
-
-        tile.body = PhysicBody::BodyBuilder().SetPosition(tile.position).SetType(it["type"]).Build(worldId);
-        b2Filter filter;
-        filter.categoryBits = it["filter"]["category"];
-        filter.maskBits = it["filter"]["mask"];
-        tile.body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(tile.size));
         tile.sprite.textureName = it["sprite"]["texture"]["name"];
         tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
         tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
@@ -61,10 +55,6 @@ void Tilemap::Save()
     {
         file["tiles"][i]["position"] = {it->position.x, it->position.y};
         file["tiles"][i]["size"] = {it->size.x, it->size.y};
-        file["tiles"][i]["type"] = b2Body_GetType(it->body.GetBodyId());
-        b2Filter filter = b2Shape_GetFilter(it->body.GetShape("tile"));
-        file["tiles"][i]["filter"]["category"] = filter.categoryBits;
-        file["tiles"][i]["filter"]["mask"] = filter.maskBits;
         file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
         file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
         file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
@@ -93,12 +83,11 @@ void Tilemap::AddTile(const Tile &tile)
     tiles.insert(tile);
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const PhysicBody& body, const Sprite &sprite, int layer)
+void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Sprite &sprite, int layer)
 {
     Tile tile;
     tile.position = position;
     tile.size = size;
-    tile.body = body;
     tile.sprite = sprite;
     tile.layer = layer;
     AddTile(tile);

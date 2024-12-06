@@ -1,6 +1,7 @@
 #include "Editor/Editor.hpp"
 #include "Editor/TileSelector/TileSelector.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
@@ -15,6 +16,7 @@
 #include <iostream>
 #include <string>
 #include "Shapes/square.hpp"
+
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
 
@@ -41,7 +43,7 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    tilemap.Load(worldId);
+    tilemap.Load();
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -222,17 +224,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        glm::vec2 size = actualSprite.size;
-
-        PhysicBody body = PhysicBody::BodyBuilder().SetPosition(mousePosition).SetType(b2_staticBody).Build(worldId);
-        
-        b2Filter filter;
-        filter.categoryBits = CategoriesFilter::Wall;
-        filter.maskBits = CategoriesFilter::Entities;
-        
-        body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
-
-        tilemap.AddTile(mousePosition, size, body, actualSprite, layerSystem.GetLayer());
+        tilemap.AddTile(mousePosition, actualSprite.size, actualSprite, layerSystem.GetLayer());
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {

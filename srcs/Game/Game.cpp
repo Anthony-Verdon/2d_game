@@ -52,7 +52,7 @@ Game::Game()
     player.Init(worldId);
     barrel.Init(worldId);
     skeletton.Init(worldId);
-    tilemap.Load(worldId);
+    tilemap.Load();
 
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
