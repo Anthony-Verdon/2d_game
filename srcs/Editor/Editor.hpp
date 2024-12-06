@@ -7,6 +7,7 @@
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include "Editor/FileExplorer/FileExplorer.hpp"
+#include "Editor/LayerSystem/LayerSystem.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -19,6 +20,7 @@ class Editor: public AProgram
         bool ImGuiWindowHoweredOrFocused;
         ToolSelector toolSelector;
         FileExplorer fileExplorer;
+        LayerSystem layerSystem;
         
         b2WorldId worldId;
         float timeStep;

@@ -111,8 +111,9 @@ void Editor::Run()
     ImGui::NewFrame();
     toolSelector.Draw();
     fileExplorer.Draw();
+    layerSystem.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
@@ -208,7 +209,6 @@ void Editor::UpdateTilemap()
         if (!tileSelector)
             return;
         Sprite actualSprite = tileSelector->GetSprite();
-        int layer = tileSelector->GetLayer();
         if (actualSprite.textureName == "")
             return;
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
@@ -232,14 +232,10 @@ void Editor::UpdateTilemap()
         
         body.AddShape("tile", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
 
-        tilemap.AddTile(mousePosition, size, body, actualSprite, layer);
+        tilemap.AddTile(mousePosition, size, body, actualSprite, layerSystem.GetLayer());
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
-        TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
-        if (!tileSelector)
-            return;
-        int layer = tileSelector->GetLayer();
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
@@ -251,17 +247,13 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition, layer);
+        tilemap.SuppressTile(mousePosition, layerSystem.GetLayer());
     }
 }
 
 void Editor::Draw()
 {
-    static int layerDisplayed = 0;
-    TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
-    if (tileSelector)
-            layerDisplayed = tileSelector->GetLayer();
-    tilemap.Draw(true, layerDisplayed);
+    tilemap.Draw(true, layerSystem.GetLayer());
 
     // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();
