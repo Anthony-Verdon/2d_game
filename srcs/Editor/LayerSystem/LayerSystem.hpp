@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/Tilemap/Tilemap.hpp"
+
 class LayerSystem
 {
     private:
@@ -10,7 +12,7 @@ class LayerSystem
         LayerSystem();
         ~LayerSystem();
 
-        void Draw();
+        void Draw(const Tilemap &tilemap);
         int GetLayer() const;
         bool IsHoveredOrFocused() const;
 };

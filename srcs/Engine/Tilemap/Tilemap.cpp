@@ -144,3 +144,8 @@ void Tilemap::Draw(bool displayLayer, int layer)
         }
     }
 }
+
+const std::set<Tile>& Tilemap::GetTiles() const
+{
+    return (tiles);
+}

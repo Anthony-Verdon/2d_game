@@ -40,4 +40,6 @@ class Tilemap
         
         void Load(const b2WorldId &worldId);
         void Save();
+
+        const std::set<Tile>& GetTiles() const;
 };
