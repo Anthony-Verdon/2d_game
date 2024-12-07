@@ -34,6 +34,48 @@ void Player::Init(b2WorldId worldId)
 void Player::InitAnimations()
 {
     {
+        Animation idleDownAnimation(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
+            sprite.spriteCoords = glm::vec2(i, 0);
+            idleDownAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("idleDown", idleDownAnimation);
+    }
+
+    {
+        Animation idleSideAnimation(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
+            sprite.spriteCoords = glm::vec2(i, 1);
+            idleSideAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("idleSide", idleSideAnimation);
+    }
+
+    {
+        Animation idleUpAnimation(0.2);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_idle_run_death";
+            sprite.textureSize = glm::vec2(8, 13);
+            sprite.spriteCoords = glm::vec2(i, 2);
+            idleUpAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("idleUp", idleUpAnimation);
+    }
+
+    {
         Animation walkDownAnimation(0.2);
         for (int i = 0; i < 6; i++)
         {
@@ -188,8 +230,10 @@ void Player::Update()
         {
             case PlayerTool::SWORD:
                 state = PlayerState::ATTACK;
+                break;
             case PlayerTool::PICKAXE:
                 state = PlayerState::MINING;
+                break;
             default:
                 break;
         }
@@ -221,8 +265,17 @@ void Player::Draw()
 
     // action
     std::string bodyActionAnimation = "";
-    
-    bodyActionAnimation = "walk";
+    switch (state)
+    {
+        case PlayerState::IDLE:
+            bodyActionAnimation = "idle";
+            break;
+        case PlayerState::RUN:
+            bodyActionAnimation = "walk";
+            break;
+        default:
+            break;
+    }
 
     // direction
     std::string directionString = "";
