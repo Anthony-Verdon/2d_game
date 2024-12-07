@@ -194,36 +194,25 @@ void Player::Update()
                 break;
         }
     }
-    else if (Move()) // movements du personnage
-    {
-        // run
-        // modification du state
-        state = PlayerState::RUN;
-    }
     else
     {
-        state = PlayerState::IDLE;
+        glm::vec2 velocity;
+        velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
+        velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
+        if (velocity != glm::vec2(0, 0))
+        {
+            direction = velocity;
+            glm::vec2 movement = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
+            b2Body_SetLinearVelocity(body.GetBodyId(), {movement.x, movement.y});
+            state = PlayerState::RUN;
+        }
+        else
+        {
+            b2Body_SetLinearVelocity(body.GetBodyId(),{0, 0});
+            state = PlayerState::IDLE;
+        }
     }
 }
-
-bool Player::Move()
-{
-    glm::vec2 velocity;
-    velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
-    velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    if (bodyAnimator.CurrentAnimationEnded() && velocity != glm::vec2(0, 0))
-    {
-        direction = velocity;
-        glm::vec2 movement = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
-        b2Body_SetLinearVelocity(body.GetBodyId(), {movement.x, movement.y});
-        return (true);
-    }
-    else
-    {
-        b2Body_SetLinearVelocity(body.GetBodyId(),{0, 0});
-        return (false);
-    }
-}   
 
 void Player::Draw()
 {
