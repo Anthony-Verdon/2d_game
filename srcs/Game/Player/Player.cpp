@@ -1,9 +1,12 @@
 #include "Game/Player/Player.hpp"
+#include "Game/PlayerTools/Sword/Sword.hpp"
+#include "Game/PlayerTools/Pickaxe/Pickaxe.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
+#include <iostream>
 
 Player::Player()
 {
@@ -24,7 +27,6 @@ void Player::Init(b2WorldId worldId)
     filter.categoryBits = CategoriesFilter::Entities;
     filter.maskBits = CategoriesFilter::Wall;
     body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
-    body.AddShape("sword", PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE));
     
     InitAnimations();
 }
@@ -163,11 +165,48 @@ void Player::InitAnimations()
 
 void Player::Update()
 {
-    Move();
-    UpdateSwordHitbox();
+    if (WindowManager::IsKeyPressed(GLFW_KEY_1))
+    {
+        std::cout << "tool selected: none" << std::endl;
+        tool = NULL;
+    }
+    else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
+    {
+        std::cout << "tool selected: sword" << std::endl;
+        tool = std::make_unique<Sword>();
+    }
+    else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
+    {
+        std::cout << "tool selected: pickaxe" << std::endl;
+        tool = std::make_unique<Pickaxe>();
+    }
+
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1) && tool)
+    {
+        tool->MainAction();
+        switch (tool->GetType())
+        {
+            case PlayerTool::SWORD:
+                state = PlayerState::ATTACK;
+            case PlayerTool::PICKAXE:
+                state = PlayerState::MINING;
+            default:
+                break;
+        }
+    }
+    else if (Move()) // movements du personnage
+    {
+        // run
+        // modification du state
+        state = PlayerState::RUN;
+    }
+    else
+    {
+        state = PlayerState::IDLE;
+    }
 }
 
-void Player::Move()
+bool Player::Move()
 {
     glm::vec2 velocity;
     velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
@@ -177,59 +216,14 @@ void Player::Move()
         direction = velocity;
         glm::vec2 movement = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
         b2Body_SetLinearVelocity(body.GetBodyId(), {movement.x, movement.y});
+        return (true);
     }
     else
     {
         b2Body_SetLinearVelocity(body.GetBodyId(),{0, 0});
+        return (false);
     }
 }   
-
-void Player::UpdateSwordHitbox()
-{
-    static glm::vec2 oldDirection = glm::vec2(0, 0);
-    b2ShapeId swordId = body.GetShape("sword");
-    
-    // activate or not
-    b2Filter filter = b2Shape_GetFilter(swordId);
-    if (WindowManager::IsKeyPressed(GLFW_KEY_E) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
-    {
-        filter.categoryBits = CategoriesFilter::Everything;
-        filter.maskBits = CategoriesFilter::Everything;
-        oldDirection = glm::vec2(0, 0); // reset the polygon to trigger events
-    }
-    else
-    {
-        filter.categoryBits = CategoriesFilter::Nothing;
-        filter.maskBits = CategoriesFilter::Nothing;
-    }
-    b2Shape_SetFilter(swordId, filter);
-
-    // direction
-
-    if (oldDirection == direction)
-        return;
-
-    oldDirection = direction;
-
-    b2Polygon swordPolygon;
-
-    if (direction.x == 0)
-    {
-        if (direction.y < 0)
-            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, -SWORD_HITBOX_OFFSET));
-        else
-            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, SWORD_HITBOX_OFFSET));
-    }
-    else
-    {
-        if (direction.x < 0)
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(-SWORD_HITBOX_OFFSET, 0));
-        else
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(SWORD_HITBOX_OFFSET, 0));
-    }
-
-    b2Shape_SetPolygon(swordId, &swordPolygon);
-}
 
 void Player::Draw()
 {
@@ -238,15 +232,8 @@ void Player::Draw()
 
     // action
     std::string bodyActionAnimation = "";
-    std::string toolAnimation = "";
-
-    if (WindowManager::IsKeyPressed(GLFW_KEY_E))
-    {
-        bodyActionAnimation = "attack1";
-        toolAnimation = "iron_sword_attack1";
-    }
-    else
-        bodyActionAnimation = "walk";
+    
+    bodyActionAnimation = "walk";
 
     // direction
     std::string directionString = "";
@@ -270,14 +257,6 @@ void Player::Draw()
 
     bodyAnimator.Play(bodyActionAnimation + directionString);
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
-    
-    if (toolAnimation != "")
-        toolAnimator.Play(toolAnimation + directionString);
-    else
-        toolAnimator.Play("none");
-    
-    if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
-        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 
