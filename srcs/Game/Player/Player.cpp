@@ -160,6 +160,48 @@ void Player::InitAnimations()
     }
 
     {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_actions";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 0);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("miningSide", miningAnimation);
+    }
+
+    {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_actions";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 1);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("miningDown", miningAnimation);
+    }
+
+    {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "player_actions";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 2);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        bodyAnimator.AddAnimation("miningUp", miningAnimation);
+    }
+
+    {
         Animation attackAnimation(0.2, false);
         for (int i = 0; i < 4; i++)
         {
@@ -200,6 +242,49 @@ void Player::InitAnimations()
         
         toolAnimator.AddAnimation("iron_sword_attack1Up", attackAnimation);
     }
+
+    {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_tools";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 0);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_pickaxeSide", miningAnimation);
+    }
+
+    {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_tools";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 1);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_pickaxeDown", miningAnimation);
+    }
+
+    {
+        Animation miningAnimation(0.2, false);
+        for (int i = 0; i < 6; i++)
+        {
+            Sprite sprite;
+            sprite.textureName = "iron_tools";
+            sprite.textureSize = glm::vec2(6, 12);
+            sprite.spriteCoords = glm::vec2(i, 2);
+            miningAnimation.AddFrame(sprite);
+        }
+        
+        toolAnimator.AddAnimation("iron_pickaxeUp", miningAnimation);
+    }
+
 
     bodyAnimator.Play("walkDown");
     toolAnimator.Play("none");
@@ -266,17 +351,26 @@ void Player::Draw()
     // action
     std::string bodyActionAnimation = "";
     std::string toolAnimation = "";
+    glm::vec2 spriteSize;
     switch (state)
     {
         case PlayerState::IDLE:
             bodyActionAnimation = "idle";
+            spriteSize = size * 1.5f;
             break;
         case PlayerState::RUN:
             bodyActionAnimation = "walk";
+            spriteSize = size * 1.5f;
             break;
         case PlayerState::ATTACK:
             bodyActionAnimation = "attack1";
             toolAnimation = "iron_sword_attack1";
+            spriteSize = size * 1.5f;
+            break;
+        case PlayerState::MINING:
+            bodyActionAnimation = "mining";
+            toolAnimation = "iron_pickaxe";
+            spriteSize = size * 1.5f * 1.5f;
             break;
         default:
             break;
@@ -303,7 +397,7 @@ void Player::Draw()
     }
 
     bodyAnimator.Play(bodyActionAnimation + directionString);
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
+    SpriteRenderer::Draw(body.GetPosition(), spriteSize, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
 
     if (toolAnimation != "")
         toolAnimator.Play(toolAnimation + directionString);
@@ -311,7 +405,7 @@ void Player::Draw()
         toolAnimator.Play("none");
     
     if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
-        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
+        SpriteRenderer::Draw(body.GetPosition(), spriteSize, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 
