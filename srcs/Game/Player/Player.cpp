@@ -265,6 +265,7 @@ void Player::Draw()
 
     // action
     std::string bodyActionAnimation = "";
+    std::string toolAnimation = "";
     switch (state)
     {
         case PlayerState::IDLE:
@@ -272,6 +273,10 @@ void Player::Draw()
             break;
         case PlayerState::RUN:
             bodyActionAnimation = "walk";
+            break;
+        case PlayerState::ATTACK:
+            bodyActionAnimation = "attack1";
+            toolAnimation = "iron_sword_attack1";
             break;
         default:
             break;
@@ -299,6 +304,14 @@ void Player::Draw()
 
     bodyAnimator.Play(bodyActionAnimation + directionString);
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
+
+    if (toolAnimation != "")
+        toolAnimator.Play(toolAnimation + directionString);
+    else
+        toolAnimator.Play("none");
+    
+    if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
+        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 
