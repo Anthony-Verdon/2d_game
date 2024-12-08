@@ -8,6 +8,6 @@ class Player::WalkState: public Player::AState
         WalkState();
         ~WalkState();
 
-        std::unique_ptr<Player::AState> Input();
-        std::unique_ptr<Player::AState> Update();
+        std::unique_ptr<Player::AState> Input(Player &player);
+        std::unique_ptr<Player::AState> Update(Player &player);
 };

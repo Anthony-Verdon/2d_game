@@ -9,34 +9,26 @@
 constexpr glm::vec2 SWORD_HITBOX_SIZE = glm::vec2(32, 96);
 constexpr float SWORD_HITBOX_OFFSET = 48;
 
-enum PlayerState
-{
-    IDLE,
-    RUN,
-    ATTACK,
-    MINING,
-};
-
 class Player
 {
     private:
         class AState
         {
-            protected:
-
             public:
                 AState() {}
                 virtual ~AState() {}
 
                 virtual void Enter() {}
-                virtual std::unique_ptr<AState> Input() { return (NULL); }
-                virtual std::unique_ptr<AState> Update() { return (NULL); }
+                virtual std::unique_ptr<AState> Input(Player &player) { (void)player; return (NULL); }
+                virtual std::unique_ptr<AState> Update(Player &player) { (void)player; return (NULL); }
                 virtual void Exit() {}
+            
+            friend Player;
         };
 
         class IdleState;
         class WalkState;
-        
+
         glm::vec2 size;
         glm::vec2 direction;
 
@@ -44,13 +36,9 @@ class Player
         Animator toolAnimator;
         PhysicBody body;
         std::unique_ptr<APlayerTool> tool;
-        std::unique_ptr<AState> statePtr;
-        PlayerState state;
-        
+        std::unique_ptr<AState> state;
+
         void InitAnimations();
-
-        bool Move();
-
 
     public:
         Player();
