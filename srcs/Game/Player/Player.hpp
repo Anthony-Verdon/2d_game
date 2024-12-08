@@ -40,6 +40,7 @@ class Player
         std::unique_ptr<AState> state;
 
         void InitAnimations();
+        std::string DetermineDirectionString() const;
 
     public:
         Player();

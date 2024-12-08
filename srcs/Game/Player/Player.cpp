@@ -333,3 +333,13 @@ glm::vec2 Player::GetPosition() const
     return (body.GetPosition());
 }
 
+
+std::string Player::DetermineDirectionString() const
+{
+    if (direction.y < 0)
+        return ("Up");
+    else if (direction.y > 0)
+        return ("Down");
+    else
+        return ("Side");
+}

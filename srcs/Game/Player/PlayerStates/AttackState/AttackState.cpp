@@ -14,16 +14,8 @@ Player::AttackState::~AttackState()
 
 void Player::AttackState::Enter(Player &player)
 {
-    std::string directionString = "";
-    if (player.direction.y < 0)
-        directionString = "Up";
-    else if (player.direction.y > 0)
-        directionString = "Down";
-    else
-        directionString = "Side";
-
-    player.bodyAnimator.Play("attack1" + directionString);
-    player.toolAnimator.Play("iron_sword_attack1" + directionString);
+    player.bodyAnimator.Play("attack1" + player.DetermineDirectionString());
+    player.toolAnimator.Play("iron_sword_attack1" + player.DetermineDirectionString());
 }
 
 std::unique_ptr<Player::AState> Player::AttackState::Update(Player &player)

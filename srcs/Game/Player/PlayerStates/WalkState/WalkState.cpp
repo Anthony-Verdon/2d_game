@@ -15,15 +15,7 @@ Player::WalkState::~WalkState()
 
 void Player::WalkState::Enter(Player &player)
 {
-    std::string directionString = "";
-    if (player.direction.y < 0)
-        directionString = "Up";
-    else if (player.direction.y > 0)
-        directionString = "Down";
-    else
-        directionString = "Side";
-
-    player.bodyAnimator.Play("walk" + directionString);
+    player.bodyAnimator.Play("walk" + player.DetermineDirectionString());
 }
 
 std::unique_ptr<Player::AState> Player::WalkState::Input(Player &player)
@@ -48,15 +40,7 @@ std::unique_ptr<Player::AState> Player::WalkState::Update(Player &player)
     glm::vec2 velocity = glm::normalize(player.direction) * 200.0f * Time::getDeltaTime();
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {velocity.x, velocity.y});
 
-    std::string directionString = "";
-    if (player.direction.y < 0)
-        directionString = "Up";
-    else if (player.direction.y > 0)
-        directionString = "Down";
-    else
-        directionString = "Side";
-
-    player.bodyAnimator.Play("walk" + directionString);
+    player.bodyAnimator.Play("walk" + player.DetermineDirectionString());
 
     return (NULL);
 }

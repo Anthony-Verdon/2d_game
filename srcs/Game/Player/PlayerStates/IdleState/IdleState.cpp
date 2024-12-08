@@ -14,15 +14,7 @@ Player::IdleState::~IdleState()
 
 void Player::IdleState::Enter(Player &player)
 {
-    std::string directionString = "";
-    if (player.direction.y < 0)
-        directionString = "Up";
-    else if (player.direction.y > 0)
-        directionString = "Down";
-    else
-        directionString = "Side";
-
-    player.bodyAnimator.Play("idle" + directionString);
+    player.bodyAnimator.Play("idle" + player.DetermineDirectionString());
 }
 
 std::unique_ptr<Player::AState> Player::IdleState::Input(Player &player)
@@ -46,15 +38,7 @@ std::unique_ptr<Player::AState> Player::IdleState::Update(Player &player)
 {
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 
-    std::string directionString = "";
-    if (player.direction.y < 0)
-        directionString = "Up";
-    else if (player.direction.y > 0)
-        directionString = "Down";
-    else
-        directionString = "Side";
-
-    player.bodyAnimator.Play("idle" + directionString);
+    player.bodyAnimator.Play("idle" + player.DetermineDirectionString());
 
     return (NULL);
 }
