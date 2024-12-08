@@ -16,6 +16,7 @@ void Player::AttackState::Enter(Player &player)
 {
     player.bodyAnimator.Play("attack1" + player.DetermineDirectionString());
     player.toolAnimator.Play("iron_sword_attack1" + player.DetermineDirectionString());
+    b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 }
 
 std::unique_ptr<Player::AState> Player::AttackState::Update(Player &player)
