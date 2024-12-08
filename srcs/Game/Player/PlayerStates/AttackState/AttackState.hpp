@@ -10,4 +10,5 @@ class Player::AttackState: public Player::AState
 
         void Enter(Player &player);
         std::unique_ptr<Player::AState> Update(Player &player);
+        void Exit(Player &player);
 };

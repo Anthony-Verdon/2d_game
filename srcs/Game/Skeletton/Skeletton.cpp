@@ -67,19 +67,6 @@ void Skeletton::Update()
     if (animator.CurrentAnimationEnded())
     {
         animator.Play("idleDown");
-        b2ShapeId shape = body.GetShape("body");
-        b2Filter filter = b2Shape_GetFilter(shape);
-        filter.categoryBits = CategoriesFilter::Everything;
-        filter.maskBits = CategoriesFilter::Everything;
-        b2Shape_SetFilter(shape, filter);
-    }
-    else
-    {
-        b2ShapeId shape = body.GetShape("body");
-        b2Filter filter = b2Shape_GetFilter(shape);
-        filter.categoryBits = CategoriesFilter::Nothing;
-        filter.maskBits = CategoriesFilter::Nothing;
-        b2Shape_SetFilter(shape, filter);
     }
 }
 
