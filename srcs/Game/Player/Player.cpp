@@ -295,24 +295,36 @@ void Player::InitAnimations()
 
 void Player::Update()
 {
+    bodyAnimator.Update();
+    toolAnimator.Update();
+
     auto ptr = state->Input(*this);
     if (ptr)
+    {
+        state->Exit(*this);
         state = std::move(ptr);
+        state->Enter(*this);
+    }
     ptr = state->Update(*this);
     if (ptr)
+    {
+        state->Exit(*this);
         state = std::move(ptr);
+        state->Enter(*this);
+    }
 }
 
 void Player::Draw()
 {
-    bodyAnimator.Update();
-
     bool flipHorizontally;
     if (direction.x < 0)
             flipHorizontally = true;
         else
             flipHorizontally = false;
+    
     SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
+    if (toolAnimator.GetCurrentAnimation() != "none")
+        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 

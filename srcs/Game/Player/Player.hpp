@@ -18,16 +18,17 @@ class Player
                 AState() {}
                 virtual ~AState() {}
 
-                virtual void Enter() {}
+                virtual void Enter(Player &player) {(void)player;}
                 virtual std::unique_ptr<AState> Input(Player &player) { (void)player; return (NULL); }
                 virtual std::unique_ptr<AState> Update(Player &player) { (void)player; return (NULL); }
-                virtual void Exit() {}
+                virtual void Exit(Player &player) {(void)player;}
             
             friend Player;
         };
 
         class IdleState;
         class WalkState;
+        class AttackState;
 
         glm::vec2 size;
         glm::vec2 direction;

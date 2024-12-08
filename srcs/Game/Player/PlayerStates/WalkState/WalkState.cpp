@@ -1,5 +1,6 @@
 #include "Game/Player/PlayerStates/WalkState/WalkState.hpp"
 #include "Game/Player/PlayerStates/IdleState/IdleState.hpp"
+#include "Game/Player/PlayerStates/AttackState/AttackState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include <iostream>
@@ -12,8 +13,24 @@ Player::WalkState::~WalkState()
 {
 }
 
+void Player::WalkState::Enter(Player &player)
+{
+    std::string directionString = "";
+    if (player.direction.y < 0)
+        directionString = "Up";
+    else if (player.direction.y > 0)
+        directionString = "Down";
+    else
+        directionString = "Side";
+
+    player.bodyAnimator.Play("walk" + directionString);
+}
+
 std::unique_ptr<Player::AState> Player::WalkState::Input(Player &player)
 {
+    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        return (std::make_unique<Player::AttackState>());
+
     glm::vec2 newDirection;
     newDirection.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     newDirection.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);

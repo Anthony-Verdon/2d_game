@@ -19,4 +19,5 @@ class Animator
         void Update();
         Sprite GetFrame() const;
         bool CurrentAnimationEnded() const;
+        std::string GetCurrentAnimation() const;
 };

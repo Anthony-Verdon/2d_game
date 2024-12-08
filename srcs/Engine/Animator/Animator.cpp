@@ -52,3 +52,8 @@ bool Animator::CurrentAnimationEnded() const
         std::cerr << "Animator::CurrentAnimationEnded() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
     return (it->second.IsStoppable() || it->second.Ended());
 }
+
+std::string Animator::GetCurrentAnimation() const
+{
+    return (currentAnimation);
+}

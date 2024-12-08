@@ -2,13 +2,12 @@
 
 #include "Game/Player/Player.hpp"
 
-class Player::WalkState: public Player::AState
+class Player::AttackState: public Player::AState
 {
     public:
-        WalkState();
-        ~WalkState();
+        AttackState();
+        ~AttackState();
 
         void Enter(Player &player);
-        std::unique_ptr<Player::AState> Input(Player &player);
         std::unique_ptr<Player::AState> Update(Player &player);
 };

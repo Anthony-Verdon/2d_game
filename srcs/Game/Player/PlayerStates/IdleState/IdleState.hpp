@@ -8,6 +8,7 @@ class Player::IdleState: public Player::AState
         IdleState();
         ~IdleState();
 
+        void Enter(Player &player);
         std::unique_ptr<Player::AState> Input(Player &player);
         std::unique_ptr<Player::AState> Update(Player &player);
 };
