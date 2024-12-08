@@ -26,10 +26,9 @@ class Player
             friend Player;
         };
 
-        class IdleState;
-        class WalkState;
+        class IdleWalkState;
         class AttackState;
-
+        
         glm::vec2 size;
         glm::vec2 direction;
 

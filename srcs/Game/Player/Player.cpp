@@ -7,7 +7,7 @@
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
 #include <iostream>
-#include "Game/Player/PlayerStates/IdleState/IdleState.hpp"
+#include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
 
 Player::Player()
 {
@@ -29,7 +29,7 @@ void Player::Init(b2WorldId worldId)
     filter.maskBits = CategoriesFilter::Wall;
     body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
     
-    state = std::make_unique<IdleState>();
+    state = std::make_unique<IdleWalkState>();
     tool = NULL;
     InitAnimations();
 }
