@@ -7,6 +7,7 @@
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
 #include <iostream>
+#include "Game/Player/PlayerStates/IdleState/IdleState.hpp"
 
 Player::Player()
 {
@@ -28,6 +29,8 @@ void Player::Init(b2WorldId worldId)
     filter.maskBits = CategoriesFilter::Wall;
     body.AddShape("body", PhysicBody::ShapeBuilder().SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
     
+    statePtr = std::make_unique<IdleState>();
+    tool = NULL;
     InitAnimations();
 }
 
@@ -292,6 +295,11 @@ void Player::InitAnimations()
 
 void Player::Update()
 {
+    auto ptr = statePtr->Input();
+    if (ptr)
+        statePtr = std::move(ptr);
+    statePtr->Update();
+
     if (WindowManager::IsKeyPressed(GLFW_KEY_1))
     {
         std::cout << "tool selected: none" << std::endl;

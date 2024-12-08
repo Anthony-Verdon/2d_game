@@ -20,18 +20,37 @@ enum PlayerState
 class Player
 {
     private:
+        class AState
+        {
+            protected:
+
+            public:
+                AState() {}
+                virtual ~AState() {}
+
+                virtual void Enter() {}
+                virtual std::unique_ptr<AState> Input() { return (NULL); }
+                virtual std::unique_ptr<AState> Update() { return (NULL); }
+                virtual void Exit() {}
+        };
+
+        class IdleState;
+        class WalkState;
+        
         glm::vec2 size;
         glm::vec2 direction;
-        PlayerState state;
 
         Animator bodyAnimator;
         Animator toolAnimator;
         PhysicBody body;
         std::unique_ptr<APlayerTool> tool;
+        std::unique_ptr<AState> statePtr;
+        PlayerState state;
         
         void InitAnimations();
 
         bool Move();
+
 
     public:
         Player();
