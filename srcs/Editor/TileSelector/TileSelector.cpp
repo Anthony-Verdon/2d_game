@@ -36,6 +36,7 @@ void TileSelector::InputFields()
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
         {
             std::string data = *(std::string*)payload->Data;
+            std::memset(path, 0, arraySize);
             std::memcpy(path, data.c_str(), data.size() % arraySize);
         }
         ImGui::EndDragDropTarget();
