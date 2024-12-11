@@ -1,5 +1,6 @@
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
 #include "Game/Player/PlayerStates/AttackState/AttackState.hpp"
+#include "Game/Player/PlayerStates/MiningState/MiningState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 
@@ -19,7 +20,21 @@ void Player::IdleWalkState::Enter(Player &player)
 std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
 {
     if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-        return (std::make_unique<Player::AttackState>());
+    {
+        if (!player.tool)
+            return (NULL);
+
+        switch (player.tool->GetType())
+        {
+            case PlayerTool::SWORD:
+                return (std::make_unique<Player::AttackState>());
+            case PlayerTool::PICKAXE:
+                return (std::make_unique<Player::MiningState>());
+            default:
+                return (NULL);
+        }
+
+    }
 
     velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);

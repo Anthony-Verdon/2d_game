@@ -299,6 +299,13 @@ void Player::Update()
     bodyAnimator.Update();
     toolAnimator.Update();
 
+    if (WindowManager::IsKeyPressed(GLFW_KEY_1))
+        tool = NULL;
+    else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
+        tool = std::make_unique<Sword>();
+    else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
+        tool = std::make_unique<Pickaxe>();
+
     auto ptr = state->Input(*this);
     if (ptr)
     {

@@ -28,6 +28,7 @@ class Player
 
         class IdleWalkState;
         class AttackState;
+        class MiningState;
         
         glm::vec2 size;
         glm::vec2 direction;
