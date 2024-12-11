@@ -4,7 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 
-Player::IdleWalkState::IdleWalkState(): Player::AState()
+Player::IdleWalkState::IdleWalkState(): Player::AState(Player::StateType::IDLE_WALK)
 {
 }
 

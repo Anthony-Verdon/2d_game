@@ -12,16 +12,27 @@ constexpr float SWORD_HITBOX_OFFSET = 48;
 class Player
 {
     private:
+
+        enum StateType
+        {
+            IDLE_WALK, 
+            ATTACK,
+            MINING
+        };
+
         class AState
         {
+            StateType stateType;
+
             public:
-                AState() {}
+                AState(StateType stateType) {this->stateType = stateType; }
                 virtual ~AState() {}
 
                 virtual void Enter(Player &player) {(void)player;}
                 virtual std::unique_ptr<AState> Input(Player &player) { (void)player; return (NULL); }
                 virtual std::unique_ptr<AState> Update(Player &player) { (void)player; return (NULL); }
                 virtual void Exit(Player &player) {(void)player;}
+                StateType GetStateType() const { return stateType; }
             
             friend Player;
         };

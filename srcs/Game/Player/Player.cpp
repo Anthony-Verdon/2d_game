@@ -330,9 +330,12 @@ void Player::Draw()
         else
             flipHorizontally = false;
     
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
+    float scale = 1.5f;
+    if (state->GetStateType() == StateType::MINING)
+        scale = scale * 1.5f;
+    SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
     if (toolAnimator.GetCurrentAnimation() != "none")
-        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
+        SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
 }
 
 

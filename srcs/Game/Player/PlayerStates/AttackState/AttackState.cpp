@@ -4,7 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include <iostream>
 
-Player::AttackState::AttackState(): Player::AState()
+Player::AttackState::AttackState(): Player::AState(Player::StateType::ATTACK)
 {
 }
 

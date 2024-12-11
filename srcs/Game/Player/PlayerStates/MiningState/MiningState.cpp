@@ -4,7 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include <iostream>
 
-Player::MiningState::MiningState(): Player::AState()
+Player::MiningState::MiningState(): Player::AState(Player::StateType::MINING)
 {
 }
 
