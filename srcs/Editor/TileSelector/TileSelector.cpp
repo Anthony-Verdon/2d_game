@@ -24,7 +24,21 @@ void TileSelector::Draw()
 
 void TileSelector::InputFields()
 {
-    
+    ImGui::Text("drop images here");
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_SELECTED"))
+        {
+            std::string data = *(std::string*)payload->Data;
+            TextureData newTextureData;
+            newTextureData.name = data;
+            newTextureData.path = RessourceManager::GetTexture(data)->getPath();
+            newTextureData.nbSprite = glm::vec2(1, 1);
+            newTextureData.spriteScale = 1;
+            texturesData.push_back(newTextureData);
+        }
+        ImGui::EndDragDropTarget();
+    }
 }
 
 void TileSelector::TilesAdded()
