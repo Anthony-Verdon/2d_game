@@ -37,8 +37,6 @@ void AnimatorTMP::Draw()
         ImGui::EndDragDropTarget();
     }
 
-
-    ImGui::ShowDemoWindow();
     ImGui::End();
 }
 
