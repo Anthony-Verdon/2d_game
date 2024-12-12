@@ -46,6 +46,9 @@ void Texture::loadTexture(const std::string &path)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    this->width = width;
+    this->height = height;
 }
 
 void Texture::loadSkybox(const std::string &path)
@@ -84,14 +87,4 @@ void Texture::loadSkybox(const std::string &path)
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-}
-
-unsigned int Texture::getID() const
-{
-    return (ID);
-}
-
-std::string Texture::getPath() const
-{
-    return (path);
 }

@@ -10,6 +10,8 @@ class Texture
 
     unsigned int ID;
     std::string path;
+    unsigned int width;
+    unsigned int height;
 
   public:
     Texture() = delete;
@@ -19,6 +21,8 @@ class Texture
     Texture(const std::string &path);
     ~Texture();
 
-    unsigned int getID() const;
-    std::string getPath() const;
+    unsigned int getID() const {return ID; }
+    std::string getPath() const {return path; }
+    unsigned int getWidth() const {return width; }
+    unsigned int getHeight() const {return height; }
 };
