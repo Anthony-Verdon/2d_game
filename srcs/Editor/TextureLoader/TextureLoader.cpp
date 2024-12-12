@@ -40,16 +40,18 @@ void TextureLoader::Draw()
         path[0] = 0;
     }
 
-    ImVec2 uv0 = ImVec2(0, 0);
-    ImVec2 uv1 = ImVec2(1, 1);
-    ImVec4 tint_color = ImVec4(1, 1, 1, 1);
-    ImVec4 border_color = ImVec4(1, 1, 1, 1);
     for (size_t i = 0; i < textures.size(); i++)
     {
         if (ImGui::CollapsingHeader(textures[i].c_str()))
         {
             std::shared_ptr<Texture> texture = RessourceManager::GetTexture(textures[i]);
-            ImGui::Image((ImTextureID)(intptr_t)texture->getID(), ImVec2(texture->getWidth(), texture->getHeight()), uv0, uv1, tint_color, border_color);
+            ImGui::ImageButton("", (ImTextureID)(intptr_t)texture->getID(), ImVec2(texture->getWidth(), texture->getHeight()));
+            if (ImGui::BeginDragDropSource())
+            {
+                ImGui::SetDragDropPayload("TEXTURE_SELECTED", &textures[i], sizeof(std::string));
+                ImGui::Text("%s", textures[i].c_str());
+                ImGui::EndDragDropSource();
+            }
         }
 
     }
