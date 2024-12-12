@@ -9,7 +9,7 @@
 class ToolSelector
 {
     private:
-        bool isHoveredOrFocused;
+        bool isHoveredOrFocused;//@todo: factorize hover and draw function
 
         std::unordered_map<std::shared_ptr<ATool>, bool> tools;
         std::unordered_map<std::shared_ptr<ATool>, bool>::iterator toolSelected;

@@ -1,4 +1,5 @@
 #include "Editor/TileSelector/TileSelector.hpp"
+#include "Editor/AnimatorTMP/AnimatorTMP.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -90,6 +91,16 @@ void TileSelector::TilesAdded()
                         tileSelected.textureSize = it->nbSprite; 
                         tileSelected.spriteCoords = glm::vec2(i, j); 
                         tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+                    }
+                    if (ImGui::BeginDragDropSource())
+                    {
+                        textureTMP texture;
+                        texture.textureName = it->name;
+                        texture.uv0 = uv0;
+                        texture.uv1 = uv1;
+                        ImGui::SetDragDropPayload("TILE_SELECTED", &texture, sizeof(textureTMP));
+                        ImGui::Text("");
+                        ImGui::EndDragDropSource();
                     }
                     ImGui::SameLine();
                 }

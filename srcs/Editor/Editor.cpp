@@ -114,8 +114,9 @@ void Editor::Run()
     toolSelector.Draw();
     fileExplorer.Draw();
     layerSystem.Draw(tilemap);
+    animatorTMP.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused() || animatorTMP.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
