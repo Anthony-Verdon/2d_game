@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <stdexcept>
+#include "globals.hpp"
 
 GLFWwindow *WindowManager::window = NULL;
 glm::vec2 WindowManager::mousePosition = glm::vec2(0,0);
@@ -18,7 +19,12 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+#ifdef FULL_SCREEN
+    window = glfwCreateWindow(width, height, name.c_str(), glfwGetPrimaryMonitor(), NULL);
+#else
     window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
+#endif
+
     if (!window)
         throw(std::runtime_error("INIT_WINDOW::INITIALIZATION_FAILED"));
     glfwMakeContextCurrent(window);
