@@ -9,10 +9,6 @@
 
 TileSelector::TileSelector(): ATool("Tile Selector")
 {
-    name[0] = 0;
-    path[0] = 0;
-    nbSprite = glm::vec2(0, 0);
-
     tileSelected.textureName = "";
 }
 
@@ -28,34 +24,7 @@ void TileSelector::Draw()
 
 void TileSelector::InputFields()
 {
-    ImGui::InputText("name", name, IM_ARRAYSIZE(name));
-
-    ImGui::InputText("path", path, IM_ARRAYSIZE(path));
-    if (ImGui::BeginDragDropTarget())
-    {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
-        {
-            std::string data = *(std::string*)payload->Data;
-            std::memset(path, 0, arraySize);
-            std::memcpy(path, data.c_str(), data.size() % arraySize);
-        }
-        ImGui::EndDragDropTarget();
-    }
-
-    if (ImGui::Button("new texture", ImVec2(100, 40)))
-    {
-        TextureData data;
-        data.name = name;
-        data.path = path;
-        data.nbSprite = glm::vec2(1, 1);
-        data.spriteScale = 1.0f;
-        texturesData.push_back(data);
-        
-        RessourceManager::AddTexture(name, path);
-
-        name[0] = 0;
-        path[0] = 0;
-    }
+    
 }
 
 void TileSelector::TilesAdded()
