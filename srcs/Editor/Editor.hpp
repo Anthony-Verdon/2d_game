@@ -6,6 +6,7 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
+#include "Editor/TextureLoader/TextureLoader.hpp"
 #include "Editor/FileExplorer/FileExplorer.hpp"
 #include "Editor/LayerSystem/LayerSystem.hpp"
 #include <Box2D/Box2D.h>
@@ -21,6 +22,7 @@ class Editor: public AProgram
         ToolSelector toolSelector;
         FileExplorer fileExplorer;
         LayerSystem layerSystem;
+        TextureLoader textureLoader;
         
         b2WorldId worldId;
         float timeStep;
