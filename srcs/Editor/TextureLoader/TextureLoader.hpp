@@ -2,8 +2,7 @@
 
 #include <vector>
 #include <string>
-
-constexpr int INPUT_ARRAY_SIZE = 100;
+#include "globals.hpp"
 
 class TextureLoader
 {

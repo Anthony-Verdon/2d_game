@@ -1,6 +1,6 @@
 #pragma once
 
-#define FULL_SCREEN
+//#define FULL_SCREEN
 // window
 #ifdef FULL_SCREEN
 constexpr int WINDOW_WIDTH = 1920;
@@ -19,3 +19,4 @@ constexpr float TILE_SIZE = 16;
 
 // editor
 constexpr float CHAIN_POINT_RADIUS = 10;
+constexpr int INPUT_ARRAY_SIZE = 100;

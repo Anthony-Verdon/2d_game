@@ -2,21 +2,19 @@
 
 #include <vector>
 #include <string>
+#include <map>
+#include "Engine\Animation\Animation.hpp"
 #include "imgui.h"
-
-struct textureTMP
-{
-    std::string textureName;
-    ImVec2 uv0;
-    ImVec2 uv1;
-};
+#include "globals.hpp"
 
 class AnimatorTMP
 {
     private:
         bool isHoveredOrFocused;
+        char name[INPUT_ARRAY_SIZE];
 
-        std::vector<textureTMP> sprites;
+        std::map<std::string, Animation> animations;
+        std::string animationSelected;
     public:
         AnimatorTMP();
         ~AnimatorTMP();

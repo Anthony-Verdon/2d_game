@@ -66,6 +66,11 @@ Sprite Animation::GetFrame() const
     return (frames[frameIndex]);
 }
 
+std::vector<Sprite> Animation::GetFrames() const
+{
+    return (frames);
+}
+
 bool Animation::IsStoppable() const
 {
     return (stoppable);

@@ -67,7 +67,7 @@ void TileSelector::TilesAdded()
                 {
                     ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                     ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
-                    std::string button = std::to_string(j) + "_" + std::to_string(i);
+                    std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
                     if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1, bg_col, tint_col))
                     {
                         tileSelected.textureName = it->name; 
@@ -77,11 +77,11 @@ void TileSelector::TilesAdded()
                     }
                     if (ImGui::BeginDragDropSource())
                     {
-                        textureTMP texture;
-                        texture.textureName = it->name;
-                        texture.uv0 = uv0;
-                        texture.uv1 = uv1;
-                        ImGui::SetDragDropPayload("TILE_SELECTED", &texture, sizeof(textureTMP));
+                        tileSelected.textureName = it->name; 
+                        tileSelected.textureSize = it->nbSprite; 
+                        tileSelected.spriteCoords = glm::vec2(i, j); 
+                        tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+                        ImGui::SetDragDropPayload("TILE_SELECTED", &tileSelected, sizeof(Sprite));
                         ImGui::Text("");
                         ImGui::EndDragDropSource();
                     }

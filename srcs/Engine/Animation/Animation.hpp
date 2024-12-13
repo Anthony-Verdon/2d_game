@@ -28,6 +28,7 @@ class Animation
         bool IsStoppable() const;
         bool Ended() const;
         Sprite GetFrame() const;
+        std::vector<Sprite> GetFrames() const;
         unsigned int GetFrameIndex() const;
 
         static Animation none;
