@@ -60,7 +60,8 @@ void AnimatorTMP::Draw()
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TILE_SELECTED"))
         {
             Sprite sprite = *(Sprite*)payload->Data;
-            animations[animationSelected].AddFrame(sprite);
+            if (animationSelected != "")
+                animations[animationSelected].AddFrame(sprite);
         }
         ImGui::EndDragDropTarget();
     }
