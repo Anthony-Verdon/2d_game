@@ -24,8 +24,11 @@ void AnimatorTMP::Draw()
         ImGui::InputText("name", name, IM_ARRAYSIZE(name));
         if (ImGui::Button("new animation", ImVec2(100, 40)))
         {
-            animations[name] = Animation();
-            name[0] = 0;
+            if (name[0] != 0)
+            {
+                animations[name] = Animation();
+                name[0] = 0;
+            }
         }
         ImGui::ShowDemoWindow();
         for (auto it = animations.begin(); it != animations.end(); it++)
