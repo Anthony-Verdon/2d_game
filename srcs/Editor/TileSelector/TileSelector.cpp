@@ -75,16 +75,6 @@ void TileSelector::TilesAdded()
                         tileSelected.spriteCoords = glm::vec2(i, j); 
                         tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
                     }
-                    if (ImGui::BeginDragDropSource())
-                    {
-                        tileSelected.textureName = it->name; 
-                        tileSelected.textureSize = it->nbSprite; 
-                        tileSelected.spriteCoords = glm::vec2(i, j); 
-                        tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
-                        ImGui::SetDragDropPayload("TILE_SELECTED", &tileSelected, sizeof(Sprite));
-                        ImGui::Text("");
-                        ImGui::EndDragDropSource();
-                    }
                     ImGui::SameLine();
                 }
                 ImGui::NewLine();
