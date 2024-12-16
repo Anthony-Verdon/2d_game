@@ -51,37 +51,55 @@ void AnimatorTMP::Draw()
                 }
             
                 ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
-                ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-                ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+                static ImGuiSelectionBasicStorage selection;
+                ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnEscape | ImGuiMultiSelectFlags_BoxSelect2d;
+                static std::vector<bool> selected;
+                ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, it->nbSprite.x * it->nbSprite.y);
+                selection.ApplyRequests(ms_io);
                 for (int j = 0; j < it->nbSprite.y; j++)
                 {
                     for (int i = 0; i < it->nbSprite.x; i++)
                     {
+                        while(selected.size() <= j * it->nbSprite.x + i)
+                            selected.push_back(false);
+                        int index = j * it->nbSprite.x + i;
+                        std::string item = std::to_string(index);
                         ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                         ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
-                        std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
-                        if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1, bg_col, tint_col))
-                        {
-                            tileSelected.textureName = it->name; 
-                            tileSelected.textureSize = it->nbSprite; 
-                            tileSelected.spriteCoords = glm::vec2(i, j); 
-                            tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
-                        }
+                        ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
+                        ImGui::SetNextItemSelectionUserData(index);
+                        if (ImGui::Selectable(item.c_str(), selection.Contains(index), ImGuiSelectableFlags_AllowOverlap, size))
+                            selected[index] = !selected[index];
                         if (ImGui::BeginDragDropSource())
                         {
-                            tileSelected.textureName = it->name; 
-                            tileSelected.textureSize = it->nbSprite; 
-                            tileSelected.spriteCoords = glm::vec2(i, j); 
-                            tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
-                            ImGui::SetDragDropPayload("TILE_SELECTED", &tileSelected, sizeof(Sprite));
-                            ImGui::Text("");
+                        if (ImGui::GetDragDropPayload() == NULL)
+                            {
+                                ImVector<ImGuiID> payload_items;
+                                void* ptr = NULL;
+                                ImGuiID id = 0;
+                                if (!selection.Contains(index))
+                                    payload_items.push_back(index);
+                                else
+                                    while (selection.GetNextSelectedItem(&ptr, &id))
+                                        payload_items.push_back(id);
+                                ImGui::SetDragDropPayload("ASSETS_BROWSER_ITEMS", payload_items.Data, (size_t)payload_items.size_in_bytes());
+                            }
+
+                            const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+                            const int payload_count = (int)payload->DataSize / (int)sizeof(ImGuiID);
+                            ImGui::Text("%d assets", payload_count);
                             ImGui::EndDragDropSource();
                         }
+                        ImGui::SetCursorScreenPos(selectable_pos);
+                        ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1);
                         ImGui::SameLine();
                     }
                     ImGui::NewLine();
                 }
-            }
+                ms_io = ImGui::EndMultiSelect();
+                selection.ApplyRequests(ms_io);
+                
+            }   
             if (closable_group)
                 it++;
             else
@@ -102,7 +120,6 @@ void AnimatorTMP::Draw()
                 name[0] = 0;
             }
         }
-        ImGui::ShowDemoWindow();
         for (auto it = animations.begin(); it != animations.end(); it++)
         {
             if (ImGui::Selectable(it->first.c_str(), it->first == animationSelected))
