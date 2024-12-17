@@ -12,11 +12,13 @@ class AnimatorTMP
 {
     private:
         bool isHoveredOrFocused;
+
         char name[INPUT_ARRAY_SIZE];
         std::vector<TextureData> texturesData;
-        std::vector<Sprite> tilesSelected;
+
         ImGuiSelectionBasicStorage selection;
         std::vector<bool> selected;
+        std::vector<Sprite> tilesSelected;
 
         std::map<std::string, Animation> animations;
         std::string animationSelected;
