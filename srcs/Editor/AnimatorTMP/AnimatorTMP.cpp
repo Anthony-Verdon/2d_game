@@ -154,6 +154,7 @@ void AnimatorTMP::CreateDragDropSourceData()
     std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
     ImGui::Text("%zu assets", sprites.size());
 }
+
 void AnimatorTMP::DrawAnimationsLoader()
 {
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
@@ -169,10 +170,19 @@ void AnimatorTMP::DrawAnimationsLoader()
                 name[0] = 0;
             }
         }
-        for (auto it = animations.begin(); it != animations.end(); it++)
+        int index = 0;
+        for (auto it = animations.begin(); it != animations.end();)
         {
+            ImGui::SetNextItemAllowOverlap();
             if (ImGui::Selectable(it->first.c_str(), it->first == animationSelected))
                 animationSelected = it->first;
+            ImGui::SameLine();
+            std::string button = "X###" + std::to_string(index);
+            if (ImGui::SmallButton(button.c_str()))
+                it = animations.erase(it);
+            else
+                it++;
+            index++;
         }
 
     }
