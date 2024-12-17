@@ -15,6 +15,8 @@ class AnimatorTMP
         char name[INPUT_ARRAY_SIZE];
         std::vector<TextureData> texturesData;
         Sprite tileSelected;
+        ImGuiSelectionBasicStorage selection;
+        std::vector<bool> selected;
 
         std::map<std::string, Animation> animations;
         std::string animationSelected;

@@ -46,33 +46,30 @@ void AnimatorTMP::DrawSpriteSelector()
             }
             ImGui::EndDragDropTarget();
         }
+        ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnClickVoid | ImGuiMultiSelectFlags_BoxSelect2d;
+        ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, 1000);
+        selection.ApplyRequests(ms_io);
+        size_t index = 0;
         for (auto it = texturesData.begin(); it != texturesData.end(); )
         {
             bool closable_group = true;
             if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
             {
-                int index = it - texturesData.begin();
-                std::string nbSpriteInput = "nbSprite###" + std::to_string(index);
-                std::string scaleInput = "scale###" + std::to_string(index);
-                ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
+                int textureIndex = it - texturesData.begin();
+                std::string nbSpriteInput = "nbSprite###" + std::to_string(textureIndex);
+                std::string scaleInput = "scale###" + std::to_string(textureIndex);
+                if (ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]))
+                    selection.Clear();
                 if (ImGui::InputFloat(scaleInput.c_str(), &it->spriteScale, 1, 128, "%.3f"))
-                {
                     tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
-                }
             
                 ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
-                static ImGuiSelectionBasicStorage selection;
-                ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnEscape | ImGuiMultiSelectFlags_BoxSelect2d;
-                static std::vector<bool> selected;
-                ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, it->nbSprite.x * it->nbSprite.y);
-                selection.ApplyRequests(ms_io);
                 for (int j = 0; j < it->nbSprite.y; j++)
                 {
                     for (int i = 0; i < it->nbSprite.x; i++)
-                    {
-                        while(selected.size() <= j * it->nbSprite.x + i)
+                    {   
+                        while (selected.size() <= index)
                             selected.push_back(false);
-                        int index = j * it->nbSprite.x + i;
                         std::string item = std::to_string(index);
                         ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                         ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
@@ -103,11 +100,11 @@ void AnimatorTMP::DrawSpriteSelector()
                         ImGui::SetCursorScreenPos(selectable_pos);
                         ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1);
                         ImGui::SameLine();
+                        index++;
                     }
                     ImGui::NewLine();
                 }
-                ms_io = ImGui::EndMultiSelect();
-                selection.ApplyRequests(ms_io);
+
                 
             }   
             if (closable_group)
@@ -115,6 +112,8 @@ void AnimatorTMP::DrawSpriteSelector()
             else
                 it = texturesData.erase(it);
         }
+        ms_io = ImGui::EndMultiSelect();
+        selection.ApplyRequests(ms_io);
     }
     ImGui::EndChild();
 }
