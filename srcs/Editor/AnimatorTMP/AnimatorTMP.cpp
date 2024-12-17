@@ -31,6 +31,8 @@ void AnimatorTMP::DrawSpriteSelector()
 {
     if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
+        isHoveredOrFocused |= ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
+
         // drop text to load texture
         ImGui::Text("drop images here");
         if (ImGui::BeginDragDropTarget())
@@ -156,6 +158,8 @@ void AnimatorTMP::DrawAnimationsLoader()
 {
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {   
+        isHoveredOrFocused |= ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
+
         ImGui::InputText("name", name, IM_ARRAYSIZE(name));
         if (ImGui::Button("new animation", ImVec2(100, 40)))
         {
@@ -179,6 +183,7 @@ void AnimatorTMP::DrawCurrentAnimation()
 {
     if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
+        isHoveredOrFocused |= ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
         std::vector<Sprite> frames;
         if (animationSelected != "")
