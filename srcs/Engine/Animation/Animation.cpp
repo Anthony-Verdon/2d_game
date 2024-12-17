@@ -23,6 +23,11 @@ void Animation::AddFrame(const Sprite &frame)
     frames.push_back(frame);
 }
 
+void Animation::SetFrames(const std::vector<Sprite> &frames)
+{
+    this->frames = frames;
+}
+
 void Animation::SetAnimationSpeed(float animationSpeed)
 {
     this->animationSpeed = animationSpeed;

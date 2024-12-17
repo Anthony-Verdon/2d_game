@@ -19,6 +19,7 @@ class Animation
         ~Animation();
 
         void AddFrame(const Sprite &frame);
+        void SetFrames(const std::vector<Sprite> &frames);
         void Update();
         void Reset();
 

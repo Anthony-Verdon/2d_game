@@ -16,7 +16,7 @@ add_requires("stb")
 add_requires("glad")
 add_requires("box2d")
 add_requires("nlohmann_json")
-add_requires("imgui", {configs = {glfw = true, opengl3 = true}})
+add_requires("imgui 993fa347495860ed44b83574254ef2a317d0c14f", {configs = {glfw = true, opengl3 = true}})
 
 target("game")
     set_kind("binary")

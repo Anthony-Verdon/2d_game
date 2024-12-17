@@ -13,16 +13,22 @@ class AnimatorTMP
     private:
         bool isHoveredOrFocused;
 
+        // input
         char name[INPUT_ARRAY_SIZE];
         std::vector<TextureData> texturesData;
 
+        // multi select
         ImGuiSelectionBasicStorage selection;
         std::vector<bool> selected;
         std::vector<Sprite> tilesSelected;
 
+        // animations created
         std::map<std::string, Animation> animations;
-        std::string animationSelected;
 
+        // current animation
+        std::string animationSelected;
+        std::vector<int> frameIndex;
+        
         void DrawSpriteSelector();
         void CreateDragDropSourceData();
         void DrawAnimationsLoader();

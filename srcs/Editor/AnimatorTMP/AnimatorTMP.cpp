@@ -198,16 +198,43 @@ void AnimatorTMP::DrawCurrentAnimation()
         std::vector<Sprite> frames;
         if (animationSelected != "")
             frames = animations[animationSelected].GetFrames();
+        
+        // needed to be able to swap selectables easily
+        int frameIndexSize = frameIndex.size();
+        int diff = frames.size() - frameIndexSize;
+        if(diff > 0)
+        {
+            for (int i = 0; i < diff; i++)
+                frameIndex.push_back(frameIndexSize + i);
+        }
 
-        ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
-        ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+        const ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
+        ImGui::PushItemFlag(ImGuiItemFlags_AllowDuplicateId, true);
         for (size_t i = 0; i < frames.size(); i++)
         {
+            ImGui::SameLine();
+            
             ImVec2 uv0 = ImVec2(1.0f / frames[i].textureSize.x * frames[i].spriteCoords.x, 1.0f / frames[i].textureSize.y * frames[i].spriteCoords.y); 
             ImVec2 uv1 = ImVec2(1.0f / frames[i].textureSize.x * (frames[i].spriteCoords.x + 1), 1.0f / frames[i].textureSize.y * (frames[i].spriteCoords.y + 1));
-            ImGui::SameLine();
-            ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(frames[i].textureName)->getID(), size, uv0, uv1, tint_col, ImGui::GetStyleColorVec4(ImGuiCol_Border));
+            ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
+
+            ImGui::Selectable(std::to_string(frameIndex[i]).c_str(), false, ImGuiSelectableFlags_AllowOverlap, size);
+            if (ImGui::IsItemActive() && !ImGui::IsItemHovered())
+            {
+                int i_next = i + (ImGui::GetMouseDragDelta(0).x < 0.f ? -1 : 1);
+                if (i_next >= 0 && i_next < (int)frames.size())
+                {
+                    std::swap(frames[i], frames[i_next]);
+                    std::swap(frameIndex[i], frameIndex[i_next]);
+                    ImGui::ResetMouseDragDelta();
+                }
+            }
+            ImGui::SetCursorScreenPos(selectable_pos);
+            ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(frames[i].textureName)->getID(), size, uv0, uv1);
         }
+        ImGui::PopItemFlag();
+        if (animationSelected != "")
+            animations[animationSelected].SetFrames(frames);
     }
     ImGui::EndChild();
     if (ImGui::BeginDragDropTarget())
