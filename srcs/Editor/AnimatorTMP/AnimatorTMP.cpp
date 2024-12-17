@@ -60,8 +60,6 @@ void AnimatorTMP::DrawSpriteSelector()
                 std::string scaleInput = "scale###" + std::to_string(textureIndex);
                 if (ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]))
                     selection.Clear();
-                if (ImGui::InputFloat(scaleInput.c_str(), &it->spriteScale, 1, 128, "%.3f"))
-                    tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
             
                 ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
                 for (int j = 0; j < it->nbSprite.y; j++)
@@ -79,22 +77,39 @@ void AnimatorTMP::DrawSpriteSelector()
                             selected[index] = !selected[index];
                         if (ImGui::BeginDragDropSource())
                         {
-                        if (ImGui::GetDragDropPayload() == NULL)
+                            if (ImGui::GetDragDropPayload() == NULL)
                             {
-                                ImVector<ImGuiID> payload_items;
+                                tilesSelected.clear();
                                 void* ptr = NULL;
                                 ImGuiID id = 0;
-                                if (!selection.Contains(index))
-                                    payload_items.push_back(index);
-                                else
-                                    while (selection.GetNextSelectedItem(&ptr, &id))
-                                        payload_items.push_back(id);
-                                ImGui::SetDragDropPayload("ASSETS_BROWSER_ITEMS", payload_items.Data, (size_t)payload_items.size_in_bytes());
+                                while (selection.GetNextSelectedItem(&ptr, &id))
+                                {
+                                    unsigned int nbSprite = 0;
+                                    auto it2 = texturesData.begin();
+                                    for (; it2 != texturesData.end(); it2++ )
+                                    {
+                                        if (id < nbSprite + it2->nbSprite.x * it2->nbSprite.y)
+                                        {
+                                            id = id - nbSprite;
+                                            break;
+                                        }
+                                        nbSprite += it2->nbSprite.x * it2->nbSprite.y;
+                                    }
+                                    
+                                    Sprite newSprite;
+                                    newSprite.textureName = it2->name;
+                                    newSprite.textureSize = it2->nbSprite;
+                                    newSprite.spriteCoords = glm::vec2(id % (int)it2->nbSprite.x, id / (int)it2->nbSprite.x);
+                                    newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it2->spriteScale;
+                                    tilesSelected.push_back(newSprite);
+                                }
+
+                                ImGui::SetDragDropPayload("SPRITES_SELECTED", &tilesSelected, sizeof(std::vector<Sprite>));
                             }
 
                             const ImGuiPayload* payload = ImGui::GetDragDropPayload();
-                            const int payload_count = (int)payload->DataSize / (int)sizeof(ImGuiID);
-                            ImGui::Text("%d assets", payload_count);
+                            std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
+                            ImGui::Text("%zu assets", sprites.size());
                             ImGui::EndDragDropSource();
                         }
                         ImGui::SetCursorScreenPos(selectable_pos);
@@ -163,11 +178,14 @@ void AnimatorTMP::DrawCurrentAnimation()
     ImGui::EndChild();
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TILE_SELECTED"))
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SPRITES_SELECTED"))
         {
-            Sprite sprite = *(Sprite*)payload->Data;
+            std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
             if (animationSelected != "")
-                animations[animationSelected].AddFrame(sprite);
+            {
+                for (size_t i = 0; i < sprites.size(); i++)
+                    animations[animationSelected].AddFrame(sprites[i]);
+            }
         }
         ImGui::EndDragDropTarget();
     }

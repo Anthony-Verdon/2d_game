@@ -14,7 +14,7 @@ class AnimatorTMP
         bool isHoveredOrFocused;
         char name[INPUT_ARRAY_SIZE];
         std::vector<TextureData> texturesData;
-        Sprite tileSelected;
+        std::vector<Sprite> tilesSelected;
         ImGuiSelectionBasicStorage selection;
         std::vector<bool> selected;
 
