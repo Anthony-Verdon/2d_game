@@ -29,7 +29,7 @@ void AnimatorTMP::Draw()
 
 void AnimatorTMP::DrawSpriteSelector()
 {
-    if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
+    if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
         ImGui::Text("drop images here");
         if (ImGui::BeginDragDropTarget())
@@ -121,7 +121,7 @@ void AnimatorTMP::DrawSpriteSelector()
 
 void AnimatorTMP::DrawAnimationsLoader()
 {
-    if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
+    if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {   
         ImGui::InputText("name", name, IM_ARRAYSIZE(name));
         if (ImGui::Button("new animation", ImVec2(100, 40)))
@@ -144,7 +144,7 @@ void AnimatorTMP::DrawAnimationsLoader()
 
 void AnimatorTMP::DrawCurrentAnimation()
 {
-    if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
+    if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
 
         std::vector<Sprite> frames;
