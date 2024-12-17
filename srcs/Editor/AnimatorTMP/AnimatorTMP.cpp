@@ -13,12 +13,22 @@ AnimatorTMP::~AnimatorTMP()
 {
 }
 
-#include <iostream>
 void AnimatorTMP::Draw()
 {
     ImGui::Begin("Animator TMP");
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
+    DrawSpriteSelector();
+    ImGui::SameLine();
+    DrawAnimationsLoader();
+    ImGui::SameLine();
+    DrawCurrentAnimation();
+
+    ImGui::End();
+}
+
+void AnimatorTMP::DrawSpriteSelector()
+{
     if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
     {
         ImGui::Text("drop images here");
@@ -107,8 +117,10 @@ void AnimatorTMP::Draw()
         }
     }
     ImGui::EndChild();
-    ImGui::SameLine();
+}
 
+void AnimatorTMP::DrawAnimationsLoader()
+{
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
     {   
         ImGui::InputText("name", name, IM_ARRAYSIZE(name));
@@ -127,8 +139,11 @@ void AnimatorTMP::Draw()
         }
 
     }
-    ImGui::EndChild();
-    ImGui::SameLine();
+    ImGui::EndChild();    
+}
+
+void AnimatorTMP::DrawCurrentAnimation()
+{
     if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX))
     {
 
@@ -157,8 +172,6 @@ void AnimatorTMP::Draw()
         }
         ImGui::EndDragDropTarget();
     }
-
-    ImGui::End();
 }
 
 bool AnimatorTMP::IsHoveredOrFocused() const

@@ -18,6 +18,11 @@ class AnimatorTMP
 
         std::map<std::string, Animation> animations;
         std::string animationSelected;
+
+        void DrawSpriteSelector();
+        void DrawAnimationsLoader();
+        void DrawCurrentAnimation();
+
     public:
         AnimatorTMP();
         ~AnimatorTMP();
