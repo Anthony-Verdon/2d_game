@@ -31,6 +31,7 @@ void AnimatorTMP::DrawSpriteSelector()
 {
     if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
+        // drop text to load texture
         ImGui::Text("drop images here");
         if (ImGui::BeginDragDropTarget())
         {
@@ -46,76 +47,54 @@ void AnimatorTMP::DrawSpriteSelector()
             }
             ImGui::EndDragDropTarget();
         }
+
+        // setup multi select
         ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnClickVoid | ImGuiMultiSelectFlags_BoxSelect2d;
         ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, 1000);
         selection.ApplyRequests(ms_io);
-        size_t index = 0;
+
+        // start to draw all textures with all their sprites
+        // loop over texture loaded and create collapsing header for each one
+        // then loop over all the sprites inside the texture and create selectable + image for each one
+        size_t SpriteIndex = 0;
         for (auto it = texturesData.begin(); it != texturesData.end(); )
         {
             bool closable_group = true;
             if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
             {
-                int textureIndex = it - texturesData.begin();
-                std::string nbSpriteInput = "nbSprite###" + std::to_string(textureIndex);
-                std::string scaleInput = "scale###" + std::to_string(textureIndex);
+                std::string nbSpriteInput = "nbSprite###" + std::to_string(it - texturesData.begin());
                 if (ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]))
                     selection.Clear();
             
-                ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
+                const ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
                 for (int j = 0; j < it->nbSprite.y; j++)
                 {
                     for (int i = 0; i < it->nbSprite.x; i++)
                     {   
-                        while (selected.size() <= index)
+                        while (selected.size() <= SpriteIndex)
                             selected.push_back(false);
-                        std::string item = std::to_string(index);
-                        ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
-                        ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
+                        
+                        // selectable
+                        std::string item = "###" + std::to_string(SpriteIndex);
                         ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
-                        ImGui::SetNextItemSelectionUserData(index);
-                        if (ImGui::Selectable(item.c_str(), selection.Contains(index), ImGuiSelectableFlags_AllowOverlap, size))
-                            selected[index] = !selected[index];
+                        ImGui::SetNextItemSelectionUserData(SpriteIndex);
+                        if (ImGui::Selectable(item.c_str(), selection.Contains(SpriteIndex), ImGuiSelectableFlags_AllowOverlap, size))
+                            selected[SpriteIndex] = !selected[SpriteIndex];
+                        // drag drop data
                         if (ImGui::BeginDragDropSource())
                         {
-                            if (ImGui::GetDragDropPayload() == NULL)
-                            {
-                                tilesSelected.clear();
-                                void* ptr = NULL;
-                                ImGuiID id = 0;
-                                while (selection.GetNextSelectedItem(&ptr, &id))
-                                {
-                                    unsigned int nbSprite = 0;
-                                    auto it2 = texturesData.begin();
-                                    for (; it2 != texturesData.end(); it2++ )
-                                    {
-                                        if (id < nbSprite + it2->nbSprite.x * it2->nbSprite.y)
-                                        {
-                                            id = id - nbSprite;
-                                            break;
-                                        }
-                                        nbSprite += it2->nbSprite.x * it2->nbSprite.y;
-                                    }
-                                    
-                                    Sprite newSprite;
-                                    newSprite.textureName = it2->name;
-                                    newSprite.textureSize = it2->nbSprite;
-                                    newSprite.spriteCoords = glm::vec2(id % (int)it2->nbSprite.x, id / (int)it2->nbSprite.x);
-                                    newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it2->spriteScale;
-                                    tilesSelected.push_back(newSprite);
-                                }
-
-                                ImGui::SetDragDropPayload("SPRITES_SELECTED", &tilesSelected, sizeof(std::vector<Sprite>));
-                            }
-
-                            const ImGuiPayload* payload = ImGui::GetDragDropPayload();
-                            std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
-                            ImGui::Text("%zu assets", sprites.size());
+                            CreateDragDropSourceData();
                             ImGui::EndDragDropSource();
                         }
+
+                        // image
+                        ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
+                        ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
                         ImGui::SetCursorScreenPos(selectable_pos);
                         ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1);
+                        
+                        SpriteIndex++;
                         ImGui::SameLine();
-                        index++;
                     }
                     ImGui::NewLine();
                 }
@@ -133,6 +112,46 @@ void AnimatorTMP::DrawSpriteSelector()
     ImGui::EndChild();
 }
 
+void AnimatorTMP::CreateDragDropSourceData()
+{
+    if (ImGui::GetDragDropPayload() == NULL)
+    {
+        tilesSelected.clear();
+        void* ptr = NULL;
+        ImGuiID id = 0;
+
+        // loop over the selection
+        // and determine the texture and the id depending of the texture
+        // then add the sprite to the vector
+        while (selection.GetNextSelectedItem(&ptr, &id))
+        {
+            unsigned int nbSprite = 0;
+            auto it = texturesData.begin();
+            for (; it != texturesData.end(); it++ )
+            {
+                if (id < nbSprite + it->nbSprite.x * it->nbSprite.y)
+                {
+                    id = id - nbSprite;
+                    break;
+                }
+                nbSprite += it->nbSprite.x * it->nbSprite.y;
+            }
+            
+            Sprite newSprite;
+            newSprite.textureName = it->name;
+            newSprite.textureSize = it->nbSprite;
+            newSprite.spriteCoords = glm::vec2(id % (int)it->nbSprite.x, id / (int)it->nbSprite.x);
+            newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+            tilesSelected.push_back(newSprite);
+        }
+
+        ImGui::SetDragDropPayload("SPRITES_SELECTED", &tilesSelected, sizeof(std::vector<Sprite>));
+    }
+
+    const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+    std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
+    ImGui::Text("%zu assets", sprites.size());
+}
 void AnimatorTMP::DrawAnimationsLoader()
 {
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))

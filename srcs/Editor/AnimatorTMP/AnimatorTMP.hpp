@@ -22,6 +22,7 @@ class AnimatorTMP
         std::string animationSelected;
 
         void DrawSpriteSelector();
+        void CreateDragDropSourceData();
         void DrawAnimationsLoader();
         void DrawCurrentAnimation();
 
