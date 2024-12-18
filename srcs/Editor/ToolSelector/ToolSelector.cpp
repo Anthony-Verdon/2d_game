@@ -5,7 +5,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-ToolSelector::ToolSelector()
+ToolSelector::ToolSelector(): AEditorWindow()
 {
     tools.insert({std::make_shared<TileSelector>(), false});
     tools.insert({std::make_shared<ChainBuilder>(), false});
@@ -52,11 +52,6 @@ void ToolSelector::Draw()
     }
 
     ImGui::End();
-}
-
-bool ToolSelector::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }
 
 std::shared_ptr<ATool> ToolSelector::GetSelectedTool() const
