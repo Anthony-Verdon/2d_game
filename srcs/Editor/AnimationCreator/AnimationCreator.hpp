@@ -9,7 +9,7 @@
 #include "imgui.h"
 #include "globals.hpp"
 
-class AnimatorTMP: public AEditorWindow
+class AnimationCreator: public AEditorWindow
 {
     private:
         // input
@@ -34,7 +34,7 @@ class AnimatorTMP: public AEditorWindow
         void DrawCurrentAnimation();
 
     public:
-        AnimatorTMP();
-        ~AnimatorTMP();
+        AnimationCreator();
+        ~AnimationCreator();
         void Draw();
 };

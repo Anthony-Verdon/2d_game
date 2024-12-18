@@ -1,5 +1,5 @@
 #include "Editor/TileSelector/TileSelector.hpp"
-#include "Editor/AnimatorTMP/AnimatorTMP.hpp"
+#include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"

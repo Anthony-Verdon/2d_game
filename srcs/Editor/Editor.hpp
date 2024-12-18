@@ -9,7 +9,7 @@
 #include "Editor/TextureLoader/TextureLoader.hpp"
 #include "Editor/FileExplorer/FileExplorer.hpp"
 #include "Editor/LayerSystem/LayerSystem.hpp"
-#include "Editor/AnimatorTMP/AnimatorTMP.hpp"
+#include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -23,7 +23,7 @@ class Editor: public AProgram
         ToolSelector toolSelector;
         FileExplorer fileExplorer;
         LayerSystem layerSystem;
-        AnimatorTMP animatorTMP;
+        AnimationCreator animationCreator;
         TextureLoader textureLoader;
         
         b2WorldId worldId;

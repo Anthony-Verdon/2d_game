@@ -1,21 +1,21 @@
-#include "Editor/AnimatorTMP/AnimatorTMP.hpp"
+#include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include "imgui.h"
 #include "globals.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 
-AnimatorTMP::AnimatorTMP(): AEditorWindow()
+AnimationCreator::AnimationCreator(): AEditorWindow()
 {
     name[0] = 0;
     animationSelected = "";
 }
 
-AnimatorTMP::~AnimatorTMP()
+AnimationCreator::~AnimationCreator()
 {
 }
 
-void AnimatorTMP::Draw()
+void AnimationCreator::Draw()
 {
-    ImGui::Begin("Animator TMP");
+    ImGui::Begin("Animation Creator");
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
     DrawSpriteSelector();
@@ -27,7 +27,7 @@ void AnimatorTMP::Draw()
     ImGui::End();
 }
 
-void AnimatorTMP::DrawSpriteSelector()
+void AnimationCreator::DrawSpriteSelector()
 {
     if (ImGui::BeginChild("TilesChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
@@ -114,7 +114,7 @@ void AnimatorTMP::DrawSpriteSelector()
     ImGui::EndChild();
 }
 
-void AnimatorTMP::CreateDragDropSourceData()
+void AnimationCreator::CreateDragDropSourceData()
 {
     if (ImGui::GetDragDropPayload() == NULL)
     {
@@ -155,7 +155,7 @@ void AnimatorTMP::CreateDragDropSourceData()
     ImGui::Text("%zu assets", sprites.size());
 }
 
-void AnimatorTMP::DrawAnimationsLoader()
+void AnimationCreator::DrawAnimationsLoader()
 {
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {   
@@ -189,7 +189,7 @@ void AnimatorTMP::DrawAnimationsLoader()
     ImGui::EndChild();    
 }
 
-void AnimatorTMP::DrawCurrentAnimation()
+void AnimationCreator::DrawCurrentAnimation()
 {
     if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
