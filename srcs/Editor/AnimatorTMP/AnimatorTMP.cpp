@@ -3,7 +3,7 @@
 #include "globals.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 
-AnimatorTMP::AnimatorTMP()
+AnimatorTMP::AnimatorTMP(): AEditorWindow()
 {
     name[0] = 0;
     animationSelected = "";
@@ -250,9 +250,4 @@ void AnimatorTMP::DrawCurrentAnimation()
         }
         ImGui::EndDragDropTarget();
     }
-}
-
-bool AnimatorTMP::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }

@@ -5,14 +5,13 @@
 #include <map>
 #include "Engine\Animation\Animation.hpp"
 #include "Editor\TileSelector\TileSelector.hpp"
+#include "Editor\AEditorWindow\AEditorWindow.hpp"
 #include "imgui.h"
 #include "globals.hpp"
 
-class AnimatorTMP
+class AnimatorTMP: public AEditorWindow
 {
     private:
-        bool isHoveredOrFocused;
-
         // input
         char name[INPUT_ARRAY_SIZE];
         std::vector<TextureData> texturesData;
@@ -38,6 +37,4 @@ class AnimatorTMP
         AnimatorTMP();
         ~AnimatorTMP();
         void Draw();
-        
-        bool IsHoveredOrFocused() const;
 };
