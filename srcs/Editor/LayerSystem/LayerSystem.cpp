@@ -1,7 +1,7 @@
 #include "Editor/LayerSystem/LayerSystem.hpp"
 #include "imgui.h"
 
-LayerSystem::LayerSystem()
+LayerSystem::LayerSystem(): AEditorWindow()
 {
     layer = 0;
 }
@@ -41,9 +41,4 @@ void LayerSystem::Draw(const Tilemap &tilemap)
 int LayerSystem::GetLayer() const
 {
     return (layer);
-}
-
-bool LayerSystem::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }
