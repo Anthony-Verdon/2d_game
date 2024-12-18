@@ -2,7 +2,7 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "imgui.h"
 
-TextureLoader::TextureLoader()
+TextureLoader::TextureLoader(): AEditorWindow()
 {
     name[0] = 0;
     path[0] = 0;
@@ -56,9 +56,4 @@ void TextureLoader::Draw()
 
     }
     ImGui::End();
-}
-
-bool TextureLoader::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }

@@ -2,22 +2,20 @@
 
 #include <vector>
 #include <string>
+#include "Editor/AEditorWindow/AEditorWindow.hpp"
 
 constexpr int INPUT_ARRAY_SIZE = 100;
 
-class TextureLoader
+class TextureLoader: public AEditorWindow
 {
     private:
         char name[INPUT_ARRAY_SIZE];
         char path[INPUT_ARRAY_SIZE];
         std::vector<std::string> textures;
-        bool isHoveredOrFocused;
 
     public:
         TextureLoader();
         ~TextureLoader();
 
         void Draw();
-
-        bool IsHoveredOrFocused() const;
 };
