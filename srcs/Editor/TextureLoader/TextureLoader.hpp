@@ -5,8 +5,6 @@
 #include "globals.hpp"
 #include "Editor/AEditorWindow/AEditorWindow.hpp"
 
-constexpr int INPUT_ARRAY_SIZE = 100;
-
 class TextureLoader: public AEditorWindow
 {
     private:
