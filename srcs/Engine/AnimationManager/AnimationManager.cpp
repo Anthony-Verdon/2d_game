@@ -1,23 +1,23 @@
-#include "Engine/Animator/Animator.hpp"
+#include "Engine/AnimationManager/AnimationManager.hpp"
 #include "Engine/macros.hpp"
 
-Animator::Animator()
+AnimationManager::AnimationManager()
 {
     currentAnimation = "none";
     animations[currentAnimation] = Animation::none;
 }
 
-Animator::~Animator()
+AnimationManager::~AnimationManager()
 {
 
 }
 
-void Animator::AddAnimation(const std::string &name, const Animation &animation)
+void AnimationManager::AddAnimation(const std::string &name, const Animation &animation)
 {
     animations[name] = animation;
 }
 
-void Animator::Play(const std::string &name)
+void AnimationManager::Play(const std::string &name)
 {
     if (!animations[currentAnimation].IsStoppable() && !animations[currentAnimation].Ended())
         return;
@@ -31,24 +31,24 @@ void Animator::Play(const std::string &name)
     animations[currentAnimation].Reset();
 }
 
-void Animator::Update()
+void AnimationManager::Update()
 {
     if (currentAnimation != "none")
         animations[currentAnimation].Update();
 }
 
-Sprite Animator::GetFrame() const
+Sprite AnimationManager::GetFrame() const
 {
     auto it = animations.find(currentAnimation);
     if (it == animations.end())
-        std::cerr << "Animator::GetFrame() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
+        std::cerr << "AnimationManager::GetFrame() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
     return (it->second.GetFrame());
 }
 
-bool Animator::CurrentAnimationEnded() const
+bool AnimationManager::CurrentAnimationEnded() const
 {
     auto it = animations.find(currentAnimation);
     if (it == animations.end())
-        std::cerr << "Animator::CurrentAnimationEnded() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
+        std::cerr << "AnimationManager::CurrentAnimationEnded() : no animation added" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
     return (it->second.IsStoppable() || it->second.Ended());
 }

@@ -42,7 +42,7 @@ void Player::InitAnimations()
             walkDownAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkDown", walkDownAnimation);
+        bodyAnimationManager.AddAnimation("walkDown", walkDownAnimation);
     }
 
     {
@@ -56,7 +56,7 @@ void Player::InitAnimations()
             walkSideAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkSide", walkSideAnimation);
+        bodyAnimationManager.AddAnimation("walkSide", walkSideAnimation);
     }
     
     {
@@ -70,7 +70,7 @@ void Player::InitAnimations()
             walkUpAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkUp", walkUpAnimation);
+        bodyAnimationManager.AddAnimation("walkUp", walkUpAnimation);
     }
 
     {
@@ -84,7 +84,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Down", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Down", attackAnimation);
     }
 
     {
@@ -98,7 +98,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Side", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Side", attackAnimation);
     }
 
     {
@@ -112,7 +112,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Up", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Up", attackAnimation);
     }
 
     {
@@ -126,7 +126,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Down", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Down", attackAnimation);
     }
 
     {
@@ -140,7 +140,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Side", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Side", attackAnimation);
     }
 
     {
@@ -154,11 +154,11 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Up", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Up", attackAnimation);
     }
 
-    bodyAnimator.Play("walkDown");
-    toolAnimator.Play("none");
+    bodyAnimationManager.Play("walkDown");
+    toolAnimationManager.Play("none");
 }
 
 void Player::Update()
@@ -172,7 +172,7 @@ void Player::Move()
     glm::vec2 velocity;
     velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
-    if (bodyAnimator.CurrentAnimationEnded() && velocity != glm::vec2(0, 0))
+    if (bodyAnimationManager.CurrentAnimationEnded() && velocity != glm::vec2(0, 0))
     {
         direction = velocity;
         glm::vec2 movement = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
@@ -191,7 +191,7 @@ void Player::UpdateSwordHitbox()
     
     // activate or not
     b2Filter filter = b2Shape_GetFilter(swordId);
-    if (WindowManager::IsKeyPressed(GLFW_KEY_E) || !toolAnimator.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
+    if (WindowManager::IsKeyPressed(GLFW_KEY_E) || !toolAnimationManager.CurrentAnimationEnded()) // work because we only have attack that aren't stoppable
     {
         filter.categoryBits = CategoriesFilter::Everything;
         filter.maskBits = CategoriesFilter::Everything;
@@ -233,8 +233,8 @@ void Player::UpdateSwordHitbox()
 
 void Player::Draw()
 {
-    bodyAnimator.Update();
-    toolAnimator.Update();
+    bodyAnimationManager.Update();
+    toolAnimationManager.Update();
 
     // action
     std::string bodyActionAnimation = "";
@@ -268,16 +268,16 @@ void Player::Draw()
             flipHorizontally = false;
     }
 
-    bodyAnimator.Play(bodyActionAnimation + directionString);
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
+    bodyAnimationManager.Play(bodyActionAnimation + directionString);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
     
     if (toolAnimation != "")
-        toolAnimator.Play(toolAnimation + directionString);
+        toolAnimationManager.Play(toolAnimation + directionString);
     else
-        toolAnimator.Play("none");
+        toolAnimationManager.Play("none");
     
-    if (toolAnimation != "" || !toolAnimator.CurrentAnimationEnded())
-        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
+    if (toolAnimation != "" || !toolAnimationManager.CurrentAnimationEnded())
+        SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
 }
 
 

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/Animator/Animator.hpp"
+#include "Engine/AnimationManager/AnimationManager.hpp"
 
 class Skeletton
 {
     private:
         glm::vec2 size;
-        Animator animator;
+        AnimationManager animator;
         PhysicBody body;
         
         void InitAnimations();

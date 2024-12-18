@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/Animator/Animator.hpp"
+#include "Engine/AnimationManager/AnimationManager.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -14,8 +14,8 @@ class Player
         glm::vec2 size;
         glm::vec2 direction;
 
-        Animator bodyAnimator;
-        Animator toolAnimator;
+        AnimationManager bodyAnimationManager;
+        AnimationManager toolAnimationManager;
         PhysicBody body;
         
         void InitAnimations();
