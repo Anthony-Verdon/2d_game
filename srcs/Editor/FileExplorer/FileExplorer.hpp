@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <filesystem>
+#include "Editor/AEditorWindow/AEditorWindow.hpp"
 
 struct FileNode
 {
@@ -13,10 +14,9 @@ struct FileNode
     std::vector<std::shared_ptr<FileNode>> childrens;
 };
 
-class FileExplorer
+class FileExplorer: public AEditorWindow
 {
     private:
-        bool isHoveredOrFocused;
         std::shared_ptr<FileNode> root;
         std::filesystem::file_time_type lastTimeModified;
 
@@ -30,5 +30,4 @@ class FileExplorer
         void Draw();
 
         void SetDirectoryPath(const std::string &directoryPath);
-        bool IsHoveredOrFocused() const;
 };

@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Engine/Tilemap/Tilemap.hpp"
+#include "Editor/AEditorWindow/AEditorWindow.hpp"
 
-class LayerSystem
+class LayerSystem: public AEditorWindow
 {
     private:
         int layer;
-        bool isHoveredOrFocused;
+        void Draw() {}
 
     public:
         LayerSystem();
@@ -14,5 +15,4 @@ class LayerSystem
 
         void Draw(const Tilemap &tilemap);
         int GetLayer() const;
-        bool IsHoveredOrFocused() const;
 };

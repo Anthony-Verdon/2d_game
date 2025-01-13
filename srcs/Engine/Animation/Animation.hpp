@@ -19,6 +19,7 @@ class Animation
         ~Animation();
 
         void AddFrame(const Sprite &frame);
+        void SetFrames(const std::vector<Sprite> &frames);
         void Update();
         void Reset();
 
@@ -28,6 +29,7 @@ class Animation
         bool IsStoppable() const;
         bool Ended() const;
         Sprite GetFrame() const;
+        std::vector<Sprite> GetFrames() const;
         unsigned int GetFrameIndex() const;
 
         static Animation none;

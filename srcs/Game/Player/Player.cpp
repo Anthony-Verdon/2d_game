@@ -90,7 +90,7 @@ void Player::InitAnimations()
             walkDownAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkDown", walkDownAnimation);
+        bodyAnimationManager.AddAnimation("walkDown", walkDownAnimation);
     }
 
     {
@@ -104,7 +104,7 @@ void Player::InitAnimations()
             walkSideAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkSide", walkSideAnimation);
+        bodyAnimationManager.AddAnimation("walkSide", walkSideAnimation);
     }
     
     {
@@ -118,7 +118,7 @@ void Player::InitAnimations()
             walkUpAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("walkUp", walkUpAnimation);
+        bodyAnimationManager.AddAnimation("walkUp", walkUpAnimation);
     }
 
     {
@@ -132,7 +132,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Down", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Down", attackAnimation);
     }
 
     {
@@ -146,7 +146,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Side", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Side", attackAnimation);
     }
 
     {
@@ -160,7 +160,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("attack1Up", attackAnimation);
+        bodyAnimationManager.AddAnimation("attack1Up", attackAnimation);
     }
 
     {
@@ -216,7 +216,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Down", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Down", attackAnimation);
     }
 
     {
@@ -230,7 +230,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Side", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Side", attackAnimation);
     }
 
     {
@@ -244,7 +244,7 @@ void Player::InitAnimations()
             attackAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_sword_attack1Up", attackAnimation);
+        toolAnimationManager.AddAnimation("iron_sword_attack1Up", attackAnimation);
     }
 
     {
@@ -290,8 +290,8 @@ void Player::InitAnimations()
     }
 
 
-    bodyAnimator.Play("walkDown");
-    toolAnimator.Play("none");
+    bodyAnimationManager.Play("walkDown");
+    toolAnimationManager.Play("none");
 }
 
 void Player::Update()

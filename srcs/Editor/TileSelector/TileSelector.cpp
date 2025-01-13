@@ -1,4 +1,5 @@
 #include "Editor/TileSelector/TileSelector.hpp"
+#include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -9,10 +10,6 @@
 
 TileSelector::TileSelector(): ATool("Tile Selector")
 {
-    name[0] = 0;
-    path[0] = 0;
-    nbSprite = glm::vec2(0, 0);
-
     tileSelected.textureName = "";
 }
 
@@ -28,32 +25,20 @@ void TileSelector::Draw()
 
 void TileSelector::InputFields()
 {
-    ImGui::InputText("name", name, IM_ARRAYSIZE(name));
-
-    ImGui::InputText("path", path, IM_ARRAYSIZE(path));
+    ImGui::Text("drop images here");
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_EXPLORER_SELECTED_DATA"))
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_SELECTED"))
         {
             std::string data = *(std::string*)payload->Data;
-            std::memcpy(path, data.c_str(), data.size() % arraySize);
+            TextureData newTextureData;
+            newTextureData.name = data;
+            newTextureData.path = RessourceManager::GetTexture(data)->getPath();
+            newTextureData.nbSprite = glm::vec2(1, 1);
+            newTextureData.spriteScale = 1;
+            texturesData.push_back(newTextureData);
         }
         ImGui::EndDragDropTarget();
-    }
-
-    if (ImGui::Button("new texture", ImVec2(100, 40)))
-    {
-        TextureData data;
-        data.name = name;
-        data.path = path;
-        data.nbSprite = glm::vec2(1, 1);
-        data.spriteScale = 1.0f;
-        texturesData.push_back(data);
-        
-        RessourceManager::AddTexture(name, path);
-
-        name[0] = 0;
-        path[0] = 0;
     }
 }
 
@@ -82,7 +67,7 @@ void TileSelector::TilesAdded()
                 {
                     ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                     ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
-                    std::string button = std::to_string(j) + "_" + std::to_string(i);
+                    std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
                     if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1, bg_col, tint_col))
                     {
                         tileSelected.textureName = it->name; 

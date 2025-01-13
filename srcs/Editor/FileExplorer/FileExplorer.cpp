@@ -1,14 +1,14 @@
 #include "Editor/FileExplorer/FileExplorer.hpp"
 #include "imgui.h"
 
-FileExplorer::FileExplorer()
+FileExplorer::FileExplorer(): AEditorWindow()
 {
     root = std::make_shared<FileNode>();
     root->filename = "./";
     root->isDirectory = true;
 }
 
-FileExplorer::FileExplorer(const std::string &directoryPath)
+FileExplorer::FileExplorer(const std::string &directoryPath): AEditorWindow()
 {
     root = std::make_shared<FileNode>();
     root->filename = directoryPath;
@@ -88,9 +88,4 @@ void FileExplorer::SetDirectoryPath(const std::string &directoryPath)
     root->childrens.clear();
     ReadDirectory(root, root->filename);
     lastTimeModified = std::filesystem::last_write_time(std::filesystem::path(root->filename));
-}
-
-bool FileExplorer::IsHoveredOrFocused() const
-{
-    return (isHoveredOrFocused);
 }

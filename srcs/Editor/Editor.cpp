@@ -44,6 +44,7 @@ Editor::Editor()
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
     tilemap.Load();
+    animationCreator.Load();
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -92,6 +93,7 @@ void Editor::InitDebugDraw()
 Editor::~Editor()
 {
     tilemap.Save();
+    animationCreator.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -114,8 +116,10 @@ void Editor::Run()
     toolSelector.Draw();
     fileExplorer.Draw();
     layerSystem.Draw(tilemap);
+    animationCreator.Draw();
+    textureLoader.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused() || textureLoader.IsHoveredOrFocused() || animationCreator.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();

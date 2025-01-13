@@ -23,6 +23,11 @@ void Animation::AddFrame(const Sprite &frame)
     frames.push_back(frame);
 }
 
+void Animation::SetFrames(const std::vector<Sprite> &frames)
+{
+    this->frames = frames;
+}
+
 void Animation::SetAnimationSpeed(float animationSpeed)
 {
     this->animationSpeed = animationSpeed;
@@ -64,6 +69,11 @@ Sprite Animation::GetFrame() const
         std::cerr << "Animation: no frame" << std::endl; //@todo: create a default Sprite value (like Animation::none) with an error texture and return it
 
     return (frames[frameIndex]);
+}
+
+std::vector<Sprite> Animation::GetFrames() const
+{
+    return (frames);
 }
 
 bool Animation::IsStoppable() const

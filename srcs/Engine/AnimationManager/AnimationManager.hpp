@@ -4,15 +4,15 @@
 #include <string>
 #include "Engine/Animation/Animation.hpp"
 
-class Animator
+class AnimationManager
 {
     private:
         std::map<std::string, Animation> animations;
         std::string currentAnimation;
 
     public:
-        Animator();
-        ~Animator();
+        AnimationManager();
+        ~AnimationManager();
 
         void AddAnimation(const std::string &name, const Animation &animation);
         void Play(const std::string &name);
