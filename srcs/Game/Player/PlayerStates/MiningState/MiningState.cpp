@@ -14,16 +14,16 @@ Player::MiningState::~MiningState()
 
 void Player::MiningState::Enter(Player &player)
 {
-    player.bodyAnimator.Play("mining" + player.DetermineDirectionString());
-    player.toolAnimator.Play("iron_pickaxe" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play("mining" + player.DetermineDirectionString());
+    player.toolAnimationManager.Play("iron_pickaxe" + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 }
 
 std::unique_ptr<Player::AState> Player::MiningState::Update(Player &player)
 {
-    if (!player.bodyAnimator.CurrentAnimationEnded())
+    if (!player.bodyAnimationManager.CurrentAnimationEnded())
         return (NULL);
     
-    player.toolAnimator.Play("none");
+    player.toolAnimationManager.Play("none");
     return (std::make_unique<Player::IdleWalkState>());
 }

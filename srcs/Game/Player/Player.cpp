@@ -48,7 +48,7 @@ void Player::InitAnimations()
             idleDownAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("idleDown", idleDownAnimation);
+        bodyAnimationManager.AddAnimation("idleDown", idleDownAnimation);
     }
 
     {
@@ -62,7 +62,7 @@ void Player::InitAnimations()
             idleSideAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("idleSide", idleSideAnimation);
+        bodyAnimationManager.AddAnimation("idleSide", idleSideAnimation);
     }
 
     {
@@ -76,7 +76,7 @@ void Player::InitAnimations()
             idleUpAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("idleUp", idleUpAnimation);
+        bodyAnimationManager.AddAnimation("idleUp", idleUpAnimation);
     }
 
     {
@@ -174,7 +174,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("miningSide", miningAnimation);
+        bodyAnimationManager.AddAnimation("miningSide", miningAnimation);
     }
 
     {
@@ -188,7 +188,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("miningDown", miningAnimation);
+        bodyAnimationManager.AddAnimation("miningDown", miningAnimation);
     }
 
     {
@@ -202,7 +202,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        bodyAnimator.AddAnimation("miningUp", miningAnimation);
+        bodyAnimationManager.AddAnimation("miningUp", miningAnimation);
     }
 
     {
@@ -258,7 +258,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_pickaxeSide", miningAnimation);
+        toolAnimationManager.AddAnimation("iron_pickaxeSide", miningAnimation);
     }
 
     {
@@ -272,7 +272,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_pickaxeDown", miningAnimation);
+        toolAnimationManager.AddAnimation("iron_pickaxeDown", miningAnimation);
     }
 
     {
@@ -286,7 +286,7 @@ void Player::InitAnimations()
             miningAnimation.AddFrame(sprite);
         }
         
-        toolAnimator.AddAnimation("iron_pickaxeUp", miningAnimation);
+        toolAnimationManager.AddAnimation("iron_pickaxeUp", miningAnimation);
     }
 
 
@@ -296,8 +296,8 @@ void Player::InitAnimations()
 
 void Player::Update()
 {
-    bodyAnimator.Update();
-    toolAnimator.Update();
+    bodyAnimationManager.Update();
+    toolAnimationManager.Update();
 
     if (WindowManager::IsKeyPressed(GLFW_KEY_1))
         tool = NULL;
@@ -333,9 +333,9 @@ void Player::Draw()
     float scale = 1.5f;
     if (state->GetStateType() == StateType::MINING)
         scale = scale * 1.5f;
-    SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimator.GetFrame(), flipHorizontally, false, 1);
-    if (toolAnimator.GetCurrentAnimation() != "none")
-        SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimator.GetFrame(), flipHorizontally, false, 1);
+    SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
+    if (toolAnimationManager.GetCurrentAnimation() != "none")
+        SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
 }
 
 

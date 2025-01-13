@@ -53,7 +53,7 @@ bool AnimationManager::CurrentAnimationEnded() const
     return (it->second.IsStoppable() || it->second.Ended());
 }
 
-std::string Animator::GetCurrentAnimation() const
+std::string AnimationManager::GetCurrentAnimation() const
 {
     return (currentAnimation);
 }

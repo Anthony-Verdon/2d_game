@@ -14,8 +14,8 @@ Player::AttackState::~AttackState()
 
 void Player::AttackState::Enter(Player &player)
 {
-    player.bodyAnimator.Play("attack1" + player.DetermineDirectionString());
-    player.toolAnimator.Play("iron_sword_attack1" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play("attack1" + player.DetermineDirectionString());
+    player.toolAnimationManager.Play("iron_sword_attack1" + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 
     b2ShapeId swordId = player.body.GetShape("sword");
@@ -44,10 +44,10 @@ void Player::AttackState::Enter(Player &player)
 
 std::unique_ptr<Player::AState> Player::AttackState::Update(Player &player)
 {
-    if (!player.bodyAnimator.CurrentAnimationEnded())
+    if (!player.bodyAnimationManager.CurrentAnimationEnded())
         return (NULL);
     
-    player.toolAnimator.Play("none");
+    player.toolAnimationManager.Play("none");
     return (std::make_unique<Player::IdleWalkState>());
 }
 
