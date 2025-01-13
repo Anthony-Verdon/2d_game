@@ -2,6 +2,10 @@
 #include "imgui.h"
 #include "globals.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <set>
+#include <string>
 
 AnimationCreator::AnimationCreator(): AEditorWindow()
 {
@@ -250,4 +254,74 @@ void AnimationCreator::DrawCurrentAnimation()
         }
         ImGui::EndDragDropTarget();
     }
+}
+
+void AnimationCreator::Load()
+{
+    if (!std::filesystem::exists("saves/animations.json")) // @todo: should be a parameter
+        return;
+    
+    std::ifstream input("saves/animations.json");
+    nlohmann::json file =  nlohmann::json::parse(input);
+
+    auto itTextures = file.find("textures"); //@todo error check
+    for (auto it : *itTextures)
+    {
+        RessourceManager::AddTexture(it["name"], it["path"]);
+    }
+
+    auto itAnimations = file.find("animations"); //@todo error check
+    for (auto itAnimation : *itAnimations)
+    {
+        Animation newAnimation;
+
+        auto itFrames = itAnimation.find("frames"); //@todo error check
+        for (auto itFrame : *itFrames)
+        {
+            Sprite newFrame;
+            newFrame.textureName = itFrame["texture"]["name"];
+            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+            newAnimation.AddFrame(newFrame);
+        }
+
+        newAnimation.SetStoppable(itAnimation["stoppable"]);
+        animations[itAnimation["name"]] = newAnimation;
+    }
+}
+
+void AnimationCreator::Save()
+{
+    nlohmann::json file;
+    file["textures"] = {};
+    std::set<std::string> textures;
+
+    file["animations"] = {};
+    int i = 0;
+    for (auto it = animations.begin(); it != animations.end(); it++)
+    {
+        file["animations"][i]["name"] = it->first;
+        std::vector<Sprite> animationFrames = it->second.GetFrames();
+        for (size_t j = 0; j < animationFrames.size(); j++)
+        {
+            file["animations"][i]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
+            file["animations"][i]["frames"][j]["texture"]["size"] = {animationFrames[j].textureSize.x, animationFrames[j].textureSize.y};
+            file["animations"][i]["frames"][j]["position"] = {animationFrames[j].spriteCoords.x, animationFrames[j].spriteCoords.y};
+            textures.insert(animationFrames[j].textureName);
+        }
+        file["animations"][i]["stoppable"] = it->second.IsStoppable();
+        i++;
+    }
+
+    i = 0;
+    for (auto it = textures.begin(); it != textures.end(); it++)
+    {
+        file["textures"][i]["name"] = *it;
+        file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
+
+        i++;
+    }
+
+    std::ofstream o("saves/animations.json");
+    o << std::setw(4) << file << std::endl;
 }

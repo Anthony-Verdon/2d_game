@@ -36,5 +36,9 @@ class AnimationCreator: public AEditorWindow
     public:
         AnimationCreator();
         ~AnimationCreator();
+
         void Draw();
+
+        void Load();
+        void Save();
 };
