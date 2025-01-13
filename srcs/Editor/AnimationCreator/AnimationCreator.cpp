@@ -195,6 +195,7 @@ void AnimationCreator::DrawAnimationsLoader()
 
 void AnimationCreator::DrawCurrentAnimation()
 {
+    ImVec2 ChildPos = ImGui::GetCursorScreenPos();
     if (ImGui::BeginChild("ResizableChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
     {
         isHoveredOrFocused |= ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
@@ -253,6 +254,16 @@ void AnimationCreator::DrawCurrentAnimation()
             }
         }
         ImGui::EndDragDropTarget();
+    }
+
+    ImVec2 childSize = ImGui::GetItemRectSize();
+    ChildPos.y += childSize.y + ImGui::GetTextLineHeightWithSpacing();
+    ImGui::SetCursorScreenPos(ChildPos);
+    if (animationSelected != "")
+    {
+        bool isStoppable = animations[animationSelected].IsStoppable();
+        ImGui::Checkbox("Stoppable", &isStoppable);
+        animations[animationSelected].SetStoppable(isStoppable);
     }
 }
 
