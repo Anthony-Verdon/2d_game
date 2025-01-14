@@ -281,11 +281,13 @@ void AnimationCreator::Load()
         RessourceManager::AddTexture(it["name"], it["path"]);
     }
 
-    auto itAnimations = file.find("animations"); //@todo error check
-    for (auto itAnimation : *itAnimations)
+    auto itAnimationsPath = file.find("animationsPath"); //@todo error check
+    for (size_t i = 0; i < itAnimationsPath->size(); i++)
     {
+        std::string path = (*itAnimationsPath)[i];
         Animation newAnimation;
 
+        auto itAnimation = file[nlohmann::json::json_pointer("/animations/" + path)];
         auto itFrames = itAnimation.find("frames"); //@todo error check
         for (auto itFrame : *itFrames)
         {
@@ -297,7 +299,7 @@ void AnimationCreator::Load()
         }
 
         newAnimation.SetStoppable(itAnimation["stoppable"]);
-        animations[itAnimation["name"]] = newAnimation;
+        animations[path] = newAnimation;
     }
 }
 
@@ -306,29 +308,37 @@ void AnimationCreator::Save()
     nlohmann::json file;
     file["textures"] = {};
     std::set<std::string> textures;
+    std::set<std::string> animationsPath;
 
     file["animations"] = {};
-    int i = 0;
     for (auto it = animations.begin(); it != animations.end(); it++)
     {
-        file["animations"][i]["name"] = it->first;
+        file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"] = {};
         std::vector<Sprite> animationFrames = it->second.GetFrames();
         for (size_t j = 0; j < animationFrames.size(); j++)
         {
-            file["animations"][i]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
-            file["animations"][i]["frames"][j]["texture"]["size"] = {animationFrames[j].textureSize.x, animationFrames[j].textureSize.y};
-            file["animations"][i]["frames"][j]["position"] = {animationFrames[j].spriteCoords.x, animationFrames[j].spriteCoords.y};
+            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
+            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["texture"]["size"] = {animationFrames[j].textureSize.x, animationFrames[j].textureSize.y};
+            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["position"] = {animationFrames[j].spriteCoords.x, animationFrames[j].spriteCoords.y};
             textures.insert(animationFrames[j].textureName);
         }
-        file["animations"][i]["stoppable"] = it->second.IsStoppable();
-        i++;
+        file["animations"][nlohmann::json::json_pointer("/" + it->first)]["stoppable"] = it->second.IsStoppable();
+        animationsPath.insert(it->first);
     }
 
-    i = 0;
+    int i = 0;
     for (auto it = textures.begin(); it != textures.end(); it++)
     {
         file["textures"][i]["name"] = *it;
         file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
+
+        i++;
+    }
+
+    i = 0;
+    for (auto it = animationsPath.begin(); it != animationsPath.end(); it++)
+    {
+        file["animationsPath"][i] = *it;
 
         i++;
     }
