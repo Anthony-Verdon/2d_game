@@ -14,8 +14,8 @@ Player::MiningState::~MiningState()
 
 void Player::MiningState::Enter(Player &player)
 {
-    player.bodyAnimationManager.Play("mining" + player.DetermineDirectionString());
-    player.toolAnimationManager.Play("iron_pickaxe" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play("mining_" + player.DetermineDirectionString());
+    player.toolAnimationManager.Play("pickaxe_" + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 }
 

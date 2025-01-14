@@ -119,7 +119,7 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
     spriteShader->setFloat("opacity", opacity);
   
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, RessourceManager::GetTexture(sprite.textureName)->getID());
+    glBindTexture(GL_TEXTURE_2D, RessourceManager::GetTexture(sprite.textureName)->getID()); //@todo check
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -15,7 +15,7 @@ class Animation
         bool ended;
 
     public:
-        Animation(float animationSpeed = 1.0f, bool stoppable = true);
+        Animation(float animationSpeed = 0.1f, bool stoppable = true);
         ~Animation();
 
         void AddFrame(const Sprite &frame);

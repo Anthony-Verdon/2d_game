@@ -14,8 +14,8 @@ Player::AttackState::~AttackState()
 
 void Player::AttackState::Enter(Player &player)
 {
-    player.bodyAnimationManager.Play("attack1" + player.DetermineDirectionString());
-    player.toolAnimationManager.Play("iron_sword_attack1" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play("attack_1_" + player.DetermineDirectionString());
+    player.toolAnimationManager.Play("sword_1_" + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 
     b2ShapeId swordId = player.body.GetShape("sword");

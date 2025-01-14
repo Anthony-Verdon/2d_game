@@ -14,7 +14,7 @@ Player::IdleWalkState::~IdleWalkState()
 
 void Player::IdleWalkState::Enter(Player &player)
 {
-    player.bodyAnimationManager.Play("idle" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play("idle_" + player.DetermineDirectionString());
 }
 
 std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
@@ -49,11 +49,11 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Update(Player &player)
     if (velocity != glm::vec2(0, 0))
     {
         velocity = glm::normalize(velocity) * 200.0f * Time::getDeltaTime();
-        player.bodyAnimationManager.Play("walk" + player.DetermineDirectionString());
+        player.bodyAnimationManager.Play("walk_" + player.DetermineDirectionString());
     }
     else
     {
-        player.bodyAnimationManager.Play("idle" + player.DetermineDirectionString());
+        player.bodyAnimationManager.Play("idle_" + player.DetermineDirectionString());
     }
 
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {velocity.x, velocity.y});

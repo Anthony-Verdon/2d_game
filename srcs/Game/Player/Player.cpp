@@ -4,10 +4,13 @@
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
 #include <iostream>
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 Player::Player()
 {
@@ -37,260 +40,74 @@ void Player::Init(b2WorldId worldId)
 
 void Player::InitAnimations()
 {
+    std::ifstream input("saves/animations.json");
+    nlohmann::json file =  nlohmann::json::parse(input);
+
+    auto itTextures = file.find("textures"); //@todo error check
+    for (auto it : *itTextures)
     {
-        Animation idleDownAnimation(0.2);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 0);
-            idleDownAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("idleDown", idleDownAnimation);
+        RessourceManager::AddTexture(it["name"], it["path"]);
     }
 
+    auto itAnimations = file.find("animations");
+    auto itPlayerAnimations = itAnimations->find("player");
+    for (auto it = itPlayerAnimations->begin(); it != itPlayerAnimations->end(); ++it)
     {
-        Animation idleSideAnimation(0.2);
-        for (int i = 0; i < 6; i++)
+        Animation animation;
+
+        auto itFrames = it->find("frames");
+        for (auto itFrame : *itFrames)
         {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 1);
-            idleSideAnimation.AddFrame(sprite);
+            Sprite newFrame;
+            newFrame.textureName = itFrame["texture"]["name"];
+            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+            animation.AddFrame(newFrame);
         }
+        animation.SetStoppable((*it)["stoppable"]);
         
-        bodyAnimationManager.AddAnimation("idleSide", idleSideAnimation);
+        bodyAnimationManager.AddAnimation(it.key(), animation);
     }
 
+    auto itToolsAnimations = itAnimations->find("tools");
+    for (auto it = itToolsAnimations->begin(); it != itToolsAnimations->end(); ++it)
     {
-        Animation idleUpAnimation(0.2);
-        for (int i = 0; i < 6; i++)
+        Animation animation;
+
+        auto itFrames = it->find("frames");
+        for (auto itFrame : *itFrames)
         {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 2);
-            idleUpAnimation.AddFrame(sprite);
+            Sprite newFrame;
+            newFrame.textureName = itFrame["texture"]["name"];
+            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+            animation.AddFrame(newFrame);
         }
+        animation.SetStoppable((*it)["stoppable"]);
         
-        bodyAnimationManager.AddAnimation("idleUp", idleUpAnimation);
+        toolAnimationManager.AddAnimation(it.key(), animation);
     }
 
+    auto itWeaponsAnimations = itAnimations->find("weapons");
+    for (auto it = itWeaponsAnimations->begin(); it != itWeaponsAnimations->end(); ++it)
     {
-        Animation walkDownAnimation(0.2);
-        for (int i = 0; i < 6; i++)
+        Animation animation;
+
+        auto itFrames = it->find("frames");
+        for (auto itFrame : *itFrames)
         {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 3);
-            walkDownAnimation.AddFrame(sprite);
+            Sprite newFrame;
+            newFrame.textureName = itFrame["texture"]["name"];
+            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+            animation.AddFrame(newFrame);
         }
+        animation.SetStoppable((*it)["stoppable"]);
         
-        bodyAnimationManager.AddAnimation("walkDown", walkDownAnimation);
+        toolAnimationManager.AddAnimation(it.key(), animation);
     }
 
-    {
-        Animation walkSideAnimation(0.2);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 4);
-            walkSideAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("walkSide", walkSideAnimation);
-    }
-    
-    {
-        Animation walkUpAnimation(0.2);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_idle_run_death";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 5);
-            walkUpAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("walkUp", walkUpAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_attack";
-            sprite.textureSize = glm::vec2(4, 9);
-            sprite.spriteCoords = glm::vec2(i, 0);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("attack1Down", attackAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_attack";
-            sprite.textureSize = glm::vec2(4, 9);
-            sprite.spriteCoords = glm::vec2(i, 4);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("attack1Side", attackAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_attack";
-            sprite.textureSize = glm::vec2(4, 9);
-            sprite.spriteCoords = glm::vec2(i, 7);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("attack1Up", attackAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_actions";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 0);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("miningSide", miningAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_actions";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 1);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("miningDown", miningAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "player_actions";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 2);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        bodyAnimationManager.AddAnimation("miningUp", miningAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_sword";
-            sprite.textureSize = glm::vec2(6, 9);
-            sprite.spriteCoords = glm::vec2(i, 0);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_sword_attack1Down", attackAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_sword";
-            sprite.textureSize = glm::vec2(6, 9);
-            sprite.spriteCoords = glm::vec2(i, 4);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_sword_attack1Side", attackAnimation);
-    }
-
-    {
-        Animation attackAnimation(0.2, false);
-        for (int i = 0; i < 4; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_sword";
-            sprite.textureSize = glm::vec2(6, 9);
-            sprite.spriteCoords = glm::vec2(i, 7);
-            attackAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_sword_attack1Up", attackAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_tools";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 0);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_pickaxeSide", miningAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_tools";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 1);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_pickaxeDown", miningAnimation);
-    }
-
-    {
-        Animation miningAnimation(0.2, false);
-        for (int i = 0; i < 6; i++)
-        {
-            Sprite sprite;
-            sprite.textureName = "iron_tools";
-            sprite.textureSize = glm::vec2(6, 12);
-            sprite.spriteCoords = glm::vec2(i, 2);
-            miningAnimation.AddFrame(sprite);
-        }
-        
-        toolAnimationManager.AddAnimation("iron_pickaxeUp", miningAnimation);
-    }
-
-
-    bodyAnimationManager.Play("walkDown");
+    bodyAnimationManager.Play("idle_down");
     toolAnimationManager.Play("none");
 }
 
@@ -348,9 +165,9 @@ glm::vec2 Player::GetPosition() const
 std::string Player::DetermineDirectionString() const
 {
     if (direction.y < 0)
-        return ("Up");
+        return ("up");
     else if (direction.y > 0)
-        return ("Down");
+        return ("down");
     else
-        return ("Side");
+        return ("side");
 }
