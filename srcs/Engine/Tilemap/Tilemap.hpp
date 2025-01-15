@@ -32,8 +32,5 @@ class Tilemap
         void SuppressTile(const glm::vec2 &position);
         void Draw();
         
-        void Load();
-        void Save();
-
         const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
 };

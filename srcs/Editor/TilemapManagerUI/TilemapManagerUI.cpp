@@ -64,3 +64,13 @@ void TilemapManagerUI::SuppressTile(const glm::vec2 &position)
     tilemapManager.SuppressTile(tilemapSelected, position);
 
 }
+
+void TilemapManagerUI::Load()
+{
+    tilemapManager.Load();
+}
+
+void TilemapManagerUI::Save()
+{
+    tilemapManager.Save();
+}

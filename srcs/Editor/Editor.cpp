@@ -43,7 +43,8 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    //tilemapManagerUI.Load();
+    
+    tilemapManagerUI.Load();
     animationCreator.Load();
 
     // Setup Dear ImGui context
@@ -92,7 +93,7 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
-    //tilemapManagerUI.Save();
+    tilemapManagerUI.Save();
     animationCreator.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
