@@ -8,7 +8,7 @@
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include "Editor/TextureLoader/TextureLoader.hpp"
 #include "Editor/FileExplorer/FileExplorer.hpp"
-#include "Editor/LayerSystem/LayerSystem.hpp"
+#include "Editor/TilemapManagerUI/TilemapManagerUI.hpp"
 #include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
@@ -22,7 +22,7 @@ class Editor: public AProgram
         bool ImGuiWindowHoweredOrFocused;
         ToolSelector toolSelector;
         FileExplorer fileExplorer;
-        LayerSystem layerSystem;
+        TilemapManagerUI tilemapManagerUI;
         AnimationCreator animationCreator;
         TextureLoader textureLoader;
         
