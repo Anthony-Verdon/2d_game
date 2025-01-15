@@ -52,7 +52,7 @@ Game::Game()
     player.Init(worldId);
     barrel.Init(worldId);
     skeletton.Init(worldId);
-    //tilemap.Load();
+    tilemapManager.Load();
 
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
@@ -129,7 +129,7 @@ void Game::InitDebugDraw()
 
 Game::~Game()
 {
-    //tilemap.Save();
+    tilemapManager.Save();
 
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
@@ -162,7 +162,7 @@ void Game::ProcessInput()
 
 void Game::Draw()
 {
-    tilemap.Draw();
+    tilemapManager.Draw();
     player.Draw();
     skeletton.Draw();
     barrel.Draw();

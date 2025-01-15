@@ -2,7 +2,7 @@
 
 #include "Engine/AProgram/AProgram.hpp"
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/Tilemap/Tilemap.hpp"
+#include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Engine/Camera/Camera.hpp"
 #include <vector>
 #include <glm/glm.hpp>
@@ -31,7 +31,7 @@ class Game: public AProgram
         Barrel barrel;
         Skeletton skeletton;
 
-        Tilemap tilemap;
+        TilemapManager tilemapManager;
         Camera camera;
 
 
