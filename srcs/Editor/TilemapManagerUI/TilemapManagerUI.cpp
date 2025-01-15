@@ -45,4 +45,22 @@ void TilemapManagerUI::Draw()
     tilemapManager.SetTilemapOrder(tilemapOrder);
 
     ImGui::End();
+
+    tilemapManager.Draw();
+}
+
+void TilemapManagerUI::AddTile(const glm::vec2 &position, const Tile &tile)
+{
+    tilemapManager.AddTile(tilemapSelected, position, tile);
+}
+
+void TilemapManagerUI::AddTile(const glm::vec2 &position, const Sprite &sprite)
+{
+    tilemapManager.AddTile(tilemapSelected, position, sprite);
+}
+
+void TilemapManagerUI::SuppressTile(const glm::vec2 &position)
+{
+    tilemapManager.SuppressTile(tilemapSelected, position);
+
 }

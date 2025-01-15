@@ -43,7 +43,7 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    tilemap.Load();
+    //tilemapManagerUI.Load();
     animationCreator.Load();
 
     // Setup Dear ImGui context
@@ -92,7 +92,7 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
-    tilemap.Save();
+    //tilemapManagerUI.Save();
     animationCreator.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -228,7 +228,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.AddTile(mousePosition, actualSprite);
+        tilemapManagerUI.AddTile(mousePosition, actualSprite);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
@@ -243,14 +243,12 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition);
+        tilemapManagerUI.SuppressTile(mousePosition);
     }
 }
 
 void Editor::Draw()
 {
-    tilemap.Draw();
-
     // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();
     float zoom = camera.GetZoom() / 100;

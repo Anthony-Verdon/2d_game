@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/AProgram/AProgram.hpp"
-#include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Camera/Camera.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
@@ -17,7 +16,6 @@
 class Editor: public AProgram
 {
     private:
-        Tilemap tilemap;
         Camera camera;
         bool ImGuiWindowHoweredOrFocused;
         ToolSelector toolSelector;
