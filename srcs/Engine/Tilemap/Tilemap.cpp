@@ -4,6 +4,8 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include <set>
+#include "globals.hpp"
 
 Tilemap::Tilemap()
 {
@@ -32,13 +34,10 @@ void Tilemap::Load()
     for (auto it : *itTiles)
     {
         Tile tile;
-        tile.position = glm::vec2(it["position"][0], it["position"][1]);
-        tile.size = glm::vec2(it["size"][0], it["size"][1]);
         tile.sprite.textureName = it["sprite"]["texture"]["name"];
         tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
         tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
-        tile.layer = it["layer"];
-        AddTile(tile);
+        AddTile(glm::vec2(it["position"][0], it["position"][1]), tile);
     }
 }
 
@@ -53,16 +52,14 @@ void Tilemap::Save()
     int i = 0;
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        file["tiles"][i]["position"] = {it->position.x, it->position.y};
-        file["tiles"][i]["size"] = {it->size.x, it->size.y};
-        file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
-        file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
-        file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
-        file["tiles"][i]["layer"] = it->layer;
+        file["tiles"][i]["position"] = {it->first.x, it->first.y};
+        file["tiles"][i]["sprite"]["texture"]["name"] = it->second.sprite.textureName;
+        file["tiles"][i]["sprite"]["texture"]["size"] = {it->second.sprite.textureSize.x, it->second.sprite.textureSize.y};
+        file["tiles"][i]["sprite"]["position"] = {it->second.sprite.spriteCoords.x, it->second.sprite.spriteCoords.y};
 
         i++;
 
-        textures.insert(it->sprite.textureName);
+        textures.insert(it->second.sprite.textureName);
     }
 
     i = 0;
@@ -77,64 +74,32 @@ void Tilemap::Save()
     o << std::setw(4) << file << std::endl;
 }
 
-void Tilemap::AddTile(const Tile &tile)
+void Tilemap::AddTile(const glm::vec2 &position, const Tile &tile)
 {
-    SuppressTile(tile.position, tile.layer);
-    tiles.insert(tile);
+    tiles[position] = tile;
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Sprite &sprite, int layer)
+void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite)
 {
     Tile tile;
-    tile.position = position;
-    tile.size = size;
     tile.sprite = sprite;
-    tile.layer = layer;
-    AddTile(tile);
+    AddTile(position, tile);
 }
 
-void Tilemap::SuppressTile(const glm::vec2 &position, int layer)
+void Tilemap::SuppressTile(const glm::vec2 &position)
+{
+    auto it = tiles.find(position);
+    if (it != tiles.end())
+        tiles.erase(it);
+}
+
+void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
-    {
-        if (it->position == position && it->layer == layer)
-        {
-            tiles.erase(it);
-            return;
-        }
-    }
+        SpriteRenderer::Draw(it->first, glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
 }
 
-void Tilemap::Draw(bool displayLayer, int layer)
-{
-    if (!displayLayer)
-    {
-        for (auto it = tiles.begin(); it != tiles.end(); it++)
-            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, 1);
-    }
-    else
-    {
-        int lastLayerChecked = layer;
-        float opacity = 1;
-        for (auto it = tiles.begin(); it != tiles.end(); it++)
-        {   
-            if (it->layer != lastLayerChecked)
-            {
-                lastLayerChecked = it->layer;
-                if (it->layer == layer)
-                    opacity = 1;
-                else if (it->layer < layer)
-                    opacity = 0.5;
-                else
-                    opacity = 0.2;
-            }
-
-            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, opacity);
-        }
-    }
-}
-
-const std::set<Tile>& Tilemap::GetTiles() const
+const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const
 {
     return (tiles);
 }

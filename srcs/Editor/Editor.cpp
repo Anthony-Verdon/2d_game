@@ -228,7 +228,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.AddTile(mousePosition, actualSprite.size, actualSprite, layerSystem.GetLayer());
+        tilemap.AddTile(mousePosition, actualSprite);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
@@ -243,13 +243,13 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition, layerSystem.GetLayer());
+        tilemap.SuppressTile(mousePosition);
     }
 }
 
 void Editor::Draw()
 {
-    tilemap.Draw(true, layerSystem.GetLayer());
+    tilemap.Draw();
 
     // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();

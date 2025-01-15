@@ -17,6 +17,8 @@ void LayerSystem::Draw(const Tilemap &tilemap)
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
+    (void)tilemap;
+    /*
     ImGui::InputInt("layer", &layer);
 
     std::set<int> layerLevels;
@@ -34,6 +36,7 @@ void LayerSystem::Draw(const Tilemap &tilemap)
             layer = *it;
         }
     }
+    */
 
     ImGui::End();
 }
