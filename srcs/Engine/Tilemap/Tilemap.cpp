@@ -4,8 +4,7 @@
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "globals.hpp"
 #include <array>
-#include <set>
-#include <algorithm>
+#include <map>
 
 const std::array<glm::vec2, 4> directions {
     glm::vec2(0, -SPRITE_SIZE), // top
@@ -61,6 +60,43 @@ void Tilemap::Draw()
             if (tiles.find(it->first + directions[i]) == tiles.end())
                 LineRenderer::Draw(glm::vec2(it->first + points[i].first), glm::vec2(it->first + points[i].second), glm::vec3(1, 0, 0));
         }
+    }
+}
+
+void Tilemap::CreateClockwiseChain()
+{
+    std::multimap<glm::vec2, glm::vec2, Vec2Comparator> lines;
+    for (auto it = tiles.begin(); it != tiles.end(); it++)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (tiles.find(it->first + directions[i]) == tiles.end())
+            {
+                lines.insert({it->first + points[i].first, it->first + points[i].second});
+                lines.insert({it->first + points[i].second, it->first + points[i].first});
+            }
+        }
+    }
+
+    glm::vec2 point = lines.begin()->first;
+    std::vector<glm::vec2> pointVisited;
+    for (size_t i = 0; i < lines.size() / 2; i++)
+    {
+        pointVisited.push_back(point);
+
+        bool pointChanged = false;
+        for (auto[it, rangeEnd] = lines.equal_range(point); it != rangeEnd; ++it)
+        {
+            if (std::find(pointVisited.begin(), pointVisited.end(), it->second) == pointVisited.end())
+            {
+                point = it->second;
+                pointChanged = true;
+                break;
+            }
+        }
+
+        if (!pointChanged)
+            break;
     }
     
 }

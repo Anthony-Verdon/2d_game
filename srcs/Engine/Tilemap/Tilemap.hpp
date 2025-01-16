@@ -30,7 +30,10 @@ class Tilemap
         void AddTile(const glm::vec2 &position, const Tile &tile);
         void AddTile(const glm::vec2 &position, const Sprite &sprite);
         void SuppressTile(const glm::vec2 &position);
+        
         void Draw();
+
+        void CreateClockwiseChain();
         
         const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
 };
