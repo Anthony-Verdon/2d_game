@@ -122,5 +122,5 @@ void TilemapManager::Draw()
 void TilemapManager::AddCollisions(b2WorldId worldId)
 {
     for (size_t i = 0; i < tilemapOrder.size(); i++)
-        tilemaps[tilemapOrder[i]].CreateClockwiseChain(worldId);
+        tilemaps[tilemapOrder[i]].CreateTilemapCollision(worldId);
 }
