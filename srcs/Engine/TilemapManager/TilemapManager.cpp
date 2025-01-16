@@ -40,7 +40,6 @@ void TilemapManager::AddTilemap(const std::string &name, const Tilemap &tilemap)
     tilemapOrder.push_back(name);
 }
 
-#include <iostream>
 void TilemapManager::Load()
 {
     if (!std::filesystem::exists("saves/map.json")) // @todo: should be a parameter
@@ -118,4 +117,10 @@ void TilemapManager::Draw()
 {
     for (size_t i = 0; i < tilemapOrder.size(); i++)
         tilemaps[tilemapOrder[i]].Draw();
+}
+
+void TilemapManager::AddCollisions(b2WorldId worldId)
+{
+    for (size_t i = 0; i < tilemapOrder.size(); i++)
+        tilemaps[tilemapOrder[i]].CreateClockwiseChain(worldId);
 }

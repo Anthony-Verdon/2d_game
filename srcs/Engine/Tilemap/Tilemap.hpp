@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <map>
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include <Box2D/Box2D.h>
 
 struct Tile
 {
@@ -33,7 +34,7 @@ class Tilemap
         
         void Draw();
 
-        void CreateClockwiseChain();
-        
+        void CreateClockwiseChain(b2WorldId worldId);
+
         const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
 };

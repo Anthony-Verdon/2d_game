@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <Box2D/Box2D.h>
 
 class TilemapManager
 {
@@ -28,5 +29,7 @@ class TilemapManager
         void Load();
 
         void Draw();
+
+        void AddCollisions(b2WorldId worldId);
 
 };

@@ -1,10 +1,12 @@
 #include "Engine/Tilemap/Tilemap.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
-#include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
 #include "globals.hpp"
+#include "Game/CategoriesFilter.hpp"
 #include <array>
 #include <map>
+#include <vector>
 
 const std::array<glm::vec2, 4> directions {
     glm::vec2(0, -SPRITE_SIZE), // top
@@ -63,8 +65,9 @@ void Tilemap::Draw()
     }
 }
 
-void Tilemap::CreateClockwiseChain()
+void Tilemap::CreateClockwiseChain(b2WorldId worldId)
 {
+    // store each line in a multimap, in both sense (A -> B, A <- B)
     std::multimap<glm::vec2, glm::vec2, Vec2Comparator> lines;
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
@@ -78,6 +81,7 @@ void Tilemap::CreateClockwiseChain()
         }
     }
 
+    // create the path between all the points
     glm::vec2 point = lines.begin()->first;
     std::vector<glm::vec2> pointVisited;
     for (size_t i = 0; i < lines.size() / 2; i++)
@@ -99,6 +103,26 @@ void Tilemap::CreateClockwiseChain()
             break;
     }
     
+    // build chain
+    std::vector<b2Vec2> chain;
+    for (size_t i = 0; i < pointVisited.size(); i++)
+        chain.push_back({PhysicBody::PixelToWorld(pointVisited[i].x), PhysicBody::PixelToWorld(pointVisited[i].y)});
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_staticBody;
+    b2BodyId myBodyId = b2CreateBody(worldId, &bodyDef);
+
+    b2Filter filter;
+    filter.categoryBits = CategoriesFilter::Wall;
+    filter.maskBits = CategoriesFilter::Entities;
+
+    b2ChainDef chainDef = b2DefaultChainDef();
+    chainDef.points = chain.data();
+    chainDef.count = chain.size();
+    chainDef.filter = filter;
+    chainDef.isLoop = true;
+    
+    b2CreateChain(myBodyId, &chainDef);
 }
 
 const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const

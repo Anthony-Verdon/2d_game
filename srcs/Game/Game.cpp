@@ -53,6 +53,7 @@ Game::Game()
     barrel.Init(worldId);
     skeletton.Init(worldId);
     tilemapManager.Load();
+    tilemapManager.AddCollisions(worldId);
 
     InitDebugDraw();
     debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
