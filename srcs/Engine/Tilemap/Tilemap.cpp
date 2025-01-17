@@ -83,7 +83,7 @@ void Tilemap::CreateTilemapCollision(b2WorldId worldId)
 
     // create the path between all the points
     std::vector<std::vector<glm::vec2>> chains;
-    while (lines.size() != 0)
+    while (lines.size() / 2 != 0)
         chains.push_back(DetermineChainPath(lines));
 
     // build chains
