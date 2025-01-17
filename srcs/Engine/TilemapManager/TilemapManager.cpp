@@ -69,6 +69,7 @@ void TilemapManager::Load()
             tile.sprite.textureName = it["sprite"]["texture"]["name"];
             tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
             tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
+            tile.sprite.size = glm::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
             tilemaps[tilemapName].AddTile(glm::vec2(it["position"][0], it["position"][1]), tile);
         }
     }
@@ -94,6 +95,7 @@ void TilemapManager::Save()
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["texture"]["name"] = it->second.sprite.textureName;
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["texture"]["size"] = {it->second.sprite.textureSize.x, it->second.sprite.textureSize.y};
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["position"] = {it->second.sprite.spriteCoords.x, it->second.sprite.spriteCoords.y};
+            file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["size"] = {it->second.sprite.size.x, it->second.sprite.size.y};
 
             j++;
 

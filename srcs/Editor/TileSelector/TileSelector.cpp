@@ -58,22 +58,23 @@ void TileSelector::TilesAdded()
                 tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
             }
         
-            ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             for (int j = 0; j < it->nbSprite.y; j++)
             {
                 for (int i = 0; i < it->nbSprite.x; i++)
                 {
+                    auto texture = RessourceManager::GetTexture(it->name);
                     ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                     ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
                     std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
-                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1, bg_col, tint_col))
+                    glm::vec2 size = glm::vec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
+                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), ImVec2(size.x, size.y), uv0, uv1, bg_col, tint_col))
                     {
                         tileSelected.textureName = it->name; 
                         tileSelected.textureSize = it->nbSprite; 
                         tileSelected.spriteCoords = glm::vec2(i, j); 
-                        tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+                        tileSelected.size = size * SCALE_FACTOR;
                     }
                     ImGui::SameLine();
                 }

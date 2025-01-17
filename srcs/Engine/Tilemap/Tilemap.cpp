@@ -55,7 +55,7 @@ void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        SpriteRenderer::Draw(it->first, glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
+        SpriteRenderer::Draw(it->first, it->second.sprite.size, 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
 
         for (int i = 0; i < 4; i++)
         {
