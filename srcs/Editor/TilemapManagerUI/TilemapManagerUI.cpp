@@ -26,9 +26,10 @@ void TilemapManagerUI::Draw()
     }
 
     std::vector<std::string> tilemapOrder = tilemapManager.GetTilemapOrder();
-    for (size_t i = 0; i < tilemapOrder.size(); i++)
+    for (size_t i = 0; i < tilemapOrder.size();)
     {
         std::string item = tilemapOrder[i];
+        ImGui::SetNextItemAllowOverlap();
         if (ImGui::Selectable(item.c_str(), item == tilemapSelected))
             tilemapSelected = item;
 
@@ -41,6 +42,13 @@ void TilemapManagerUI::Draw()
                 ImGui::ResetMouseDragDelta();
             }
         }
+        
+        ImGui::SameLine();
+        std::string button = "X###" + std::to_string(i);
+        if (ImGui::SmallButton(button.c_str()))
+            tilemapOrder.erase(tilemapOrder.begin() + i);
+        else
+            i++;
     }
     tilemapManager.SetTilemapOrder(tilemapOrder);
 
