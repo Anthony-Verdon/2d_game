@@ -46,7 +46,7 @@ void TilemapManager::Load()
         return;
 
     std::ifstream input("saves/map.json");
-    nlohmann::json file =  nlohmann::json::parse(input);
+    nlohmann::ordered_json file =  nlohmann::ordered_json::parse(input);
 
     auto itTextures = file.find("textures"); //@todo error check
     for (auto it : *itTextures)
