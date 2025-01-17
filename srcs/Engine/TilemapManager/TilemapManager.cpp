@@ -76,7 +76,7 @@ void TilemapManager::Load()
 
 void TilemapManager::Save()
 {
-    nlohmann::json file;
+    nlohmann::ordered_json file;
 
     file["textures"] = {};
     std::set<std::string> textures;
