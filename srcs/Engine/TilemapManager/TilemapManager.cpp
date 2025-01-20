@@ -34,6 +34,22 @@ void TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec
         it->second.SuppressTile(position);
 }
 
+bool TilemapManager::GetBuildCollision(const std::string &tilemapName) const
+{
+    auto it = tilemaps.find(tilemapName);
+    if (it != tilemaps.end())
+        return (it->second.GetBuildCollision());
+
+    return (false);
+}
+
+void TilemapManager::SetBuildCollision(const std::string &tilemapName, bool buildCollision)
+{
+    auto it = tilemaps.find(tilemapName);
+    if (it != tilemaps.end())
+        it->second.SetBuildCollision(buildCollision);
+}
+
 void TilemapManager::AddTilemap(const std::string &name, const Tilemap &tilemap)
 {
     tilemaps[name] = tilemap;
@@ -62,6 +78,8 @@ void TilemapManager::Load()
         tilemaps[tilemapName] = Tilemap();
         tilemapOrder.push_back(tilemapName);
 
+        tilemaps[tilemapName].SetBuildCollision((*itTilemap)["build collision"]);
+
         auto itTiles = itTilemap->find("tiles");
         for (auto it : *itTiles)
         {
@@ -87,6 +105,7 @@ void TilemapManager::Save()
     for (size_t i = 0; i < tilemapOrder.size(); i++ )
     {
         file["tilemaps"][tilemapOrder[i]]["tiles"] = {};
+        file["tilemaps"][tilemapOrder[i]]["build collision"] = tilemaps[tilemapOrder[i]].GetBuildCollision();
         
         std::map<glm::vec2, Tile, Vec2Comparator> tiles = tilemaps[tilemapOrder[i]].GetTiles();
         int j = 0;

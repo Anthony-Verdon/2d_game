@@ -29,26 +29,45 @@ void TilemapManagerUI::Draw()
     for (size_t i = 0; i < tilemapOrder.size();)
     {
         std::string item = tilemapOrder[i];
-        ImGui::SetNextItemAllowOverlap();
-        if (ImGui::Selectable(item.c_str(), item == tilemapSelected))
+
+        bool closable_group = true;
+        ImGui::SetNextItemOpen(tilemapSelected == item);
+        if (ImGui::CollapsingHeader(item.c_str(), &closable_group))
+        {
             tilemapSelected = item;
 
-        if (ImGui::IsItemActive() && !ImGui::IsItemHovered())
-        {
-            size_t i_next = i + (ImGui::GetMouseDragDelta(0).y < 0.f ? -1 : 1);
-            if (i_next >= 0 && i_next < tilemapOrder.size())
+            if (ImGui::IsItemActive() && !ImGui::IsItemHovered())
             {
-                std::swap(tilemapOrder[i], tilemapOrder[i_next]);
-                ImGui::ResetMouseDragDelta();
+                size_t i_next = i + (ImGui::GetMouseDragDelta(0).y < 0.f ? -1 : 1);
+                if (i_next >= 0 && i_next < tilemapOrder.size())
+                {
+                    std::swap(tilemapOrder[i], tilemapOrder[i_next]);
+                    ImGui::ResetMouseDragDelta();
+                }
+            }
+
+            bool tilemapBuildCollision = tilemapManager.GetBuildCollision(tilemapSelected);
+            std::string checkboxName = "Build collision ###" + std::to_string(i);
+            ImGui::Checkbox(checkboxName.c_str(), &tilemapBuildCollision);
+            tilemapManager.SetBuildCollision(tilemapSelected, tilemapBuildCollision);
+        }
+        else
+        {
+            if (ImGui::IsItemActive() && !ImGui::IsItemHovered())
+            {
+                size_t i_next = i + (ImGui::GetMouseDragDelta(0).y < 0.f ? -1 : 1);
+                if (i_next >= 0 && i_next < tilemapOrder.size())
+                {
+                    std::swap(tilemapOrder[i], tilemapOrder[i_next]);
+                    ImGui::ResetMouseDragDelta();
+                }
             }
         }
-        
-        ImGui::SameLine();
-        std::string button = "X###" + std::to_string(i);
-        if (ImGui::SmallButton(button.c_str()))
-            tilemapOrder.erase(tilemapOrder.begin() + i);
-        else
+
+        if (closable_group)
             i++;
+        else
+            tilemapOrder.erase(tilemapOrder.begin() + i);
     }
     tilemapManager.SetTilemapOrder(tilemapOrder);
 

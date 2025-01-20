@@ -24,7 +24,7 @@ const std::array<std::pair<glm::vec2, glm::vec2>, 4> points {
         
 Tilemap::Tilemap()
 {
-
+    buildCollision = false;
 }
 
 Tilemap::~Tilemap()
@@ -68,6 +68,9 @@ void Tilemap::Draw()
 
 void Tilemap::CreateTilemapCollision(b2WorldId worldId)
 {
+    if (!buildCollision)
+        return;
+    
     // store each line in a multimap, in both sense (A -> B, A <- B)
     std::multimap<glm::vec2, glm::vec2, Vec2Comparator> lines;
     for (auto it = tiles.begin(); it != tiles.end(); it++)

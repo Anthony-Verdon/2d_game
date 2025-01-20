@@ -20,6 +20,9 @@ class TilemapManager
         void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
         void SuppressTile(const std::string &tilemapName, const glm::vec2 &position);
         
+        bool GetBuildCollision(const std::string &tilemapName) const;
+        void SetBuildCollision(const std::string &tilemapName, bool buildCollision);
+
         void AddTilemap(const std::string &name, const Tilemap &tilemap = Tilemap());
 
         std::vector<std::string> GetTilemapOrder() const { return tilemapOrder; }
