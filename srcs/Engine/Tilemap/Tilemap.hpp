@@ -9,6 +9,7 @@
 struct Tile
 {
     Sprite sprite;
+    glm::vec2 spriteOffset;
 };
 
 struct Vec2Comparator {
@@ -32,7 +33,7 @@ class Tilemap
         ~Tilemap();
 
         void AddTile(const glm::vec2 &position, const Tile &tile);
-        void AddTile(const glm::vec2 &position, const Sprite &sprite);
+        void AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
         void SuppressTile(const glm::vec2 &position);
         
         void Draw();

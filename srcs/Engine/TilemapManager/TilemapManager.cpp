@@ -20,11 +20,11 @@ void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &po
         it->second.AddTile(position, tile);
 }
 
-void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite)
+void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
 {
     auto it = tilemaps.find(tilemapName);
     if (it != tilemaps.end())
-        it->second.AddTile(position, sprite);
+        it->second.AddTile(position, sprite, spriteOffset);
 }
 
 void TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec2 &position)
@@ -70,6 +70,7 @@ void TilemapManager::Load()
             tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
             tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
             tile.sprite.size = glm::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
+            tile.spriteOffset = glm::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
             tilemaps[tilemapName].AddTile(glm::vec2(it["position"][0], it["position"][1]), tile);
         }
     }
@@ -96,6 +97,7 @@ void TilemapManager::Save()
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["texture"]["size"] = {it->second.sprite.textureSize.x, it->second.sprite.textureSize.y};
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["position"] = {it->second.sprite.spriteCoords.x, it->second.sprite.spriteCoords.y};
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["size"] = {it->second.sprite.size.x, it->second.sprite.size.y};
+            file["tilemaps"][tilemapOrder[i]]["tiles"][j]["sprite"]["offset"] = {it->second.spriteOffset.x, it->second.spriteOffset.y};
 
             j++;
 

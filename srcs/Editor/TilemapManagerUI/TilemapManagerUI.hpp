@@ -18,7 +18,7 @@ class TilemapManagerUI: public AEditorWindow
         void Draw();
 
         void AddTile(const glm::vec2 &position, const Tile &tile);
-        void AddTile(const glm::vec2 &position, const Sprite &sprite);
+        void AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
         void SuppressTile(const glm::vec2 &position);
 
         void Load();

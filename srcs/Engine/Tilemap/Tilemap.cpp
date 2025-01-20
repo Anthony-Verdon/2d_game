@@ -37,10 +37,11 @@ void Tilemap::AddTile(const glm::vec2 &position, const Tile &tile)
     tiles[position] = tile;
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite)
+void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
 {
     Tile tile;
     tile.sprite = sprite;
+    tile.spriteOffset = spriteOffset;
     AddTile(position, tile);
 }
 
@@ -55,7 +56,7 @@ void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        SpriteRenderer::Draw(it->first, it->second.sprite.size, 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
+        SpriteRenderer::Draw(it->first - it->second.spriteOffset, it->second.sprite.size, 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
 
         for (int i = 0; i < 4; i++)
         {

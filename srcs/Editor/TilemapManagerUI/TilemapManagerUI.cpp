@@ -62,9 +62,9 @@ void TilemapManagerUI::AddTile(const glm::vec2 &position, const Tile &tile)
     tilemapManager.AddTile(tilemapSelected, position, tile);
 }
 
-void TilemapManagerUI::AddTile(const glm::vec2 &position, const Sprite &sprite)
+void TilemapManagerUI::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
 {
-    tilemapManager.AddTile(tilemapSelected, position, sprite);
+    tilemapManager.AddTile(tilemapSelected, position, sprite, spriteOffset);
 }
 
 void TilemapManagerUI::SuppressTile(const glm::vec2 &position)

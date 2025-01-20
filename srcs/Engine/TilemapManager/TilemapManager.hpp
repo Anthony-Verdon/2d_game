@@ -17,7 +17,7 @@ class TilemapManager
         ~TilemapManager();
 
         void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Tile &tile);
-        void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite);
+        void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
         void SuppressTile(const std::string &tilemapName, const glm::vec2 &position);
         
         void AddTilemap(const std::string &name, const Tilemap &tilemap = Tilemap());
