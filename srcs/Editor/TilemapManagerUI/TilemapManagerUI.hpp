@@ -7,7 +7,6 @@
 class TilemapManagerUI: public AEditorWindow
 {
     private:
-        TilemapManager tilemapManager;
         std::string tilemapSelected;
         char name[INPUT_ARRAY_SIZE];
 

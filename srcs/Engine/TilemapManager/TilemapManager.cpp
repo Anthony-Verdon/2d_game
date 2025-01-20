@@ -5,13 +5,8 @@
 #include <set>
 #include "Engine/RessourceManager/RessourceManager.hpp"
 
-TilemapManager::TilemapManager()
-{
-}
-
-TilemapManager::~TilemapManager()
-{
-}
+std::map<std::string, Tilemap> TilemapManager::tilemaps;
+std::vector<std::string> TilemapManager::tilemapOrder;
 
 void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &position, const Tile &tile)
 {
@@ -34,7 +29,7 @@ void TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec
         it->second.SuppressTile(position);
 }
 
-bool TilemapManager::GetBuildCollision(const std::string &tilemapName) const
+bool TilemapManager::GetBuildCollision(const std::string &tilemapName)
 {
     auto it = tilemaps.find(tilemapName);
     if (it != tilemaps.end())

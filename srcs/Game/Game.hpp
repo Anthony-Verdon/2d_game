@@ -31,7 +31,6 @@ class Game: public AProgram
         Barrel barrel;
         Skeletton skeletton;
 
-        TilemapManager tilemapManager;
         Camera camera;
 
 
