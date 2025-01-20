@@ -1,13 +1,30 @@
 #include "Engine/Tilemap/Tilemap.hpp"
-#include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include <fstream>
-#include <nlohmann/json.hpp>
-#include <filesystem>
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
+#include "Engine/PhysicBody/PhysicBody.hpp"
+#include "globals.hpp"
+#include "Game/CategoriesFilter.hpp"
+#include <array>
+#include <map>
+#include <vector>
 
+const std::array<glm::vec2, 4> directions {
+    glm::vec2(0, -SPRITE_SIZE), // top
+    glm::vec2(SPRITE_SIZE, 0),  // right
+    glm::vec2(0, SPRITE_SIZE),  // bottom
+    glm::vec2(-SPRITE_SIZE, 0)  // left
+};
+
+const std::array<std::pair<glm::vec2, glm::vec2>, 4> points {
+    std::make_pair(glm::vec2(-SPRITE_SIZE, -SPRITE_SIZE) / 2.0f, glm::vec2(SPRITE_SIZE, -SPRITE_SIZE) / 2.0f),  // top
+    std::make_pair(glm::vec2(SPRITE_SIZE, -SPRITE_SIZE) / 2.0f, glm::vec2(SPRITE_SIZE, SPRITE_SIZE) / 2.0f),    // right
+    std::make_pair(glm::vec2(-SPRITE_SIZE, SPRITE_SIZE) / 2.0f, glm::vec2(SPRITE_SIZE, SPRITE_SIZE) / 2.0f),    // bottom
+    std::make_pair(glm::vec2(-SPRITE_SIZE, -SPRITE_SIZE) / 2.0f, glm::vec2(-SPRITE_SIZE, SPRITE_SIZE) / 2.0f)   // left
+};
+        
 Tilemap::Tilemap()
 {
-
+    buildCollision = false;
 }
 
 Tilemap::~Tilemap()
@@ -15,126 +32,133 @@ Tilemap::~Tilemap()
 
 }
 
-void Tilemap::Load()
+void Tilemap::AddTile(const glm::vec2 &position, const Tile &tile)
 {
-    if (!std::filesystem::exists("saves/map.json")) // @todo: should be a parameter
-        return;
-
-    std::ifstream input("saves/map.json");
-    nlohmann::json file =  nlohmann::json::parse(input);
-
-    auto itTextures = file.find("textures"); //@todo error check
-    for (auto it : *itTextures)
-    {
-        RessourceManager::AddTexture(it["name"], it["path"]);
-    }
-    auto itTiles = file.find("tiles"); //@todo error check
-    for (auto it : *itTiles)
-    {
-        Tile tile;
-        tile.position = glm::vec2(it["position"][0], it["position"][1]);
-        tile.size = glm::vec2(it["size"][0], it["size"][1]);
-        tile.sprite.textureName = it["sprite"]["texture"]["name"];
-        tile.sprite.textureSize = glm::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
-        tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
-        tile.layer = it["layer"];
-        AddTile(tile);
-    }
+    tiles[position] = tile;
 }
 
-void Tilemap::Save()
-{
-    nlohmann::json file;
-
-    file["textures"] = {};
-    std::set<std::string> textures;
-
-    file["tiles"] = {};
-    int i = 0;
-    for (auto it = tiles.begin(); it != tiles.end(); it++)
-    {
-        file["tiles"][i]["position"] = {it->position.x, it->position.y};
-        file["tiles"][i]["size"] = {it->size.x, it->size.y};
-        file["tiles"][i]["sprite"]["texture"]["name"] = it->sprite.textureName;
-        file["tiles"][i]["sprite"]["texture"]["size"] = {it->sprite.textureSize.x, it->sprite.textureSize.y};
-        file["tiles"][i]["sprite"]["position"] = {it->sprite.spriteCoords.x, it->sprite.spriteCoords.y};
-        file["tiles"][i]["layer"] = it->layer;
-
-        i++;
-
-        textures.insert(it->sprite.textureName);
-    }
-
-    i = 0;
-    for (auto it = textures.begin(); it != textures.end(); it++)
-    {
-        file["textures"][i]["name"] = *it;
-        file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
-
-        i++;
-    }
-    std::ofstream o("saves/map.json");
-    o << std::setw(4) << file << std::endl;
-}
-
-void Tilemap::AddTile(const Tile &tile)
-{
-    SuppressTile(tile.position, tile.layer);
-    tiles.insert(tile);
-}
-
-void Tilemap::AddTile(const glm::vec2 &position, const glm::vec2 &size, const Sprite &sprite, int layer)
+void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
 {
     Tile tile;
-    tile.position = position;
-    tile.size = size;
     tile.sprite = sprite;
-    tile.layer = layer;
-    AddTile(tile);
+    tile.spriteOffset = spriteOffset;
+    AddTile(position, tile);
 }
 
-void Tilemap::SuppressTile(const glm::vec2 &position, int layer)
+void Tilemap::SuppressTile(const glm::vec2 &position)
+{
+    auto it = tiles.find(position);
+    if (it != tiles.end())
+        tiles.erase(it);
+}
+
+void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        if (it->position == position && it->layer == layer)
+        SpriteRenderer::Draw(it->first - it->second.spriteOffset, it->second.sprite.size, 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
+
+        for (int i = 0; i < 4; i++)
         {
-            tiles.erase(it);
-            return;
+            if (tiles.find(it->first + directions[i]) == tiles.end())
+                LineRenderer::Draw(glm::vec2(it->first + points[i].first), glm::vec2(it->first + points[i].second), glm::vec3(1, 0, 0));
         }
     }
 }
 
-void Tilemap::Draw(bool displayLayer, int layer)
+void Tilemap::CreateTilemapCollision(b2WorldId worldId)
 {
-    if (!displayLayer)
+    if (!buildCollision)
+        return;
+    
+    // store each line in a multimap, in both sense (A -> B, A <- B)
+    std::multimap<glm::vec2, glm::vec2, Vec2Comparator> lines;
+    for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        for (auto it = tiles.begin(); it != tiles.end(); it++)
-            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, 1);
-    }
-    else
-    {
-        int lastLayerChecked = layer;
-        float opacity = 1;
-        for (auto it = tiles.begin(); it != tiles.end(); it++)
-        {   
-            if (it->layer != lastLayerChecked)
+        for (int i = 0; i < 4; i++)
+        {
+            if (tiles.find(it->first + directions[i]) == tiles.end())
             {
-                lastLayerChecked = it->layer;
-                if (it->layer == layer)
-                    opacity = 1;
-                else if (it->layer < layer)
-                    opacity = 0.5;
-                else
-                    opacity = 0.2;
+                lines.insert({it->first + points[i].first, it->first + points[i].second});
+                lines.insert({it->first + points[i].second, it->first + points[i].first});
             }
-
-            SpriteRenderer::Draw(it->position, it->size, 0, glm::vec3(1, 1, 1), it->sprite, false, false, opacity);
         }
     }
+
+    // create the path between all the points
+    std::vector<std::vector<glm::vec2>> chains;
+    while (lines.size() / 2 != 0)
+        chains.push_back(DetermineChainPath(lines));
+
+    // build chains
+    for (size_t i = 0; i < chains.size(); i++)
+        BuildChain(worldId, chains[i]);
 }
 
-const std::set<Tile>& Tilemap::GetTiles() const
+std::vector<glm::vec2> Tilemap::DetermineChainPath(std::multimap<glm::vec2, glm::vec2, Vec2Comparator> &lines) const
+{
+
+    // determine path
+    std::vector<glm::vec2> chainPoints;
+    glm::vec2 point = lines.begin()->first;
+    for (size_t i = 0; i < lines.size() / 2; i++)
+    {
+        chainPoints.push_back(point);
+
+        bool pointChanged = false;
+        for (auto[it, rangeEnd] = lines.equal_range(point); it != rangeEnd; ++it)
+        {
+            if (std::find(chainPoints.begin(), chainPoints.end(), it->second) == chainPoints.end())
+            {
+                point = it->second;
+                pointChanged = true;
+                break;
+            }
+        }
+
+        if (!pointChanged)
+            break;
+    }
+
+    // erase path from multimap
+    size_t nbPoints = chainPoints.size();
+    for (size_t i = 0; i < nbPoints; i++)
+    {
+        for (auto[it, rangeEnd] = lines.equal_range(chainPoints[i]); it != rangeEnd;)
+        {
+            if (it->second == chainPoints[(i + 1) % nbPoints] || it->second == chainPoints[(i - 1) % nbPoints])
+                it = lines.erase(it);
+            else
+                it++;
+        }
+    }
+
+    return (chainPoints);
+}
+
+void Tilemap::BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &chain) const
+{
+    std::vector<b2Vec2> b2Chain;
+    for (size_t i = 0; i < chain.size(); i++)
+        b2Chain.push_back({PhysicBody::PixelToWorld(chain[i].x), PhysicBody::PixelToWorld(chain[i].y)});
+
+    b2BodyDef bodyDef = b2DefaultBodyDef();
+    bodyDef.type = b2_staticBody;
+    b2BodyId myBodyId = b2CreateBody(worldId, &bodyDef);
+
+    b2Filter filter;
+    filter.categoryBits = CategoriesFilter::Wall;
+    filter.maskBits = CategoriesFilter::Entities;
+
+    b2ChainDef chainDef = b2DefaultChainDef();
+    chainDef.points = b2Chain.data();
+    chainDef.count = b2Chain.size();
+    chainDef.filter = filter;
+    chainDef.isLoop = true;
+    
+    b2CreateChain(myBodyId, &chainDef);
+}
+const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const
 {
     return (tiles);
 }

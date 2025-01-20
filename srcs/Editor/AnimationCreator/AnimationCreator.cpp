@@ -48,7 +48,7 @@ void AnimationCreator::DrawSpriteSelector()
                 newTextureData.name = data;
                 newTextureData.path = RessourceManager::GetTexture(data)->getPath();
                 newTextureData.nbSprite = glm::vec2(1, 1);
-                newTextureData.spriteScale = 1;
+                newTextureData.spriteOffset = glm::vec2(0, 0);
                 texturesData.push_back(newTextureData);
             }
             ImGui::EndDragDropTarget();
@@ -147,7 +147,7 @@ void AnimationCreator::CreateDragDropSourceData()
             newSprite.textureName = it->name;
             newSprite.textureSize = it->nbSprite;
             newSprite.spriteCoords = glm::vec2(id % (int)it->nbSprite.x, id / (int)it->nbSprite.x);
-            newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+            newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
             tilesSelected.push_back(newSprite);
         }
 

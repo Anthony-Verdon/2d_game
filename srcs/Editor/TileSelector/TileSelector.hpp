@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Tilemap/Tilemap.hpp"
 #include "Editor/ToolSelector/ATool.hpp"
 
 
@@ -12,14 +12,14 @@ struct TextureData
     std::string name;
     std::string path;
     glm::vec2 nbSprite;
-    float spriteScale;
+    glm::vec2 spriteOffset;
 };
 
 class TileSelector: public ATool
 {
     private:
         std::vector<TextureData> texturesData;
-        Sprite tileSelected;
+        Tile tileSelected;
 
         void InputFields();
         void TilesAdded();
@@ -33,5 +33,5 @@ class TileSelector: public ATool
         void Load();
         void Save();
 
-        Sprite GetSprite() const;
+        Tile GetTile() const;
 };

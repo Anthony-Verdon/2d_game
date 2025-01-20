@@ -10,7 +10,7 @@
 
 TileSelector::TileSelector(): ATool("Tile Selector")
 {
-    tileSelected.textureName = "";
+    tileSelected.sprite.textureName = "";
 }
 
 TileSelector::~TileSelector()
@@ -35,7 +35,7 @@ void TileSelector::InputFields()
             newTextureData.name = data;
             newTextureData.path = RessourceManager::GetTexture(data)->getPath();
             newTextureData.nbSprite = glm::vec2(1, 1);
-            newTextureData.spriteScale = 1;
+            newTextureData.spriteOffset = glm::vec2(0, 0);
             texturesData.push_back(newTextureData);
         }
         ImGui::EndDragDropTarget();
@@ -50,30 +50,30 @@ void TileSelector::TilesAdded()
         if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
         {
             int index = it - texturesData.begin();
-            std::string nbSpriteInput = "nbSprite###" + std::to_string(index);
-            std::string scaleInput = "scale###" + std::to_string(index);
+            std::string nbSpriteInput = "nbSprite###1_" + std::to_string(index);
+            std::string spriteOffsetInput = "offset###2_" + std::to_string(index);
             ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
-            if (ImGui::InputFloat(scaleInput.c_str(), &it->spriteScale, 1, 128, "%.3f"))
-            {
-                tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
-            }
+            if (ImGui::InputFloat2(spriteOffsetInput.c_str(), &it->spriteOffset[0]))
+                tileSelected.spriteOffset = it->spriteOffset;
         
-            ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
             ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
             ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             for (int j = 0; j < it->nbSprite.y; j++)
             {
                 for (int i = 0; i < it->nbSprite.x; i++)
                 {
+                    auto texture = RessourceManager::GetTexture(it->name);
                     ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
                     ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
                     std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
-                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1, bg_col, tint_col))
+                    glm::vec2 size = glm::vec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
+                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), ImVec2(size.x, size.y), uv0, uv1, bg_col, tint_col))
                     {
-                        tileSelected.textureName = it->name; 
-                        tileSelected.textureSize = it->nbSprite; 
-                        tileSelected.spriteCoords = glm::vec2(i, j); 
-                        tileSelected.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE) * it->spriteScale;
+                        tileSelected.sprite.textureName = it->name; 
+                        tileSelected.sprite.textureSize = it->nbSprite; 
+                        tileSelected.sprite.spriteCoords = glm::vec2(i, j); 
+                        tileSelected.sprite.size = size * SCALE_FACTOR;
+                        tileSelected.spriteOffset = it->spriteOffset;
                     }
                     ImGui::SameLine();
                 }
@@ -102,7 +102,7 @@ void TileSelector::Load()
         data.name = it["name"];
         data.path = it["path"];
         data.nbSprite = glm::vec2(it["nbSprite"][0], it["nbSprite"][1]);
-        data.spriteScale = it["scale"];
+        data.spriteOffset = glm::vec2(it["spriteOffset"][0], it["spriteOffset"][1]);
         texturesData.push_back(data);
         RessourceManager::AddTexture(data.name, data.path);
     }
@@ -119,7 +119,7 @@ void TileSelector::Save()
         file["textures"][i]["name"] = it->name;
         file["textures"][i]["path"] = it->path;
         file["textures"][i]["nbSprite"] = {it->nbSprite.x, it->nbSprite.y};
-        file["textures"][i]["scale"] = it->spriteScale;
+        file["textures"][i]["spriteOffset"] = {it->spriteOffset.x, it->spriteOffset.y};
         i++;
     }
 
@@ -127,7 +127,7 @@ void TileSelector::Save()
     o << std::setw(4) << file << std::endl;
 }
 
-Sprite TileSelector::GetSprite() const
+Tile TileSelector::GetTile() const
 {
     return (tileSelected);
 }

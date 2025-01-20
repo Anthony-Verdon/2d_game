@@ -1,43 +1,48 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <set>
+#include <map>
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include <Box2D/Box2D.h>
+#include <vector>
 
 struct Tile
 {
-    glm::vec2 position;
-    glm::vec2 size;
     Sprite sprite;
-    int layer;
+    glm::vec2 spriteOffset;
+};
 
-    bool operator==(const Tile &other) const {
-        return layer == other.layer && position == other.position && size == other.size; 
-    }
-    bool operator<(const Tile &other) const {
-        if (layer != other.layer)
-            return layer < other.layer;
-        
-        return position.x < other.position.x || position.y < other.position.y; 
+struct Vec2Comparator {
+    bool operator()(const glm::vec2& lhs, const glm::vec2& rhs) const {
+        if (lhs.x != rhs.x) {
+            return lhs.x < rhs.x;
+        }
+        return lhs.y < rhs.y;
     }
 };
 
 class Tilemap
 {
     private:
-        std::set<Tile> tiles;
+        std::map<glm::vec2, Tile, Vec2Comparator> tiles;
+        bool buildCollision;
 
+        std::vector<glm::vec2> DetermineChainPath(std::multimap<glm::vec2, glm::vec2, Vec2Comparator> &lines) const;
+        void BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &points) const;
     public:
         Tilemap();
         ~Tilemap();
 
-        void AddTile(const Tile &tile);
-        void AddTile(const glm::vec2 &position, const glm::vec2 &size, const Sprite &sprite, int layer);
-        void SuppressTile(const glm::vec2 &position, int layer);
-        void Draw(bool displayLayer = false, int layer = 0);
-        
-        void Load();
-        void Save();
+        void AddTile(const glm::vec2 &position, const Tile &tile);
+        void AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
+        void SuppressTile(const glm::vec2 &position);
 
-        const std::set<Tile>& GetTiles() const;
+        bool GetBuildCollision() const { return (buildCollision); }
+        void SetBuildCollision(bool buildCollision) {this->buildCollision = buildCollision; }
+        
+        void Draw();
+
+        void CreateTilemapCollision(b2WorldId worldId);
+
+        const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
 };

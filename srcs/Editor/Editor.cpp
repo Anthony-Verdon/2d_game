@@ -43,7 +43,8 @@ Editor::Editor()
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    tilemap.Load();
+    
+    tilemapManagerUI.Load();
     animationCreator.Load();
 
     // Setup Dear ImGui context
@@ -92,7 +93,7 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
-    tilemap.Save();
+    tilemapManagerUI.Save();
     animationCreator.Save();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
@@ -115,11 +116,11 @@ void Editor::Run()
     ImGui::NewFrame();
     toolSelector.Draw();
     fileExplorer.Draw();
-    layerSystem.Draw(tilemap);
+    tilemapManagerUI.Draw();
     animationCreator.Draw();
     textureLoader.Draw();
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || layerSystem.IsHoveredOrFocused() || textureLoader.IsHoveredOrFocused() || animationCreator.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || tilemapManagerUI.IsHoveredOrFocused() || textureLoader.IsHoveredOrFocused() || animationCreator.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();
@@ -214,8 +215,8 @@ void Editor::UpdateTilemap()
         TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
         if (!tileSelector)
             return;
-        Sprite actualSprite = tileSelector->GetSprite();
-        if (actualSprite.textureName == "")
+        Tile actualTile = tileSelector->GetTile();
+        if (actualTile.sprite.textureName == "")
             return;
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
@@ -228,7 +229,7 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.AddTile(mousePosition, actualSprite.size, actualSprite, layerSystem.GetLayer());
+        tilemapManagerUI.AddTile(mousePosition, actualTile);
     }
     else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
     {
@@ -243,14 +244,12 @@ void Editor::UpdateTilemap()
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
-        tilemap.SuppressTile(mousePosition, layerSystem.GetLayer());
+        tilemapManagerUI.SuppressTile(mousePosition);
     }
 }
 
 void Editor::Draw()
 {
-    tilemap.Draw(true, layerSystem.GetLayer());
-
     // @todo move this region to another part
     glm::vec2 pos = camera.GetPosition();
     float zoom = camera.GetZoom() / 100;
