@@ -9,30 +9,30 @@
 class TilemapManager
 {
     private:
-        std::map<std::string, Tilemap> tilemaps;
-        std::vector<std::string> tilemapOrder;
+        static std::map<std::string, Tilemap> tilemaps;
+        static std::vector<std::string> tilemapOrder;
 
+        TilemapManager() = delete;
+        ~TilemapManager() = delete;
     public:
-        TilemapManager();
-        ~TilemapManager();
 
-        void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Tile &tile);
-        void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
-        void SuppressTile(const std::string &tilemapName, const glm::vec2 &position);
+        static void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Tile &tile);
+        static void AddTile(const std::string &tilemapName, const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
+        static void SuppressTile(const std::string &tilemapName, const glm::vec2 &position);
         
-        bool GetBuildCollision(const std::string &tilemapName) const;
-        void SetBuildCollision(const std::string &tilemapName, bool buildCollision);
+        static bool GetBuildCollision(const std::string &tilemapName);
+        static void SetBuildCollision(const std::string &tilemapName, bool buildCollision);
 
-        void AddTilemap(const std::string &name, const Tilemap &tilemap = Tilemap());
+        static void AddTilemap(const std::string &name, const Tilemap &tilemap = Tilemap());
 
-        std::vector<std::string> GetTilemapOrder() const { return tilemapOrder; }
-        void SetTilemapOrder(const std::vector<std::string> &tilemapOrder) { this->tilemapOrder = tilemapOrder; }
+        static std::vector<std::string> GetTilemapOrder() { return tilemapOrder; }
+        static void SetTilemapOrder(const std::vector<std::string> &tilemapOrder) { TilemapManager::tilemapOrder = tilemapOrder; }
         
-        void Save();
-        void Load();
+        static void Save();
+        static void Load();
 
-        void Draw();
+        static void Draw();
 
-        void AddCollisions(b2WorldId worldId);
+        static void AddCollisions(b2WorldId worldId);
 
 };

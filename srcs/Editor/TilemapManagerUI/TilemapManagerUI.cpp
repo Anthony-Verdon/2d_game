@@ -21,11 +21,11 @@ void TilemapManagerUI::Draw()
     ImGui::InputText("tilemap name", name, IM_ARRAYSIZE(name));
     if (ImGui::Button("new tilemap", ImVec2(100, 40)))
     {
-        tilemapManager.AddTilemap(name);
+        TilemapManager::AddTilemap(name);
         name[0] = 0;
     }
 
-    std::vector<std::string> tilemapOrder = tilemapManager.GetTilemapOrder();
+    std::vector<std::string> tilemapOrder = TilemapManager::GetTilemapOrder();
     for (size_t i = 0; i < tilemapOrder.size();)
     {
         std::string item = tilemapOrder[i];
@@ -46,10 +46,10 @@ void TilemapManagerUI::Draw()
                 }
             }
 
-            bool tilemapBuildCollision = tilemapManager.GetBuildCollision(tilemapSelected);
+            bool tilemapBuildCollision = TilemapManager::GetBuildCollision(tilemapSelected);
             std::string checkboxName = "Build collision ###" + std::to_string(i);
             ImGui::Checkbox(checkboxName.c_str(), &tilemapBuildCollision);
-            tilemapManager.SetBuildCollision(tilemapSelected, tilemapBuildCollision);
+            TilemapManager::SetBuildCollision(tilemapSelected, tilemapBuildCollision);
         }
         else
         {
@@ -69,35 +69,35 @@ void TilemapManagerUI::Draw()
         else
             tilemapOrder.erase(tilemapOrder.begin() + i);
     }
-    tilemapManager.SetTilemapOrder(tilemapOrder);
+    TilemapManager::SetTilemapOrder(tilemapOrder);
 
     ImGui::End();
 
-    tilemapManager.Draw();
+    TilemapManager::Draw();
 }
 
 void TilemapManagerUI::AddTile(const glm::vec2 &position, const Tile &tile)
 {
-    tilemapManager.AddTile(tilemapSelected, position, tile);
+    TilemapManager::AddTile(tilemapSelected, position, tile);
 }
 
 void TilemapManagerUI::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
 {
-    tilemapManager.AddTile(tilemapSelected, position, sprite, spriteOffset);
+    TilemapManager::AddTile(tilemapSelected, position, sprite, spriteOffset);
 }
 
 void TilemapManagerUI::SuppressTile(const glm::vec2 &position)
 {
-    tilemapManager.SuppressTile(tilemapSelected, position);
+    TilemapManager::SuppressTile(tilemapSelected, position);
 
 }
 
 void TilemapManagerUI::Load()
 {
-    tilemapManager.Load();
+    TilemapManager::Load();
 }
 
 void TilemapManagerUI::Save()
 {
-    tilemapManager.Save();
+    TilemapManager::Save();
 }
