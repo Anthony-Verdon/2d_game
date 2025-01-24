@@ -22,11 +22,13 @@ void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &po
         it->second.AddTile(position, sprite, spriteOffset);
 }
 
-void TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec2 &position)
+bool TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec2 &position)
 {
     auto it = tilemaps.find(tilemapName);
-    if (it != tilemaps.end())
-        it->second.SuppressTile(position);
+    if (it == tilemaps.end())
+        return (false);
+
+    return (it->second.SuppressTile(position));
 }
 
 bool TilemapManager::GetBuildCollision(const std::string &tilemapName)

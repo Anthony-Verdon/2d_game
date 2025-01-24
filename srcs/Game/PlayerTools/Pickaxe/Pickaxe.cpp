@@ -10,9 +10,12 @@ Pickaxe::~Pickaxe()
 {
 }
 
-#include <iostream>
 void Pickaxe::MainAction(const glm::vec2 &actionCoords)
 {
-    std::cout << "use pickaxe" << std::endl;
-    TilemapManager::SuppressTile("b", actionCoords);
+    std::vector<std::string> tilemaps = TilemapManager::GetTilemapOrder();
+    for (int i = tilemaps.size() - 1; i >= 0; i--)
+    {
+        if (TilemapManager::SuppressTile(tilemaps[i], actionCoords))
+            break;
+    }
 }

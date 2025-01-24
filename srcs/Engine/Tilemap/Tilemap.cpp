@@ -45,11 +45,14 @@ void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm
     AddTile(position, tile);
 }
 
-void Tilemap::SuppressTile(const glm::vec2 &position)
+bool Tilemap::SuppressTile(const glm::vec2 &position)
 {
     auto it = tiles.find(position);
-    if (it != tiles.end())
-        tiles.erase(it);
+    if (it == tiles.end())
+        return (false);
+
+    tiles.erase(it);
+    return (true);
 }
 
 void Tilemap::Draw()
