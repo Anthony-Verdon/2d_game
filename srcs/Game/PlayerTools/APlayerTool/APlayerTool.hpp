@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 enum PlayerTool
 {
     SWORD,
@@ -15,7 +17,7 @@ class APlayerTool
         APlayerTool() {}
         virtual ~APlayerTool() {}
 
-        virtual void MainAction() = 0;
+        virtual void MainAction(const glm::vec2 &actionCoords) = 0;
 
         PlayerTool GetType() {return toolType; }
 };

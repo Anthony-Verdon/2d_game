@@ -8,5 +8,5 @@ class Sword: public APlayerTool
         Sword();
         ~Sword();
 
-        void MainAction();
+        void MainAction(const glm::vec2 &actionCoords);
 };

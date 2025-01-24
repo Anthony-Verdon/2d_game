@@ -10,7 +10,8 @@ Sword::~Sword()
 }
 
 #include <iostream>
-void Sword::MainAction()
+void Sword::MainAction(const glm::vec2 &actionCoords)
 {
+    (void)actionCoords;
     std::cout << "use sword" << std::endl;
 }
