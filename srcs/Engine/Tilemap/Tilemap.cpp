@@ -100,7 +100,6 @@ void Tilemap::CreateTilemapCollision(b2WorldId worldId)
 
 std::vector<glm::vec2> Tilemap::DetermineChainPath(std::multimap<glm::vec2, glm::vec2, Vec2Comparator> &lines) const
 {
-
     // determine path
     std::vector<glm::vec2> chainPoints;
     glm::vec2 point = lines.begin()->first;
@@ -127,9 +126,18 @@ std::vector<glm::vec2> Tilemap::DetermineChainPath(std::multimap<glm::vec2, glm:
     size_t nbPoints = chainPoints.size();
     for (size_t i = 0; i < nbPoints; i++)
     {
-        for (auto[it, rangeEnd] = lines.equal_range(chainPoints[i]); it != rangeEnd;)
+        glm::vec2 p1 = chainPoints[i];
+        glm::vec2 p2 = chainPoints[(i + 1) % nbPoints];
+        for (auto[it, rangeEnd] = lines.equal_range(p1); it != rangeEnd;)
         {
-            if (it->second == chainPoints[(i + 1) % nbPoints] || it->second == chainPoints[(i - 1) % nbPoints])
+            if (it->second == p2)
+                it = lines.erase(it);
+            else
+                it++;
+        }
+        for (auto[it, rangeEnd] = lines.equal_range(p2); it != rangeEnd;)
+        {
+            if (it->second == p1)
                 it = lines.erase(it);
             else
                 it++;
@@ -161,6 +169,7 @@ void Tilemap::BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &chain)
     
     b2CreateChain(myBodyId, &chainDef);
 }
+
 const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const
 {
     return (tiles);
