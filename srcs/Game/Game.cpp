@@ -17,11 +17,9 @@
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include "Game/WorldPhysic/WorldPhysic.hpp"
 
-void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
-void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context);
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
-void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context);
 
 Game::Game()
 {
@@ -37,27 +35,15 @@ Game::Game()
 
     RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
-    
 
-    // create world
-    b2WorldDef worldDef = b2DefaultWorldDef();
-    worldDef.gravity = (b2Vec2){0.0f, 0.0f};
-    worldId = b2CreateWorld(&worldDef);
-    timeStep = 1.0f / 60.0f;
-    subStepCount = 4;
+    WorldPhysic::Init();
 
     LoadChains();
-    player.Init(worldId);
-    barrel.Init(worldId);
-    skeletton.Init(worldId);
+    player.Init(WorldPhysic::GetWorldId());
+    barrel.Init(WorldPhysic::GetWorldId());
+    skeletton.Init(WorldPhysic::GetWorldId());
     TilemapManager::Load();
-    TilemapManager::AddCollisions(worldId);
-
-    InitDebugDraw();
-    debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
-    debugDraw.DrawSegment = DrawSegmentFcn;
-    debugDraw.DrawPoint = DrawPointFcn;
-    debugDraw.drawShapes = true;
+    TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 }
 
 void Game::LoadChains()
@@ -80,7 +66,7 @@ void Game::LoadChains()
 
         b2BodyDef bodyDef = b2DefaultBodyDef();
         bodyDef.type = b2_staticBody;
-        b2BodyId myBodyId = b2CreateBody(worldId, &bodyDef);
+        b2BodyId myBodyId = b2CreateBody(WorldPhysic::GetWorldId(), &bodyDef);
 
         b2Filter filter;
         filter.categoryBits = CategoriesFilter::Wall;
@@ -95,37 +81,6 @@ void Game::LoadChains()
     }
 }
 
-void Game::InitDebugDraw()
-{
-    debugDraw.context = NULL;
-    debugDraw.DrawCapsule = NULL;
-    debugDraw.DrawCircle = NULL;
-    debugDraw.DrawPoint = NULL;
-    debugDraw.DrawPolygon = NULL;
-    debugDraw.DrawSegment = NULL;
-    debugDraw.DrawSolidCapsule = NULL;
-    debugDraw.DrawSolidCircle = NULL;
-    debugDraw.DrawSolidPolygon = NULL;
-    debugDraw.DrawString = NULL;
-    debugDraw.DrawTransform = NULL;
-
-    debugDraw.drawAABBs = false;
-    debugDraw.drawContactImpulses = false;
-    debugDraw.drawContactNormals = false;
-    debugDraw.drawContacts = false;
-    debugDraw.drawFrictionImpulses = false;
-    debugDraw.drawGraphColors = false;
-    debugDraw.drawJointExtras = false;
-    debugDraw.drawJoints = false;
-    debugDraw.drawMass = false;
-    debugDraw.drawShapes = false;
-    debugDraw.useDrawingBounds = false;
-
-    float val = 100;
-    b2AABB bounds = {{-val, -val}, {val, val}};
-    debugDraw.drawingBounds = bounds;
-}
-
 Game::~Game()
 {
     TilemapManager::Save();
@@ -135,7 +90,7 @@ Game::~Game()
     LineRenderer::Destroy();
     SpriteRenderer::Destroy();
     
-    b2DestroyWorld(worldId);
+    WorldPhysic::Destroy();
 }
 
 void Game::Run()
@@ -145,7 +100,7 @@ void Game::Run()
     player.Update();
     skeletton.Update();
 
-    b2SensorEvents sensorEvents = b2World_GetSensorEvents(worldId);
+    b2SensorEvents sensorEvents = b2World_GetSensorEvents(WorldPhysic::GetWorldId());
     for (int i = 0; i < sensorEvents.beginCount; ++i)
     {
         b2SensorBeginTouchEvent* beginTouch = sensorEvents.beginEvents + i;
@@ -156,8 +111,8 @@ void Game::Run()
     }
 
     ProcessInput();
-    b2World_Step(worldId, timeStep, subStepCount);
-    
+    WorldPhysic::Update();
+
     camera.SetPosition(player.GetPosition());
     camera.UpdateShaders();
 
@@ -177,7 +132,7 @@ void Game::Draw()
     skeletton.Draw();
     barrel.Draw();
 
-    b2World_Draw(worldId, &debugDraw);
+    WorldPhysic::DebugDraw();
 }
 
 void Game::DebugRendering()
@@ -202,39 +157,6 @@ void Game::ScrollCallback(double xOffset, double yOffset)
     camera.Zoom(yOffset);
 }
 
-static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx) 
-{
-    (void)ctx;
-    (void)radius;
-    glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
-    float cosAngle = cos(b2Rot_GetAngle(transform.q));
-    float sinAngle = sin(b2Rot_GetAngle(transform.q));
-    for (int i = 0; i < verticesCount; i++)
-    {   
-        b2Vec2 b2va = vertices[i];
-        b2Vec2 b2vb = vertices[(i + 1) % verticesCount];
-        glm::vec2 va = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2va.x * cosAngle - b2va.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2va.x * sinAngle + b2va.y * cosAngle));
-        glm::vec2 vb = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2vb.x * cosAngle - b2vb.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2vb.x * sinAngle + b2vb.y * cosAngle));
-        LineRenderer::Draw(va, vb, newColor);
-    }
-}
-
-static void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context)
-{
-    (void)p;
-    (void)size;
-    (void)color;
-    (void)context;
-}
-static void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context)
-{
-    (void)context;
-    glm::vec2 va = glm::vec2({PhysicBody::WorldToPixel(p1.x), PhysicBody::WorldToPixel(p1.y)}); // @todo WorldToPixel overload taking a glm::vec2 or a b2Vec2 as parameter
-    glm::vec2 vb = glm::vec2({PhysicBody::WorldToPixel(p2.x), PhysicBody::WorldToPixel(p2.y)});
-    glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
-    LineRenderer::Draw(va, vb, newColor);
-
-}
 static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
 {
     Game *game = reinterpret_cast<Game*>(glfwGetWindowUserPointer(window));

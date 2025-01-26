@@ -142,5 +142,12 @@ void TilemapManager::Draw()
 void TilemapManager::AddCollisions(b2WorldId worldId)
 {
     for (size_t i = 0; i < tilemapOrder.size(); i++)
-        tilemaps[tilemapOrder[i]].CreateTilemapCollision(worldId);
+        tilemaps[tilemapOrder[i]].CreateCollision(worldId);
+}
+
+void TilemapManager::UpdateCollision(const std::string &tilemapName, b2WorldId worldId)
+{
+    auto it = tilemaps.find(tilemapName);
+    if (it != tilemaps.end())
+        it->second.UpdateCollision(worldId);
 }

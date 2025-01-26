@@ -34,5 +34,6 @@ class TilemapManager
         static void Draw();
 
         static void AddCollisions(b2WorldId worldId);
+        static void UpdateCollision(const std::string &tilemapName, b2WorldId worldId);
 
 };

@@ -19,12 +19,6 @@ class Game: public AProgram
 
         void DebugRendering();
 
-        // Box2D
-        b2WorldId worldId;
-        float timeStep;
-        int subStepCount;
-        b2DebugDraw debugDraw;
-        void InitDebugDraw();
         void LoadChains();
 
         Player player;
@@ -32,7 +26,6 @@ class Game: public AProgram
         Skeletton skeletton;
 
         Camera camera;
-
 
     public:
         Game();

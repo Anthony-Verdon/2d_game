@@ -69,7 +69,7 @@ void Tilemap::Draw()
     }
 }
 
-void Tilemap::CreateTilemapCollision(b2WorldId worldId)
+void Tilemap::CreateCollision(b2WorldId worldId)
 {
     if (!buildCollision)
         return;
@@ -147,7 +147,7 @@ std::vector<glm::vec2> Tilemap::DetermineChainPath(std::multimap<glm::vec2, glm:
     return (chainPoints);
 }
 
-void Tilemap::BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &chain) const
+void Tilemap::BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &chain)
 {
     std::vector<b2Vec2> b2Chain;
     for (size_t i = 0; i < chain.size(); i++)
@@ -167,7 +167,20 @@ void Tilemap::BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &chain)
     chainDef.filter = filter;
     chainDef.isLoop = true;
     
-    b2CreateChain(myBodyId, &chainDef);
+    chainsId.push_back(b2CreateChain(myBodyId, &chainDef));
+}
+
+void Tilemap::UpdateCollision(b2WorldId worldId)
+{
+    DeleteCollision();
+    CreateCollision(worldId);
+}
+
+void Tilemap::DeleteCollision()
+{
+    for (size_t i = 0; i < chainsId.size(); i++)
+        b2DestroyChain(chainsId[i]);
+    chainsId.clear();
 }
 
 const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const

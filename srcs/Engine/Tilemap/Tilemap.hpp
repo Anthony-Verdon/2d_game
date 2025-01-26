@@ -25,10 +25,13 @@ class Tilemap
 {
     private:
         std::map<glm::vec2, Tile, Vec2Comparator> tiles;
+        std::vector<b2ChainId> chainsId;
         bool buildCollision;
 
         std::vector<glm::vec2> DetermineChainPath(std::multimap<glm::vec2, glm::vec2, Vec2Comparator> &lines) const;
-        void BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &points) const;
+        void BuildChain(b2WorldId worldId, const std::vector<glm::vec2> &points);
+
+        void DeleteCollision();
     public:
         Tilemap();
         ~Tilemap();
@@ -42,7 +45,8 @@ class Tilemap
         
         void Draw();
 
-        void CreateTilemapCollision(b2WorldId worldId);
+        void CreateCollision(b2WorldId worldId);
+        void UpdateCollision(b2WorldId worldId);
 
         const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
 };
