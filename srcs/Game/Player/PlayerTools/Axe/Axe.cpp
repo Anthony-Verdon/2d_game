@@ -1,4 +1,4 @@
-#include "Game/PlayerTools/Axe/Axe.hpp"
+#include "Game/Player/PlayerTools/Axe/Axe.hpp"
 
 Axe::Axe()
 {

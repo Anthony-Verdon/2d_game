@@ -1,4 +1,4 @@
-#include "Game/PlayerTools/Sword/Sword.hpp"
+#include "Game/Player/PlayerTools/Sword/Sword.hpp"
 
 Sword::Sword()
 {

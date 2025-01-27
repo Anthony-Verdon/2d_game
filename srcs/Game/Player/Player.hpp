@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Game/PlayerTools/APlayerTool/APlayerTool.hpp"
+#include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
 #include "Engine/AnimationManager/AnimationManager.hpp"
 #include <glm/glm.hpp>
 #include <vector>

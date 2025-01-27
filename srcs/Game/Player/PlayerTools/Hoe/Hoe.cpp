@@ -1,4 +1,4 @@
-#include "Game/PlayerTools/Hoe/Hoe.hpp"
+#include "Game/Player/PlayerTools/Hoe/Hoe.hpp"
 
 Hoe::Hoe()
 {

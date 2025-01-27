@@ -1,4 +1,4 @@
-#include "Game/PlayerTools/WateringCan/WateringCan.hpp"
+#include "Game/Player/PlayerTools/WateringCan/WateringCan.hpp"
 
 WateringCan::WateringCan()
 {

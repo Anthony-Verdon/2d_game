@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/PlayerTools/APlayerTool/APlayerTool.hpp"
+#include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
 
 class Sword: public APlayerTool
 {

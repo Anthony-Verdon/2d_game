@@ -1,4 +1,4 @@
-#include "Game/PlayerTools/Pickaxe/Pickaxe.hpp"
+#include "Game/Player/PlayerTools/Pickaxe/Pickaxe.hpp"
 #include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 
