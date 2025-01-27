@@ -8,6 +8,5 @@ class Pickaxe: public APlayerTool
         Pickaxe();
         ~Pickaxe();
 
-        void MainAction() {}
         void MainAction(const glm::vec2 &actionCoords);
 };

@@ -6,6 +6,7 @@ enum PlayerTool
 {
     SWORD,
     PICKAXE,
+    AXE
 };
 
 class APlayerTool
@@ -17,7 +18,7 @@ class APlayerTool
         APlayerTool() {}
         virtual ~APlayerTool() {}
 
-        virtual void MainAction(const glm::vec2 &actionCoords) = 0;
+        virtual void MainAction(const glm::vec2 &actionCoords) { (void)actionCoords; }
 
         PlayerTool GetType() {return toolType; }
 };
