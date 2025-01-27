@@ -7,7 +7,8 @@ enum PlayerTool
     SWORD,
     PICKAXE,
     AXE,
-    HOE
+    HOE,
+    WATERING_CAN
 };
 
 class APlayerTool

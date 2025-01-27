@@ -3,6 +3,7 @@
 #include "Game/Player/PlayerStates/MiningState/MiningState.hpp"
 #include "Game/Player/PlayerStates/ChoppingState/ChoppingState.hpp"
 #include "Game/Player/PlayerStates/PlowingState/PlowingState.hpp"
+#include "Game/Player/PlayerStates/WateringState/WateringState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 
@@ -36,6 +37,8 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
                 return (std::make_unique<Player::ChoppingState>());
             case PlayerTool::HOE:
                 return (std::make_unique<Player::PlowingState>());
+            case PlayerTool::WATERING_CAN:
+                return (std::make_unique<Player::WateringState>());
             default:
                 return (NULL);
         }

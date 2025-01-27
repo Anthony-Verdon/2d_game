@@ -3,6 +3,7 @@
 #include "Game/PlayerTools/Pickaxe/Pickaxe.hpp"
 #include "Game/PlayerTools/Axe/Axe.hpp"
 #include "Game/PlayerTools/Hoe/Hoe.hpp"
+#include "Game/PlayerTools/WateringCan/WateringCan.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
@@ -128,6 +129,8 @@ void Player::Update()
         tool = std::make_unique<Axe>();
     else if (WindowManager::IsKeyPressed(GLFW_KEY_5))
         tool = std::make_unique<Hoe>();
+    else if (WindowManager::IsKeyPressed(GLFW_KEY_6))
+        tool = std::make_unique<WateringCan>();
 
     auto ptr = state->Input(*this);
     if (ptr)
@@ -154,7 +157,7 @@ void Player::Draw()
             flipHorizontally = false;
     
     float scale = 1.5f;
-    if (state->GetStateType() == StateType::MINING || state->GetStateType() == StateType::CHOPPING || state->GetStateType() == StateType::PLOWING) // @todo does a bit mask could work ?
+    if (state->GetStateType() == StateType::MINING || state->GetStateType() == StateType::CHOPPING || state->GetStateType() == StateType::PLOWING || state->GetStateType() == StateType::WATERING) // @todo does a bit mask could work ?
         scale = scale * 1.5f;
     SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
     if (toolAnimationManager.GetCurrentAnimation() != "none")
