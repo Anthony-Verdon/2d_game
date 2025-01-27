@@ -2,6 +2,7 @@
 #include "Game/Player/PlayerStates/AttackState/AttackState.hpp"
 #include "Game/Player/PlayerStates/MiningState/MiningState.hpp"
 #include "Game/Player/PlayerStates/ChoppingState/ChoppingState.hpp"
+#include "Game/Player/PlayerStates/PlowingState/PlowingState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 
@@ -31,8 +32,10 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
                 return (std::make_unique<Player::AttackState>());
             case PlayerTool::PICKAXE:
                 return (std::make_unique<Player::MiningState>());
-                case PlayerTool::AXE:
+            case PlayerTool::AXE:
                 return (std::make_unique<Player::ChoppingState>());
+            case PlayerTool::HOE:
+                return (std::make_unique<Player::PlowingState>());
             default:
                 return (NULL);
         }

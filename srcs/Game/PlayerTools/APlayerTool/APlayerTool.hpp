@@ -6,7 +6,8 @@ enum PlayerTool
 {
     SWORD,
     PICKAXE,
-    AXE
+    AXE,
+    HOE
 };
 
 class APlayerTool

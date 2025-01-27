@@ -18,7 +18,8 @@ class Player
             IDLE_WALK, 
             ATTACK,
             MINING,
-            CHOPPING
+            CHOPPING,
+            PLOWING
         };
 
         class AState
@@ -42,6 +43,7 @@ class Player
         class AttackState;
         class MiningState;
         class ChoppingState;
+        class PlowingState;
         
         glm::vec2 size;
         glm::vec2 direction;
