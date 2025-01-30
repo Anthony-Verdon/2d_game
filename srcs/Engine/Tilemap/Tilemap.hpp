@@ -31,7 +31,7 @@ class Tilemap
         ~Tilemap();
 
         void AddTile(const glm::vec2 &position, size_t tileIndex);
-        void SuppressTile(const glm::vec2 &position);
+        bool SuppressTile(const glm::vec2 &position);
 
         bool GetBuildCollision() const { return (buildCollision); }
         void SetBuildCollision(bool buildCollision) {this->buildCollision = buildCollision; }

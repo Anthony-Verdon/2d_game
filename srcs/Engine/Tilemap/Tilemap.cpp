@@ -170,8 +170,3 @@ void Tilemap::DeleteCollision()
         b2DestroyChain(chainsId[i]);
     chainsId.clear();
 }
-
-const std::map<glm::vec2, Tile, Vec2Comparator>& Tilemap::GetTiles() const
-{
-    return (tiles);
-}
