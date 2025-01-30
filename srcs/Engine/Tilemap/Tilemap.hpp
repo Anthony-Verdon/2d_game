@@ -2,15 +2,9 @@
 
 #include <glm/glm.hpp>
 #include <map>
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Tile/Tile.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
-
-struct Tile
-{
-    Sprite sprite;
-    glm::vec2 spriteOffset;
-};
 
 struct Vec2Comparator {
     bool operator()(const glm::vec2& lhs, const glm::vec2& rhs) const {

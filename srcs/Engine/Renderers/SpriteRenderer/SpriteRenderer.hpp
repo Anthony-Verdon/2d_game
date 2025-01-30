@@ -2,14 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <string>
-
-struct Sprite
-{
-    std::string textureName;
-    glm::vec2 textureSize; // nb sprite on x and y axis
-    glm::vec2 spriteCoords; // depending of texture size
-    glm::vec2 size;
-};
+#include "Engine/Sprite/Sprite.hpp"
 
 class SpriteRenderer
 {
