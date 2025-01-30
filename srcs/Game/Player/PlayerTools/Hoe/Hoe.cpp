@@ -22,7 +22,7 @@ void Hoe::MainAction(const glm::vec2 &actionCoords)
             
             for (size_t i = 0; i < tile.behaviors.size(); i++)
             {
-                if (tile.behaviors[i]->GetType() != TileBehavior::DIRT)
+                if (tile.behaviors[i]->GetType() != TileBehaviorType::DIRT)
                     continue;
 
                 tile.behaviors[i]->behavior();

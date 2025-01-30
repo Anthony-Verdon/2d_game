@@ -1,11 +1,11 @@
 #pragma once
 
-enum class TileBehavior;
+enum class TileBehaviorType;
 
 class ATileBehavior
 {
     protected:
-        TileBehavior behaviorType;
+        TileBehaviorType behaviorType;
 
     public:
         ATileBehavior() {}
@@ -13,6 +13,6 @@ class ATileBehavior
 
         virtual void behavior() = 0;
 
-        TileBehavior GetType() {return behaviorType; }
+        TileBehaviorType GetType() {return behaviorType; }
 
 };

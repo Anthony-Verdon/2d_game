@@ -4,7 +4,7 @@
 
 DirtTileBehavior::DirtTileBehavior(): ATileBehavior()
 {
-    behaviorType = TileBehavior::DIRT;
+    behaviorType = TileBehaviorType::DIRT;
 }
 
 DirtTileBehavior::~DirtTileBehavior()

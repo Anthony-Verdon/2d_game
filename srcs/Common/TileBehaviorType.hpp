@@ -1,6 +1,6 @@
 #pragma once
 
-enum class TileBehavior
+enum class TileBehaviorType
 {
     DIRT
 };

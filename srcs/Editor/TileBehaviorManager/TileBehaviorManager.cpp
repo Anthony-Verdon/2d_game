@@ -17,7 +17,7 @@ void TileBehaviorManager::Draw()
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
-    auto values = magic_enum::enum_values<TileBehavior>();
+    auto values = magic_enum::enum_values<TileBehaviorType>();
     for (auto it = values.begin(); it != values.end(); it++)
     {
         std::string name = std::string(magic_enum::enum_name(*it).data());
