@@ -119,8 +119,9 @@ void Editor::Run()
     tilemapManagerUI.Draw();
     animationCreator.Draw();
     textureLoader.Draw();
+    tileBehaviorManager.Draw(); //@todo create a vector holding all
 
-    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || tilemapManagerUI.IsHoveredOrFocused() || textureLoader.IsHoveredOrFocused() || animationCreator.IsHoveredOrFocused();
+    ImGuiWindowHoweredOrFocused = toolSelector.IsHoveredOrFocused() || fileExplorer.IsHoveredOrFocused() || tilemapManagerUI.IsHoveredOrFocused() || textureLoader.IsHoveredOrFocused() || animationCreator.IsHoveredOrFocused() || tileBehaviorManager.IsHoveredOrFocused();
 
     ProcessInput();
     Draw();

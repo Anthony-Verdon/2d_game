@@ -1,6 +1,6 @@
 #include "Game/Player/PlayerTools/Hoe/Hoe.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
-#include "Game/TileBehavior/TileBehaviorType.hpp"
+#include "Common/TileBehaviorType.hpp"
 
 Hoe::Hoe()
 {

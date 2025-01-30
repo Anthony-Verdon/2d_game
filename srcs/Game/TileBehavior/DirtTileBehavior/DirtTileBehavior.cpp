@@ -1,5 +1,5 @@
 #include "Game/TileBehavior/DirtTileBehavior/DirtTileBehavior.hpp"
-#include "Game/TileBehavior/TileBehaviorType.hpp"
+#include "Common/TileBehaviorType.hpp"
 #include <iostream>
 
 DirtTileBehavior::DirtTileBehavior(): ATileBehavior()

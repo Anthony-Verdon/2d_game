@@ -8,6 +8,7 @@
 #include "Editor/FileExplorer/FileExplorer.hpp"
 #include "Editor/TilemapManagerUI/TilemapManagerUI.hpp"
 #include "Editor/AnimationCreator/AnimationCreator.hpp"
+#include "Editor/TileBehaviorManager/TileBehaviorManager.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -22,6 +23,7 @@ class Editor: public AProgram
         TilemapManagerUI tilemapManagerUI;
         AnimationCreator animationCreator;
         TextureLoader textureLoader;
+        TileBehaviorManager tileBehaviorManager;
         
         b2WorldId worldId;
         float timeStep;
