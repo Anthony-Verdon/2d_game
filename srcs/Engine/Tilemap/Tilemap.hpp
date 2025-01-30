@@ -18,7 +18,7 @@ struct Vec2Comparator {
 class Tilemap
 {
     private:
-        std::map<glm::vec2, Tile, Vec2Comparator> tiles;
+        std::map<glm::vec2, size_t, Vec2Comparator> tiles;
         bool buildCollision;
 
         std::vector<glm::vec2> DetermineChainPath(std::multimap<glm::vec2, glm::vec2, Vec2Comparator> &lines) const;
@@ -27,8 +27,7 @@ class Tilemap
         Tilemap();
         ~Tilemap();
 
-        void AddTile(const glm::vec2 &position, const Tile &tile);
-        void AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
+        void AddTile(const glm::vec2 &position, size_t tileIndex);
         void SuppressTile(const glm::vec2 &position);
 
         bool GetBuildCollision() const { return (buildCollision); }
@@ -38,5 +37,5 @@ class Tilemap
 
         void CreateTilemapCollision(b2WorldId worldId);
 
-        const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
+        const std::map<glm::vec2, size_t, Vec2Comparator>& GetTiles() const { return (tiles); }
 };

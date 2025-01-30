@@ -1,14 +1,6 @@
 #include "Engine/TileDictionnary/TileDictionnary.hpp"
 
-TileDictionnary::TileDictionnary()
-{
-
-}
-
-TileDictionnary::~TileDictionnary()
-{
-
-}
+std::vector<Tile> TileDictionnary::tiles;
 
 void TileDictionnary::AddTile(const Tile &tile)
 {
@@ -17,19 +9,19 @@ void TileDictionnary::AddTile(const Tile &tile)
         tiles.push_back(tile);
 }
 
-Tile TileDictionnary::GetTile(size_t index) const
+Tile TileDictionnary::GetTile(size_t index)
 {
     if (index >= tiles.size())
         return Tile::none;
     return (tiles[index]);
 }
 
-size_t TileDictionnary::GetTileIndex(const Tile &tile) const
+size_t TileDictionnary::GetTileIndex(const Tile &tile)
 {
     return (std::distance(tiles.begin(), std::find(tiles.begin(), tiles.end(), tile)));
 }
 
-size_t TileDictionnary::GetDictionnarySize() const
+size_t TileDictionnary::GetDictionnarySize()
 {
     return (tiles.size());
 }

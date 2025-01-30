@@ -4,18 +4,18 @@
 #include <filesystem>
 #include <set>
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/TileDictionnary/TileDictionnary.hpp"
 
 std::map<std::string, Tilemap> TilemapManager::tilemaps;
 std::vector<std::string> TilemapManager::tilemapOrder;
-TileDictionnary TilemapManager::tileDictionnary;
 
 void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &position, const Tile &tile)
 {
     auto it = tilemaps.find(tilemapName);
     if (it != tilemaps.end())
     {
-        it->second.AddTile(position, tile);
-        tileDictionnary.AddTile(tile);
+        TileDictionnary::AddTile(tile);
+        it->second.AddTile(position, TileDictionnary::GetTileIndex(tile));
     }
 }
 
@@ -79,7 +79,7 @@ void TilemapManager::Load()
         tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
         tile.sprite.size = glm::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
         tile.spriteOffset = glm::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
-        tileDictionnary.AddTile(tile);
+        TileDictionnary::AddTile(tile);
     }
 
     auto itTilemaps = file.find("tilemaps"); //@todo error check
@@ -95,7 +95,7 @@ void TilemapManager::Load()
         auto itTiles = itTilemap->find("tiles");
         for (auto it : *itTiles)
         {
-            tilemaps[tilemapName].AddTile(glm::vec2(it["position"][0], it["position"][1]), tileDictionnary.GetTile(it["index"]));
+            tilemaps[tilemapName].AddTile(glm::vec2(it["position"][0], it["position"][1]), it["index"]);
         }
     }
 }
@@ -108,9 +108,9 @@ void TilemapManager::Save()
     std::set<std::string> textures;
 
     file["tiles"] = {};
-    for (size_t i = 0; i < tileDictionnary.GetDictionnarySize(); i++)
+    for (size_t i = 0; i < TileDictionnary::GetDictionnarySize(); i++)
     {
-        Tile tile = tileDictionnary.GetTile(i);
+        Tile tile = TileDictionnary::GetTile(i);
         file["tiles"][i]["sprite"]["texture"]["name"] = tile.sprite.textureName;
         file["tiles"][i]["sprite"]["texture"]["size"] = {tile.sprite.textureSize.x, tile.sprite.textureSize.y};
         file["tiles"][i]["sprite"]["position"] = {tile.sprite.spriteCoords.x, tile.sprite.spriteCoords.y};
@@ -126,12 +126,12 @@ void TilemapManager::Save()
         file["tilemaps"][tilemapOrder[i]]["tiles"] = {};
         file["tilemaps"][tilemapOrder[i]]["build collision"] = tilemaps[tilemapOrder[i]].GetBuildCollision();
         
-        std::map<glm::vec2, Tile, Vec2Comparator> tiles = tilemaps[tilemapOrder[i]].GetTiles();
+        std::map<glm::vec2, size_t, Vec2Comparator> tiles = tilemaps[tilemapOrder[i]].GetTiles();
         int j = 0;
         for (auto it = tiles.begin(); it != tiles.end(); it++)
         {
             file["tilemaps"][tilemapOrder[i]]["tiles"][j]["position"] = {it->first.x, it->first.y};
-            file["tilemaps"][tilemapOrder[i]]["tiles"][j]["index"] = tileDictionnary.GetTileIndex(it->second);
+            file["tilemaps"][tilemapOrder[i]]["tiles"][j]["index"] = it->second;
 
             j++;
         }

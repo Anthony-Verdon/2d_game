@@ -6,16 +6,16 @@
 class TileDictionnary
 {
     private:
-        std::vector<Tile> tiles;
+        static std::vector<Tile> tiles;
+
+        TileDictionnary() = delete;
+        ~TileDictionnary() = delete;
 
     public:
-        TileDictionnary();
-        ~TileDictionnary();
 
-        void AddTile(const Tile &tile);
+        static void AddTile(const Tile &tile);
         
-        Tile GetTile(size_t index) const;
-        size_t GetTileIndex(const Tile &tile) const;
-        size_t GetDictionnarySize() const;
-
+        static Tile GetTile(size_t index);
+        static size_t GetTileIndex(const Tile &tile);
+        static size_t GetDictionnarySize();
 };
