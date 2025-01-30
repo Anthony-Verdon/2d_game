@@ -13,5 +13,9 @@ class TileDictionnary
         ~TileDictionnary();
 
         void AddTile(const Tile &tile);
+        
         Tile GetTile(size_t index) const;
+        size_t GetTileIndex(const Tile &tile) const;
+        size_t GetDictionnarySize() const;
+
 };

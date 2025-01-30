@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Tilemap/Tilemap.hpp"
+#include "Engine/TileDictionnary/TileDictionnary.hpp"
 #include <map>
 #include <string>
 #include <vector>
@@ -11,6 +12,7 @@ class TilemapManager
     private:
         static std::map<std::string, Tilemap> tilemaps;
         static std::vector<std::string> tilemapOrder;
+        static TileDictionnary tileDictionnary;
 
         TilemapManager() = delete;
         ~TilemapManager() = delete;
