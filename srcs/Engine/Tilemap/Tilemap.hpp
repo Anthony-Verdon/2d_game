@@ -2,15 +2,9 @@
 
 #include <glm/glm.hpp>
 #include <map>
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Tile/Tile.hpp"
 #include <Box2D/Box2D.h>
 #include <vector>
-
-struct Tile
-{
-    Sprite sprite;
-    glm::vec2 spriteOffset;
-};
 
 struct Vec2Comparator {
     bool operator()(const glm::vec2& lhs, const glm::vec2& rhs) const {
@@ -24,7 +18,7 @@ struct Vec2Comparator {
 class Tilemap
 {
     private:
-        std::map<glm::vec2, Tile, Vec2Comparator> tiles;
+        std::map<glm::vec2, size_t, Vec2Comparator> tiles;
         std::vector<b2ChainId> chainsId;
         bool buildCollision;
 
@@ -36,9 +30,8 @@ class Tilemap
         Tilemap();
         ~Tilemap();
 
-        void AddTile(const glm::vec2 &position, const Tile &tile);
-        void AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset);
-        bool SuppressTile(const glm::vec2 &position);
+        void AddTile(const glm::vec2 &position, size_t tileIndex);
+        void SuppressTile(const glm::vec2 &position);
 
         bool GetBuildCollision() const { return (buildCollision); }
         void SetBuildCollision(bool buildCollision) {this->buildCollision = buildCollision; }
@@ -48,5 +41,5 @@ class Tilemap
         void CreateCollision(b2WorldId worldId);
         void UpdateCollision(b2WorldId worldId);
 
-        const std::map<glm::vec2, Tile, Vec2Comparator>& GetTiles() const;
+        const std::map<glm::vec2, size_t, Vec2Comparator>& GetTiles() const { return (tiles); }
 };

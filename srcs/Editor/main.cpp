@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Engine/WindowManager/WindowManager.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 #include "Editor/Editor.hpp"
 #include <filesystem>

@@ -2,7 +2,6 @@
 
 #include "Engine/AProgram/AProgram.hpp"
 #include "Engine/Camera/Camera.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include "Editor/TextureLoader/TextureLoader.hpp"

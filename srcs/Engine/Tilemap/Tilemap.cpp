@@ -1,4 +1,5 @@
 #include "Engine/Tilemap/Tilemap.hpp"
+#include "Engine/TileDictionnary/TileDictionnary.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/PhysicBody/PhysicBody.hpp"
@@ -32,17 +33,9 @@ Tilemap::~Tilemap()
 
 }
 
-void Tilemap::AddTile(const glm::vec2 &position, const Tile &tile)
+void Tilemap::AddTile(const glm::vec2 &position, size_t tileIndex)
 {
-    tiles[position] = tile;
-}
-
-void Tilemap::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
-{
-    Tile tile;
-    tile.sprite = sprite;
-    tile.spriteOffset = spriteOffset;
-    AddTile(position, tile);
+    tiles[position] = tileIndex;
 }
 
 bool Tilemap::SuppressTile(const glm::vec2 &position)
@@ -59,13 +52,8 @@ void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
     {
-        SpriteRenderer::Draw(it->first - it->second.spriteOffset, it->second.sprite.size, 0, glm::vec3(1, 1, 1), it->second.sprite, false, false, 1);
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (tiles.find(it->first + directions[i]) == tiles.end())
-                LineRenderer::Draw(glm::vec2(it->first + points[i].first), glm::vec2(it->first + points[i].second), glm::vec3(1, 0, 0));
-        }
+        Tile tile = TileDictionnary::GetTile(it->second);
+        SpriteRenderer::Draw(it->first - tile.spriteOffset, tile.sprite.size, 0, glm::vec3(1, 1, 1), tile.sprite, false, false, 1);
     }
 }
 
