@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/TileDictionnary/TileDictionnary.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
@@ -18,6 +19,8 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include "Game/WorldPhysic/WorldPhysic.hpp"
+#include "Game/TileBehavior/DirtTileBehavior/DirtTileBehavior.hpp"
+#include <memory>
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 
@@ -44,6 +47,10 @@ Game::Game()
     skeletton.Init(WorldPhysic::GetWorldId());
     TilemapManager::Load();
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
+
+    //tmp
+    std::shared_ptr<ATileBehavior> dirtTileBehavior = std::make_shared<DirtTileBehavior>();
+    TileDictionnary::AddTileBehavior(0, dirtTileBehavior);
 }
 
 void Game::LoadChains()

@@ -36,6 +36,24 @@ bool TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec
     return (it->second.SuppressTile(position));
 }
 
+bool TilemapManager::TileExist(const std::string &tilemapName, const glm::vec2 &position)
+{
+    auto it = tilemaps.find(tilemapName);
+    if (it == tilemaps.end())
+        return (false);
+
+    return (it->second.TileExist(position));
+}
+
+Tile TilemapManager::GetTile(const std::string &tilemapName, const glm::vec2 &position)
+{
+    auto it = tilemaps.find(tilemapName);
+    if (it == tilemaps.end())
+        return (Tile::none);
+
+    return (it->second.GetTile(position));
+}
+
 bool TilemapManager::GetBuildCollision(const std::string &tilemapName)
 {
     auto it = tilemaps.find(tilemapName);

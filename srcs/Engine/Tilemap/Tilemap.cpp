@@ -48,6 +48,20 @@ bool Tilemap::SuppressTile(const glm::vec2 &position)
     return (true);
 }
 
+bool Tilemap::TileExist(const glm::vec2 &position) const
+{
+    return (tiles.find(position) != tiles.end());
+}
+
+Tile Tilemap::GetTile(const glm::vec2 &position) const
+{
+    auto it = tiles.find(position);
+    if (it == tiles.end())
+        return (Tile::none);
+
+    return (TileDictionnary::GetTile(it->second));
+}
+
 void Tilemap::Draw()
 {
     for (auto it = tiles.begin(); it != tiles.end(); it++)
