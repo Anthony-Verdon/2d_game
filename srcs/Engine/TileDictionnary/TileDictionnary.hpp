@@ -14,8 +14,9 @@ class TileDictionnary
     public:
 
         static void AddTile(const Tile &tile);
-        
-        static Tile GetTile(size_t index);
+        static void AddTileBehavior(size_t index, const std::shared_ptr<ATileBehavior> &behavior);
+         
+        static Tile GetTile(size_t index);  
         static size_t GetTileIndex(const Tile &tile);
         static size_t GetDictionnarySize();
 };
