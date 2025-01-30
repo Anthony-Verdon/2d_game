@@ -38,14 +38,13 @@ void Tilemap::AddTile(const glm::vec2 &position, size_t tileIndex)
     tiles[position] = tileIndex;
 }
 
-bool Tilemap::SuppressTile(const glm::vec2 &position)
+void Tilemap::SuppressTile(const glm::vec2 &position)
 {
     auto it = tiles.find(position);
     if (it == tiles.end())
-        return (false);
+        return;
 
     tiles.erase(it);
-    return (true);
 }
 
 bool Tilemap::TileExist(const glm::vec2 &position) const

@@ -27,13 +27,13 @@ void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &po
     AddTile(tilemapName, position, newTile);
 }
 
-bool TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec2 &position)
+void TilemapManager::SuppressTile(const std::string &tilemapName, const glm::vec2 &position)
 {
     auto it = tilemaps.find(tilemapName);
     if (it == tilemaps.end())
-        return (false);
+        return;
 
-    return (it->second.SuppressTile(position));
+    it->second.SuppressTile(position);
 }
 
 bool TilemapManager::TileExist(const std::string &tilemapName, const glm::vec2 &position)

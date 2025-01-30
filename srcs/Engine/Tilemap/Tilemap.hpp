@@ -31,7 +31,7 @@ class Tilemap
         ~Tilemap();
 
         void AddTile(const glm::vec2 &position, size_t tileIndex);
-        bool SuppressTile(const glm::vec2 &position);
+        void SuppressTile(const glm::vec2 &position);
 
         bool TileExist(const glm::vec2 &position) const;
         Tile GetTile(const glm::vec2 &position) const;
