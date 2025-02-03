@@ -22,6 +22,7 @@ void TileBehaviorManager::Draw()
 
     isHoveredOrFocused = ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
+    size_t buttonIndex = 0;
     for (auto itTileBehavior = tilesBehavior.begin(); itTileBehavior != tilesBehavior.end(); itTileBehavior++)
     {
         std::string name = std::string(magic_enum::enum_name(itTileBehavior->first).data());
@@ -39,14 +40,24 @@ void TileBehaviorManager::Draw()
                 ImGui::EndDragDropTarget();
             }
 
-            for (auto itTile = itTileBehavior->second.begin(); itTile != itTileBehavior->second.end(); itTile++)
+            for (auto itTile = itTileBehavior->second.begin(); itTile != itTileBehavior->second.end();)
             {
                 auto texture = RessourceManager::GetTexture(itTile->sprite.textureName);
                 ImVec2 size = ImVec2(itTile->sprite.size.x, itTile->sprite.size.y);
                 ImVec2 uv0 = ImVec2(itTile->sprite.spriteCoords.x / itTile->sprite.textureSize.x, itTile->sprite.spriteCoords.y / itTile->sprite.textureSize.y); 
                 ImVec2 uv1 = ImVec2((itTile->sprite.spriteCoords.x + 1) / itTile->sprite.textureSize.x, (itTile->sprite.spriteCoords.y + 1) / itTile->sprite.textureSize.y); 
-                ImGui::Image((ImTextureID)(intptr_t)texture->getID(), size, uv0, uv1);
+                std::string button = "###" + std::to_string(buttonIndex);
+                if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), size, uv0, uv1))
+                    itTile = itTileBehavior->second.erase(itTile);
+                else
+                    itTile++;
+                
+                buttonIndex++;
             }
+        }
+        else
+        {
+            buttonIndex += itTileBehavior->second.size();
         }
     }
 
