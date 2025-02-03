@@ -104,9 +104,12 @@ void AnimationCreator::DrawSpriteSelector()
                     }
                     ImGui::NewLine();
                 }
-
-                
             }   
+            else
+            {
+                SpriteIndex += it->nbSprite.x * it->nbSprite.y;
+            }  
+            
             if (closable_group)
                 it++;
             else

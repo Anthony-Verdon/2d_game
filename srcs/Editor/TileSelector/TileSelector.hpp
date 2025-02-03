@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include "Engine/Tile/Tile.hpp"
 #include "Editor/ToolSelector/ATool.hpp"
-
+#include "imgui.h"
 
 struct TextureData
 {
@@ -21,8 +21,14 @@ class TileSelector: public ATool
         std::vector<TextureData> texturesData;
         Tile tileSelected;
 
+        // multi select
+        ImGuiSelectionBasicStorage selection;
+        std::vector<bool> selected;
+        std::vector<Tile> tilesSelected;
+
         void InputFields();
         void TilesAdded();
+        void CreateDragDropSourceData();
     
     public:
         TileSelector();

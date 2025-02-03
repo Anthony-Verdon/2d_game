@@ -44,6 +44,12 @@ void TileSelector::InputFields()
 
 void TileSelector::TilesAdded()
 {
+    // setup multi select
+    ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnClickVoid | ImGuiMultiSelectFlags_BoxSelect2d;
+    ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, 1000);
+    selection.ApplyRequests(ms_io);
+
+    size_t SpriteIndex = 0;
     for (auto it = texturesData.begin(); it != texturesData.end(); )
     {
         bool closable_group = true;
@@ -56,35 +62,101 @@ void TileSelector::TilesAdded()
             if (ImGui::InputFloat2(spriteOffsetInput.c_str(), &it->spriteOffset[0]))
                 tileSelected.spriteOffset = it->spriteOffset;
         
-            ImVec4 bg_col = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             for (int j = 0; j < it->nbSprite.y; j++)
             {
                 for (int i = 0; i < it->nbSprite.x; i++)
                 {
+                    while (selected.size() <= SpriteIndex)
+                        selected.push_back(false);
+                    
                     auto texture = RessourceManager::GetTexture(it->name);
-                    ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
-                    ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
-                    std::string button = std::to_string(index) + "_" + std::to_string(j) + "_" + std::to_string(i);
-                    glm::vec2 size = glm::vec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
-                    if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), ImVec2(size.x, size.y), uv0, uv1, bg_col, tint_col))
+                    ImVec2 size = ImVec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
+
+                    std::string item = "###" + std::to_string(SpriteIndex);
+                    ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
+                    ImGui::SetNextItemSelectionUserData(SpriteIndex);
+
+                    if (ImGui::Selectable(item.c_str(), selection.Contains(SpriteIndex), ImGuiSelectableFlags_AllowOverlap, size))
                     {
+                        selected[SpriteIndex] = !selected[SpriteIndex];
+
                         tileSelected.sprite.textureName = it->name; 
                         tileSelected.sprite.textureSize = it->nbSprite; 
                         tileSelected.sprite.spriteCoords = glm::vec2(i, j); 
-                        tileSelected.sprite.size = size * SCALE_FACTOR;
+                        tileSelected.sprite.size = glm::vec2(size.x, size.y) * SCALE_FACTOR;
                         tileSelected.spriteOffset = it->spriteOffset;
                     }
+
+                    if (ImGui::BeginDragDropSource())
+                    {
+                        CreateDragDropSourceData();
+                        ImGui::EndDragDropSource();
+                    }
+
+                    ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
+                    ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
+                    ImGui::SetCursorScreenPos(selectable_pos);
+                    ImGui::Image((ImTextureID)(intptr_t)texture->getID(), size, uv0, uv1);
+                    
+                    SpriteIndex++;
                     ImGui::SameLine();
                 }
                 ImGui::NewLine();
             }
         }
+        else
+        {
+            SpriteIndex += it->nbSprite.x * it->nbSprite.y;
+        }   
+
         if (closable_group)
             it++;
         else
             it = texturesData.erase(it);
     }
+
+    ms_io = ImGui::EndMultiSelect();
+    selection.ApplyRequests(ms_io);
+}
+
+void TileSelector::CreateDragDropSourceData()
+{
+    if (ImGui::GetDragDropPayload() == NULL)
+    {
+        tilesSelected.clear();
+        void* ptr = NULL;
+        ImGuiID id = 0;
+
+        while (selection.GetNextSelectedItem(&ptr, &id))
+        {
+            unsigned int nbSprite = 0;
+            auto it = texturesData.begin();
+            for (; it != texturesData.end(); it++ )
+            {
+                if (id < nbSprite + it->nbSprite.x * it->nbSprite.y)
+                {
+                    id = id - nbSprite;
+                    break;
+                }
+                nbSprite += it->nbSprite.x * it->nbSprite.y;
+            }
+            
+            Tile newTile;
+            newTile.sprite.textureName = it->name;
+            newTile.sprite.textureSize = it->nbSprite;
+            newTile.sprite.spriteCoords = glm::vec2(id % (int)it->nbSprite.x, id / (int)it->nbSprite.x);
+            auto texture = RessourceManager::GetTexture(it->name);
+            newTile.sprite.size = glm::vec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
+            newTile.spriteOffset = it->spriteOffset;
+            tilesSelected.push_back(newTile);
+        }
+
+        ImGui::SetDragDropPayload("TILES_SELECTED", &tilesSelected, sizeof(std::vector<Tile>));
+    }
+    
+    const ImGuiPayload* payload = ImGui::GetDragDropPayload();
+    std::vector<Tile> tiles = *(std::vector<Tile>*)payload->Data;
+    ImGui::Text("%zu assets", tiles.size());
 }
 
 void TileSelector::Load()

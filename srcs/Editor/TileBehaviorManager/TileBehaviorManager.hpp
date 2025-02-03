@@ -15,6 +15,5 @@ class TileBehaviorManager: public AEditorWindow
         TileBehaviorManager();
         ~TileBehaviorManager();
 
-        void Init(); // tmp
         void Draw();
 };

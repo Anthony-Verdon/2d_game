@@ -46,7 +46,6 @@ Editor::Editor()
     
     tilemapManagerUI.Load();
     animationCreator.Load();
-    tileBehaviorManager.Init();
     
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
