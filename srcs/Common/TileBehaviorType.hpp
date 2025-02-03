@@ -2,5 +2,7 @@
 
 enum class TileBehaviorType
 {
-    DIRT
+    DIRT,
+    TREE,
+    ROCK
 };
