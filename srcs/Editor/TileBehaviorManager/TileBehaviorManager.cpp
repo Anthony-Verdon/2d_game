@@ -36,12 +36,15 @@ void TileBehaviorManager::Draw()
                     std::vector<Tile> tiles = *(std::vector<Tile>*)payload->Data;
                     for (size_t i = 0; i < tiles.size(); i++)
                     {
+                        if (std::find(itTileBehavior->second.begin(), itTileBehavior->second.end(), tiles[i]) != itTileBehavior->second.end())
+                            continue;
+                        
                         size_t j = 0;
                         for (; j < itTileBehavior->second.size(); j++)
                         {
                             if (tiles[i].sprite.size.y < itTileBehavior->second[j].sprite.size.y)
                             {
-                                itTileBehavior->second.insert( itTileBehavior->second.begin() + j, tiles[i]);
+                                itTileBehavior->second.insert(itTileBehavior->second.begin() + j, tiles[i]);
                                 break;
                             }
                         }
@@ -62,7 +65,7 @@ void TileBehaviorManager::Draw()
                 ImVec2 uv0 = ImVec2(itTile->sprite.spriteCoords.x / itTile->sprite.textureSize.x, itTile->sprite.spriteCoords.y / itTile->sprite.textureSize.y); 
                 ImVec2 uv1 = ImVec2((itTile->sprite.spriteCoords.x + 1) / itTile->sprite.textureSize.x, (itTile->sprite.spriteCoords.y + 1) / itTile->sprite.textureSize.y); 
                 std::string button = "###" + std::to_string(buttonIndex);
-                
+
                 if (!firstTile && lastTileHeight == size.y)
                 {
                     ImGui::SameLine();
