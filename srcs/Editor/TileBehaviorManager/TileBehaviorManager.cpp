@@ -53,6 +53,8 @@ void TileBehaviorManager::Draw()
                 ImGui::EndDragDropTarget();
             }
 
+            size_t lastTileHeight = 0;
+            bool firstTile = true;
             for (auto itTile = itTileBehavior->second.begin(); itTile != itTileBehavior->second.end();)
             {
                 auto texture = RessourceManager::GetTexture(itTile->sprite.textureName);
@@ -60,11 +62,22 @@ void TileBehaviorManager::Draw()
                 ImVec2 uv0 = ImVec2(itTile->sprite.spriteCoords.x / itTile->sprite.textureSize.x, itTile->sprite.spriteCoords.y / itTile->sprite.textureSize.y); 
                 ImVec2 uv1 = ImVec2((itTile->sprite.spriteCoords.x + 1) / itTile->sprite.textureSize.x, (itTile->sprite.spriteCoords.y + 1) / itTile->sprite.textureSize.y); 
                 std::string button = "###" + std::to_string(buttonIndex);
+                
+                if (!firstTile && lastTileHeight == size.y)
+                {
+                    ImGui::SameLine();
+                    ImVec2 sizeAvailable =  ImGui::GetContentRegionAvail();
+                    if (sizeAvailable.x <= size.x)
+                        ImGui::NewLine();
+                }
+
                 if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), size, uv0, uv1))
                     itTile = itTileBehavior->second.erase(itTile);
                 else
                     itTile++;
                 
+                lastTileHeight = size.y;
+                firstTile = false;
                 buttonIndex++;
             }
         }
