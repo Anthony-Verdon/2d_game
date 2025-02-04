@@ -35,7 +35,20 @@ void TileBehaviorManager::Draw()
                 {
                     std::vector<Tile> tiles = *(std::vector<Tile>*)payload->Data;
                     for (size_t i = 0; i < tiles.size(); i++)
-                        itTileBehavior->second.push_back(tiles[i]);
+                    {
+                        size_t j = 0;
+                        for (; j < itTileBehavior->second.size(); j++)
+                        {
+                            if (tiles[i].sprite.size.y < itTileBehavior->second[j].sprite.size.y)
+                            {
+                                itTileBehavior->second.insert( itTileBehavior->second.begin() + j, tiles[i]);
+                                break;
+                            }
+                        }
+                        
+                        if (j == 0 || j == itTileBehavior->second.size())
+                            itTileBehavior->second.push_back(tiles[i]);
+                    }
                 }
                 ImGui::EndDragDropTarget();
             }
