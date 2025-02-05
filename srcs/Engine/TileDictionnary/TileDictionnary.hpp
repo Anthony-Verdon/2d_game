@@ -13,7 +13,7 @@ class TileDictionnary
 
     public:
 
-        static void AddTile(const Tile &tile);
+        static size_t AddTile(const Tile &tile);
         static void AddTileBehavior(size_t index, TileBehaviorType behavior);
          
         static Tile GetTile(size_t index);  

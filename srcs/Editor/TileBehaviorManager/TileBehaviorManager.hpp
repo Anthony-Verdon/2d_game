@@ -15,5 +15,8 @@ class TileBehaviorManager: public AEditorWindow
         TileBehaviorManager();
         ~TileBehaviorManager();
 
+        void Load();
+        void Save();
+        
         void Draw();
 };

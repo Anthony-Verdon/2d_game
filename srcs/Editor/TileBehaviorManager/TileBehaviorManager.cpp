@@ -3,6 +3,7 @@
 #include <magic_enum.hpp>
 #include <iostream>
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/TileDictionnary/TileDictionnary.hpp"
 #include "globals.hpp"
 
 TileBehaviorManager::TileBehaviorManager()
@@ -14,6 +15,33 @@ TileBehaviorManager::TileBehaviorManager()
 
 TileBehaviorManager::~TileBehaviorManager()
 {
+}
+
+
+void TileBehaviorManager::Load()
+{
+    for (size_t i = 0; i < TileDictionnary::GetDictionnarySize(); i++)
+    {
+        Tile tile = TileDictionnary::GetTile(i);
+        tile.sprite.size = tile.sprite.size / SCALE_FACTOR;
+        for (size_t j = 0; j < tile.behaviors.size(); j++)
+            tilesBehavior[tile.behaviors[j]].push_back(tile);
+    }
+}
+
+void TileBehaviorManager::Save()
+{
+    for (auto itTileBehavior = tilesBehavior.begin(); itTileBehavior != tilesBehavior.end(); itTileBehavior++)
+    {
+        for (size_t i = 0; i < itTileBehavior->second.size(); i++)
+        {
+            Tile tile = itTileBehavior->second[i];
+            tile.sprite.size = tile.sprite.size * SCALE_FACTOR;
+            size_t index = TileDictionnary::AddTile(tile);
+            TileDictionnary::AddTileBehavior(index, itTileBehavior->first);
+        }
+ 
+    }
 }
 
 void TileBehaviorManager::Draw()

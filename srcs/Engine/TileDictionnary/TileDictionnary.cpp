@@ -2,11 +2,16 @@
 
 std::vector<Tile> TileDictionnary::tiles;
 
-void TileDictionnary::AddTile(const Tile &tile)
+size_t TileDictionnary::AddTile(const Tile &tile)
 {
     auto it = std::find(tiles.begin(), tiles.end(), tile);
     if (it == tiles.end())
+    {
         tiles.push_back(tile);
+        return (tiles.size() - 1);
+    }
+
+    return (std::distance(tiles.begin(), it));
 }
 
 void TileDictionnary::AddTileBehavior(size_t index, TileBehaviorType behaviorType)
