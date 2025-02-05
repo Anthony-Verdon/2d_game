@@ -1,4 +1,5 @@
 #include "Game/Player/PlayerTools/Hoe/Hoe.hpp"
+#include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Common/TileBehaviorType.hpp"
 
@@ -22,10 +23,10 @@ void Hoe::MainAction(const glm::vec2 &actionCoords)
             
             for (size_t i = 0; i < tile.behaviors.size(); i++)
             {
-                if (tile.behaviors[i]->GetType() != TileBehaviorType::DIRT)
+                if (tile.behaviors[i] != TileBehaviorType::DIRT)
                     continue;
 
-                tile.behaviors[i]->behavior();
+                TileBehaviorManager::behavior(tile.behaviors[i]);
                 break;
             }
             break;

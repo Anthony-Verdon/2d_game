@@ -19,7 +19,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include "Game/WorldPhysic/WorldPhysic.hpp"
-#include "Game/TileBehavior/DirtTileBehavior/DirtTileBehavior.hpp"
+#include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include <memory>
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
@@ -48,9 +48,7 @@ Game::Game()
     TilemapManager::Load();
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 
-    //tmp
-    std::shared_ptr<ATileBehavior> dirtTileBehavior = std::make_shared<DirtTileBehavior>();
-    TileDictionnary::AddTileBehavior(0, dirtTileBehavior);
+    TileBehaviorManager::Init();
 }
 
 void Game::LoadChains()
