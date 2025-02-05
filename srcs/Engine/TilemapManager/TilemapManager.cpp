@@ -99,6 +99,9 @@ void TilemapManager::Load()
         tile.sprite.spriteCoords = glm::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
         tile.sprite.size = glm::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
         tile.spriteOffset = glm::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
+        auto itBehaviors = it.find("behaviors");
+        for (auto itBehavior : *itBehaviors)
+            tile.behaviors.push_back(itBehavior);
         TileDictionnary::AddTile(tile);
     }
 
@@ -136,6 +139,10 @@ void TilemapManager::Save()
         file["tiles"][i]["sprite"]["position"] = {tile.sprite.spriteCoords.x, tile.sprite.spriteCoords.y};
         file["tiles"][i]["sprite"]["size"] = {tile.sprite.size.x, tile.sprite.size.y};
         file["tiles"][i]["sprite"]["offset"] = {tile.spriteOffset.x, tile.spriteOffset.y};
+        file["tiles"][i]["behaviors"] = {};
+        for (size_t j = 0; j < tile.behaviors.size(); j++)
+            file["tiles"][i]["behaviors"][j] = tile.behaviors[j];
+
         
         textures.insert(tile.sprite.textureName);
     }
