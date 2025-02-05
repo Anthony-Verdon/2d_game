@@ -10,7 +10,7 @@ struct Tile
 {
     Sprite sprite;
     glm::vec2 spriteOffset;
-    std::vector<std::shared_ptr<ATileBehavior>> behaviors;
+    std::vector<TileBehaviorType> behaviors;
 
     bool operator==(const Tile& other) const
     {
