@@ -21,6 +21,17 @@ void TileDictionnary::AddTileBehavior(size_t index, TileBehaviorType behaviorTyp
 
     tiles[index].behaviors.push_back(behaviorType);
 }
+
+void TileDictionnary::RemoveTileBehavior(size_t index, TileBehaviorType behaviorType)
+{
+    if (index >= tiles.size())
+        return;
+
+    auto it = std::find(tiles[index].behaviors.begin(), tiles[index].behaviors.end(), behaviorType);
+    if (it != tiles[index].behaviors.end())
+        tiles[index].behaviors.erase(it);
+}
+
 Tile TileDictionnary::GetTile(size_t index)
 {
     if (index >= tiles.size())

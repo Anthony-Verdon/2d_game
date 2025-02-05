@@ -94,7 +94,6 @@ void Editor::InitDebugDraw()
 
 Editor::~Editor()
 {
-    tileBehaviorManager.Save();
     tilemapManagerUI.Save();
     animationCreator.Save();
     ImGui_ImplOpenGL3_Shutdown();

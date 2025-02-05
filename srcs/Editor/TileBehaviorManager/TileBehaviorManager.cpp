@@ -29,21 +29,6 @@ void TileBehaviorManager::Load()
     }
 }
 
-void TileBehaviorManager::Save()
-{
-    for (auto itTileBehavior = tilesBehavior.begin(); itTileBehavior != tilesBehavior.end(); itTileBehavior++)
-    {
-        for (size_t i = 0; i < itTileBehavior->second.size(); i++)
-        {
-            Tile tile = itTileBehavior->second[i];
-            tile.sprite.size = tile.sprite.size * SCALE_FACTOR;
-            size_t index = TileDictionnary::AddTile(tile);
-            TileDictionnary::AddTileBehavior(index, itTileBehavior->first);
-        }
- 
-    }
-}
-
 void TileBehaviorManager::Draw()
 {
     ImGui::Begin("Tile Behavior Manager");
@@ -79,6 +64,11 @@ void TileBehaviorManager::Draw()
                         
                         if (j == 0 || j == itTileBehavior->second.size())
                             itTileBehavior->second.push_back(tiles[i]);
+                        
+                        Tile copy = tiles[i];
+                        copy.sprite.size = copy.sprite.size * SCALE_FACTOR;
+                        size_t index = TileDictionnary::AddTile(copy);
+                        TileDictionnary::AddTileBehavior(index, itTileBehavior->first);
                     }
                 }
                 ImGui::EndDragDropTarget();
@@ -103,7 +93,13 @@ void TileBehaviorManager::Draw()
                 }
 
                 if (ImGui::ImageButton(button.c_str(), (ImTextureID)(intptr_t)texture->getID(), size, uv0, uv1))
+                {
+                    Tile copy = *itTile;
+                    copy.sprite.size = copy.sprite.size * SCALE_FACTOR;
+                    size_t index = TileDictionnary::GetTileIndex(copy);
+                    TileDictionnary::RemoveTileBehavior(index, itTileBehavior->first);
                     itTile = itTileBehavior->second.erase(itTile);
+                }
                 else
                     itTile++;
                 
