@@ -14,8 +14,8 @@ void TilemapManager::AddTile(const std::string &tilemapName, const glm::vec2 &po
     auto it = tilemaps.find(tilemapName);
     if (it != tilemaps.end())
     {
-        TileDictionnary::AddTile(tile);
-        it->second.AddTile(position, TileDictionnary::GetTileIndex(tile));
+        size_t index = TileDictionnary::AddTile(tile);
+        it->second.AddTile(position, index);
     }
 }
 

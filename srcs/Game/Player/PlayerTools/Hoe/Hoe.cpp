@@ -26,7 +26,7 @@ void Hoe::MainAction(const glm::vec2 &actionCoords)
                 if (tile.behaviors[i] != TileBehaviorType::DIRT)
                     continue;
 
-                TileBehaviorManager::behavior(tile.behaviors[i]);
+                TileBehaviorManager::behavior(tile.behaviors[i], tilemaps[i], actionCoords);
                 break;
             }
             break;

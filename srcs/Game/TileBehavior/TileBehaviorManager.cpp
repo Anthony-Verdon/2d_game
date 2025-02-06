@@ -11,7 +11,7 @@ void TileBehaviorManager::Init()
     tileBehaviors[TileBehaviorType::TREE] = std::make_unique<DirtTileBehavior>();//tmp
 }
 
-void TileBehaviorManager::behavior(TileBehaviorType type)
+void TileBehaviorManager::behavior(TileBehaviorType type, const std::string &tilemapName, const glm::vec2 &actionCoords)
 {
-    tileBehaviors[type]->behavior();
+    tileBehaviors[type]->behavior(tilemapName, actionCoords);
 }
