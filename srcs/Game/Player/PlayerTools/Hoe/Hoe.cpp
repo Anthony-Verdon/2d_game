@@ -21,12 +21,12 @@ void Hoe::MainAction(const glm::vec2 &actionCoords)
         {
             Tile tile = TilemapManager::GetTile(tilemaps[i], actionCoords);
             
-            for (size_t i = 0; i < tile.behaviors.size(); i++)
+            for (size_t j = 0; j < tile.behaviors.size(); j++)
             {
-                if (tile.behaviors[i] != TileBehaviorType::DIRT)
+                if (tile.behaviors[j] != TileBehaviorType::DIRT)
                     continue;
 
-                TileBehaviorManager::behavior(tile.behaviors[i], tilemaps[i], actionCoords);
+                TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);
                 break;
             }
             break;

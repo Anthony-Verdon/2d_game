@@ -1,6 +1,7 @@
 #include "Game/Player/PlayerTools/Pickaxe/Pickaxe.hpp"
-#include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
+#include "Game/TileBehavior/TileBehaviorManager.hpp"
+#include "Common/TileBehaviorType.hpp"
 
 Pickaxe::Pickaxe()
 {
@@ -18,8 +19,16 @@ void Pickaxe::MainAction(const glm::vec2 &actionCoords)
     {
         if (TilemapManager::TileExist(tilemaps[i], actionCoords))
         {
-            TilemapManager::SuppressTile(tilemaps[i], actionCoords);
-            TilemapManager::UpdateCollision(tilemaps[i], WorldPhysic::GetWorldId());
+            Tile tile = TilemapManager::GetTile(tilemaps[i], actionCoords);
+            
+            for (size_t j = 0; j < tile.behaviors.size(); j++)
+            {
+                if (tile.behaviors[j] != TileBehaviorType::ROCK)
+                    continue;
+
+                TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);
+                break;
+            }
             break;
         }
     }
