@@ -1,8 +1,5 @@
 #include "Game/Player/PlayerStates/MiningState/MiningState.hpp"
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
-#include "Game/CategoriesFilter.hpp"
-#include "Engine/WindowManager/WindowManager.hpp"
-#include <iostream>
 #include "globals.hpp"
 
 Player::MiningState::MiningState(): Player::AState(Player::StateType::MINING)
