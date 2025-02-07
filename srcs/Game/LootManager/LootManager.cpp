@@ -10,7 +10,7 @@ void LootManager::AddLoot(const Loot &loot)
     loots.push_back(loot);
 }
 
-void LootManager::UpdateLoot(const glm::vec2 &playerPos)
+void LootManager::Update(const glm::vec2 &playerPos)
 {
     for (auto it = loots.begin(); it != loots.end();)
     {   
@@ -28,10 +28,16 @@ void LootManager::UpdateLoot(const glm::vec2 &playerPos)
         {
             // @todo add to inventory
             it = loots.erase(it);
-            continue;
         }
-
-        SpriteRenderer::Draw(it->position, glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), it->sprite, false, false, 1);
-        it++;
+        else
+        {
+            it++;
+        }
     }
+}
+
+void LootManager::Draw()
+{
+    for (auto it = loots.begin(); it != loots.end(); it++)
+        SpriteRenderer::Draw(it->position, glm::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, glm::vec3(1, 1, 1), it->sprite, false, false, 1);
 }

@@ -126,6 +126,7 @@ void Game::Run()
 
     ProcessInput();
     WorldPhysic::Update();
+    LootManager::Update(player.GetPosition());
 
     camera.SetPosition(player.GetPosition());
     camera.UpdateShaders();
@@ -145,8 +146,8 @@ void Game::Draw()
     player.Draw();
     skeletton.Draw();
     barrel.Draw();
+    LootManager::Draw();
 
-    LootManager::UpdateLoot(player.GetPosition());
     
     WorldPhysic::DebugDraw();
 }

@@ -13,5 +13,7 @@ class LootManager
 
     public:
         static void AddLoot(const Loot &loot);
-        static void UpdateLoot(const glm::vec2 &playerPos);
+
+        static void Update(const glm::vec2 &playerPos);
+        static void Draw();
 };
