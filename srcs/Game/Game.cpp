@@ -21,6 +21,7 @@
 #include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Game/LootManager/LootManager.hpp"
+#include "Game/ItemDictionnary/ItemDictionnary.hpp"
 #include <memory>
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
@@ -51,6 +52,7 @@ Game::Game()
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 
     TileBehaviorManager::Init();
+    ItemDictionnary::Init();
     Loot loot;
     loot.position = glm::vec2(0, 0);
     loot.sprite.textureName = "food_icons";
