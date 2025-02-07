@@ -53,13 +53,6 @@ Game::Game()
 
     TileBehaviorManager::Init();
     ItemDictionnary::Init();
-    Loot loot;
-    loot.position = glm::vec2(0, 0);
-    loot.sprite.textureName = "food_icons";
-    loot.sprite.textureSize = glm::vec2(8, 9);
-    loot.sprite.spriteCoords = glm::vec2(0, 0);
-    loot.sprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
-    LootManager::AddLoot(loot);
 }
 
 void Game::LoadChains()
