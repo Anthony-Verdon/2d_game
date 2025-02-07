@@ -20,6 +20,7 @@
 #include <nlohmann/json.hpp>
 #include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
+#include "Game/LootManager/LootManager.hpp"
 #include <memory>
 
 void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
@@ -38,6 +39,7 @@ Game::Game()
 
     RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
+    RessourceManager::AddTexture("food_icons", "assets/Icons/No Outline/Food_Icons_NO_Outline.png");
 
     WorldPhysic::Init();
 
@@ -49,6 +51,13 @@ Game::Game()
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 
     TileBehaviorManager::Init();
+    Loot loot;
+    loot.position = glm::vec2(0, 0);
+    loot.sprite.textureName = "food_icons";
+    loot.sprite.textureSize = glm::vec2(8, 9);
+    loot.sprite.spriteCoords = glm::vec2(0, 0);
+    loot.sprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+    LootManager::AddLoot(loot);
 }
 
 void Game::LoadChains()
@@ -137,6 +146,8 @@ void Game::Draw()
     skeletton.Draw();
     barrel.Draw();
 
+    LootManager::UpdateLoot(player.GetPosition());
+    
     WorldPhysic::DebugDraw();
 }
 

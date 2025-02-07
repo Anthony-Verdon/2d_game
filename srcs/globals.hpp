@@ -1,5 +1,7 @@
 #pragma once
 
+//@todo separate this file
+
 //#define FULL_SCREEN
 // window
 #ifdef FULL_SCREEN
@@ -21,3 +23,7 @@ constexpr float SPRITE_SIZE = TILE_SIZE * SCALE_FACTOR;
 // editor
 constexpr float CHAIN_POINT_RADIUS = 10;
 constexpr int INPUT_ARRAY_SIZE = 100;
+
+constexpr float LOOT_SPEED = 10;
+constexpr float PLAYER_LOOT_RADIUS = 100;
+constexpr float PLAYER_CLOSE_LOOT_RADIUS = 10;
