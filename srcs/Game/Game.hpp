@@ -10,6 +10,7 @@
 #include "Game/Player/Player.hpp"
 #include "Game/Barrel/Barrel.hpp"
 #include "Game/Skeletton/Skeletton.hpp"
+#include "Game/InventoryBar/InventoryBar.hpp"
 
 class Game: public AProgram
 {
@@ -25,6 +26,7 @@ class Game: public AProgram
         Barrel barrel;
         Skeletton skeletton;
 
+        InventoryBar inventoryBar;
         Camera camera;
 
     public:

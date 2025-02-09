@@ -40,7 +40,6 @@ Game::Game()
 
     RessourceManager::AddTexture("skeletton_mage", "assets/Enemies/Skeleton/Skeleton_Mage.png");
     RessourceManager::AddTexture("chest", "assets/House/Objects/Chest_Anim.png");
-    RessourceManager::AddTexture("food_icons", "assets/Icons/No Outline/Food_Icons_NO_Outline.png");
 
     WorldPhysic::Init();
 
@@ -143,8 +142,9 @@ void Game::Draw()
     barrel.Draw();
     LootManager::Draw();
 
-    
     WorldPhysic::DebugDraw();
+
+    inventoryBar.Draw(player);
 }
 
 void Game::DebugRendering()
