@@ -20,10 +20,15 @@ constexpr float TILE_SIZE = 16;
 constexpr float SCALE_FACTOR = 4;
 constexpr float SPRITE_SIZE = TILE_SIZE * SCALE_FACTOR;
 
+// UI
+constexpr float SLOT_SIZE = TILE_SIZE * 2.0f;
+
 // editor
 constexpr float CHAIN_POINT_RADIUS = 10;
 constexpr int INPUT_ARRAY_SIZE = 100;
 
+// loot
 constexpr float LOOT_SPEED = 10;
 constexpr float PLAYER_LOOT_RADIUS = 100;
 constexpr float PLAYER_CLOSE_LOOT_RADIUS = 10;
+
