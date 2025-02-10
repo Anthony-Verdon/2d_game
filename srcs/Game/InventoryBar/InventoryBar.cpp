@@ -46,13 +46,13 @@ void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const 
 
 void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot)
 {
-    int corner = 2;
+    int edge = 2;
     glm::vec2 nbGap;
-    nbGap.x = corner + nbSlot.x - 1;
-    nbGap.y = corner + nbSlot.y - 1;
+    nbGap.x = edge + nbSlot.x - 1;
+    nbGap.y = edge + nbSlot.y - 1;
     glm::vec2 gapSize;
-    gapSize.x = ((backgroundSize.x - corner) * SLOT_SIZE - nbSlot.x * SLOT_SIZE) / nbGap.x;
-    gapSize.y = ((backgroundSize.y - corner) * SLOT_SIZE - nbSlot.y * SLOT_SIZE) / nbGap.y;
+    gapSize.x = ((backgroundSize.x - edge) * SLOT_SIZE - nbSlot.x * SLOT_SIZE) / nbGap.x;
+    gapSize.y = ((backgroundSize.y - edge) * SLOT_SIZE - nbSlot.y * SLOT_SIZE) / nbGap.y;
     for (int x = 0; x < nbSlot.x; x++)
     {
         for (int y = 0; y < nbSlot.y; y++)
