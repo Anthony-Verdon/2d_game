@@ -57,20 +57,26 @@ void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 
     if (nbGap.y < 1)
         nbGap.y = 1;
     glm::vec2 gapSize = (backgroundSize - nbSlot - edge) * SLOT_SIZE / nbGap;
-    
+
+    std::vector<Items> items = {Items::NONE, Items::ITEM_SWORD, Items::ITEM_PICKAXE, Items::ITEM_AXE, Items::ITEM_HOE, Items::WATER_CAN};
+    size_t itemCount = 0;
     for (int x = 0; x < nbSlot.x; x++)
     {
         for (int y = 0; y < nbSlot.y; y++)
         {
+            Items itemToDraw = Items::NONE;
+            if (itemCount < items.size())
+                itemToDraw = items[itemCount];
             if (gapOnEdge)
-                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize);
+                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize, itemToDraw);
             else
-                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x, y) * gapSize);
+                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x, y) * gapSize, itemToDraw);
+            itemCount++;
         }
     }
 }
 
-void InventoryBar::DrawInventorySlot(const glm::vec2 &position)
+void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
@@ -87,6 +93,9 @@ void InventoryBar::DrawInventorySlot(const glm::vec2 &position)
             SpriteRenderer::Draw(position + glm::vec2(x, y) * SLOT_SIZE, glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), sprite, false, false, 1);
         }
     }
+
+    if (item != Items::NONE)
+        SpriteRenderer::Draw(position + glm::vec2(SLOT_SIZE, SLOT_SIZE), glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), ItemDictionnary::GetItem(item), false, false, 1);
 }
 
 int InventoryBar::DetermineSpriteCoord(int coord, int size)

@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Game/Player/Player.hpp"
+#include "Game/ItemDictionnary/ItemDictionnary.hpp"
 
 class InventoryBar
 {
     private:
         void DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size);
         void DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge);
-        void DrawInventorySlot(const glm::vec2 &position);
+        void DrawInventorySlot(const glm::vec2 &position, Items item);
         int DetermineSpriteCoord(int coord, int size);
 
     public:

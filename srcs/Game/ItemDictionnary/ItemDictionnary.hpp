@@ -126,7 +126,9 @@ enum Items
     WATER_CAN,
     FISHING_ROD,
     LANTERN,
-    TORCH
+    TORCH,
+    // none
+    NONE
 };
 
 class ItemDictionnary
