@@ -19,9 +19,9 @@ void InventoryBar::Draw(const Player &player)
     glm::vec2 windowSize = WindowManager::GetWindowSize() / 2.0f;
     glm::vec2 topLeftCorner = -windowSize + playerPos;
 
-    glm::vec2 backgroundSize = glm::vec2(5, 5);
+    glm::vec2 backgroundSize = glm::vec2(9, 3);
     DrawInventorySlotBackground(topLeftCorner, backgroundSize);
-    DrawMultipleSlots(topLeftCorner, backgroundSize, glm::vec2(2, 2));
+    DrawMultipleSlots(topLeftCorner, backgroundSize, glm::vec2(6, 1), false);
 }
 
 void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
@@ -44,20 +44,28 @@ void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const 
     }
 }
 
-void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot)
+void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
 {
-    int edge = 2;
+    float edge = 2;
     glm::vec2 nbGap;
-    nbGap.x = edge + nbSlot.x - 1;
-    nbGap.y = edge + nbSlot.y - 1;
-    glm::vec2 gapSize;
-    gapSize.x = ((backgroundSize.x - edge) * SLOT_SIZE - nbSlot.x * SLOT_SIZE) / nbGap.x;
-    gapSize.y = ((backgroundSize.y - edge) * SLOT_SIZE - nbSlot.y * SLOT_SIZE) / nbGap.y;
+    if (gapOnEdge)
+        nbGap = nbSlot + edge - 1.0f;
+    else
+        nbGap = nbSlot - 1.0f;
+    if (nbGap.x < 1)
+        nbGap.x = 1;
+    if (nbGap.y < 1)
+        nbGap.y = 1;
+    glm::vec2 gapSize = (backgroundSize - nbSlot - edge) * SLOT_SIZE / nbGap;
+    
     for (int x = 0; x < nbSlot.x; x++)
     {
         for (int y = 0; y < nbSlot.y; y++)
         {
-            DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize);
+            if (gapOnEdge)
+                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize);
+            else
+                DrawInventorySlot(position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x, y) * gapSize);
         }
     }
 }
