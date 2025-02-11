@@ -126,7 +126,7 @@ void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item, bool
         texture = RessourceManager::GetTexture("UI_Selectors");
         sprite.textureName = "UI_Selectors";
         sprite.textureSize = glm::vec2(texture->getWidth(), texture->getHeight()) / TILE_SIZE;
-        glm::vec2 selectorPos = glm::vec2(4, 0) * 3.0f;
+        glm::vec2 selectorPos = glm::vec2(1, 12) * 3.0f;
         for (int x = 0; x < 3; x++)
         {
             for (int y = 0; y < 3; y++)
