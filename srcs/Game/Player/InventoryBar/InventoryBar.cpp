@@ -11,8 +11,18 @@ InventoryBar::InventoryBar()
     slotSelected = glm::vec2(0, 0);
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
+    RessourceManager::AddTexture("UI_Buttons", "assets/UI/UI_Buttons.png");
 
     state = {};
+    std::array<Sprite, 3> sprites;
+    auto texture = RessourceManager::GetTexture("UI_Buttons");
+    for (size_t i = 0; i < 3; i++)
+    {
+        sprites[i].textureName = "UI_Buttons";
+        sprites[i].textureSize = glm::vec2(texture->getWidth(), texture->getHeight()) / TILE_SIZE;
+        sprites[i].spriteCoords = glm::vec2(9 + i, 0);
+    }
+    button.SetSprite(sprites);
 }
 
 InventoryBar::~InventoryBar()
@@ -30,7 +40,7 @@ void InventoryBar::Draw(const Player &player)
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     DrawInventorySlotBackground(topLeftCorner, backgroundSize);
     DrawMultipleSlots(topLeftCorner, backgroundSize, glm::vec2(6, 1), true);
-    Button::Draw(&state, 1, topLeftCorner + WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), topLeftCorner);
+    button.Draw(&state, 1, topLeftCorner + WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), topLeftCorner);
 }
 
 void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
