@@ -143,8 +143,6 @@ void Game::Draw()
     LootManager::Draw();
 
     WorldPhysic::DebugDraw();
-
-    inventoryBar.Draw(player);
 }
 
 void Game::DebugRendering()

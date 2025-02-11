@@ -1,8 +1,10 @@
 #pragma once
 
+
 #include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
 #include "Engine/AnimationManager/AnimationManager.hpp"
+#include "Game/Player/InventoryBar/InventoryBar.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -55,6 +57,8 @@ class Player
         PhysicBody body;
         std::unique_ptr<APlayerTool> tool;
         std::unique_ptr<AState> state;
+
+        InventoryBar inventoryBar;
 
         void InitAnimations();
         std::string DetermineDirectionString() const;

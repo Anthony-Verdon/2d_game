@@ -1,4 +1,5 @@
-#include "Game/InventoryBar/InventoryBar.hpp"
+#include "Game/Player/InventoryBar/InventoryBar.hpp"
+#include "Game/Player/Player.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Game/Player/Player.hpp"
+
 #include "Game/ItemDictionnary/ItemDictionnary.hpp"
+
+class Player;
 
 class InventoryBar
 {
