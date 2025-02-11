@@ -3,10 +3,8 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "globals.hpp"
-#include <iostream>
 
 InventoryBar::InventoryBar()
 {
@@ -32,7 +30,7 @@ void InventoryBar::Draw(const Player &player)
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     DrawInventorySlotBackground(topLeftCorner, backgroundSize);
     DrawMultipleSlots(topLeftCorner, backgroundSize, glm::vec2(6, 1), true);
-    DrawButton(&state, 1, topLeftCorner + WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100));
+    Button::Draw(&state, 1, topLeftCorner + WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), topLeftCorner);
 }
 
 void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
@@ -138,85 +136,4 @@ int InventoryBar::DetermineSpriteCoord(int coord, int size)
         return (2);
     else
         return (1);
-}
-
-void set_hot(UIState* ui, UIID uiID)
-{
-    if (!(ui->active.ID > 0) && uiID.layer >= ui->hotThisFrame.layer)
-        ui->hotThisFrame = uiID;
-}
-
-void set_active(UIState* ui, UIID uiID)
-{
-    ui->active = uiID;
-}
-
-void set_inactive(UIState* ui)
-{
-    ui->active = {};
-}
-
-bool is_hot(UIState* ui, size_t ID)
-{
-    return (ui->hotLastFrame.ID > 0 && ui->hotLastFrame.ID == ID);
-}
-
-bool is_active(UIState* ui, size_t ID)
-{
-    return (ui->active.ID > 0 && ui->active.ID == ID);
-}
-
-bool mouse_in_rect(const glm::vec2 &mousePosition, const glm::vec2 &rectPosition, const glm::vec2 &rectSize)
-{
-    glm::vec2 HalftRectSize = rectSize / 2.0f;
-    return (mousePosition.x >= rectPosition.x - HalftRectSize.x
-        && mousePosition.y >= rectPosition.y - HalftRectSize.x
-        && mousePosition.x <= rectPosition.x + HalftRectSize.x 
-        && mousePosition.y <= rectPosition.y + HalftRectSize.y);
-}
-
-// hot = hobering
-// active = clicked + holding
-// inactive = !hot && !active
-bool InventoryBar::DrawButton(UIState *ui, size_t ID, const glm::vec2 &rectPosition, const glm::vec2 &rectSize)
-{
-    bool result = false;
-
-    UIElement element;
-    element.ID = {ID, ui->globalLayer};
-    element.rectPosition = rectPosition;
-    element.rectSize = rectSize;
-
-    if (is_active(ui, ID))
-    {
-        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1)) // not holding anymore
-        {
-            if (mouse_in_rect(topLeftCorner + WindowManager::GetMousePosition(), element.rectPosition, element.rectSize)) // still on the button
-            {
-                result = true;
-            }
-
-            set_inactive(ui);
-        }
-        PolygonRenderer::Draw("square", element.rectPosition, element.rectSize, 0, glm::vec3(0, 1, 0));
-    }
-    else if (is_hot(ui, ID))
-    {
-        if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
-        {
-            set_active(ui, element.ID);
-        }
-        PolygonRenderer::Draw("square", element.rectPosition, element.rectSize, 0, glm::vec3(1, 0, 0));
-    }
-    else
-    {
-        PolygonRenderer::Draw("square", element.rectPosition, element.rectSize, 0, glm::vec3(0, 0, 1));
-    }
-    
-    if (mouse_in_rect(topLeftCorner + WindowManager::GetMousePosition(), element.rectPosition, element.rectSize))
-    {
-        set_hot(ui, element.ID);
-    }
-
-    return (result);
 }
