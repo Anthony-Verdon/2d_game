@@ -30,6 +30,28 @@ struct SpriteRenderData
     }
 };
 
+class SpriteRenderDataBuilder
+{
+    private:
+        SpriteRenderData data;
+    
+    public:
+        SpriteRenderDataBuilder();
+        ~SpriteRenderDataBuilder();
+
+        SpriteRenderDataBuilder& SetPosition(const glm::vec2 &position) { data.position = position; return *this; }
+        SpriteRenderDataBuilder& SetSize(const glm::vec2 &size) { data.size = size; return *this; }
+        SpriteRenderDataBuilder& SetRotation(float rotation) { data.rotation = rotation; return *this; }
+        SpriteRenderDataBuilder& SetColor(const glm::vec3 &color) { data.color = color; return *this; }
+        SpriteRenderDataBuilder& SetSprite(const Sprite &sprite) { data.sprite = sprite; return *this; }
+        SpriteRenderDataBuilder& FlipHorizontally( bool flip) { data.flipHorizontally = flip; return *this; }
+        SpriteRenderDataBuilder& FlipVertically(bool flip) { data.flipVertically = flip; return *this; }
+        SpriteRenderDataBuilder& SetOpacity(float opacity) { data.opacity = opacity; return *this; }
+        SpriteRenderDataBuilder& SetDrawAbsolute(bool drawAbsolute) { data.drawAbsolute = drawAbsolute; return *this; }
+
+        SpriteRenderData Build() {return data; }
+};
+
 class SpriteRenderer
 {
     private:
