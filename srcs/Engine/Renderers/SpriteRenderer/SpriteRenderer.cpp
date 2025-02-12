@@ -70,6 +70,11 @@ void SpriteRenderer::Destroy()
     glDeleteBuffers(1, &VBO);
 }
 
+void SpriteRenderer::Draw(const SpriteRenderData &data)
+{
+    SpriteRenderer::Draw(data.position, data.size, data.rotation, data.color, data.sprite, data.flipHorizontally, data.flipVertically, data.opacity, data.drawAbsolute);
+}
+
 void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically, float opacity, bool drawAbsolute)
 {
     CHECK_AND_RETURN_VOID(isInit, "SpriteRenderer not initialized");
