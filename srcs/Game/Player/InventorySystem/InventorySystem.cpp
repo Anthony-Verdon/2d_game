@@ -8,23 +8,11 @@
 
 InventorySystem::InventorySystem()
 {
-    open = false;
-    
-    slotSelected = glm::vec2(0, 0);
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
-    RessourceManager::AddTexture("UI_Buttons", "assets/UI/UI_Buttons.png");
-
-    state = {};
-    std::array<Sprite, 3> sprites;
-    auto texture = RessourceManager::GetTexture("UI_Buttons");
-    for (size_t i = 0; i < 3; i++)
-    {
-        sprites[i].textureName = "UI_Buttons";
-        sprites[i].textureSize = glm::vec2(texture->getWidth(), texture->getHeight()) / TILE_SIZE;
-        sprites[i].spriteCoords = glm::vec2(9 + i, 0);
-    }
-    button.SetSprite(sprites);
+    
+    slotSelected = glm::vec2(0, 0);
+    open = false;
 }
 
 InventorySystem::~InventorySystem()
@@ -33,17 +21,36 @@ InventorySystem::~InventorySystem()
 
 void InventorySystem::Draw(const Player &player)
 {
-    if (!open)
-        return;
-
     (void)player;
-    state.hotLastFrame = state.hotThisFrame;
-    state.hotThisFrame = {};
 
+    if (open)
+        DrawFullInventory();
+    else
+        DrawInventoryBar();
+}
+
+void InventorySystem::DrawInventoryBar()
+{
     glm::vec2 backgroundSize = glm::vec2(12, 3);
-    DrawInventorySlotBackground(glm::vec2(0, 0), backgroundSize);
-    DrawMultipleSlots(glm::vec2(0, 0), backgroundSize, glm::vec2(6, 1), true);
-    button.Draw(&state, 1, WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100));
+    glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() / 2.0f - backgroundSize.x / 2.0f * SLOT_SIZE, WindowManager::GetWindowHeight() - SLOT_SIZE * 2.0f);
+    glm::vec2 nbSlot = glm::vec2(6, 1);
+    DrawInventorySlotBackground(position, backgroundSize);
+    DrawMultipleSlots(position, backgroundSize, nbSlot, true);
+}
+
+void InventorySystem::DrawFullInventory()
+{
+    glm::vec2 backgroundSize = glm::vec2(12, 3);
+    glm::vec2 position = WindowManager::GetWindowSize() / 2.0f - backgroundSize / 2.0f * SLOT_SIZE - glm::vec2(0, 2 * SLOT_SIZE);
+    glm::vec2 nbSlot = glm::vec2(6, 1);
+    DrawInventorySlotBackground(position, backgroundSize);
+    DrawMultipleSlots(position, backgroundSize, nbSlot, true);
+
+    backgroundSize = glm::vec2(12, 7);
+    position = position + glm::vec2(0, 2 * SLOT_SIZE);
+    nbSlot = glm::vec2(6, 4);
+    DrawInventorySlotBackground(position, backgroundSize);
+    DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
 
 void InventorySystem::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
@@ -82,9 +89,9 @@ void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::ve
 
     std::vector<Items> items = {Items::NONE, Items::ITEM_SWORD, Items::ITEM_PICKAXE, Items::ITEM_AXE, Items::ITEM_HOE, Items::WATER_CAN};
     size_t itemCount = 0;
-    for (int x = 0; x < nbSlot.x; x++)
+    for (int y = 0; y < nbSlot.y; y++)
     {
-        for (int y = 0; y < nbSlot.y; y++)
+        for (int x = 0; x < nbSlot.x; x++)
         {
             Items itemToDraw = Items::NONE;
             if (itemCount < items.size())
@@ -100,8 +107,6 @@ void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::ve
             DrawInventorySlot(slotPosition, itemToDraw, slotSelected == glm::vec2(x, y));
         }
     }
-
-    
 }
 
 void InventorySystem::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
