@@ -5,7 +5,7 @@
 
 class Player;
 
-class InventoryBar
+class InventorySystem
 {
     private:
         bool open;
@@ -19,8 +19,8 @@ class InventoryBar
 
         UIState state;
     public:
-        InventoryBar();
-        ~InventoryBar();
+        InventorySystem();
+        ~InventorySystem();
 
         void SetSlotSelected(const glm::vec2 &slotSelected) {this->slotSelected = slotSelected;}
         void SetOpen(bool open) {this->open = open;}

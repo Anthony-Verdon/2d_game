@@ -1,4 +1,4 @@
-#include "Game/Player/InventoryBar/InventoryBar.hpp"
+#include "Game/Player/InventorySystem/InventorySystem.hpp"
 #include "Game/Player/Player.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
@@ -6,7 +6,7 @@
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "globals.hpp"
 
-InventoryBar::InventoryBar()
+InventorySystem::InventorySystem()
 {
     open = false;
     
@@ -27,11 +27,11 @@ InventoryBar::InventoryBar()
     button.SetSprite(sprites);
 }
 
-InventoryBar::~InventoryBar()
+InventorySystem::~InventorySystem()
 {
 }
 
-void InventoryBar::Draw(const Player &player)
+void InventorySystem::Draw(const Player &player)
 {
     if (!open)
         return;
@@ -46,7 +46,7 @@ void InventoryBar::Draw(const Player &player)
     button.Draw(&state, 1, WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100));
 }
 
-void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
+void InventorySystem::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
@@ -66,7 +66,7 @@ void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const 
     }
 }
 
-void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
+void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
 {
     float edge = 2;
     glm::vec2 nbGap;
@@ -104,7 +104,7 @@ void InventoryBar::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 
     
 }
 
-void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
+void InventorySystem::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
@@ -141,7 +141,7 @@ void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item, bool
     }
 }
 
-int InventoryBar::DetermineSpriteCoord(int coord, int size)
+int InventorySystem::DetermineSpriteCoord(int coord, int size)
 {
     if (coord == 0)
         return (0);
