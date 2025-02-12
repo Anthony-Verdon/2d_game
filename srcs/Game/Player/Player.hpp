@@ -22,7 +22,8 @@ class Player
             MINING,
             CHOPPING,
             PLOWING,
-            WATERING
+            WATERING,
+            INVENTORY
         };
 
         class AState
@@ -48,6 +49,7 @@ class Player
         class ChoppingState;
         class PlowingState;
         class WateringState;
+        class InventoryState;
         
         glm::vec2 size;
         glm::vec2 direction;

@@ -8,6 +8,8 @@
 
 InventoryBar::InventoryBar()
 {
+    open = false;
+    
     slotSelected = glm::vec2(0, 0);
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
@@ -31,6 +33,9 @@ InventoryBar::~InventoryBar()
 
 void InventoryBar::Draw(const Player &player)
 {
+    if (!open)
+        return;
+
     (void)player;
     state.hotLastFrame = state.hotThisFrame;
     state.hotThisFrame = {};

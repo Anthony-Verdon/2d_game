@@ -8,6 +8,7 @@ class Player;
 class InventoryBar
 {
     private:
+        bool open;
         glm::vec2 slotSelected;
         Button button;
         
@@ -22,5 +23,6 @@ class InventoryBar
         ~InventoryBar();
 
         void SetSlotSelected(const glm::vec2 &slotSelected) {this->slotSelected = slotSelected;}
+        void SetOpen(bool open) {this->open = open;}
         void Draw(const Player &player);
 };

@@ -4,11 +4,13 @@
 #include "Game/Player/PlayerStates/ChoppingState/ChoppingState.hpp"
 #include "Game/Player/PlayerStates/PlowingState/PlowingState.hpp"
 #include "Game/Player/PlayerStates/WateringState/WateringState.hpp"
+#include "Game/Player/PlayerStates/InventoryState/InventoryState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 
 Player::IdleWalkState::IdleWalkState(): Player::AState(Player::StateType::IDLE_WALK)
 {
+   velocity = glm::vec2(0, 0);
 }
 
 Player::IdleWalkState::~IdleWalkState()
@@ -44,6 +46,9 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
         }
 
     }
+    
+    if (WindowManager::IsKeyPressed(GLFW_KEY_E))
+        return (std::make_unique<Player::InventoryState>());
 
     velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
     velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
