@@ -122,32 +122,32 @@ void Player::Update()
     if (WindowManager::IsKeyPressed(GLFW_KEY_1))
     {
         tool = NULL;
-        inventorySystem.SetSlotSelected(0);
+        inventoryUI.SetSlotSelected(0);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
     {
         tool = std::make_unique<Sword>();
-        inventorySystem.SetSlotSelected(1);
+        inventoryUI.SetSlotSelected(1);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
     {
         tool = std::make_unique<Pickaxe>();
-        inventorySystem.SetSlotSelected(2);
+        inventoryUI.SetSlotSelected(2);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_4))
     {
         tool = std::make_unique<Axe>();
-        inventorySystem.SetSlotSelected(3);
+        inventoryUI.SetSlotSelected(3);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_5))
     {
         tool = std::make_unique<Hoe>();
-        inventorySystem.SetSlotSelected(4);
+        inventoryUI.SetSlotSelected(4);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_6))
     {
         tool = std::make_unique<WateringCan>();
-        inventorySystem.SetSlotSelected(5);
+        inventoryUI.SetSlotSelected(5);
     }
 
     auto ptr = state->Input(*this);
@@ -181,7 +181,7 @@ void Player::Draw()
     if (toolAnimationManager.GetCurrentAnimation() != "none")
         SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
 
-    inventorySystem.Draw(*this);
+    inventoryUI.Draw(*this);
 }
 
 

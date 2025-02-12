@@ -1,4 +1,4 @@
-#include "Game/Player/InventorySystem/InventorySystem.hpp"
+#include "Game/Player/Inventory/InventoryUI/InventoryUI.hpp"
 #include "Game/Player/Player.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
@@ -7,7 +7,7 @@
 #include "Engine/UI/UI.hpp"
 #include "globals.hpp"
 
-InventorySystem::InventorySystem()
+InventoryUI::InventoryUI()
 {
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
@@ -16,11 +16,11 @@ InventorySystem::InventorySystem()
     open = false;
 }
 
-InventorySystem::~InventorySystem()
+InventoryUI::~InventoryUI()
 {
 }
 
-void InventorySystem::Draw(const Player &player)
+void InventoryUI::Draw(const Player &player)
 {
     (void)player;
     itemCount = 0;
@@ -31,7 +31,7 @@ void InventorySystem::Draw(const Player &player)
         DrawInventoryBar();
 }
 
-void InventorySystem::DrawInventoryBar()
+void InventoryUI::DrawInventoryBar()
 {
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() / 2.0f - backgroundSize.x / 2.0f * SLOT_SIZE, WindowManager::GetWindowHeight() - SLOT_SIZE * 2.0f);
@@ -40,7 +40,7 @@ void InventorySystem::DrawInventoryBar()
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
 
-void InventorySystem::DrawFullInventory()
+void InventoryUI::DrawFullInventory()
 {
     PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, WindowManager::GetWindowSize(), 0, glm::vec4(0, 0, 0, 0.5), glm::vec4(0, 0, 0, 0), true);
     glm::vec2 backgroundSize = glm::vec2(12, 3);
@@ -56,7 +56,7 @@ void InventorySystem::DrawFullInventory()
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
 
-void InventorySystem::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
+void InventoryUI::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
@@ -76,7 +76,7 @@ void InventorySystem::DrawInventorySlotBackground(const glm::vec2 &position, con
     }
 }
 
-void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
+void InventoryUI::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
 {
     float edge = 2;
     glm::vec2 nbGap;
@@ -111,7 +111,7 @@ void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::ve
     }
 }
 
-void InventorySystem::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
+void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
@@ -159,7 +159,7 @@ void InventorySystem::DrawInventorySlot(const glm::vec2 &position, Items item, b
     }
 }
 
-int InventorySystem::DetermineSpriteCoord(int coord, int size)
+int InventoryUI::DetermineSpriteCoord(int coord, int size)
 {
     if (coord == 0)
         return (0);

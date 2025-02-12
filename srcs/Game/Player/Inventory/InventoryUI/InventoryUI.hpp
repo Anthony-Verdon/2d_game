@@ -5,7 +5,7 @@
 
 class Player;
 
-class InventorySystem
+class InventoryUI
 {
     private:
         bool open;
@@ -20,8 +20,8 @@ class InventorySystem
         void DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected);
         int DetermineSpriteCoord(int coord, int size);
     public:
-        InventorySystem();
-        ~InventorySystem();
+        InventoryUI();
+        ~InventoryUI();
 
         void SetSlotSelected(size_t slotSelected) {this->slotSelected = slotSelected;}
         void SetOpen(bool open) {this->open = open;}

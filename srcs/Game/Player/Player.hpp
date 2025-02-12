@@ -4,7 +4,7 @@
 #include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
 #include "Engine/AnimationManager/AnimationManager.hpp"
-#include "Game/Player/InventorySystem/InventorySystem.hpp"
+#include "Game/Player/Inventory/InventoryUI/InventoryUI.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -60,7 +60,7 @@ class Player
         std::unique_ptr<APlayerTool> tool;
         std::unique_ptr<AState> state;
 
-        InventorySystem inventorySystem;
+        InventoryUI inventoryUI;
 
         void InitAnimations();
         std::string DetermineDirectionString() const;

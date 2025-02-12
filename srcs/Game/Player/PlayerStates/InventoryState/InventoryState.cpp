@@ -16,7 +16,7 @@ void Player::InventoryState::Enter(Player &player)
 {
     player.bodyAnimationManager.Play("idle_" + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
-    player.inventorySystem.SetOpen(true);
+    player.inventoryUI.SetOpen(true);
 }
 
 std::unique_ptr<Player::AState> Player::InventoryState::Input(Player &player)
@@ -30,5 +30,5 @@ std::unique_ptr<Player::AState> Player::InventoryState::Input(Player &player)
 
 void Player::InventoryState::Exit(Player &player)
 {
-    player.inventorySystem.SetOpen(false);
+    player.inventoryUI.SetOpen(false);
 }
