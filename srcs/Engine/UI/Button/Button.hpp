@@ -47,5 +47,5 @@ class Button
         
         void SetSprite(const std::array<Sprite, 3> &sprites) {this->sprites = sprites; }
 
-        bool Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size, const glm::vec2 &topLeftCorner);
+        bool Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size);
 };

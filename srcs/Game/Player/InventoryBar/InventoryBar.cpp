@@ -31,16 +31,14 @@ InventoryBar::~InventoryBar()
 
 void InventoryBar::Draw(const Player &player)
 {
-    glm::vec2 playerPos = player.GetPosition(); // @todo actually the middle of the screen, but we should be able to modify sprite renderer to draw at absolute coord
-    glm::vec2 windowSize = WindowManager::GetWindowSize() / 2.0f;
-    topLeftCorner = -windowSize + playerPos;
+    (void)player;
     state.hotLastFrame = state.hotThisFrame;
     state.hotThisFrame = {};
 
     glm::vec2 backgroundSize = glm::vec2(12, 3);
-    DrawInventorySlotBackground(topLeftCorner, backgroundSize);
-    DrawMultipleSlots(topLeftCorner, backgroundSize, glm::vec2(6, 1), true);
-    button.Draw(&state, 1, topLeftCorner + WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100), topLeftCorner);
+    DrawInventorySlotBackground(glm::vec2(0, 0), backgroundSize);
+    DrawMultipleSlots(glm::vec2(0, 0), backgroundSize, glm::vec2(6, 1), true);
+    button.Draw(&state, 1, WindowManager::GetWindowSize() / 4.0f, glm::vec2(100, 100));
 }
 
 void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
@@ -58,7 +56,7 @@ void InventoryBar::DrawInventorySlotBackground(const glm::vec2 &position, const 
         {
             sprite.spriteCoords.x = DetermineSpriteCoord(x, size.x - 1);
             sprite.spriteCoords.y = DetermineSpriteCoord(y, size.y - 1);
-            SpriteRenderer::Draw(position + glm::vec2(x, y) * SLOT_SIZE, glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), sprite, false, false, 1);
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 }
@@ -115,12 +113,12 @@ void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item, bool
         for (int y = 0; y < 3; y++)
         {
             sprite.spriteCoords = glm::vec2(3, 0) + glm::vec2(x, y);
-            SpriteRenderer::Draw(position + glm::vec2(x, y) * SLOT_SIZE, glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), sprite, false, false, 1);
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 
     if (item != Items::NONE)
-        SpriteRenderer::Draw(position + glm::vec2(SLOT_SIZE, SLOT_SIZE), glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), ItemDictionnary::GetItem(item), false, false, 1);
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(ItemDictionnary::GetItem(item)).SetDrawAbsolute(true).Build());
     if (isSelected)
     {
         texture = RessourceManager::GetTexture("UI_Selectors");
@@ -132,7 +130,7 @@ void InventoryBar::DrawInventorySlot(const glm::vec2 &position, Items item, bool
             for (int y = 0; y < 3; y++)
             {
                 sprite.spriteCoords = selectorPos + glm::vec2(x, y);
-                SpriteRenderer::Draw(position + glm::vec2(x, y) * SLOT_SIZE, glm::vec2(SLOT_SIZE, SLOT_SIZE), 0, glm::vec3(1, 1, 1), sprite, false, false, 1);
+                SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
             }
         }
     }

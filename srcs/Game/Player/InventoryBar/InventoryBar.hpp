@@ -9,7 +9,6 @@ class InventoryBar
 {
     private:
         glm::vec2 slotSelected;
-        glm::vec2 topLeftCorner;
         Button button;
         
         void DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size);

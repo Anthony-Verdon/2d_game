@@ -32,7 +32,7 @@ bool Button::PointInRectangle(const glm::vec2 &mousePosition, const glm::vec2 &r
         && mousePosition.y <= rectPosition.y + HalftRectSize.y);
 }
 
-bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size, const glm::vec2 &topLeftCorner)
+bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size)
 {
     bool result = false;
 
@@ -40,25 +40,25 @@ bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::
     {
         if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1)) // not holding anymore
         {
-            if (PointInRectangle(topLeftCorner + WindowManager::GetMousePosition(), position, size)) // still on the button
+            if (PointInRectangle(WindowManager::GetMousePosition(), position, size)) // still on the button
                 result = true;
 
             SetInactive(ui);
         }
-        SpriteRenderer::Draw(position, size, 0, glm::vec3(1, 1, 1), sprites[ButtonAnimation::ACTIVE], false, false, 1);
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position).SetSize(size).SetSprite(sprites[ButtonAnimation::ACTIVE]).SetDrawAbsolute(true).Build());
     }
     else if (IsHot(ui, ID))
     {
         if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
             SetActive(ui, {ID, ui->globalLayer});
-        SpriteRenderer::Draw(position, size, 0, glm::vec3(1, 1, 1), sprites[ButtonAnimation::HOT], false, false, 1);
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position).SetSize(size).SetSprite(sprites[ButtonAnimation::HOT]).SetDrawAbsolute(true).Build());
     }
     else
     {
-        SpriteRenderer::Draw(position, size, 0, glm::vec3(1, 1, 1), sprites[ButtonAnimation::INACTIVE], false, false, 1);
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position).SetSize(size).SetSprite(sprites[ButtonAnimation::INACTIVE]).SetDrawAbsolute(true).Build());
     }
     
-    if (PointInRectangle(topLeftCorner + WindowManager::GetMousePosition(), position, size))
+    if (PointInRectangle(WindowManager::GetMousePosition(), position, size))
         SetHot(ui, {ID, ui->globalLayer});
 
     return (result);
