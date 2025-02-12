@@ -1,11 +1,14 @@
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/macros.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 
 std::unordered_map<std::string, PolygonGl> PolygonRenderer::polygons;
 bool PolygonRenderer::isInit = false;
+glm::mat4 PolygonRenderer::projectionMatAbsolute;
+glm::mat4 PolygonRenderer::projectionMatRelative;
 
 void PolygonRenderer::Init()
 {
@@ -14,8 +17,8 @@ void PolygonRenderer::Init()
     RessourceManager::AddShader("Polygon", "shaders/polygon/polygon.vs", "shaders/polygon/polygon.fs");
     std::shared_ptr<Shader> polygonShader = RessourceManager::GetShader("Polygon");
     polygonShader->use();
-    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-    polygonShader->setMat4("projection", projection);
+    projectionMatAbsolute = glm::ortho(0.0f, (float)WindowManager::GetWindowWidth(), (float)WindowManager::GetWindowHeight(), 0.0f, -1.0f, 1.0f);
+    polygonShader->setMat4("projection", projectionMatAbsolute);
 
     isInit = true;
 }
@@ -68,28 +71,32 @@ void PolygonRenderer::LoadPolygon(const std::string &polygonName, const std::vec
     polygons[polygonName] = newPolygon;
 }
 
-void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor)
+void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor, bool drawAbsolute)
 {
-    PolygonRenderer::Draw(polygonName, position, size, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1));
+    PolygonRenderer::Draw(polygonName, position, size, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1), drawAbsolute);
 }
 
-void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor)
+void PolygonRenderer::Draw(const std::string &polygonName, const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor, bool drawAbsolute)
 {
     CHECK_AND_RETURN_VOID(isInit, "PolygonRenderer not initialized");
     CHECK_AND_RETURN_VOID((polygons.find(polygonName) != polygons.end()), polygonName + " not found into PolygonRenderer");
 
     if (fillColor.w != 0)
     {
-        std::shared_ptr<Shader> squareShader = RessourceManager::GetShader("Polygon");
-        squareShader->use();
+        std::shared_ptr<Shader> polygonShader = RessourceManager::GetShader("Polygon");
+        polygonShader->use();
 
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position, 0.0f));  
         model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)); 
         model = glm::scale(model, glm::vec3(size, 1.0f)); 
 
-        squareShader->setMat4("model", model);
-        squareShader->setVec4("color", fillColor);
+        polygonShader->setMat4("model", model);
+        polygonShader->setVec4("color", fillColor);
+        if (drawAbsolute)
+            polygonShader->setMat4("projection", projectionMatAbsolute);
+        else
+            polygonShader->setMat4("projection", projectionMatRelative);
 
         PolygonGl polygon = polygons[polygonName];
         glBindVertexArray(polygon.VAO);

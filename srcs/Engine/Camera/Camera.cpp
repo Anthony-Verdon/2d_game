@@ -2,6 +2,10 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
+#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 
 Camera::Camera()
 {
@@ -47,10 +51,8 @@ void Camera::UpdateShaders() const
     float bottom = position.y + WindowManager::GetWindowHeight() / 2 * zoom / 100;
     glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 
-    std::map<std::string, std::shared_ptr<Shader>> shaders = RessourceManager::GetShaders();
-    for (auto it = shaders.begin(); it != shaders.end(); it++)
-    {
-        it->second->use();
-        it->second->setMat4("projection", projection);
-    }
+    SpriteRenderer::SetProjectionMatRelative(projection); //@todo factorize renderers with a common class ARenderer
+    LineRenderer::SetProjectionMatRelative(projection);
+    CircleRenderer::SetProjectionMatRelative(projection);
+    PolygonRenderer::SetProjectionMatRelative(projection);
 }

@@ -1,5 +1,6 @@
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/macros.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,6 +8,8 @@
 unsigned int LineRenderer::VAO = -1;
 unsigned int LineRenderer::VBO = -1;
 bool LineRenderer::isInit = false;
+glm::mat4 LineRenderer::projectionMatAbsolute;
+glm::mat4 LineRenderer::projectionMatRelative;
 
 void LineRenderer::Init()
 {
@@ -16,8 +19,8 @@ void LineRenderer::Init()
     RessourceManager::AddShader("Line", "shaders/line/line.vs", "shaders/line/line.fs");
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
-    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-    lineShader->setMat4("projection", projection);
+    projectionMatAbsolute = glm::ortho(0.0f, (float)WindowManager::GetWindowWidth(), (float)WindowManager::GetWindowHeight(), 0.0f, -1.0f, 1.0f);
+    lineShader->setMat4("projection", projectionMatAbsolute);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -46,18 +49,22 @@ void LineRenderer::Destroy()
     glDeleteBuffers(1, &VBO);
 }
 
-void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color)
+void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec3 &color, bool drawAbsolute)
 {
-    LineRenderer::Draw(va, vb, glm::vec4(color, 1));
+    LineRenderer::Draw(va, vb, glm::vec4(color, 1), drawAbsolute);
 }
 
-void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec4 &color)
+void LineRenderer::Draw(const glm::vec2 &va, const glm::vec2 &vb, const glm::vec4 &color, bool drawAbsolute)
 {
     CHECK_AND_RETURN_VOID(isInit, "LineRenderer not initialized");
 
     std::shared_ptr<Shader> lineShader = RessourceManager::GetShader("Line");
     lineShader->use();
     lineShader->setVec4("color", color);
+    if (drawAbsolute)
+        lineShader->setMat4("projection", projectionMatAbsolute);
+    else
+        lineShader->setMat4("projection", projectionMatRelative);
     
     float vertices[] = {va.x, va.y, 
                         vb.x, vb.y};
