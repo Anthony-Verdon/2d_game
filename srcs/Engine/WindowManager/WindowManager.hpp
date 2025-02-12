@@ -4,6 +4,7 @@
 #include <string>
 #include "Engine/AProgram/AProgram.hpp"
 #include <glm/glm.hpp>
+#include <map>
 
 class WindowManager
 {
@@ -11,6 +12,7 @@ class WindowManager
     static GLFWwindow *window;
     static glm::vec2 windowSize;
     static glm::vec2 mousePosition;
+    static std::map<int, int> keyMap;
 
     WindowManager() = delete;
     ~WindowManager() = delete;
@@ -22,6 +24,9 @@ class WindowManager
     static void DestructWindowManager();
 
     static bool IsKeyPressed(int key);
+    static bool IsKeyPressedOrMaintain(int key);
+    static bool IsKeyReleased(int key);
+    static void SetKeyAction(int key, int action) { keyMap[key] = action; }
     static bool IsMouseButtonPressed(int mouseButton);
     
     static GLFWwindow *GetWindow();
