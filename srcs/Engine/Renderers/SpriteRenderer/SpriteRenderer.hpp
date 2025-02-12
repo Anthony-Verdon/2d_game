@@ -36,8 +36,8 @@ class SpriteRenderDataBuilder
         SpriteRenderData data;
     
     public:
-        SpriteRenderDataBuilder();
-        ~SpriteRenderDataBuilder();
+        SpriteRenderDataBuilder() {}
+        ~SpriteRenderDataBuilder() {}
 
         SpriteRenderDataBuilder& SetPosition(const glm::vec2 &position) { data.position = position; return *this; }
         SpriteRenderDataBuilder& SetSize(const glm::vec2 &size) { data.size = size; return *this; }
