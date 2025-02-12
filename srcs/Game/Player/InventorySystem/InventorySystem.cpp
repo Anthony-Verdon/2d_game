@@ -3,7 +3,7 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
+#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "globals.hpp"
 
 InventorySystem::InventorySystem()
@@ -41,6 +41,7 @@ void InventorySystem::DrawInventoryBar()
 
 void InventorySystem::DrawFullInventory()
 {
+    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, WindowManager::GetWindowSize(), 0, glm::vec4(0, 0, 0, 0.5), glm::vec4(0, 0, 0, 0), true);
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     glm::vec2 position = WindowManager::GetWindowSize() / 2.0f - backgroundSize / 2.0f * SLOT_SIZE - glm::vec2(0, 2 * SLOT_SIZE);
     glm::vec2 nbSlot = glm::vec2(6, 1);
