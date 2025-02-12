@@ -4,6 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/UI/UI.hpp"
 #include "globals.hpp"
 
 InventorySystem::InventorySystem()
@@ -129,7 +130,18 @@ void InventorySystem::DrawInventorySlot(const glm::vec2 &position, Items item, b
     }
 
     if (item != Items::NONE)
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(ItemDictionnary::GetItem(item)).SetDrawAbsolute(true).Build());
+    {
+        glm::vec2 slotPos = position + glm::vec2(SLOT_SIZE, SLOT_SIZE);
+        glm::vec2 slotSize = glm::vec2(SLOT_SIZE, SLOT_SIZE);
+        if (UI::PointInRectangle(WindowManager::GetMousePosition(), slotPos, slotSize))
+        {
+            slotSize = slotSize * 1.5f;
+            if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+                slotSelected = itemCount;
+        }
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(slotPos).SetSize(slotSize).SetSprite(ItemDictionnary::GetItem(item)).SetDrawAbsolute(true).Build());
+    }
+
     if (isSelected)
     {
         texture = RessourceManager::GetTexture("UI_Selectors");
