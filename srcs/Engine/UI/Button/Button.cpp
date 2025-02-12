@@ -1,38 +1,29 @@
 #include "Engine/UI/Button/Button.hpp"
+#include "Engine/UI/UI.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 
-Button::Button()
+UI::Button::Button()
 {
     for (size_t i = 0; i < 3; i++)
         sprites[i] = Sprite::none;
 }
-Button::Button(const std::array<Sprite, 3> &sprites)
+UI::Button::Button(const std::array<Sprite, 3> &sprites)
 {
     this->sprites = sprites;
 }
 
-Button::~Button()
+UI::Button::~Button()
 {
 }
 
-void Button::SetHot(UIState* ui, UIID uiID)
+void UI::Button::SetHot(UIState* ui, UIID uiID)
 {
     if (!(ui->active.ID > 0) && uiID.layer >= ui->hotThisFrame.layer)
         ui->hotThisFrame = uiID;
 }
 
-bool Button::PointInRectangle(const glm::vec2 &mousePosition, const glm::vec2 &rectPosition, const glm::vec2 &rectSize)
-{
-    glm::vec2 HalftRectSize = rectSize / 2.0f;
-    return (mousePosition.x >= rectPosition.x - HalftRectSize.x
-        && mousePosition.y >= rectPosition.y - HalftRectSize.x
-        && mousePosition.x <= rectPosition.x + HalftRectSize.x 
-        && mousePosition.y <= rectPosition.y + HalftRectSize.y);
-}
-
-bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size)
+bool UI::Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::vec2 &size)
 {
     bool result = false;
 

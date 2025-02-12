@@ -10,7 +10,6 @@ class InventorySystem
     private:
         bool open;
         glm::vec2 slotSelected;
-        Button button;
         
         void DrawInventoryBar();
         void DrawFullInventory();
