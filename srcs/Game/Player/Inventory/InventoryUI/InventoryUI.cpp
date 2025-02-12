@@ -35,7 +35,7 @@ void InventoryUI::DrawInventoryBar()
 {
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() / 2.0f - backgroundSize.x / 2.0f * SLOT_SIZE, WindowManager::GetWindowHeight() - SLOT_SIZE * 2.0f);
-    glm::vec2 nbSlot = glm::vec2(6, 1);
+    glm::vec2 nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
@@ -45,13 +45,13 @@ void InventoryUI::DrawFullInventory()
     PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, WindowManager::GetWindowSize(), 0, glm::vec4(0, 0, 0, 0.5), glm::vec4(0, 0, 0, 0), true);
     glm::vec2 backgroundSize = glm::vec2(12, 3);
     glm::vec2 position = WindowManager::GetWindowSize() / 2.0f - backgroundSize / 2.0f * SLOT_SIZE - glm::vec2(0, 2 * SLOT_SIZE);
-    glm::vec2 nbSlot = glm::vec2(6, 1);
+    glm::vec2 nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 
     backgroundSize = glm::vec2(12, 7);
     position = position + glm::vec2(0, 2 * SLOT_SIZE);
-    nbSlot = glm::vec2(6, 4);
+    nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_EXPANDED_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
@@ -90,14 +90,13 @@ void InventoryUI::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &
         nbGap.y = 1;
     glm::vec2 gapSize = (backgroundSize - nbSlot - edge) * SLOT_SIZE / nbGap;
 
-    std::vector<Items> items = {Items::NONE, Items::ITEM_SWORD, Items::ITEM_PICKAXE, Items::ITEM_AXE, Items::ITEM_HOE, Items::WATER_CAN};
     for (int y = 0; y < nbSlot.y; y++)
     {
         for (int x = 0; x < nbSlot.x; x++)
         {
             Items itemToDraw = Items::NONE;
-            if (itemCount < items.size())
-                itemToDraw = items[itemCount];
+            if (itemCount < inventory.size())
+                itemToDraw = inventory[itemCount].item;
             
             glm::vec2 slotPosition;
             if (gapOnEdge)

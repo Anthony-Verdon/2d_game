@@ -32,3 +32,10 @@ constexpr float LOOT_SPEED = 10;
 constexpr float PLAYER_LOOT_RADIUS = 100;
 constexpr float PLAYER_CLOSE_LOOT_RADIUS = 10;
 
+// inventory
+constexpr int INVENTORY_WIDTH = 6;
+constexpr int INVENTORY_BAR_HEIGHT = 1;
+constexpr int INVENTORY_EXPANDED_HEIGHT = 4;
+constexpr int INVENTORY_HEIGHT = INVENTORY_BAR_HEIGHT + INVENTORY_EXPANDED_HEIGHT;
+constexpr int INVENTORY_SIZE = INVENTORY_WIDTH * INVENTORY_HEIGHT;
+
