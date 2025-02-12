@@ -1,5 +1,6 @@
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/WindowManager/WindowManager.hpp"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Engine/macros.hpp"
@@ -7,6 +8,8 @@
 unsigned int SpriteRenderer::VAO = -1;
 unsigned int SpriteRenderer::VBO = -1;
 bool SpriteRenderer::isInit = false;
+glm::mat4 SpriteRenderer::projectionMatAbsolute;
+glm::mat4 SpriteRenderer::projectionMatRelative;
 
 void SpriteRenderer::Init()
 {
@@ -16,8 +19,8 @@ void SpriteRenderer::Init()
     std::shared_ptr<Shader> spriteShader = RessourceManager::GetShader("Sprite");
     spriteShader->use();
     spriteShader->setInt("image", 0);
-    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-    spriteShader->setMat4("projection", projection);
+    projectionMatAbsolute = glm::ortho(0.0f, (float)WindowManager::GetWindowWidth(), (float)WindowManager::GetWindowHeight(), 0.0f, -1.0f, 1.0f);
+    spriteShader->setMat4("projection", projectionMatAbsolute);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -67,7 +70,7 @@ void SpriteRenderer::Destroy()
     glDeleteBuffers(1, &VBO);
 }
 
-void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically, float opacity)
+void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, float rotation, const glm::vec3 &color, const Sprite &sprite, bool flipHorizontally, bool flipVertically, float opacity, bool drawAbsolute)
 {
     CHECK_AND_RETURN_VOID(isInit, "SpriteRenderer not initialized");
 
@@ -117,6 +120,10 @@ void SpriteRenderer::Draw(const glm::vec2 &position, const glm::vec2 &size, floa
     spriteShader->setMat4("model", model);
     spriteShader->setVec3("spriteColor", color);
     spriteShader->setFloat("opacity", opacity);
+    if (drawAbsolute)
+        spriteShader->setMat4("projection", projectionMatAbsolute);
+    else
+        spriteShader->setMat4("projection", projectionMatRelative);
   
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, RessourceManager::GetTexture(sprite.textureName)->getID()); //@todo check

@@ -2,6 +2,7 @@
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
+#include "Engine/WindowManager/WindowManager.hpp"
 #include <vector>
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,6 +12,8 @@ unsigned int CircleRenderer::VAO = -1;
 unsigned int CircleRenderer::nbTriangles = 30;
 bool CircleRenderer::isInit = false;
 std::vector<float> CircleRenderer::vertices;
+glm::mat4 CircleRenderer::projectionMatAbsolute;
+glm::mat4 CircleRenderer::projectionMatRelative;
 
 void CircleRenderer::Init()
 {
@@ -19,8 +22,8 @@ void CircleRenderer::Init()
     RessourceManager::AddShader("Circle", "shaders/circle/circle.vs", "shaders/circle/circle.fs");
     std::shared_ptr<Shader> circleShader = RessourceManager::GetShader("Circle");
     circleShader->use();
-    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-    circleShader->setMat4("projection", projection);
+    projectionMatAbsolute = glm::ortho(0.0f, (float)WindowManager::GetWindowWidth(), (float)WindowManager::GetWindowHeight(), 0.0f, -1.0f, 1.0f);
+    circleShader->setMat4("projection", projectionMatAbsolute);
 
     // define circle data
     unsigned int radius = 1;
@@ -74,11 +77,11 @@ void CircleRenderer::Destroy()
     glDeleteVertexArrays(1, &VAO);
 }
 
-void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor)
+void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec3 &fillColor, const glm::vec3 &edgeColor, bool drawAbsolute)
 {
-    CircleRenderer::Draw(position, radius, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1));
+    CircleRenderer::Draw(position, radius, rotation, glm::vec4(fillColor, 1), glm::vec4(edgeColor, 1), drawAbsolute);
 }
-void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor)
+void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotation, const glm::vec4 &fillColor, const glm::vec4 &edgeColor, bool drawAbsolute)
 {
     CHECK_AND_RETURN_VOID(isInit, "CircleRenderer not initialized");
     
@@ -94,6 +97,10 @@ void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotatio
 
         circleShader->setMat4("model", model);
         circleShader->setVec4("color", fillColor);
+        if (drawAbsolute)
+            circleShader->setMat4("projection", projectionMatAbsolute);
+        else
+            circleShader->setMat4("projection", projectionMatRelative);
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, (nbTriangles + 1) * 3);
@@ -109,7 +116,7 @@ void CircleRenderer::Draw(const glm::vec2 &position, float radius, float rotatio
             va = va * radius + position;
             vb = vb * radius + position;
 
-            LineRenderer::Draw(va, vb, edgeColor);
+            LineRenderer::Draw(va, vb, edgeColor, drawAbsolute);
         }
     }
 }
