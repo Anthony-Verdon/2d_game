@@ -50,8 +50,8 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
     if (WindowManager::IsKeyPressed(GLFW_KEY_E))
         return (std::make_unique<Player::InventoryState>());
 
-    velocity.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
-    velocity.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
+    velocity.x = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_D) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_A);
+    velocity.y = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_S) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_W);
     if (velocity != glm::vec2(0, 0))
     {   
         // keep the direction if the direction key is still pushed

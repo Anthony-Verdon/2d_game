@@ -146,8 +146,8 @@ void Editor::UpdateCamera()
         return;
     
     glm::vec2 direction;
-    direction.x = WindowManager::IsKeyPressed(GLFW_KEY_D) - WindowManager::IsKeyPressed(GLFW_KEY_A);
-    direction.y = WindowManager::IsKeyPressed(GLFW_KEY_S) - WindowManager::IsKeyPressed(GLFW_KEY_W);
+    direction.x = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_D) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_A);
+    direction.y = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_S) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_W);
     
     if (direction != glm::vec2(0, 0))
     {
