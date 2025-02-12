@@ -11,7 +11,7 @@ InventorySystem::InventorySystem()
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
     
-    slotSelected = glm::vec2(0, 0);
+    slotSelected = 0;
     open = false;
 }
 
@@ -22,6 +22,7 @@ InventorySystem::~InventorySystem()
 void InventorySystem::Draw(const Player &player)
 {
     (void)player;
+    itemCount = 0;
 
     if (open)
         DrawFullInventory();
@@ -88,7 +89,6 @@ void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::ve
     glm::vec2 gapSize = (backgroundSize - nbSlot - edge) * SLOT_SIZE / nbGap;
 
     std::vector<Items> items = {Items::NONE, Items::ITEM_SWORD, Items::ITEM_PICKAXE, Items::ITEM_AXE, Items::ITEM_HOE, Items::WATER_CAN};
-    size_t itemCount = 0;
     for (int y = 0; y < nbSlot.y; y++)
     {
         for (int x = 0; x < nbSlot.x; x++)
@@ -96,15 +96,15 @@ void InventorySystem::DrawMultipleSlots(const glm::vec2 &position, const glm::ve
             Items itemToDraw = Items::NONE;
             if (itemCount < items.size())
                 itemToDraw = items[itemCount];
-            itemCount++;
             
             glm::vec2 slotPosition;
             if (gapOnEdge)
-                slotPosition = position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize;
+            slotPosition = position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize;
             else
                 slotPosition = position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x, y) * gapSize;
-            
-            DrawInventorySlot(slotPosition, itemToDraw, slotSelected == glm::vec2(x, y));
+        
+            DrawInventorySlot(slotPosition, itemToDraw, slotSelected == itemCount);
+            itemCount++;
         }
     }
 }

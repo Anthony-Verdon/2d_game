@@ -122,32 +122,32 @@ void Player::Update()
     if (WindowManager::IsKeyPressed(GLFW_KEY_1))
     {
         tool = NULL;
-        inventorySystem.SetSlotSelected(glm::vec2(0, 0));
+        inventorySystem.SetSlotSelected(0);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
     {
         tool = std::make_unique<Sword>();
-        inventorySystem.SetSlotSelected(glm::vec2(1, 0));
+        inventorySystem.SetSlotSelected(1);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
     {
         tool = std::make_unique<Pickaxe>();
-        inventorySystem.SetSlotSelected(glm::vec2(2, 0));
+        inventorySystem.SetSlotSelected(2);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_4))
     {
         tool = std::make_unique<Axe>();
-        inventorySystem.SetSlotSelected(glm::vec2(3, 0));
+        inventorySystem.SetSlotSelected(3);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_5))
     {
         tool = std::make_unique<Hoe>();
-        inventorySystem.SetSlotSelected(glm::vec2(4, 0));
+        inventorySystem.SetSlotSelected(4);
     }
     else if (WindowManager::IsKeyPressed(GLFW_KEY_6))
     {
         tool = std::make_unique<WateringCan>();
-        inventorySystem.SetSlotSelected(glm::vec2(5, 0));
+        inventorySystem.SetSlotSelected(5);
     }
 
     auto ptr = state->Input(*this);

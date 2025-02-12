@@ -9,8 +9,9 @@ class InventorySystem
 {
     private:
         bool open;
-        glm::vec2 slotSelected;
-        
+        size_t slotSelected;
+        size_t itemCount;
+
         void DrawInventoryBar();
         void DrawFullInventory();
 
@@ -22,7 +23,7 @@ class InventorySystem
         InventorySystem();
         ~InventorySystem();
 
-        void SetSlotSelected(const glm::vec2 &slotSelected) {this->slotSelected = slotSelected;}
+        void SetSlotSelected(size_t slotSelected) {this->slotSelected = slotSelected;}
         void SetOpen(bool open) {this->open = open;}
         void Draw(const Player &player);
 };
