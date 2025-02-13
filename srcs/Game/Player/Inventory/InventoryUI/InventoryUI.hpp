@@ -12,6 +12,8 @@ class InventoryUI: public InventorySystem
         bool open;
         size_t slotSelected;
         size_t itemCount;
+        Items itemHold;
+        size_t itemHoldPosition;
 
         void DrawInventoryBar();
         void DrawFullInventory();
