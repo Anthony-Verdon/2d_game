@@ -14,6 +14,7 @@ class InventoryUI: public InventorySystem
         size_t itemCount;
         Items itemHold;
         size_t itemHoldPosition;
+        bool resetItemHold;
 
         void DrawInventoryBar();
         void DrawFullInventory();

@@ -27,11 +27,18 @@ void InventoryUI::Draw(const Player &player)
     (void)player;
     itemCount = 0;
 
+    resetItemHold = false;
+
     if (open)
         DrawFullInventory();
     else
         DrawInventoryBar();
 
+    if (resetItemHold)
+    {
+        itemHold = Items::NONE;
+        itemHoldPosition = -1;
+    }
     if (itemHold != Items::NONE)
     {
         SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItem(itemHold)).SetDrawAbsolute(true).SetOpacity(0.5).Build());
@@ -117,7 +124,6 @@ void InventoryUI::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &
     }
 }
 
-#include <iostream>
 void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
@@ -163,6 +169,10 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool 
             itemHold = Items::NONE;
             itemHoldPosition = -1;
         }
+    }
+    else if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    {
+        resetItemHold = true;
     }
     
     // draw item
