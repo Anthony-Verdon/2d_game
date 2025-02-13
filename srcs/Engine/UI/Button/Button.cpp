@@ -38,7 +38,7 @@ bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::
 
     if (IsActive(ui, ID))
     {
-        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1)) // not holding anymore
+        if (!WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1)) // not holding anymore
         {
             if (PointInRectangle(WindowManager::GetMousePosition(), position, size)) // still on the button
                 result = true;
@@ -49,7 +49,7 @@ bool Button::Draw(UIState *ui, size_t ID, const glm::vec2 &position, const glm::
     }
     else if (IsHot(ui, ID))
     {
-        if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
             SetActive(ui, {ID, ui->globalLayer});
         SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position).SetSize(size).SetSprite(sprites[ButtonAnimation::HOT]).SetDrawAbsolute(true).Build());
     }

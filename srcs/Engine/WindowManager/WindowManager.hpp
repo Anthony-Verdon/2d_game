@@ -27,7 +27,6 @@ class WindowManager
     static bool IsInputPressedOrMaintain(int input);
     static bool IsInputReleased(int input);
     static void SetInputAction(int input, int action) { inputMap[input] = action; }
-    static bool IsMouseButtonPressed(int mouseButton);
     
     static GLFWwindow *GetWindow();
 

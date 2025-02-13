@@ -169,22 +169,22 @@ void Editor::UpdateChain()
     if (chainBuilder->IsBuildingChain())
     {
         static bool mouseButton1Enable = true;
-        if (mouseButton1Enable && WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        if (mouseButton1Enable && WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
         {
             chainBuilder->AddPointToChain(mousePosition);
             mouseButton1Enable = false;
         }
-        else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+        else if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_2))
         {
             chainBuilder->CloseChain();
         }
 
-        if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        if (!WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
             mouseButton1Enable = true;
     }
     else
     {
-        if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
         {
             std::vector<Chain> chains = chainBuilder->GetChains();
             for (size_t i = 0; i < chains.size(); i++)
@@ -198,7 +198,7 @@ void Editor::UpdateChain()
                 }
             }
         }
-        else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+        else if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_2))
         {
              chainBuilder->UnselectPoint();
         }
@@ -212,7 +212,7 @@ void Editor::UpdateTilemap()
     if (ImGuiWindowHoweredOrFocused)
         return;
 
-    if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
     {
         TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
         if (!tileSelector)
@@ -233,7 +233,7 @@ void Editor::UpdateTilemap()
         mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
         tilemapManagerUI.AddTile(mousePosition, actualTile);
     }
-    else if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+    else if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_2))
     {
         glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)

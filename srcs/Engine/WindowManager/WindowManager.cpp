@@ -119,11 +119,6 @@ bool WindowManager::IsInputReleased(int input)
     return (inputMap[input] == GLFW_RELEASE);
 }
 
-bool WindowManager::IsMouseButtonPressed(int mouseButton)
-{
-    return (glfwGetMouseButton(window, mouseButton) == GLFW_PRESS);
-}
-
 GLFWwindow* WindowManager::GetWindow()
 {
     return (window);
