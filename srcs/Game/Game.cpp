@@ -130,7 +130,7 @@ void Game::Run()
 
 void Game::ProcessInput()
 {
-    if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
+    if (WindowManager::IsInputPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
 }
 

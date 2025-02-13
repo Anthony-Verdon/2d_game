@@ -119,32 +119,32 @@ void Player::Update()
     bodyAnimationManager.Update();
     toolAnimationManager.Update();
 
-    if (WindowManager::IsKeyPressed(GLFW_KEY_1))
+    if (WindowManager::IsInputPressed(GLFW_KEY_1))
     {
         tool = NULL;
         inventoryBar.SetSlotSelected(glm::vec2(0, 0));
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_2))
     {
         tool = std::make_unique<Sword>();
         inventoryBar.SetSlotSelected(glm::vec2(1, 0));
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_3))
     {
         tool = std::make_unique<Pickaxe>();
         inventoryBar.SetSlotSelected(glm::vec2(2, 0));
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_4))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_4))
     {
         tool = std::make_unique<Axe>();
         inventoryBar.SetSlotSelected(glm::vec2(3, 0));
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_5))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_5))
     {
         tool = std::make_unique<Hoe>();
         inventoryBar.SetSlotSelected(glm::vec2(4, 0));
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_6))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_6))
     {
         tool = std::make_unique<WateringCan>();
         inventoryBar.SetSlotSelected(glm::vec2(5, 0));

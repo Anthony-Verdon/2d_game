@@ -21,7 +21,7 @@ void Player::InventoryState::Enter(Player &player)
 std::unique_ptr<Player::AState> Player::InventoryState::Input(Player &player)
 {
     (void)player;
-    if (WindowManager::IsKeyPressed(GLFW_KEY_E))
+    if (WindowManager::IsInputPressed(GLFW_KEY_E))
         return (std::make_unique<Player::IdleWalkState>());
 
     return (NULL);

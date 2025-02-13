@@ -130,7 +130,7 @@ void Editor::Run()
 
 void Editor::ProcessInput()
 {
-    if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
+    if (WindowManager::IsInputPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
     
     UpdateCamera();
@@ -146,8 +146,8 @@ void Editor::UpdateCamera()
         return;
     
     glm::vec2 direction;
-    direction.x = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_D) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_A);
-    direction.y = WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_S) - WindowManager::IsKeyPressedOrMaintain(GLFW_KEY_W);
+    direction.x = WindowManager::IsInputPressedOrMaintain(GLFW_KEY_D) - WindowManager::IsInputPressedOrMaintain(GLFW_KEY_A);
+    direction.y = WindowManager::IsInputPressedOrMaintain(GLFW_KEY_S) - WindowManager::IsInputPressedOrMaintain(GLFW_KEY_W);
     
     if (direction != glm::vec2(0, 0))
     {
