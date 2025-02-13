@@ -1,4 +1,5 @@
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/Time/Time.hpp"
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <stdexcept>
@@ -7,9 +8,10 @@
 GLFWwindow *WindowManager::window = NULL;
 glm::vec2 WindowManager::mousePosition = glm::vec2(0,0);
 glm::vec2 WindowManager::windowSize = glm::vec2(0,0);
-std::map<int, int> WindowManager::keyMap;
+std::map<int, InputMode> WindowManager::inputMap;
 
-void mouse_callback(GLFWwindow *window, double xPos, double yPos);
+void mouse_position_callback(GLFWwindow *window, double xPos, double yPos);
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 void WindowManager::InitWindow(const std::string &name, unsigned int width, unsigned int height)
@@ -49,7 +51,8 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetCursorPosCallback(window, mouse_position_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetKeyCallback(window, key_callback);
 
     windowSize = glm::vec2(width, height);
@@ -66,12 +69,15 @@ void WindowManager::StartUpdateLoop(AProgram *game)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        Time::updateTime();
+
         game->Run();
 
-        for (auto it = keyMap.begin(); it != keyMap.end(); it++)
+        for (auto it = inputMap.begin(); it != inputMap.end(); it++)
         {
-            if (it->second == GLFW_PRESS)
-                it->second = GLFW_REPEAT;
+            if (it->second.mode == GLFW_PRESS)
+                it->second.mode = GLFW_REPEAT;
+            it->second.time += Time::getDeltaTime();
         }
 
         glfwPollEvents();
@@ -84,42 +90,37 @@ void WindowManager::StopUpdateLoop()
     glfwSetWindowShouldClose(window, true);
 }
 
-bool WindowManager::IsKeyPressed(int key)
+bool WindowManager::IsInputPressed(int input)
 {
-    if (keyMap.find(key) == keyMap.end())
+    if (inputMap.find(input) == inputMap.end())
     {
-        keyMap[key] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (false);
     }
 
-    return (keyMap[key] == GLFW_PRESS);
+    return (inputMap[input].mode == GLFW_PRESS);
 }
 
-bool WindowManager::IsKeyPressedOrMaintain(int key)
+bool WindowManager::IsInputPressedOrMaintain(int input, float time)
 {
-    if (keyMap.find(key) == keyMap.end())
+    if (inputMap.find(input) == inputMap.end())
     {
-        keyMap[key] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (false);
     }
 
-    return (keyMap[key] == GLFW_PRESS || keyMap[key] == GLFW_REPEAT);
+    return ((inputMap[input].mode == GLFW_PRESS || inputMap[input].mode == GLFW_REPEAT) && inputMap[input].time >= time);
 }
 
-bool WindowManager::IsKeyReleased(int key)
+bool WindowManager::IsInputReleased(int input, float time)
 {
-    if (keyMap.find(key) == keyMap.end())
+    if (inputMap.find(input) == inputMap.end())
     {
-        keyMap[key] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (true);
     }
 
-    return (keyMap[key] == GLFW_RELEASE);
-}
-
-bool WindowManager::IsMouseButtonPressed(int mouseButton)
-{
-    return (glfwGetMouseButton(window, mouseButton) == GLFW_PRESS);
+    return (inputMap[input].mode == GLFW_RELEASE && inputMap[input].time >= time);
 }
 
 GLFWwindow* WindowManager::GetWindow()
@@ -167,10 +168,18 @@ void WindowManager::SetScrollCallback(void (*func)(GLFWwindow *window, double xO
     glfwSetScrollCallback(window, func);
 }
 
-void mouse_callback(GLFWwindow *window, double xPos, double yPos)
+void mouse_position_callback(GLFWwindow *window, double xPos, double yPos)
 {
     (void)window;
     WindowManager::SetMousePosition(xPos, yPos);
+}
+
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+    (void)window;
+    (void)mods;
+    
+    WindowManager::SetInputAction(button, action);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -182,5 +191,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (action == GLFW_REPEAT)
         return;
 
-    WindowManager::SetKeyAction(key, action);
+    WindowManager::SetInputAction(key, action);
 }

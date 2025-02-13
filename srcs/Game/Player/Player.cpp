@@ -119,32 +119,32 @@ void Player::Update()
     bodyAnimationManager.Update();
     toolAnimationManager.Update();
 
-    if (WindowManager::IsKeyPressed(GLFW_KEY_1))
+    if (WindowManager::IsInputPressed(GLFW_KEY_1))
     {
         tool = NULL;
         inventoryUI.SetSlotSelected(0);
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_2))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_2))
     {
         tool = std::make_unique<Sword>();
         inventoryUI.SetSlotSelected(1);
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_3))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_3))
     {
         tool = std::make_unique<Pickaxe>();
         inventoryUI.SetSlotSelected(2);
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_4))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_4))
     {
         tool = std::make_unique<Axe>();
         inventoryUI.SetSlotSelected(3);
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_5))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_5))
     {
         tool = std::make_unique<Hoe>();
         inventoryUI.SetSlotSelected(4);
     }
-    else if (WindowManager::IsKeyPressed(GLFW_KEY_6))
+    else if (WindowManager::IsInputPressed(GLFW_KEY_6))
     {
         tool = std::make_unique<WateringCan>();
         inventoryUI.SetSlotSelected(5);

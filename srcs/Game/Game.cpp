@@ -6,7 +6,6 @@
 #include "Engine/Renderers/CircleRenderer/CircleRenderer.hpp"
 #include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
-#include "Engine/Time/Time.hpp"
 #include "Engine/PhysicBody/PhysicBody.hpp"
 #include "Shapes/pentagon.hpp"
 #include "Shapes/square.hpp"
@@ -103,8 +102,6 @@ Game::~Game()
 
 void Game::Run()
 {
-    Time::updateTime();
-    
     player.Update();
     skeletton.Update();
 
@@ -130,7 +127,7 @@ void Game::Run()
 
 void Game::ProcessInput()
 {
-    if (WindowManager::IsKeyPressed(GLFW_KEY_ESCAPE))
+    if (WindowManager::IsInputPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
 }
 
