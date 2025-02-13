@@ -155,7 +155,7 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool 
         if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1))
         {
             slotSelected = itemCount;
-            if (itemHold == Items::NONE)
+            if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1, 0.1f) && itemHold == Items::NONE)
             {
                 itemHold = item;
                 itemHoldPosition = itemCount;
