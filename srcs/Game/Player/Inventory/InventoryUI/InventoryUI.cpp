@@ -152,7 +152,7 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool 
     if (UI::PointInRectangle(WindowManager::GetMousePosition(), slotPos, slotSize))
     {
         slotSize = slotSize * 1.5f;
-        if (WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+        if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1))
         {
             slotSelected = itemCount;
             if (itemHold == Items::NONE)
@@ -170,7 +170,7 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, Items item, bool 
             itemHoldPosition = -1;
         }
     }
-    else if (!WindowManager::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_1))
+    else if (WindowManager::IsInputReleased(GLFW_MOUSE_BUTTON_1))
     {
         resetItemHold = true;
     }
