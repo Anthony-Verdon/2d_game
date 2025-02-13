@@ -9,7 +9,8 @@ glm::vec2 WindowManager::mousePosition = glm::vec2(0,0);
 glm::vec2 WindowManager::windowSize = glm::vec2(0,0);
 std::map<int, int> WindowManager::keyMap;
 
-void mouse_callback(GLFWwindow *window, double xPos, double yPos);
+void mouse_position_callback(GLFWwindow *window, double xPos, double yPos);
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 void WindowManager::InitWindow(const std::string &name, unsigned int width, unsigned int height)
@@ -49,7 +50,8 @@ void WindowManager::InitWindow(const std::string &name, unsigned int width, unsi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetCursorPosCallback(window, mouse_position_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetKeyCallback(window, key_callback);
 
     windowSize = glm::vec2(width, height);
@@ -167,10 +169,18 @@ void WindowManager::SetScrollCallback(void (*func)(GLFWwindow *window, double xO
     glfwSetScrollCallback(window, func);
 }
 
-void mouse_callback(GLFWwindow *window, double xPos, double yPos)
+void mouse_position_callback(GLFWwindow *window, double xPos, double yPos)
 {
     (void)window;
     WindowManager::SetMousePosition(xPos, yPos);
+}
+
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+    (void)window;
+    (void)mods;
+    
+    WindowManager::SetKeyAction(button, action);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
