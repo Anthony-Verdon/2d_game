@@ -24,7 +24,7 @@ void Player::IdleWalkState::Enter(Player &player)
 
 std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
 {
-    if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_1))
+    if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1))
     {
         if (!player.tool)
             return (NULL);
