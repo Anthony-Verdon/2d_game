@@ -6,13 +6,19 @@
 #include <glm/glm.hpp>
 #include <map>
 
+struct InputMode
+{
+  int mode;
+  float time;
+};
+
 class WindowManager
 {
   private:
     static GLFWwindow *window;
     static glm::vec2 windowSize;
     static glm::vec2 mousePosition;
-    static std::map<int, int> inputMap;
+    static std::map<int, InputMode> inputMap;
 
     WindowManager() = delete;
     ~WindowManager() = delete;
@@ -24,9 +30,9 @@ class WindowManager
     static void DestructWindowManager();
 
     static bool IsInputPressed(int input);
-    static bool IsInputPressedOrMaintain(int input);
-    static bool IsInputReleased(int input);
-    static void SetInputAction(int input, int action) { inputMap[input] = action; }
+    static bool IsInputPressedOrMaintain(int input, float time = 0);
+    static bool IsInputReleased(int input, float time = 0);
+    static void SetInputAction(int input, int action) { inputMap[input] = {action, 0}; }
     
     static GLFWwindow *GetWindow();
 

@@ -1,4 +1,5 @@
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Engine/Time/Time.hpp"
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <stdexcept>
@@ -7,7 +8,7 @@
 GLFWwindow *WindowManager::window = NULL;
 glm::vec2 WindowManager::mousePosition = glm::vec2(0,0);
 glm::vec2 WindowManager::windowSize = glm::vec2(0,0);
-std::map<int, int> WindowManager::inputMap;
+std::map<int, InputMode> WindowManager::inputMap;
 
 void mouse_position_callback(GLFWwindow *window, double xPos, double yPos);
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
@@ -68,12 +69,15 @@ void WindowManager::StartUpdateLoop(AProgram *game)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        Time::updateTime();
+
         game->Run();
 
         for (auto it = inputMap.begin(); it != inputMap.end(); it++)
         {
-            if (it->second == GLFW_PRESS)
-                it->second = GLFW_REPEAT;
+            if (it->second.mode == GLFW_PRESS)
+                it->second.mode = GLFW_REPEAT;
+            it->second.time += Time::getDeltaTime();
         }
 
         glfwPollEvents();
@@ -90,33 +94,33 @@ bool WindowManager::IsInputPressed(int input)
 {
     if (inputMap.find(input) == inputMap.end())
     {
-        inputMap[input] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (false);
     }
 
-    return (inputMap[input] == GLFW_PRESS);
+    return (inputMap[input].mode == GLFW_PRESS);
 }
 
-bool WindowManager::IsInputPressedOrMaintain(int input)
+bool WindowManager::IsInputPressedOrMaintain(int input, float time)
 {
     if (inputMap.find(input) == inputMap.end())
     {
-        inputMap[input] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (false);
     }
 
-    return (inputMap[input] == GLFW_PRESS || inputMap[input] == GLFW_REPEAT);
+    return ((inputMap[input].mode == GLFW_PRESS || inputMap[input].mode == GLFW_REPEAT) && inputMap[input].time >= time);
 }
 
-bool WindowManager::IsInputReleased(int input)
+bool WindowManager::IsInputReleased(int input, float time)
 {
     if (inputMap.find(input) == inputMap.end())
     {
-        inputMap[input] = GLFW_RELEASE;
+        inputMap[input] = {GLFW_RELEASE, 0};
         return (true);
     }
 
-    return (inputMap[input] == GLFW_RELEASE);
+    return (inputMap[input].mode == GLFW_RELEASE && inputMap[input].time >= time);
 }
 
 GLFWwindow* WindowManager::GetWindow()
