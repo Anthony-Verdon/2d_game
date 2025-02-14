@@ -118,18 +118,11 @@ void Player::Update()
     bodyAnimationManager.Update();
     toolAnimationManager.Update();
 
-    if (WindowManager::IsInputPressed(GLFW_KEY_1))
-        inventoryUI.SetSlotSelected(0);
-    else if (WindowManager::IsInputPressed(GLFW_KEY_2))
-        inventoryUI.SetSlotSelected(1);
-    else if (WindowManager::IsInputPressed(GLFW_KEY_3))
-        inventoryUI.SetSlotSelected(2);
-    else if (WindowManager::IsInputPressed(GLFW_KEY_4))
-        inventoryUI.SetSlotSelected(3);
-    else if (WindowManager::IsInputPressed(GLFW_KEY_5))
-        inventoryUI.SetSlotSelected(4);
-    else if (WindowManager::IsInputPressed(GLFW_KEY_6))
-        inventoryUI.SetSlotSelected(5);
+    for (size_t i = 0; i < 6; i++)
+    {
+        if (WindowManager::IsInputPressed(GLFW_KEY_1 + i))
+            inventoryUI.SetSlotSelected(i);
+    }
 
     auto ptr = state->Input(*this);
     if (ptr)
