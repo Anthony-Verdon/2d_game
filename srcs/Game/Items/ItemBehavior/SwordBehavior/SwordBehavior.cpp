@@ -2,7 +2,6 @@
 
 SwordBehavior::SwordBehavior()
 {
-    toolType = PlayerTool::SWORD;
 }
 
 SwordBehavior::~SwordBehavior()

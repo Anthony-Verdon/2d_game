@@ -28,15 +28,15 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
     {
         switch (player.GetItemSelected())
         {
-            case ItemType::ITEM_SWORD:
+            case ItemType::SWORD:
                 return (std::make_unique<Player::AttackState>());
-            case ItemType::ITEM_PICKAXE:
+            case ItemType::PICKAXE:
                 return (std::make_unique<Player::MiningState>());
-            case ItemType::ITEM_AXE:
+            case ItemType::AXE:
                 return (std::make_unique<Player::ChoppingState>());
-            case ItemType::ITEM_HOE:
+            case ItemType::HOE:
                 return (std::make_unique<Player::PlowingState>());
-            case ItemType::WATER_CAN:
+            case ItemType::WATERING_CAN:
                 return (std::make_unique<Player::WateringState>());
             default:
                 return (NULL);

@@ -57,7 +57,6 @@ class Player
         AnimationManager bodyAnimationManager;
         AnimationManager toolAnimationManager;
         PhysicBody body;
-        std::unique_ptr<AItemBehavior> tool;
         std::unique_ptr<AState> state;
 
         InventoryUI inventoryUI;

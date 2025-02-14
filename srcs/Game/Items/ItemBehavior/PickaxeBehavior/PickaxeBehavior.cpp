@@ -5,7 +5,6 @@
 
 PickaxeBehavior::PickaxeBehavior()
 {
-    toolType = PlayerTool::PICKAXE;
 }
 
 PickaxeBehavior::~PickaxeBehavior()

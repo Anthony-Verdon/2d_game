@@ -5,7 +5,6 @@
 
 AxeBehavior::AxeBehavior()
 {
-    toolType = PlayerTool::AXE;
 }
 
 AxeBehavior::~AxeBehavior()

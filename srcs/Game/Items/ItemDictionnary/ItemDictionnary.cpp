@@ -21,11 +21,11 @@ void ItemDictionnary::Init()
     AddItems("ressources_icons", glm::vec2(6, 6), glm::vec2(1, 5));
     AddItems("tools_icons", glm::vec2(10, 1), glm::vec2(10, 0));
 
-    items[ITEM_PICKAXE].behavior = std::make_unique<PickaxeBehavior>();
-    items[ITEM_AXE].behavior = std::make_unique<AxeBehavior>();
-    items[ITEM_SWORD].behavior = std::make_unique<SwordBehavior>();
-    items[ITEM_HOE].behavior = std::make_unique<HoeBehavior>();
-    items[WATER_CAN].behavior = std::make_unique<WateringCanBehavior>();
+    items[PICKAXE].behavior = std::make_unique<PickaxeBehavior>();
+    items[AXE].behavior = std::make_unique<AxeBehavior>();
+    items[SWORD].behavior = std::make_unique<SwordBehavior>();
+    items[HOE].behavior = std::make_unique<HoeBehavior>();
+    items[WATERING_CAN].behavior = std::make_unique<WateringCanBehavior>();
 }
 
 void ItemDictionnary::AddItems(const std::string &textureName, const glm::vec2 &textureSize, const glm::vec2 &spriteStop)

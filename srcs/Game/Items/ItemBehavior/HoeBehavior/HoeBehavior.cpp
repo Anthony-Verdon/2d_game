@@ -5,7 +5,6 @@
 
 HoeBehavior::HoeBehavior()
 {
-    toolType = PlayerTool::HOE;
 }
 
 HoeBehavior::~HoeBehavior()

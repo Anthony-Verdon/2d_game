@@ -2,7 +2,6 @@
 
 WateringCanBehavior::WateringCanBehavior()
 {
-    toolType = PlayerTool::WATERING_CAN;
 }
 
 WateringCanBehavior::~WateringCanBehavior()

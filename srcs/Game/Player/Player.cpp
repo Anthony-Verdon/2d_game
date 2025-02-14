@@ -37,7 +37,6 @@ void Player::Init(b2WorldId worldId)
     body.AddShape("sword", PhysicBody::ShapeBuilder().IsSensor(true).Build(), PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE));
     
     state = std::make_unique<IdleWalkState>();
-    tool = NULL;
     InitAnimations();
 }
 
@@ -120,35 +119,17 @@ void Player::Update()
     toolAnimationManager.Update();
 
     if (WindowManager::IsInputPressed(GLFW_KEY_1))
-    {
-        tool = NULL;
         inventoryUI.SetSlotSelected(0);
-    }
     else if (WindowManager::IsInputPressed(GLFW_KEY_2))
-    {
-        tool = std::make_unique<SwordBehavior>();
         inventoryUI.SetSlotSelected(1);
-    }
     else if (WindowManager::IsInputPressed(GLFW_KEY_3))
-    {
-        tool = std::make_unique<PickaxeBehavior>();
         inventoryUI.SetSlotSelected(2);
-    }
     else if (WindowManager::IsInputPressed(GLFW_KEY_4))
-    {
-        tool = std::make_unique<AxeBehavior>();
         inventoryUI.SetSlotSelected(3);
-    }
     else if (WindowManager::IsInputPressed(GLFW_KEY_5))
-    {
-        tool = std::make_unique<HoeBehavior>();
         inventoryUI.SetSlotSelected(4);
-    }
     else if (WindowManager::IsInputPressed(GLFW_KEY_6))
-    {
-        tool = std::make_unique<WateringCanBehavior>();
         inventoryUI.SetSlotSelected(5);
-    }
 
     auto ptr = state->Input(*this);
     if (ptr)
