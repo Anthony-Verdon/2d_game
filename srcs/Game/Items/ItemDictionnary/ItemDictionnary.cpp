@@ -1,4 +1,9 @@
 #include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
+#include "Game/Items/ItemBehavior/PickaxeBehavior/PickaxeBehavior.hpp"
+#include "Game/Items/ItemBehavior/AxeBehavior/AxeBehavior.hpp"
+#include "Game/Items/ItemBehavior/SwordBehavior/SwordBehavior.hpp"
+#include "Game/Items/ItemBehavior/HoeBehavior/HoeBehavior.hpp"
+#include "Game/Items/ItemBehavior/WateringCanBehavior/WateringCanBehavior.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "globals.hpp"
 
@@ -15,6 +20,12 @@ void ItemDictionnary::Init()
     AddItems("others_icons", glm::vec2(5, 3), glm::vec2(1, 2));
     AddItems("ressources_icons", glm::vec2(6, 6), glm::vec2(1, 5));
     AddItems("tools_icons", glm::vec2(10, 1), glm::vec2(10, 0));
+
+    items[ITEM_PICKAXE].behavior = std::make_unique<PickaxeBehavior>();
+    items[ITEM_AXE].behavior = std::make_unique<AxeBehavior>();
+    items[ITEM_SWORD].behavior = std::make_unique<SwordBehavior>();
+    items[ITEM_HOE].behavior = std::make_unique<HoeBehavior>();
+    items[WATER_CAN].behavior = std::make_unique<WateringCanBehavior>();
 }
 
 void ItemDictionnary::AddItems(const std::string &textureName, const glm::vec2 &textureSize, const glm::vec2 &spriteStop)
@@ -40,5 +51,11 @@ void ItemDictionnary::AddItems(const std::string &textureName, const glm::vec2 &
 
 Sprite ItemDictionnary::GetItemSprite(ItemType item)
 {
-    return (items[(int)item].sprite);
+    return (items[item].sprite);
+}
+
+void ItemDictionnary::ExecuteBehavior(ItemType item, const glm::vec2 &position)
+{
+    if (items[item].behavior != NULL)
+        items[item].behavior->MainAction(position);
 }

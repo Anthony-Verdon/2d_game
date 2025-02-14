@@ -152,4 +152,6 @@ class ItemDictionnary
     public:
         static void Init();
         static Sprite GetItemSprite(ItemType item);
+        static void ExecuteBehavior(ItemType item, const glm::vec2 &position = glm::vec2(0, 0));
+
 };
