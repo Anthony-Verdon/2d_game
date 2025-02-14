@@ -26,25 +26,21 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
 {
     if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1))
     {
-        if (!player.tool)
-            return (NULL);
-
-        switch (player.tool->GetType())
+        switch (player.GetItemSelected())
         {
-            case PlayerTool::SWORD:
+            case ItemType::ITEM_SWORD:
                 return (std::make_unique<Player::AttackState>());
-            case PlayerTool::PICKAXE:
+            case ItemType::ITEM_PICKAXE:
                 return (std::make_unique<Player::MiningState>());
-            case PlayerTool::AXE:
+            case ItemType::ITEM_AXE:
                 return (std::make_unique<Player::ChoppingState>());
-            case PlayerTool::HOE:
+            case ItemType::ITEM_HOE:
                 return (std::make_unique<Player::PlowingState>());
-            case PlayerTool::WATERING_CAN:
+            case ItemType::WATER_CAN:
                 return (std::make_unique<Player::WateringState>());
             default:
                 return (NULL);
         }
-
     }
     
     if (WindowManager::IsInputPressed(GLFW_KEY_E))

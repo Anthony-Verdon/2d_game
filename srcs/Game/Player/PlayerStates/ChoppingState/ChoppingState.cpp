@@ -1,5 +1,6 @@
 #include "Game/Player/PlayerStates/ChoppingState/ChoppingState.hpp"
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
+#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 #include "globals.hpp"
 
 Player::ChoppingState::ChoppingState(): Player::AState(Player::StateType::CHOPPING)
@@ -22,7 +23,7 @@ void Player::ChoppingState::Enter(Player &player)
     if (playerPos.y < 0)
         playerPos.y -= SPRITE_SIZE;
     glm::vec2 actionCoords = glm::vec2(((int)playerPos.x / (int)SPRITE_SIZE + player.direction.x) * SPRITE_SIZE, ((int)playerPos.y / (int)SPRITE_SIZE + player.direction.y) * SPRITE_SIZE) + SPRITE_SIZE / 2;
-    player.tool->MainAction(actionCoords);
+    ItemDictionnary::ExecuteBehavior(player.GetItemSelected(), actionCoords);
 }
 
 std::unique_ptr<Player::AState> Player::ChoppingState::Update(Player &player)

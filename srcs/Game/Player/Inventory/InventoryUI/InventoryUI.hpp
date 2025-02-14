@@ -30,4 +30,5 @@ class InventoryUI: public InventorySystem
         void SetSlotSelected(size_t slotSelected) {this->slotSelected = slotSelected;}
         void SetOpen(bool open) {this->open = open;}
         void Draw(const Player &player);
+        ItemType GetItemSelected() const {return (inventory[slotSelected].item); }
 };

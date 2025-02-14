@@ -73,4 +73,5 @@ class Player
         void Update();
         void Draw();
         glm::vec2 GetPosition() const;
+        ItemType GetItemSelected() const {return (inventoryUI.GetItemSelected()); }
 };
