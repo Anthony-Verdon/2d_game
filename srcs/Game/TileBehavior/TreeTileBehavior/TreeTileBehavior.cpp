@@ -29,7 +29,7 @@ void TreeTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 
         TilemapManager::AddTile(tilemapName, actionCoords, treeTile);
 
         Loot loot;
-        loot.sprite = ItemDictionnary::GetItem(Items::WOOD);
+        loot.sprite = ItemDictionnary::GetItem(ItemType::WOOD).sprite;
         size_t nbLoot = (rand() % 3) + 2;
         for (size_t i = 0; i < nbLoot; i++)
         {

@@ -2,7 +2,7 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "globals.hpp"
 
-std::vector<Sprite> ItemDictionnary::items;
+std::vector<Item> ItemDictionnary::items;
 
 void ItemDictionnary::Init()
 {
@@ -30,12 +30,14 @@ void ItemDictionnary::AddItems(const std::string &textureName, const glm::vec2 &
             sprite.spriteCoords = glm::vec2(x, y);
             if (sprite.spriteCoords == spriteStop)
                 return;
-            items.push_back(sprite);
+            Item item = {};
+            item.sprite = sprite;
+            items.push_back(item);
         }
     }
 }
 
-Sprite ItemDictionnary::GetItem(Items item)
+Item ItemDictionnary::GetItem(ItemType item)
 {
     return items[(int)item];
 }

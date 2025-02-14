@@ -6,7 +6,7 @@
 
 struct ItemSlot
 {
-    Items item;
+    ItemType item;
     size_t nbItem;
 };
 

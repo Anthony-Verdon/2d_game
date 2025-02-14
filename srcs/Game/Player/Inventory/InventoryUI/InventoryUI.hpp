@@ -12,7 +12,7 @@ class InventoryUI: public InventorySystem
         bool open;
         size_t slotSelected;
         size_t itemCount;
-        Items itemHold;
+        ItemType itemHold;
         size_t itemHoldPosition;
         bool resetItemHold;
 
@@ -21,7 +21,7 @@ class InventoryUI: public InventorySystem
 
         void DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size);
         void DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge);
-        void DrawInventorySlot(const glm::vec2 &position, Items item, bool isSelected);
+        void DrawInventorySlot(const glm::vec2 &position, ItemType item, bool isSelected);
         int DetermineSpriteCoord(int coord, int size);
     public:
         InventoryUI();

@@ -3,7 +3,7 @@
 #include <vector>
 #include "Engine/Sprite/Sprite.hpp"
 
-enum Items
+enum ItemType
 {
     // food
     RAW_CHICKEN = 0,
@@ -131,17 +131,22 @@ enum Items
     NONE
 };
 
+struct Item
+{
+    Sprite sprite;
+};
+
 class ItemDictionnary
 {
     private:
         ItemDictionnary() = delete;
         ~ItemDictionnary() = delete;
 
-        static std::vector<Sprite> items;
+        static std::vector<Item> items;
 
         static void AddItems(const std::string &textureName, const glm::vec2 &textureSize, const glm::vec2 &spriteStop);
     
     public:
         static void Init();
-        static Sprite GetItem(Items item);
+        static Item GetItem(ItemType item);
 };
