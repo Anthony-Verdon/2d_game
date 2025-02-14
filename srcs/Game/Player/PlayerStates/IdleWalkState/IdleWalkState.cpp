@@ -1,9 +1,6 @@
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
 #include "Game/Player/PlayerStates/AttackState/AttackState.hpp"
-#include "Game/Player/PlayerStates/MiningState/MiningState.hpp"
-#include "Game/Player/PlayerStates/ChoppingState/ChoppingState.hpp"
-#include "Game/Player/PlayerStates/PlowingState/PlowingState.hpp"
-#include "Game/Player/PlayerStates/WateringState/WateringState.hpp"
+#include "Game/Player/PlayerStates/UsingToolState/UsingToolState.hpp"
 #include "Game/Player/PlayerStates/InventoryState/InventoryState.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
@@ -31,13 +28,13 @@ std::unique_ptr<Player::AState> Player::IdleWalkState::Input(Player &player)
             case ItemType::SWORD:
                 return (std::make_unique<Player::AttackState>());
             case ItemType::PICKAXE:
-                return (std::make_unique<Player::MiningState>());
+                return (std::make_unique<Player::UsingToolState>("mining_", "pickaxe_"));
             case ItemType::AXE:
-                return (std::make_unique<Player::ChoppingState>());
+                return (std::make_unique<Player::UsingToolState>("chopping_", "axe_"));
             case ItemType::HOE:
-                return (std::make_unique<Player::PlowingState>());
+                return (std::make_unique<Player::UsingToolState>("plowing_", "hoe_"));
             case ItemType::WATERING_CAN:
-                return (std::make_unique<Player::WateringState>());
+                return (std::make_unique<Player::UsingToolState>("watering_", "watering_can_"));
             default:
                 return (NULL);
         }

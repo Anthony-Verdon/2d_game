@@ -156,7 +156,7 @@ void Player::Draw()
             flipHorizontally = false;
     
     float scale = 1.5f;
-    if (state->GetStateType() == StateType::MINING || state->GetStateType() == StateType::CHOPPING || state->GetStateType() == StateType::PLOWING || state->GetStateType() == StateType::WATERING) // @todo does a bit mask could work ?
+    if (state->GetStateType() == StateType::USING_TOOL)
         scale = scale * 1.5f;
     SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), glm::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
     if (toolAnimationManager.GetCurrentAnimation() != "none")

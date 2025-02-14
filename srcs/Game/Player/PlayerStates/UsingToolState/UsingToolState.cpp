@@ -1,20 +1,20 @@
-#include "Game/Player/PlayerStates/PlowingState/PlowingState.hpp"
+#include "Game/Player/PlayerStates/UsingToolState/UsingToolState.hpp"
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
-#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
-#include "globals.hpp"
 
-Player::PlowingState::PlowingState(): Player::AState(Player::StateType::PLOWING)
+Player::UsingToolState::UsingToolState(const std::string &bodyAnim, const std::string &toolAnim): Player::AState(Player::StateType::USING_TOOL)
+{
+    this->bodyAnim = bodyAnim;
+    this->toolAnim = toolAnim;
+}
+
+Player::UsingToolState::~UsingToolState()
 {
 }
 
-Player::PlowingState::~PlowingState()
+void Player::UsingToolState::Enter(Player &player)
 {
-}
-
-void Player::PlowingState::Enter(Player &player)
-{
-    player.bodyAnimationManager.Play("plowing_" + player.DetermineDirectionString());
-    player.toolAnimationManager.Play("hoe_" + player.DetermineDirectionString());
+    player.bodyAnimationManager.Play(bodyAnim + player.DetermineDirectionString());
+    player.toolAnimationManager.Play(toolAnim + player.DetermineDirectionString());
     b2Body_SetLinearVelocity(player.body.GetBodyId(), {0, 0});
 
     glm::vec2 playerPos = player.GetPosition();
@@ -23,10 +23,11 @@ void Player::PlowingState::Enter(Player &player)
     if (playerPos.y < 0)
         playerPos.y -= SPRITE_SIZE;
     glm::vec2 actionCoords = glm::vec2(((int)playerPos.x / (int)SPRITE_SIZE + player.direction.x) * SPRITE_SIZE, ((int)playerPos.y / (int)SPRITE_SIZE + player.direction.y) * SPRITE_SIZE) + SPRITE_SIZE / 2;
+
     ItemDictionnary::ExecuteBehavior(player.GetItemSelected(), actionCoords);
 }
 
-std::unique_ptr<Player::AState> Player::PlowingState::Update(Player &player)
+std::unique_ptr<Player::AState> Player::UsingToolState::Update(Player &player)
 {
     if (!player.bodyAnimationManager.CurrentAnimationEnded())
         return (NULL);

@@ -19,10 +19,7 @@ class Player
         {
             IDLE_WALK, 
             ATTACK,
-            MINING,
-            CHOPPING,
-            PLOWING,
-            WATERING,
+            USING_TOOL,
             INVENTORY
         };
 
@@ -45,10 +42,7 @@ class Player
 
         class IdleWalkState;
         class AttackState;
-        class MiningState;
-        class ChoppingState;
-        class PlowingState;
-        class WateringState;
+        class UsingToolState;
         class InventoryState;
         
         glm::vec2 size;
