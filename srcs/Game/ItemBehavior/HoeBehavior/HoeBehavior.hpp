@@ -2,11 +2,11 @@
 
 #include "Game/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 
-class Pickaxe: public AItemBehavior
+class HoeBehavior: public AItemBehavior
 {
     public:
-        Pickaxe();
-        ~Pickaxe();
+        HoeBehavior();
+        ~HoeBehavior();
 
         void MainAction(const glm::vec2 &actionCoords);
 };

@@ -1,18 +1,18 @@
-#include "Game/ItemBehavior/Hoe/Hoe.hpp"
-#include "Game/TileBehavior/TileBehaviorManager.hpp"
+#include "Game/ItemBehavior/AxeBehavior/AxeBehavior.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
+#include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Common/TileBehaviorType.hpp"
 
-Hoe::Hoe()
+AxeBehavior::AxeBehavior()
 {
-    toolType = PlayerTool::HOE;
+    toolType = PlayerTool::AXE;
 }
 
-Hoe::~Hoe()
+AxeBehavior::~AxeBehavior()
 {
 }
 
-void Hoe::MainAction(const glm::vec2 &actionCoords)
+void AxeBehavior::MainAction(const glm::vec2 &actionCoords)
 {
     std::vector<std::string> tilemaps = TilemapManager::GetTilemapOrder();
     for (int i = tilemaps.size() - 1; i >= 0; i--)
@@ -23,9 +23,9 @@ void Hoe::MainAction(const glm::vec2 &actionCoords)
             
             for (size_t j = 0; j < tile.behaviors.size(); j++)
             {
-                if (tile.behaviors[j] != TileBehaviorType::DIRT)
+                if (tile.behaviors[j] != TileBehaviorType::TREE)
                     continue;
-
+                
                 TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);
                 break;
             }

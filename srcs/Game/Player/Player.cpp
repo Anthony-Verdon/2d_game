@@ -1,9 +1,9 @@
 #include "Game/Player/Player.hpp"
-#include "Game/ItemBehavior/Sword/Sword.hpp"
-#include "Game/ItemBehavior/Pickaxe/Pickaxe.hpp"
-#include "Game/ItemBehavior/Axe/Axe.hpp"
-#include "Game/ItemBehavior/Hoe/Hoe.hpp"
-#include "Game/ItemBehavior/WateringCan/WateringCan.hpp"
+#include "Game/ItemBehavior/SwordBehavior/SwordBehavior.hpp"
+#include "Game/ItemBehavior/PickaxeBehavior/PickaxeBehavior.hpp"
+#include "Game/ItemBehavior/AxeBehavior/AxeBehavior.hpp"
+#include "Game/ItemBehavior/HoeBehavior/HoeBehavior.hpp"
+#include "Game/ItemBehavior/WateringCanBehavior/WateringCanBehavior.hpp"
 #include "Game/CategoriesFilter.hpp"
 #include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
@@ -126,27 +126,27 @@ void Player::Update()
     }
     else if (WindowManager::IsInputPressed(GLFW_KEY_2))
     {
-        tool = std::make_unique<Sword>();
+        tool = std::make_unique<SwordBehavior>();
         inventoryUI.SetSlotSelected(1);
     }
     else if (WindowManager::IsInputPressed(GLFW_KEY_3))
     {
-        tool = std::make_unique<Pickaxe>();
+        tool = std::make_unique<PickaxeBehavior>();
         inventoryUI.SetSlotSelected(2);
     }
     else if (WindowManager::IsInputPressed(GLFW_KEY_4))
     {
-        tool = std::make_unique<Axe>();
+        tool = std::make_unique<AxeBehavior>();
         inventoryUI.SetSlotSelected(3);
     }
     else if (WindowManager::IsInputPressed(GLFW_KEY_5))
     {
-        tool = std::make_unique<Hoe>();
+        tool = std::make_unique<HoeBehavior>();
         inventoryUI.SetSlotSelected(4);
     }
     else if (WindowManager::IsInputPressed(GLFW_KEY_6))
     {
-        tool = std::make_unique<WateringCan>();
+        tool = std::make_unique<WateringCanBehavior>();
         inventoryUI.SetSlotSelected(5);
     }
 

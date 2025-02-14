@@ -1,18 +1,18 @@
-#include "Game/ItemBehavior/Axe/Axe.hpp"
+#include "Game/ItemBehavior/PickaxeBehavior/PickaxeBehavior.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Common/TileBehaviorType.hpp"
 
-Axe::Axe()
+PickaxeBehavior::PickaxeBehavior()
 {
-    toolType = PlayerTool::AXE;
+    toolType = PlayerTool::PICKAXE;
 }
 
-Axe::~Axe()
+PickaxeBehavior::~PickaxeBehavior()
 {
 }
 
-void Axe::MainAction(const glm::vec2 &actionCoords)
+void PickaxeBehavior::MainAction(const glm::vec2 &actionCoords)
 {
     std::vector<std::string> tilemaps = TilemapManager::GetTilemapOrder();
     for (int i = tilemaps.size() - 1; i >= 0; i--)
@@ -23,9 +23,9 @@ void Axe::MainAction(const glm::vec2 &actionCoords)
             
             for (size_t j = 0; j < tile.behaviors.size(); j++)
             {
-                if (tile.behaviors[j] != TileBehaviorType::TREE)
+                if (tile.behaviors[j] != TileBehaviorType::ROCK)
                     continue;
-                
+
                 TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);
                 break;
             }
