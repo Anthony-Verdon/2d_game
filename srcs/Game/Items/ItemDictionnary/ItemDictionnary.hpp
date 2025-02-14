@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "Engine/Sprite/Sprite.hpp"
+#include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
+#include <memory>
 
 enum ItemType
 {
@@ -134,6 +136,7 @@ enum ItemType
 struct Item
 {
     Sprite sprite;
+    std::unique_ptr<AItemBehavior> behavior;
 };
 
 class ItemDictionnary
@@ -148,5 +151,5 @@ class ItemDictionnary
     
     public:
         static void Init();
-        static Item GetItem(ItemType item);
+        static Sprite GetItemSprite(ItemType item);
 };

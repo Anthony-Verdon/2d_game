@@ -32,12 +32,13 @@ void ItemDictionnary::AddItems(const std::string &textureName, const glm::vec2 &
                 return;
             Item item = {};
             item.sprite = sprite;
-            items.push_back(item);
+            item.behavior = NULL;
+            items.push_back(std::move(item));
         }
     }
 }
 
-Item ItemDictionnary::GetItem(ItemType item)
+Sprite ItemDictionnary::GetItemSprite(ItemType item)
 {
-    return items[(int)item];
+    return (items[(int)item].sprite);
 }

@@ -41,7 +41,7 @@ void InventoryUI::Draw(const Player &player)
     }
     if (itemHold != ItemType::NONE)
     {
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItem(itemHold).sprite).SetDrawAbsolute(true).SetOpacity(0.5).Build());
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItemSprite(itemHold)).SetDrawAbsolute(true).SetOpacity(0.5).Build());
     }
 }
 
@@ -177,7 +177,7 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, ItemType item, bo
     
     // draw item
     if (item != ItemType::NONE && itemHoldPosition != itemCount)
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(slotPos).SetSize(slotSize).SetSprite(ItemDictionnary::GetItem(item).sprite).SetDrawAbsolute(true).Build());
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(slotPos).SetSize(slotSize).SetSprite(ItemDictionnary::GetItemSprite(item)).SetDrawAbsolute(true).Build());
 
     // if item is selected
     // draw selector 
