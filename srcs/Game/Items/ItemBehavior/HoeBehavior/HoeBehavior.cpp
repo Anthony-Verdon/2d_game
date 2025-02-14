@@ -1,18 +1,18 @@
-#include "Game/ItemBehavior/PickaxeBehavior/PickaxeBehavior.hpp"
-#include "Engine/TilemapManager/TilemapManager.hpp"
+#include "Game/Items/ItemBehavior/HoeBehavior/HoeBehavior.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
+#include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Common/TileBehaviorType.hpp"
 
-PickaxeBehavior::PickaxeBehavior()
+HoeBehavior::HoeBehavior()
 {
-    toolType = PlayerTool::PICKAXE;
+    toolType = PlayerTool::HOE;
 }
 
-PickaxeBehavior::~PickaxeBehavior()
+HoeBehavior::~HoeBehavior()
 {
 }
 
-void PickaxeBehavior::MainAction(const glm::vec2 &actionCoords)
+void HoeBehavior::MainAction(const glm::vec2 &actionCoords)
 {
     std::vector<std::string> tilemaps = TilemapManager::GetTilemapOrder();
     for (int i = tilemaps.size() - 1; i >= 0; i--)
@@ -23,7 +23,7 @@ void PickaxeBehavior::MainAction(const glm::vec2 &actionCoords)
             
             for (size_t j = 0; j < tile.behaviors.size(); j++)
             {
-                if (tile.behaviors[j] != TileBehaviorType::ROCK)
+                if (tile.behaviors[j] != TileBehaviorType::DIRT)
                     continue;
 
                 TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);

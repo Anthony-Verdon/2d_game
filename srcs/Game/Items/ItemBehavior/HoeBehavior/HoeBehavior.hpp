@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
+#include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 
 class HoeBehavior: public AItemBehavior
 {

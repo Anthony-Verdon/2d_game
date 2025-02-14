@@ -1,4 +1,4 @@
-#include "Game/ItemDictionnary/ItemDictionnary.hpp"
+#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "globals.hpp"
 

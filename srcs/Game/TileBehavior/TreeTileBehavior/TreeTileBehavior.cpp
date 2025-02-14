@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Game/LootManager/LootManager.hpp"
-#include "Game/ItemDictionnary/ItemDictionnary.hpp"
+#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 
 TreeTileBehavior::TreeTileBehavior(): ATileBehavior()
 {

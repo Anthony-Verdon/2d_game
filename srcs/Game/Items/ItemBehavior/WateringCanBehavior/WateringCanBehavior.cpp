@@ -1,4 +1,4 @@
-#include "Game/ItemBehavior/WateringCanBehavior/WateringCanBehavior.hpp"
+#include "Game/Items/ItemBehavior/WateringCanBehavior/WateringCanBehavior.hpp"
 
 WateringCanBehavior::WateringCanBehavior()
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/UI/Button/Button.hpp"
-#include "Game/ItemDictionnary/ItemDictionnary.hpp"
+#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 #include "Game/Player/Inventory/InventorySystem/InventorySystem.hpp"
 
 class Player;

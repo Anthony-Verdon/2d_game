@@ -2,7 +2,7 @@
 
 #include <array>
 #include "globals.hpp"
-#include "Game/ItemDictionnary/ItemDictionnary.hpp"
+#include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 
 struct ItemSlot
 {

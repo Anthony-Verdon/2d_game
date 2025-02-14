@@ -1,4 +1,4 @@
-#include "Game/ItemBehavior/SwordBehavior/SwordBehavior.hpp"
+#include "Game/Items/ItemBehavior/SwordBehavior/SwordBehavior.hpp"
 
 SwordBehavior::SwordBehavior()
 {

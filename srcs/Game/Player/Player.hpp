@@ -2,7 +2,7 @@
 
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Game/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
+#include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 #include "Engine/AnimationManager/AnimationManager.hpp"
 #include "Game/Player/Inventory/InventoryUI/InventoryUI.hpp"
 #include <glm/glm.hpp>
