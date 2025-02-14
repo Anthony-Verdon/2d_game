@@ -2,7 +2,7 @@
 
 
 #include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
+#include "Game/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 #include "Engine/AnimationManager/AnimationManager.hpp"
 #include "Game/Player/Inventory/InventoryUI/InventoryUI.hpp"
 #include <glm/glm.hpp>
@@ -57,7 +57,7 @@ class Player
         AnimationManager bodyAnimationManager;
         AnimationManager toolAnimationManager;
         PhysicBody body;
-        std::unique_ptr<APlayerTool> tool;
+        std::unique_ptr<AItemBehavior> tool;
         std::unique_ptr<AState> state;
 
         InventoryUI inventoryUI;

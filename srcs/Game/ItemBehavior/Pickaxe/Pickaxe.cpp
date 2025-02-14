@@ -1,4 +1,4 @@
-#include "Game/Player/PlayerTools/Pickaxe/Pickaxe.hpp"
+#include "Game/ItemBehavior/Pickaxe/Pickaxe.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Common/TileBehaviorType.hpp"

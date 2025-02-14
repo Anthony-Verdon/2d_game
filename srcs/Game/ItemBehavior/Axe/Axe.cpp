@@ -1,4 +1,4 @@
-#include "Game/Player/PlayerTools/Axe/Axe.hpp"
+#include "Game/ItemBehavior/Axe/Axe.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Common/TileBehaviorType.hpp"

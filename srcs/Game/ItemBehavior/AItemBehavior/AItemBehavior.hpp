@@ -11,16 +11,16 @@ enum PlayerTool
     WATERING_CAN
 };
 
-class APlayerTool
+class AItemBehavior
 {
     protected:
         PlayerTool toolType;
 
     public:
-        APlayerTool() {}
-        virtual ~APlayerTool() {}
+    AItemBehavior() {}
+        virtual ~AItemBehavior() {}
 
-        virtual void MainAction(const glm::vec2 &actionCoords) { (void)actionCoords; }
+        virtual void MainAction(const glm::vec2 &actionCoords = glm::vec2(0, 0)) { (void)actionCoords; }
 
         PlayerTool GetType() {return toolType; }
 };

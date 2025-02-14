@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Game/Player/PlayerTools/APlayerTool/APlayerTool.hpp"
+#include "Game/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 
-class Axe: public APlayerTool
+class Axe: public AItemBehavior
 {
     public:
         Axe();

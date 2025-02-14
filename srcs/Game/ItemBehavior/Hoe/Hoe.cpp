@@ -1,4 +1,4 @@
-#include "Game/Player/PlayerTools/Hoe/Hoe.hpp"
+#include "Game/ItemBehavior/Hoe/Hoe.hpp"
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Engine/TilemapManager/TilemapManager.hpp"
 #include "Common/TileBehaviorType.hpp"
