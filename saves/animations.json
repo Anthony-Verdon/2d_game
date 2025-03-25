@@ -1,0 +1,3777 @@
+{
+    "animations": {
+        "player": {
+            "attack_1_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_1_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_1_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_2_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_2_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_2_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_3_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_3_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "attack_3_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_attack",
+                            "size": [
+                                4.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "chopping_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "chopping_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "chopping_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "hurt_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "hurt_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "hurt_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "idle_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "idle_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "idle_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "mining_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "mining_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "mining_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "plowing_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "plowing_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "plowing_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "walk_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "walk_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "walk_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_idle_run_death",
+                            "size": [
+                                8.0,
+                                13.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": true
+            },
+            "watering_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "watering_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "watering_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_actions",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            }
+        },
+        "test": {
+            "frames": null,
+            "stoppable": true
+        },
+        "tools": {
+            "axe_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "axe_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "axe_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "hoe_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "hoe_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "hoe_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "pickaxe_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "pickaxe_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "pickaxe_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "watering_can_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            9.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "watering_can_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            11.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "watering_can_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            4.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            5.0,
+                            10.0
+                        ],
+                        "texture": {
+                            "name": "player_tools",
+                            "size": [
+                                6.0,
+                                12.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            }
+        },
+        "weapons": {
+            "sword_1_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_1_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            3.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_1_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            6.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            0.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_2_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            1.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_2_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            4.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_2_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            7.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_3_down": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            2.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_3_side": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            5.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            },
+            "sword_3_up": {
+                "frames": [
+                    {
+                        "position": [
+                            0.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            1.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            2.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    },
+                    {
+                        "position": [
+                            3.0,
+                            8.0
+                        ],
+                        "texture": {
+                            "name": "player_sword",
+                            "size": [
+                                6.0,
+                                9.0
+                            ]
+                        }
+                    }
+                ],
+                "stoppable": false
+            }
+        }
+    },
+    "animationsPath": [
+        "player/attack_1_down",
+        "player/attack_1_side",
+        "player/attack_1_up",
+        "player/attack_2_down",
+        "player/attack_2_side",
+        "player/attack_2_up",
+        "player/attack_3_down",
+        "player/attack_3_side",
+        "player/attack_3_up",
+        "player/chopping_down",
+        "player/chopping_side",
+        "player/chopping_up",
+        "player/hurt_down",
+        "player/hurt_side",
+        "player/hurt_up",
+        "player/idle_down",
+        "player/idle_side",
+        "player/idle_up",
+        "player/mining_down",
+        "player/mining_side",
+        "player/mining_up",
+        "player/plowing_down",
+        "player/plowing_side",
+        "player/plowing_up",
+        "player/walk_down",
+        "player/walk_side",
+        "player/walk_up",
+        "player/watering_down",
+        "player/watering_side",
+        "player/watering_up",
+        "test",
+        "tools/axe_down",
+        "tools/axe_side",
+        "tools/axe_up",
+        "tools/hoe_down",
+        "tools/hoe_side",
+        "tools/hoe_up",
+        "tools/pickaxe_down",
+        "tools/pickaxe_side",
+        "tools/pickaxe_up",
+        "tools/watering_can_down",
+        "tools/watering_can_side",
+        "tools/watering_can_up",
+        "weapons/sword_1_down",
+        "weapons/sword_1_side",
+        "weapons/sword_1_up",
+        "weapons/sword_2_down",
+        "weapons/sword_2_side",
+        "weapons/sword_2_up",
+        "weapons/sword_3_down",
+        "weapons/sword_3_side",
+        "weapons/sword_3_up"
+    ],
+    "textures": [
+        {
+            "name": "player_actions",
+            "path": "assets/Player/Player_New/Player_Anim/Player_Actions_Anim.png"
+        },
+        {
+            "name": "player_attack",
+            "path": "assets/Player/Player_New/Player_Anim/Player_Attack_Anim.png"
+        },
+        {
+            "name": "player_idle_run_death",
+            "path": "assets/Player/Player_New/Player_Anim/Player_Idle_Run_Death_Anim.png"
+        },
+        {
+            "name": "player_sword",
+            "path": "assets/Player/Player_New/Weapons/Iron_Sword.png"
+        },
+        {
+            "name": "player_tools",
+            "path": "assets/Player/Player_New/Weapons/Iron_Tools.png"
+        }
+    ]
+}

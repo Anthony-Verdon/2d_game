@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <map>
 #include "Engine/Tile/Tile.hpp"
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include <vector>
 
 struct Vec2Comparator {

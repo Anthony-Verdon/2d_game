@@ -8,6 +8,7 @@
 #include <array>
 #include <map>
 #include <vector>
+#include <algorithm>
 
 const std::array<glm::vec2, 4> directions {
     glm::vec2(0, -SPRITE_SIZE), // top

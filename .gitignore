@@ -3,7 +3,6 @@
 .vscode
 .xmake
 build
-game.exe
-editor.exe
-saves/*
+game*
+editor*
 imgui.ini

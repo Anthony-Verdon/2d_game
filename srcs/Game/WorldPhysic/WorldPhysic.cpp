@@ -3,9 +3,9 @@
 #include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
 #include <glm/glm.hpp>
 
-void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
-void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context);
-void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context);
+static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
+static void DrawSegmentFcn(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void *context);
+static void DrawPointFcn(b2Vec2 p, float size, b2HexColor color, void *context);
 
 b2WorldId WorldPhysic::worldId;
 float WorldPhysic::timeStep;

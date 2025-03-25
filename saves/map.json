@@ -1,0 +1,902 @@
+{
+    "textures": [
+        {
+            "name": "birch",
+            "path": "assets/Trees/Birch_Tree.png"
+        },
+        {
+            "name": "cave",
+            "path": "assets/Outdoor decoration/Cave_Decorations.png"
+        },
+        {
+            "name": "farmland",
+            "path": "assets/Tiles/FarmLand/FarmLand_Tile.png"
+        },
+        {
+            "name": "grass",
+            "path": "assets/Tiles/Grass/Grass_1_Middle.png"
+        }
+    ],
+    "tiles": [
+        {
+            "sprite": {
+                "texture": {
+                    "name": "grass",
+                    "size": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": [
+                0
+            ]
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    3.0,
+                    3.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    3.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    3.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    6.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    4.0,
+                    2.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    3.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    2.0,
+                    4.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    2.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    3.0,
+                    2.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    1.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    2.0,
+                    6.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    7.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    3.0,
+                    1.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    7.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    2.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    4.0,
+                    3.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "farmland",
+                    "size": [
+                        7.0,
+                        8.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    4.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": null
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "cave",
+                    "size": [
+                        4.0,
+                        2.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    64.0,
+                    64.0
+                ],
+                "offset": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "behaviors": [
+                2
+            ]
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "birch",
+                    "size": [
+                        3.0,
+                        1.0
+                    ]
+                },
+                "position": [
+                    1.0,
+                    0.0
+                ],
+                "size": [
+                    128.0,
+                    320.0
+                ],
+                "offset": [
+                    0.0,
+                    80.0
+                ]
+            },
+            "behaviors": [
+                1
+            ]
+        },
+        {
+            "sprite": {
+                "texture": {
+                    "name": "birch",
+                    "size": [
+                        3.0,
+                        1.0
+                    ]
+                },
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    128.0,
+                    320.0
+                ],
+                "offset": [
+                    0.0,
+                    80.0
+                ]
+            },
+            "behaviors": [
+                1
+            ]
+        }
+    ],
+    "tilemaps": {
+        "a": {
+            "tiles": [
+                {
+                    "position": [
+                        416.0,
+                        160.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        416.0,
+                        224.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        416.0,
+                        288.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        416.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        416.0,
+                        416.0
+                    ],
+                    "index": 1
+                },
+                {
+                    "position": [
+                        416.0,
+                        480.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        480.0,
+                        160.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        480.0,
+                        224.0
+                    ],
+                    "index": 3
+                },
+                {
+                    "position": [
+                        480.0,
+                        288.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        480.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        480.0,
+                        416.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        480.0,
+                        480.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        544.0,
+                        160.0
+                    ],
+                    "index": 13
+                },
+                {
+                    "position": [
+                        544.0,
+                        224.0
+                    ],
+                    "index": 14
+                },
+                {
+                    "position": [
+                        544.0,
+                        288.0
+                    ],
+                    "index": 9
+                },
+                {
+                    "position": [
+                        544.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        544.0,
+                        416.0
+                    ],
+                    "index": 1
+                },
+                {
+                    "position": [
+                        544.0,
+                        480.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        608.0,
+                        160.0
+                    ],
+                    "index": 17
+                },
+                {
+                    "position": [
+                        608.0,
+                        224.0
+                    ],
+                    "index": 18
+                },
+                {
+                    "position": [
+                        608.0,
+                        288.0
+                    ],
+                    "index": 10
+                },
+                {
+                    "position": [
+                        608.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        608.0,
+                        416.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        608.0,
+                        480.0
+                    ],
+                    "index": 1
+                },
+                {
+                    "position": [
+                        672.0,
+                        160.0
+                    ],
+                    "index": 19
+                },
+                {
+                    "position": [
+                        672.0,
+                        224.0
+                    ],
+                    "index": 10
+                },
+                {
+                    "position": [
+                        672.0,
+                        288.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        672.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        672.0,
+                        416.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        672.0,
+                        480.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        736.0,
+                        160.0
+                    ],
+                    "index": 2
+                },
+                {
+                    "position": [
+                        736.0,
+                        224.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        736.0,
+                        288.0
+                    ],
+                    "index": 1
+                },
+                {
+                    "position": [
+                        736.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        736.0,
+                        416.0
+                    ],
+                    "index": 3
+                },
+                {
+                    "position": [
+                        736.0,
+                        480.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        800.0,
+                        160.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        800.0,
+                        224.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        800.0,
+                        288.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        800.0,
+                        352.0
+                    ],
+                    "index": 0
+                },
+                {
+                    "position": [
+                        800.0,
+                        416.0
+                    ],
+                    "index": 2
+                },
+                {
+                    "position": [
+                        800.0,
+                        480.0
+                    ],
+                    "index": 0
+                }
+            ],
+            "build collision": false
+        },
+        "b": {
+            "tiles": [
+                {
+                    "position": [
+                        864.0,
+                        416.0
+                    ],
+                    "index": 21
+                },
+                {
+                    "position": [
+                        864.0,
+                        480.0
+                    ],
+                    "index": 21
+                }
+            ],
+            "build collision": true
+        }
+    }
+}

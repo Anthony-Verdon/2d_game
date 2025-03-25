@@ -17,8 +17,8 @@
 #include <string>
 #include "Shapes/square.hpp"
 
-void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
-void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
+static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
+static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
 
 Editor::Editor()
 {

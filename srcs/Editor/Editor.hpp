@@ -9,7 +9,7 @@
 #include "Editor/TilemapManagerUI/TilemapManagerUI.hpp"
 #include "Editor/AnimationCreator/AnimationCreator.hpp"
 #include "Editor/TileBehaviorManager/TileBehaviorManager.hpp"
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include <vector>
 #include <glm/glm.hpp>
 

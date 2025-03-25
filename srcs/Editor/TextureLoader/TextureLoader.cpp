@@ -1,6 +1,7 @@
-#include "Editor\TextureLoader\TextureLoader.hpp"
+#include "Editor/TextureLoader/TextureLoader.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "imgui.h"
+#include <cstring>
 
 TextureLoader::TextureLoader(): AEditorWindow()
 {

@@ -1,0 +1,52 @@
+{
+    "textures": [
+        {
+            "name": "birch",
+            "nbSprite": [
+                3.0,
+                1.0
+            ],
+            "path": "assets/Trees/Birch_Tree.png",
+            "spriteOffset": [
+                0.0,
+                80.0
+            ]
+        },
+        {
+            "name": "grass",
+            "nbSprite": [
+                1.0,
+                1.0
+            ],
+            "path": "assets/Tiles/Grass/Grass_1_Middle.png",
+            "spriteOffset": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "name": "cave",
+            "nbSprite": [
+                4.0,
+                2.0
+            ],
+            "path": "assets/Outdoor decoration/Cave_Decorations.png",
+            "spriteOffset": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "name": "farmland",
+            "nbSprite": [
+                7.0,
+                8.0
+            ],
+            "path": "assets/Tiles/FarmLand/FarmLand_Tile.png",
+            "spriteOffset": [
+                0.0,
+                0.0
+            ]
+        }
+    ]
+}

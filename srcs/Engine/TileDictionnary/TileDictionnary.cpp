@@ -1,4 +1,5 @@
 #include "Engine/TileDictionnary/TileDictionnary.hpp"
+#include <algorithm>
 
 std::vector<Tile> TileDictionnary::tiles;
 

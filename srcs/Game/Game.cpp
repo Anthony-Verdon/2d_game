@@ -23,7 +23,7 @@
 #include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 #include <memory>
 
-void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
+static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
 
 Game::Game()
 {

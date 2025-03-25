@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "Engine\Animation\Animation.hpp"
-#include "Editor\TileSelector\TileSelector.hpp"
-#include "Editor\AEditorWindow\AEditorWindow.hpp"
+#include "Engine/Animation/Animation.hpp"
+#include "Editor/TileSelector/TileSelector.hpp"
+#include "Editor/AEditorWindow/AEditorWindow.hpp"
 #include "imgui.h"
 #include "globals.hpp"
 
