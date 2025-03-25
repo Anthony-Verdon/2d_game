@@ -4,7 +4,7 @@
 #include <map>
 #include "Common/TileBehaviorType.hpp"
 #include <vector>
-#include "Engine/Tile/Tile.hpp"
+#include "Engine/2D/Tile/Tile.hpp"
 
 class TileBehaviorManager: public AEditorWindow
 {

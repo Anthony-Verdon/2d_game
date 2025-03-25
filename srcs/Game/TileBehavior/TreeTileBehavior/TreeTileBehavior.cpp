@@ -1,6 +1,6 @@
 #include "Game/TileBehavior/TreeTileBehavior/TreeTileBehavior.hpp"
 #include "Common/TileBehaviorType.hpp"
-#include "Engine/TilemapManager/TilemapManager.hpp"
+#include "Engine/2D/TilemapManager/TilemapManager.hpp"
 #include "globals.hpp"
 #include "Game/WorldPhysic/WorldPhysic.hpp"
 #include "Game/LootManager/LootManager.hpp"

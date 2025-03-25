@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/AProgram/AProgram.hpp"
-#include "Engine/Camera/Camera.hpp"
+#include "Engine/2D/Camera/Camera.hpp"
 #include "Editor/ChainBuilder/ChainBuilder.hpp"
 #include "Editor/ToolSelector/ToolSelector.hpp"
 #include "Editor/TextureLoader/TextureLoader.hpp"

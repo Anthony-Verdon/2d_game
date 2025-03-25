@@ -1,5 +1,5 @@
 #include "Game/LootManager/LootManager.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include <cmath>
 #include "globals.hpp"
 

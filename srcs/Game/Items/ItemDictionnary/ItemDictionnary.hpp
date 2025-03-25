@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Engine/Sprite/Sprite.hpp"
+#include "Engine/2D/Sprite/Sprite.hpp"
 #include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 #include <memory>
 

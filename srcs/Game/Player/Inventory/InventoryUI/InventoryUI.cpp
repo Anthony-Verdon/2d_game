@@ -2,8 +2,8 @@
 #include "Game/Player/Player.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
-#include "Engine/Renderers/PolygonRenderer/PolygonRenderer.hpp"
+#include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/2D/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/UI/UI.hpp"
 #include "globals.hpp"
 

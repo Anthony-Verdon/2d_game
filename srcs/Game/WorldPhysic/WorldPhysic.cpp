@@ -1,6 +1,6 @@
 #include "Game/WorldPhysic/WorldPhysic.hpp"
-#include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/Renderers/LineRenderer/LineRenderer.hpp"
+#include "Engine/2D/PhysicBody/PhysicBody.hpp"
+#include "Engine/2D/Renderers/LineRenderer/LineRenderer.hpp"
 #include <glm/glm.hpp>
 
 static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);

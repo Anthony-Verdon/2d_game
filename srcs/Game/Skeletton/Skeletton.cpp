@@ -1,6 +1,6 @@
 #include "Game/Skeletton/Skeletton.hpp"
 #include "Game/CategoriesFilter.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"

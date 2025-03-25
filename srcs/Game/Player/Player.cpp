@@ -5,7 +5,7 @@
 #include "Game/Items/ItemBehavior/HoeBehavior/HoeBehavior.hpp"
 #include "Game/Items/ItemBehavior/WateringCanBehavior/WateringCanBehavior.hpp"
 #include "Game/CategoriesFilter.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Time/Time.hpp"

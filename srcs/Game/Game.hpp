@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Engine/AProgram/AProgram.hpp"
-#include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/TilemapManager/TilemapManager.hpp"
-#include "Engine/Camera/Camera.hpp"
+#include "Engine/2D/PhysicBody/PhysicBody.hpp"
+#include "Engine/2D/TilemapManager/TilemapManager.hpp"
+#include "Engine/2D/Camera/Camera.hpp"
 #include <vector>
 #include <glm/glm.hpp>
 #include <box2d/box2d.h>

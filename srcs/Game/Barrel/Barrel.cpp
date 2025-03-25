@@ -1,6 +1,6 @@
 #include "Game/Barrel/Barrel.hpp"
 #include "Game/CategoriesFilter.hpp"
-#include "Engine/Renderers/SpriteRenderer/SpriteRenderer.hpp"
+#include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/ATileBehavior/ATileBehavior.hpp"
-#include "Engine/Tile/Tile.hpp"
+#include "Engine/2D/ATileBehavior/ATileBehavior.hpp"
+#include "Engine/2D/Tile/Tile.hpp"
 #include <map>
 
 class TreeTileBehavior: public ATileBehavior

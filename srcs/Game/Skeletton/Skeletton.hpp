@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/PhysicBody/PhysicBody.hpp"
-#include "Engine/AnimationManager/AnimationManager.hpp"
+#include "Engine/2D/PhysicBody/PhysicBody.hpp"
+#include "Engine/2D/AnimationManager/AnimationManager.hpp"
 
 class Skeletton
 {

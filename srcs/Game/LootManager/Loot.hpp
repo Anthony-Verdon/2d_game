@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "Engine/Sprite/Sprite.hpp"
+#include "Engine/2D/Sprite/Sprite.hpp"
 
 struct Loot
 {

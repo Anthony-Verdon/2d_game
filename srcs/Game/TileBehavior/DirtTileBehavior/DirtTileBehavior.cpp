@@ -1,6 +1,6 @@
 #include "Game/TileBehavior/DirtTileBehavior/DirtTileBehavior.hpp"
 #include "Common/TileBehaviorType.hpp"
-#include "Engine/TilemapManager/TilemapManager.hpp"
+#include "Engine/2D/TilemapManager/TilemapManager.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "globals.hpp"
 

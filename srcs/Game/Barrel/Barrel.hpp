@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/PhysicBody/PhysicBody.hpp"
+#include "Engine/2D/PhysicBody/PhysicBody.hpp"
 #include <glm/glm.hpp>
 
 class Barrel

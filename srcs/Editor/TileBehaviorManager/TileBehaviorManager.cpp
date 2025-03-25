@@ -3,7 +3,7 @@
 #include <magic_enum.hpp>
 #include <iostream>
 #include "Engine/RessourceManager/RessourceManager.hpp"
-#include "Engine/TileDictionnary/TileDictionnary.hpp"
+#include "Engine/2D/TileDictionnary/TileDictionnary.hpp"
 #include "globals.hpp"
 
 TileBehaviorManager::TileBehaviorManager()
