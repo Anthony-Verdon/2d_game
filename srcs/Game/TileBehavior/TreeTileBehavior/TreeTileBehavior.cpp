@@ -2,11 +2,12 @@
 #include "Common/TileBehaviorType.hpp"
 #include "Engine/2D/TilemapManager/TilemapManager.hpp"
 #include "globals.hpp"
-#include "Game/WorldPhysic/WorldPhysic.hpp"
+#include "Engine/2D/WorldPhysic/WorldPhysic.hpp"
+
 #include "Game/LootManager/LootManager.hpp"
 #include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
 
-TreeTileBehavior::TreeTileBehavior(): ATileBehavior()
+TreeTileBehavior::TreeTileBehavior() : ATileBehavior()
 {
     behaviorType = TileBehaviorType::TREE;
 }
@@ -15,7 +16,7 @@ TreeTileBehavior::~TreeTileBehavior()
 {
 }
 
-void TreeTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 &actionCoords)
+void TreeTileBehavior::behavior(const std::string &tilemapName, const ml::vec2 &actionCoords)
 {
     Tile treeTile = TilemapManager::GetTile(tilemapName, actionCoords);
     if (treeTile.sprite.spriteCoords.x == 0)
@@ -33,7 +34,7 @@ void TreeTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 
         size_t nbLoot = (rand() % 3) + 2;
         for (size_t i = 0; i < nbLoot; i++)
         {
-            loot.position = actionCoords + glm::vec2(rand() % ((int)SPRITE_SIZE * 2) - SPRITE_SIZE, rand() % ((int)SPRITE_SIZE * 2) - SPRITE_SIZE);
+            loot.position = actionCoords + ml::vec2(rand() % ((int)SPRITE_SIZE * 2) - SPRITE_SIZE, rand() % ((int)SPRITE_SIZE * 2) - SPRITE_SIZE);
             LootManager::AddLoot(loot);
         }
     }

@@ -3,19 +3,20 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
+#include <filesystem>
 #include <string>
 #include "globals.hpp"
+#include "Matrix/Matrix.hpp"
+#include "Json/Json.hpp"
 
-ChainBuilder::ChainBuilder(): ATool("Chain Builder")
+ChainBuilder::ChainBuilder() : ATool("Chain Builder")
 {
     isBuildingChain = false;
-    pointSelected = glm::vec2(-1, -1);
+    pointSelected = ml::vec2(-1, -1);
 }
 
 ChainBuilder::~ChainBuilder()
 {
-
 }
 
 void ChainBuilder::Draw()
@@ -28,7 +29,7 @@ void ChainBuilder::Draw()
         isBuildingChain = true;
     }
 
-    for (auto it = chains.begin(); it != chains.end(); )
+    for (auto it = chains.begin(); it != chains.end();)
     {
         int index = it - chains.begin();
         std::string chainSuffix = "##chain " + std::to_string(index);
@@ -55,18 +56,15 @@ void ChainBuilder::Load()
 {
     if (!std::filesystem::exists("saves/hitbox.json")) // @todo: should be a parameter
         return;
-    
-    std::ifstream input("saves/hitbox.json");
-    nlohmann::json file =  nlohmann::json::parse(input);
 
-    auto itChains = file.find("chains"); //@todo error check
-    for (auto itChain : *itChains)
+    Json::Node file = Json::ParseFile("saves/hitbox.json");
+
+    for (auto itChain : file["chains"]) //@todo error check
     {
         Chain chain;
-        auto itPoints = itChain.find("points"); //@todo error check
-        for (auto itPoint : *itPoints)
+        for (auto itPoint : itChain["points"]) //@todo error check
         {
-            chain.points.push_back(glm::vec2(itPoint[0], itPoint[1]));
+            chain.points.push_back(ml::vec2(itPoint[0], itPoint[1]));
         }
         chain.loop = itChain["loop"];
         chains.push_back(chain);
@@ -75,16 +73,17 @@ void ChainBuilder::Load()
 
 void ChainBuilder::Save()
 {
-    nlohmann::json file;
+    Json::Node file;
 
     file["chains"] = {};
     for (size_t i = 0; i < chains.size(); i++)
-    {   
+    {
         Chain chain = chains[i];
         file["chains"][i]["points"] = {};
         for (size_t j = 0; j < chain.points.size(); j++)
         {
-            file["chains"][i]["points"][j] = {chain.points[j].x, chain.points[j].y};
+            file["chains"][i]["points"][j][0] = chain.points[j].x;
+            file["chains"][i]["points"][j][1] = chain.points[j].y;
         }
         file["chains"][i]["loop"] = chain.loop;
     }
@@ -98,7 +97,7 @@ bool ChainBuilder::IsBuildingChain() const
     return (isBuildingChain);
 }
 
-void ChainBuilder::AddPointToChain(const glm::vec2 &point)
+void ChainBuilder::AddPointToChain(const ml::vec2 &point)
 {
     if (isBuildingChain)
         chains[chains.size() - 1].points.push_back(point);
@@ -112,17 +111,17 @@ void ChainBuilder::SelectPoint(size_t chainIndex, size_t pointIndex)
     if (pointIndex >= chains[chainIndex].points.size())
         return;
 
-    pointSelected = glm::vec2(chainIndex, pointIndex);
+    pointSelected = ml::vec2(chainIndex, pointIndex);
 }
 
 void ChainBuilder::UnselectPoint()
 {
-    pointSelected = glm::vec2(-1, -1);
+    pointSelected = ml::vec2(-1, -1);
 }
 
-void ChainBuilder::MoveSelectedPoint(const glm::vec2 &position)
+void ChainBuilder::MoveSelectedPoint(const ml::vec2 &position)
 {
-    if (pointSelected == glm::vec2(-1, -1))
+    if (pointSelected == ml::vec2(-1, -1))
         return;
     chains[pointSelected.x].points[pointSelected.y] = position;
 }

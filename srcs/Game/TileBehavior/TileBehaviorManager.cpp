@@ -13,7 +13,7 @@ void TileBehaviorManager::Init()
     tileBehaviors[TileBehaviorType::TREE] = std::make_unique<TreeTileBehavior>();
 }
 
-void TileBehaviorManager::behavior(TileBehaviorType type, const std::string &tilemapName, const glm::vec2 &actionCoords)
+void TileBehaviorManager::behavior(TileBehaviorType type, const std::string &tilemapName, const ml::vec2 &actionCoords)
 {
     tileBehaviors[type]->behavior(tilemapName, actionCoords);
 }

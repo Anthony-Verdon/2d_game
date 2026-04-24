@@ -141,17 +141,16 @@ struct Item
 
 class ItemDictionnary
 {
-    private:
-        ItemDictionnary() = delete;
-        ~ItemDictionnary() = delete;
+  private:
+    ItemDictionnary() = delete;
+    ~ItemDictionnary() = delete;
 
-        static std::vector<Item> items;
+    static std::vector<Item> items;
 
-        static void AddItems(const std::string &textureName, const glm::vec2 &textureSize, const glm::vec2 &spriteStop);
-    
-    public:
-        static void Init();
-        static Sprite GetItemSprite(ItemType item);
-        static void ExecuteBehavior(ItemType item, const glm::vec2 &position = glm::vec2(0, 0));
+    static void AddItems(const std::string &textureName, const ml::vec2 &textureSize, const ml::vec2 &spriteStop);
 
+  public:
+    static void Init();
+    static Sprite GetItemSprite(ItemType item);
+    static void ExecuteBehavior(ItemType item, const ml::vec2 &position = ml::vec2(0, 0));
 };

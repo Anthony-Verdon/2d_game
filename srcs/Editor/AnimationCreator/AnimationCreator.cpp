@@ -3,11 +3,12 @@
 #include "globals.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include <fstream>
-#include <nlohmann/json.hpp>
+#include <filesystem>
+#include "Json/Json.hpp"
 #include <set>
 #include <string>
 
-AnimationCreator::AnimationCreator(): AEditorWindow()
+AnimationCreator::AnimationCreator() : AEditorWindow()
 {
     name[0] = 0;
     animationSelected = "";
@@ -41,14 +42,14 @@ void AnimationCreator::DrawSpriteSelector()
         ImGui::Text("drop images here");
         if (ImGui::BeginDragDropTarget())
         {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_SELECTED"))
+            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("TEXTURE_SELECTED"))
             {
-                std::string data = *(std::string*)payload->Data;
+                std::string data = *(std::string *)payload->Data;
                 TextureData newTextureData;
                 newTextureData.name = data;
                 newTextureData.path = RessourceManager::GetTexture(data)->getPath();
-                newTextureData.nbSprite = glm::vec2(1, 1);
-                newTextureData.spriteOffset = glm::vec2(0, 0);
+                newTextureData.nbSprite = ml::vec2(1, 1);
+                newTextureData.spriteOffset = ml::vec2(0, 0);
                 texturesData.push_back(newTextureData);
             }
             ImGui::EndDragDropTarget();
@@ -56,14 +57,14 @@ void AnimationCreator::DrawSpriteSelector()
 
         // setup multi select
         ImGuiMultiSelectFlags flags = ImGuiMultiSelectFlags_ClearOnClickVoid | ImGuiMultiSelectFlags_BoxSelect2d;
-        ImGuiMultiSelectIO* ms_io = ImGui::BeginMultiSelect(flags, selection.Size, 1000);
+        ImGuiMultiSelectIO *ms_io = ImGui::BeginMultiSelect(flags, selection.Size, 1000);
         selection.ApplyRequests(ms_io);
 
         // start to draw all textures with all their sprites
         // loop over texture loaded and create collapsing header for each one
         // then loop over all the sprites inside the texture and create selectable + image for each one
         size_t SpriteIndex = 0;
-        for (auto it = texturesData.begin(); it != texturesData.end(); )
+        for (auto it = texturesData.begin(); it != texturesData.end();)
         {
             bool closable_group = true;
             if (ImGui::CollapsingHeader(it->name.c_str(), &closable_group))
@@ -71,15 +72,15 @@ void AnimationCreator::DrawSpriteSelector()
                 std::string nbSpriteInput = "nbSprite###" + std::to_string(it - texturesData.begin());
                 if (ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]))
                     selection.Clear();
-            
+
                 const ImVec2 size = ImVec2(TILE_SIZE * 2.0f, TILE_SIZE * 2.0f);
                 for (int j = 0; j < it->nbSprite.y; j++)
                 {
                     for (int i = 0; i < it->nbSprite.x; i++)
-                    {   
+                    {
                         while (selected.size() <= SpriteIndex)
                             selected.push_back(false);
-                        
+
                         // selectable
                         std::string item = "###" + std::to_string(SpriteIndex);
                         ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
@@ -94,22 +95,22 @@ void AnimationCreator::DrawSpriteSelector()
                         }
 
                         // image
-                        ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x,(float)j / it->nbSprite.y); 
+                        ImVec2 uv0 = ImVec2((float)i / it->nbSprite.x, (float)j / it->nbSprite.y);
                         ImVec2 uv1 = ImVec2((float)(i + 1) / it->nbSprite.x, (float)(j + 1) / it->nbSprite.y);
                         ImGui::SetCursorScreenPos(selectable_pos);
                         ImGui::Image((ImTextureID)(intptr_t)RessourceManager::GetTexture(it->name)->getID(), size, uv0, uv1);
-                        
+
                         SpriteIndex++;
                         ImGui::SameLine();
                     }
                     ImGui::NewLine();
                 }
-            }   
+            }
             else
             {
                 SpriteIndex += it->nbSprite.x * it->nbSprite.y;
-            }  
-            
+            }
+
             if (closable_group)
                 it++;
             else
@@ -126,7 +127,7 @@ void AnimationCreator::CreateDragDropSourceData()
     if (ImGui::GetDragDropPayload() == NULL)
     {
         tilesSelected.clear();
-        void* ptr = NULL;
+        void *ptr = NULL;
         ImGuiID id = 0;
 
         // loop over the selection
@@ -136,7 +137,7 @@ void AnimationCreator::CreateDragDropSourceData()
         {
             unsigned int nbSprite = 0;
             auto it = texturesData.begin();
-            for (; it != texturesData.end(); it++ )
+            for (; it != texturesData.end(); it++)
             {
                 if (id < nbSprite + it->nbSprite.x * it->nbSprite.y)
                 {
@@ -145,27 +146,27 @@ void AnimationCreator::CreateDragDropSourceData()
                 }
                 nbSprite += it->nbSprite.x * it->nbSprite.y;
             }
-            
+
             Sprite newSprite;
             newSprite.textureName = it->name;
             newSprite.textureSize = it->nbSprite;
-            newSprite.spriteCoords = glm::vec2(id % (int)it->nbSprite.x, id / (int)it->nbSprite.x);
-            newSprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+            newSprite.spriteCoords = ml::vec2(id % (int)it->nbSprite.x, id / (int)it->nbSprite.x);
+            newSprite.size = ml::vec2(SPRITE_SIZE, SPRITE_SIZE);
             tilesSelected.push_back(newSprite);
         }
 
         ImGui::SetDragDropPayload("SPRITES_SELECTED", &tilesSelected, sizeof(std::vector<Sprite>));
     }
 
-    const ImGuiPayload* payload = ImGui::GetDragDropPayload();
-    std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
+    const ImGuiPayload *payload = ImGui::GetDragDropPayload();
+    std::vector<Sprite> sprites = *(std::vector<Sprite> *)payload->Data;
     ImGui::Text("%zu assets", sprites.size());
 }
 
 void AnimationCreator::DrawAnimationsLoader()
 {
     if (ImGui::BeginChild("AnimationsChild", ImVec2(100, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX | ImGuiChildFlags_ResizeY))
-    {   
+    {
         isHoveredOrFocused |= ImGui::IsWindowHovered() || ImGui::IsWindowFocused();
 
         ImGui::InputText("name", name, IM_ARRAYSIZE(name));
@@ -173,7 +174,7 @@ void AnimationCreator::DrawAnimationsLoader()
         {
             if (name[0] != 0)
             {
-                animations[name] = Animation();
+                animations[name] = Animation2D();
                 name[0] = 0;
             }
         }
@@ -191,9 +192,8 @@ void AnimationCreator::DrawAnimationsLoader()
                 it++;
             index++;
         }
-
     }
-    ImGui::EndChild();    
+    ImGui::EndChild();
 }
 
 void AnimationCreator::DrawCurrentAnimation()
@@ -206,11 +206,11 @@ void AnimationCreator::DrawCurrentAnimation()
         std::vector<Sprite> frames;
         if (animationSelected != "")
             frames = animations[animationSelected].GetFrames();
-        
+
         // needed to be able to swap selectables easily
         int frameIndexSize = frameIndex.size();
         int diff = frames.size() - frameIndexSize;
-        if(diff > 0)
+        if (diff > 0)
         {
             for (int i = 0; i < diff; i++)
                 frameIndex.push_back(frameIndexSize + i);
@@ -221,8 +221,8 @@ void AnimationCreator::DrawCurrentAnimation()
         for (size_t i = 0; i < frames.size(); i++)
         {
             ImGui::SameLine();
-            
-            ImVec2 uv0 = ImVec2(1.0f / frames[i].textureSize.x * frames[i].spriteCoords.x, 1.0f / frames[i].textureSize.y * frames[i].spriteCoords.y); 
+
+            ImVec2 uv0 = ImVec2(1.0f / frames[i].textureSize.x * frames[i].spriteCoords.x, 1.0f / frames[i].textureSize.y * frames[i].spriteCoords.y);
             ImVec2 uv1 = ImVec2(1.0f / frames[i].textureSize.x * (frames[i].spriteCoords.x + 1), 1.0f / frames[i].textureSize.y * (frames[i].spriteCoords.y + 1));
             ImVec2 selectable_pos = ImGui::GetCursorScreenPos();
 
@@ -247,9 +247,9 @@ void AnimationCreator::DrawCurrentAnimation()
     ImGui::EndChild();
     if (ImGui::BeginDragDropTarget())
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SPRITES_SELECTED"))
+        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("SPRITES_SELECTED"))
         {
-            std::vector<Sprite> sprites = *(std::vector<Sprite>*)payload->Data;
+            std::vector<Sprite> sprites = *(std::vector<Sprite> *)payload->Data;
             if (animationSelected != "")
             {
                 for (size_t i = 0; i < sprites.size(); i++)
@@ -274,28 +274,24 @@ void AnimationCreator::Load()
 {
     if (!std::filesystem::exists("saves/animations.json")) // @todo: should be a parameter
         return;
-    
-    std::ifstream input("saves/animations.json");
-    nlohmann::json file =  nlohmann::json::parse(input);
 
-    auto itTextures = file.find("textures"); //@todo error check
-    for (auto it : *itTextures)
+    Json::Node file = Json::ParseFile("saves/animations.json");
+
+    for (auto it : file["textures"]) //@todo error check
     {
         RessourceManager::AddTexture(it["name"], it["path"]);
     }
 
-    auto itAnimationsPath = file.find("animationsPath"); //@todo error check
-    for (size_t i = 0; i < itAnimationsPath->size(); i++)
+    for (auto it : file["animationsPath"]) //@todo error check
     {
-        std::string path = (*itAnimationsPath)[i];
-        Animation newAnimation;
+        std::string path = std::string(it); // @PROBLEM?
+        Animation2D newAnimation;
 
-        auto itAnimation = file[nlohmann::json::json_pointer("/animations/" + path)];
-        auto itFrames = itAnimation.find("frames"); //@todo error check
-        for (auto itFrame : *itFrames)
+        auto itAnimation = file[std::string("/animations/" + path).c_str()];
+        for (auto itFrame : itAnimation["frames"]) //@todo error check
         {
             Sprite newFrame;
-            newFrame.textureName = itFrame["texture"]["name"];
+            newFrame.textureName = std::string(itFrame["texture"]["name"]);
             newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
             newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
             newAnimation.AddFrame(newFrame);
@@ -308,7 +304,7 @@ void AnimationCreator::Load()
 
 void AnimationCreator::Save()
 {
-    nlohmann::json file;
+    Json::Node file;
     file["textures"] = {};
     std::set<std::string> textures;
     std::set<std::string> animationsPath;
@@ -316,16 +312,18 @@ void AnimationCreator::Save()
     file["animations"] = {};
     for (auto it = animations.begin(); it != animations.end(); it++)
     {
-        file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"] = {};
+        file["animations"][std::string("/" + it->first).c_str()]["frames"] = {};
         std::vector<Sprite> animationFrames = it->second.GetFrames();
         for (size_t j = 0; j < animationFrames.size(); j++)
         {
-            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
-            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["texture"]["size"] = {animationFrames[j].textureSize.x, animationFrames[j].textureSize.y};
-            file["animations"][nlohmann::json::json_pointer("/" + it->first)]["frames"][j]["position"] = {animationFrames[j].spriteCoords.x, animationFrames[j].spriteCoords.y};
+            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
+            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["size"][0] = animationFrames[j].textureSize.x;
+            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["size"][1] = animationFrames[j].textureSize.y;
+            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["position"][0] = animationFrames[j].spriteCoords.x;
+            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["position"][1] = animationFrames[j].spriteCoords.y;
             textures.insert(animationFrames[j].textureName);
         }
-        file["animations"][nlohmann::json::json_pointer("/" + it->first)]["stoppable"] = it->second.IsStoppable();
+        file["animations"][std::string("/" + it->first).c_str()]["stoppable"] = it->second.IsStoppable();
         animationsPath.insert(it->first);
     }
 

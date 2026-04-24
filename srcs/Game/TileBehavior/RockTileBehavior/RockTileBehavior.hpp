@@ -4,11 +4,11 @@
 #include "Engine/2D/Tile/Tile.hpp"
 #include <map>
 
-class RockTileBehavior: public ATileBehavior
+class RockTileBehavior : public ATileBehavior
 {
-    public:
-        RockTileBehavior();
-        ~RockTileBehavior();
+  public:
+    RockTileBehavior();
+    ~RockTileBehavior();
 
-        void behavior(const std::string &tilemapName, const glm::vec2 &actionCoords);
+    void behavior(const std::string &tilemapName, const ml::vec2 &actionCoords);
 };

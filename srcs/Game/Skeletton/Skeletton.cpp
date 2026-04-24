@@ -15,51 +15,49 @@ Skeletton::~Skeletton()
 
 void Skeletton::Init(b2WorldId worldId)
 {
-    glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() * 0.2, WindowManager::GetWindowHeight() * 0.5);
-    size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
+    ml::vec2 position = ml::vec2(WindowManager::GetWindowWidth() * 0.2, WindowManager::GetWindowHeight() * 0.5);
+    size = ml::vec2(SPRITE_SIZE, SPRITE_SIZE);
     body = PhysicBody::BodyBuilder().SetPosition(position).SetFixedRotation(true).SetType(b2_kinematicBody).Build(worldId);
-    
+
     b2Filter filter = b2DefaultFilter();
     filter.categoryBits = CategoriesFilter::Everything;
     filter.maskBits = CategoriesFilter::Everything;
     body.AddShape("body", PhysicBody::ShapeBuilder().SetUserData(this).SetFilter(filter).Build(), PhysicBody::PolygonBuilder::Build(size));
-    
     InitAnimations();
 }
 
 void Skeletton::InitAnimations()
 {
     {
-        Animation idleAnimation(0.2);
+        Animation2D idleAnimation(0.2);
         for (int i = 0; i < 6; i++)
         {
             Sprite sprite;
             sprite.textureName = "skeletton_mage";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 0);
+            sprite.textureSize = ml::vec2(8, 13);
+            sprite.spriteCoords = ml::vec2(i, 0);
             idleAnimation.AddFrame(sprite);
         }
-        
+
         animator.AddAnimation("idleDown", idleAnimation);
     }
 
     {
-        Animation hurtAnimation(0.2, false);
+        Animation2D hurtAnimation(0.2, false);
         for (int i = 0; i < 4; i++)
         {
             Sprite sprite;
             sprite.textureName = "skeletton_mage";
-            sprite.textureSize = glm::vec2(8, 13);
-            sprite.spriteCoords = glm::vec2(i, 10);
+            sprite.textureSize = ml::vec2(8, 13);
+            sprite.spriteCoords = ml::vec2(i, 10);
             hurtAnimation.AddFrame(sprite);
         }
-        
+
         animator.AddAnimation("hurtDown", hurtAnimation);
     }
 
     animator.Play("idleDown");
 }
-
 
 void Skeletton::Update()
 {
@@ -77,5 +75,5 @@ void Skeletton::PlayAnimation(const std::string &name)
 
 void Skeletton::Draw()
 {
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), glm::vec3(1, 1, 1), animator.GetFrame(), false, false, 1);
+    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), ml::vec3(1, 1, 1), animator.GetFrame(), false, false, 1);
 }

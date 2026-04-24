@@ -1,12 +1,12 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Matrix/Matrix.hpp"
 
 class AItemBehavior
 {
-    public:
+  public:
     AItemBehavior() {}
-        virtual ~AItemBehavior() {}
+    virtual ~AItemBehavior() {}
 
-        virtual void MainAction(const glm::vec2 &actionCoords = glm::vec2(0, 0)) { (void)actionCoords; }
+    virtual void MainAction(const ml::vec2 &actionCoords = ml::vec2(0, 0)) { (void)actionCoords; }
 };

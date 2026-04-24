@@ -4,11 +4,11 @@
 #include "Engine/2D/Tile/Tile.hpp"
 #include <map>
 
-class TreeTileBehavior: public ATileBehavior
+class TreeTileBehavior : public ATileBehavior
 {
-    public:
-        TreeTileBehavior();
-        ~TreeTileBehavior();
+  public:
+    TreeTileBehavior();
+    ~TreeTileBehavior();
 
-        void behavior(const std::string &tilemapName, const glm::vec2 &actionCoords);
+    void behavior(const std::string &tilemapName, const ml::vec2 &actionCoords);
 };

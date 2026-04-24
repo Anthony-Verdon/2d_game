@@ -11,7 +11,7 @@ InventoryUI::InventoryUI()
 {
     RessourceManager::AddTexture("UI_Frames", "assets/UI/UI_Frames.png");
     RessourceManager::AddTexture("UI_Selectors", "assets/UI/UI_Selectors.png");
-    
+
     slotSelected = 0;
     open = false;
     itemHold = ItemType::NONE;
@@ -41,43 +41,44 @@ void InventoryUI::Draw(const Player &player)
     }
     if (itemHold != ItemType::NONE)
     {
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItemSprite(itemHold)).SetDrawAbsolute(true).SetOpacity(0.5).Build());
+        // @PROBLEM
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItemSprite(itemHold)).SetDrawAbsolute(true) /*.SetOpacity(0.5)*/.Build());
     }
 }
 
 void InventoryUI::DrawInventoryBar()
 {
-    glm::vec2 backgroundSize = glm::vec2(12, 3);
-    glm::vec2 position = glm::vec2(WindowManager::GetWindowWidth() / 2.0f - backgroundSize.x / 2.0f * SLOT_SIZE, WindowManager::GetWindowHeight() - SLOT_SIZE * 2.0f);
-    glm::vec2 nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
+    ml::vec2 backgroundSize = ml::vec2(12, 3);
+    ml::vec2 position = ml::vec2(WindowManager::GetWindowWidth() / 2.0f - backgroundSize.x / 2.0f * SLOT_SIZE, WindowManager::GetWindowHeight() - SLOT_SIZE * 2.0f);
+    ml::vec2 nbSlot = ml::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
 
 void InventoryUI::DrawFullInventory()
 {
-    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, WindowManager::GetWindowSize(), 0, glm::vec4(0, 0, 0, 0.5), glm::vec4(0, 0, 0, 0), true);
-    glm::vec2 backgroundSize = glm::vec2(12, 3);
-    glm::vec2 position = WindowManager::GetWindowSize() / 2.0f - backgroundSize / 2.0f * SLOT_SIZE - glm::vec2(0, 2 * SLOT_SIZE);
-    glm::vec2 nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
+    PolygonRenderer::Draw("square", WindowManager::GetWindowSize() / 2.0f, WindowManager::GetWindowSize(), 0, ml::vec4(0, 0, 0, 0.5), ml::vec4(0, 0, 0, 0), true);
+    ml::vec2 backgroundSize = ml::vec2(12, 3);
+    ml::vec2 position = WindowManager::GetWindowSize() / 2.0f - backgroundSize / 2.0f * SLOT_SIZE - ml::vec2(0, 2 * SLOT_SIZE);
+    ml::vec2 nbSlot = ml::vec2(INVENTORY_WIDTH, INVENTORY_BAR_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 
-    backgroundSize = glm::vec2(12, 7);
-    position = position + glm::vec2(0, 2 * SLOT_SIZE);
-    nbSlot = glm::vec2(INVENTORY_WIDTH, INVENTORY_EXPANDED_HEIGHT);
+    backgroundSize = ml::vec2(12, 7);
+    position = position + ml::vec2(0, 2 * SLOT_SIZE);
+    nbSlot = ml::vec2(INVENTORY_WIDTH, INVENTORY_EXPANDED_HEIGHT);
     DrawInventorySlotBackground(position, backgroundSize);
     DrawMultipleSlots(position, backgroundSize, nbSlot, true);
 }
 
-void InventoryUI::DrawInventorySlotBackground(const glm::vec2 &position, const glm::vec2 &size)
+void InventoryUI::DrawInventorySlotBackground(const ml::vec2 &position, const ml::vec2 &size)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
     size_t height = texture->getHeight();
     Sprite sprite;
     sprite.textureName = "UI_Frames";
-    sprite.textureSize = glm::vec2(width, height) /  TILE_SIZE;
+    sprite.textureSize = ml::vec2(width, height) / TILE_SIZE;
 
     for (int x = 0; x < size.x; x++)
     {
@@ -85,24 +86,26 @@ void InventoryUI::DrawInventorySlotBackground(const glm::vec2 &position, const g
         {
             sprite.spriteCoords.x = DetermineSpriteCoord(x, size.x - 1);
             sprite.spriteCoords.y = DetermineSpriteCoord(y, size.y - 1);
-            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 }
 
-void InventoryUI::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &backgroundSize, const glm::vec2 &nbSlot, bool gapOnEdge)
+void InventoryUI::DrawMultipleSlots(const ml::vec2 &position, const ml::vec2 &backgroundSize, const ml::vec2 &nbSlot, bool gapOnEdge)
 {
     float edge = 2;
-    glm::vec2 nbGap;
+    ml::vec2 nbGap;
     if (gapOnEdge)
-        nbGap = nbSlot + edge - 1.0f;
+        nbGap = nbSlot + ml::vec2(edge - 1.0f, edge - 1.0f);
     else
-        nbGap = nbSlot - 1.0f;
+        nbGap = nbSlot - ml::vec2(1.0f, 1.0f);
     if (nbGap.x < 1)
         nbGap.x = 1;
     if (nbGap.y < 1)
         nbGap.y = 1;
-    glm::vec2 gapSize = (backgroundSize - nbSlot - edge) * SLOT_SIZE / nbGap;
+    ml::vec2 gapSize = (backgroundSize - nbSlot - ml::vec2(edge, edge)) * SLOT_SIZE;
+    gapSize.x = gapSize.x / nbGap.x;
+    gapSize.y = gapSize.y / nbGap.y;
 
     for (int y = 0; y < nbSlot.y; y++)
     {
@@ -111,35 +114,35 @@ void InventoryUI::DrawMultipleSlots(const glm::vec2 &position, const glm::vec2 &
             ItemType itemToDraw = ItemType::NONE;
             if (itemCount < inventory.size())
                 itemToDraw = inventory[itemCount].item;
-            
-            glm::vec2 slotPosition;
+
+            ml::vec2 slotPosition;
             if (gapOnEdge)
-            slotPosition = position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x + 1, y + 1) * gapSize;
+                slotPosition = position + ml::vec2(x, y) * SLOT_SIZE + ml::vec2(x + 1, y + 1) * gapSize;
             else
-                slotPosition = position + glm::vec2(x, y) * SLOT_SIZE + glm::vec2(x, y) * gapSize;
-        
+                slotPosition = position + ml::vec2(x, y) * SLOT_SIZE + ml::vec2(x, y) * gapSize;
+
             DrawInventorySlot(slotPosition, itemToDraw, slotSelected == itemCount);
             itemCount++;
         }
     }
 }
 
-void InventoryUI::DrawInventorySlot(const glm::vec2 &position, ItemType item, bool isSelected)
+void InventoryUI::DrawInventorySlot(const ml::vec2 &position, ItemType item, bool isSelected)
 {
     auto texture = RessourceManager::GetTexture("UI_Frames");
     size_t width = texture->getWidth();
     size_t height = texture->getHeight();
     Sprite sprite;
     sprite.textureName = "UI_Frames";
-    sprite.textureSize = glm::vec2(width, height) / TILE_SIZE;
+    sprite.textureSize = ml::vec2(width, height) / TILE_SIZE;
 
     // draw frame
     for (int x = 0; x < 3; x++)
     {
         for (int y = 0; y < 3; y++)
         {
-            sprite.spriteCoords = glm::vec2(3, 0) + glm::vec2(x, y);
-            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+            sprite.spriteCoords = ml::vec2(3, 0) + ml::vec2(x, y);
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 
@@ -147,8 +150,8 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, ItemType item, bo
     // if clicking on it, move the selector and store it
     // and store the value for drag and drop
     // else if not clicking and holding an item, drop it
-    glm::vec2 slotPos = position + glm::vec2(SLOT_SIZE, SLOT_SIZE);
-    glm::vec2 slotSize = glm::vec2(SLOT_SIZE, SLOT_SIZE);
+    ml::vec2 slotPos = position + ml::vec2(SLOT_SIZE, SLOT_SIZE);
+    ml::vec2 slotSize = ml::vec2(SLOT_SIZE, SLOT_SIZE);
     if (UI::PointInRectangle(WindowManager::GetMousePosition(), slotPos, slotSize))
     {
         slotSize = slotSize * 1.5f;
@@ -174,25 +177,25 @@ void InventoryUI::DrawInventorySlot(const glm::vec2 &position, ItemType item, bo
     {
         resetItemHold = true;
     }
-    
+
     // draw item
     if (item != ItemType::NONE && itemHoldPosition != itemCount)
         SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(slotPos).SetSize(slotSize).SetSprite(ItemDictionnary::GetItemSprite(item)).SetDrawAbsolute(true).Build());
 
     // if item is selected
-    // draw selector 
+    // draw selector
     if (isSelected)
     {
         texture = RessourceManager::GetTexture("UI_Selectors");
         sprite.textureName = "UI_Selectors";
-        sprite.textureSize = glm::vec2(texture->getWidth(), texture->getHeight()) / TILE_SIZE;
-        glm::vec2 selectorPos = glm::vec2(1, 12) * 3.0f;
+        sprite.textureSize = ml::vec2(texture->getWidth(), texture->getHeight()) / TILE_SIZE;
+        ml::vec2 selectorPos = ml::vec2(1, 12) * 3.0f;
         for (int x = 0; x < 3; x++)
         {
             for (int y = 0; y < 3; y++)
             {
-                sprite.spriteCoords = selectorPos + glm::vec2(x, y);
-                SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + glm::vec2(x, y) * SLOT_SIZE).SetSize(glm::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+                sprite.spriteCoords = selectorPos + ml::vec2(x, y);
+                SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
             }
         }
     }

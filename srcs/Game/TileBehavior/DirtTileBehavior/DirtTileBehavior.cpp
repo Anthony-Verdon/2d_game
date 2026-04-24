@@ -4,7 +4,7 @@
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "globals.hpp"
 
-DirtTileBehavior::DirtTileBehavior(): ATileBehavior()
+DirtTileBehavior::DirtTileBehavior() : ATileBehavior()
 {
     behaviorType = TileBehaviorType::DIRT;
 
@@ -12,243 +12,243 @@ DirtTileBehavior::DirtTileBehavior(): ATileBehavior()
 
     Tile farmlandTileBlueprint;
     farmlandTileBlueprint.sprite.textureName = "farmland";
-    farmlandTileBlueprint.sprite.textureSize = glm::vec2(7, 8);
-    farmlandTileBlueprint.sprite.size = glm::vec2(SPRITE_SIZE, SPRITE_SIZE);
-    farmlandTileBlueprint.spriteOffset = glm::vec2(0, 0);
+    farmlandTileBlueprint.sprite.textureSize = ml::vec2(7, 8);
+    farmlandTileBlueprint.sprite.size = ml::vec2(SPRITE_SIZE, SPRITE_SIZE);
+    farmlandTileBlueprint.spriteOffset = ml::vec2(0, 0);
 
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 0);
         farmlandTiles[Neighbors::NONE] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 1);
         farmlandTiles[Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 2);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 3);
         farmlandTiles[Neighbors::TOP] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 4);
         farmlandTiles[Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 5);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 5);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 6);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 6);
         farmlandTiles[Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::TOP_LEFT | Neighbors::LEFT | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(0, 7);
+        farmlandTile.sprite.spriteCoords = ml::vec2(0, 7);
         farmlandTiles[Neighbors::TOP_LEFT | Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_LEFT | Neighbors::LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 0);
         farmlandTiles[Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 1);
         farmlandTiles[Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 2);
         farmlandTiles[Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 3);
         farmlandTiles[Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 4);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM_LEFT | Neighbors::BOTTOM | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 5);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 5);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP_LEFT | Neighbors::TOP | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 6);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 6);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_LEFT | Neighbors::LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(1, 7);
+        farmlandTile.sprite.spriteCoords = ml::vec2(1, 7);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 0);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM_LEFT | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 1);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM_LEFT | Neighbors::TOP_LEFT | Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 2);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP_LEFT | Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 3);
         farmlandTiles[Neighbors::LEFT | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 4);
         farmlandTiles[Neighbors::LEFT | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 5);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 5);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 6);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 6);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM | Neighbors::LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(2, 7);
+        farmlandTile.sprite.spriteCoords = ml::vec2(2, 7);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::TOP_RIGHT | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 0);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM_LEFT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 1);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM_LEFT | Neighbors::TOP_LEFT | Neighbors::TOP | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 2);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP_LEFT | Neighbors::TOP] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 3);
         farmlandTiles[Neighbors::LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 4);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::LEFT | Neighbors::TOP_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 5);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 5);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::LEFT | Neighbors::BOTTOM_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 6);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 6);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::BOTTOM_LEFT | Neighbors::LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(3, 7);
+        farmlandTile.sprite.spriteCoords = ml::vec2(3, 7);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM | Neighbors::LEFT | Neighbors::TOP_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(4, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(4, 0);
         farmlandTiles[Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(4, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(4, 1);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(4, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(4, 2);
         farmlandTiles[Neighbors::TOP | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(4, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(4, 3);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::RIGHT | Neighbors::LEFT | Neighbors::TOP_RIGHT | Neighbors::TOP_LEFT | Neighbors::BOTTOM_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(4, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(4, 4);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::RIGHT | Neighbors::LEFT | Neighbors::BOTTOM_RIGHT | Neighbors::TOP_LEFT | Neighbors::BOTTOM_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(5, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(5, 0);
         farmlandTiles[Neighbors::LEFT | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(5, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(5, 1);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::RIGHT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(5, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(5, 2);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(5, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(5, 3);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::RIGHT | Neighbors::LEFT | Neighbors::TOP_RIGHT | Neighbors::TOP_LEFT | Neighbors::BOTTOM_RIGHT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(5, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(5, 4);
         farmlandTiles[Neighbors::TOP | Neighbors::BOTTOM | Neighbors::RIGHT | Neighbors::LEFT | Neighbors::BOTTOM_RIGHT | Neighbors::TOP_LEFT | Neighbors::BOTTOM_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(6, 0);
+        farmlandTile.sprite.spriteCoords = ml::vec2(6, 0);
         farmlandTiles[Neighbors::LEFT | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(6, 1);
+        farmlandTile.sprite.spriteCoords = ml::vec2(6, 1);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP | Neighbors::BOTTOM] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(6, 2);
+        farmlandTile.sprite.spriteCoords = ml::vec2(6, 2);
         farmlandTiles[Neighbors::LEFT | Neighbors::TOP] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(6, 3);
+        farmlandTile.sprite.spriteCoords = ml::vec2(6, 3);
         farmlandTiles[Neighbors::LEFT | Neighbors::RIGHT | Neighbors::BOTTOM_RIGHT | Neighbors::BOTTOM | Neighbors::TOP | Neighbors::TOP_LEFT] = farmlandTile;
     }
     {
         Tile farmlandTile = farmlandTileBlueprint;
-        farmlandTile.sprite.spriteCoords = glm::vec2(6, 4);
+        farmlandTile.sprite.spriteCoords = ml::vec2(6, 4);
         farmlandTiles[Neighbors::LEFT | Neighbors::RIGHT | Neighbors::BOTTOM_LEFT | Neighbors::BOTTOM | Neighbors::TOP | Neighbors::TOP_RIGHT] = farmlandTile;
     }
 }
@@ -257,10 +257,10 @@ DirtTileBehavior::~DirtTileBehavior()
 {
 }
 
-void DirtTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 &actionCoords)
+void DirtTileBehavior::behavior(const std::string &tilemapName, const ml::vec2 &actionCoords)
 {
     int neighborsBitfield = 0;
-    std::vector<glm::vec2> neighborsToUpdate;
+    std::vector<ml::vec2> neighborsToUpdate;
 
     int bit = 0;
     for (int x = -1; x <= 1; x++)
@@ -269,14 +269,14 @@ void DirtTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 
         {
             if (x == 0 && y == 0)
                 continue;
-            
-            Tile tileToFind = TilemapManager::GetTile(tilemapName, actionCoords + glm::vec2(x, y) * SPRITE_SIZE);
+
+            Tile tileToFind = TilemapManager::GetTile(tilemapName, actionCoords + ml::vec2(x, y) * SPRITE_SIZE);
             for (auto it = farmlandTiles.begin(); it != farmlandTiles.end(); it++)
             {
                 if (it->second == tileToFind)
                 {
                     neighborsBitfield += 1 << bit;
-                    neighborsToUpdate.push_back(actionCoords + glm::vec2(x, y) * SPRITE_SIZE);
+                    neighborsToUpdate.push_back(actionCoords + ml::vec2(x, y) * SPRITE_SIZE);
                     break;
                 }
             }
@@ -315,7 +315,7 @@ void DirtTileBehavior::behavior(const std::string &tilemapName, const glm::vec2 
 
     if (actualTile == newTile)
         return;
-    
+
     TilemapManager::AddTile(tilemapName, actionCoords, newTile);
     for (size_t i = 0; i < neighborsToUpdate.size(); i++)
         behavior(tilemapName, neighborsToUpdate[i]);

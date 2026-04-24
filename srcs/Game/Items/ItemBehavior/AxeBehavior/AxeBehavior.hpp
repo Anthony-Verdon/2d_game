@@ -2,11 +2,11 @@
 
 #include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 
-class AxeBehavior: public AItemBehavior
+class AxeBehavior : public AItemBehavior
 {
-    public:
-        AxeBehavior();
-        ~AxeBehavior();
+  public:
+    AxeBehavior();
+    ~AxeBehavior();
 
-        void MainAction(const glm::vec2 &actionCoords);
+    void MainAction(const ml::vec2 &actionCoords);
 };

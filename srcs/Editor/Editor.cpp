@@ -4,7 +4,7 @@
 #include "Engine/2D/PhysicBody/PhysicBody.hpp"
 #include "Engine/RessourceManager/RessourceManager.hpp"
 #include "Engine/Time/Time.hpp"
-#include "Engine/2D/Renderers/LineRenderer/LineRenderer.hpp"
+#include "Engine/2D/Renderers/LineRenderer2D/LineRenderer2D.hpp"
 #include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "Engine/2D/Renderers/PolygonRenderer/PolygonRenderer.hpp"
 #include "Engine/2D/Renderers/CircleRenderer/CircleRenderer.hpp"
@@ -18,14 +18,14 @@
 #include "Shapes/square.hpp"
 
 static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset);
-static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
+static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2 *vertices, int verticesCount, float radius, b2HexColor color, void *ctx);
 
 Editor::Editor()
 {
     WindowManager::SetScrollCallback(scroll_callback);
     WindowManager::SetUserPointer(this);
 
-    LineRenderer::Init();
+    LineRenderer2D::Init();
     SpriteRenderer::Init();
     PolygonRenderer::Init();
     CircleRenderer::Init();
@@ -38,44 +38,48 @@ Editor::Editor()
     timeStep = 1.0f / 60.0f;
     subStepCount = 4;
     InitDebugDraw();
-    debugDraw.DrawSolidPolygon = DrawSolidPolygonFcn;
+    debugDraw.DrawSolidPolygonFcn = DrawSolidPolygonFcn;
     debugDraw.drawShapes = true;
 
     camera.SetPosition(WindowManager::GetWindowSize() / 2.0f);
     camera.UpdateShaders();
-    
+
     tilemapManagerUI.Load();
     tileBehaviorManager.Load();
     animationCreator.Load();
-    
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true); // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
     ImGui_ImplOpenGL3_Init();
 
     fileExplorer.SetDirectoryPath("assets");
 }
 
+void Editor::Init()
+{
+}
+
 void Editor::InitDebugDraw()
 {
     debugDraw.context = NULL;
-    debugDraw.DrawCapsule = NULL;
-    debugDraw.DrawCircle = NULL;
-    debugDraw.DrawPoint = NULL;
-    debugDraw.DrawPolygon = NULL;
-    debugDraw.DrawSegment = NULL;
-    debugDraw.DrawSolidCapsule = NULL;
-    debugDraw.DrawSolidCircle = NULL;
-    debugDraw.DrawSolidPolygon = NULL;
-    debugDraw.DrawString = NULL;
-    debugDraw.DrawTransform = NULL;
+    // debugDraw.DrawCapsule = NULL;
+    debugDraw.DrawCircleFcn = NULL;
+    // debugDraw.DrawPoint = NULL;
+    debugDraw.DrawPolygonFcn = NULL;
+    debugDraw.DrawSegmentFcn = NULL;
+    debugDraw.DrawSolidCapsuleFcn = NULL;
+    debugDraw.DrawSolidCircleFcn = NULL;
+    debugDraw.DrawSolidPolygonFcn = NULL;
+    debugDraw.DrawStringFcn = NULL;
+    debugDraw.DrawTransformFcn = NULL;
 
-    debugDraw.drawAABBs = false;
+    // debugDraw.drawAABBs = false;
     debugDraw.drawContactImpulses = false;
     debugDraw.drawContactNormals = false;
     debugDraw.drawContacts = false;
@@ -100,7 +104,7 @@ Editor::~Editor()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    LineRenderer::Destroy();
+    LineRenderer2D::Destroy();
     SpriteRenderer::Destroy();
     PolygonRenderer::Destroy();
     CircleRenderer::Destroy();
@@ -132,11 +136,11 @@ void Editor::ProcessInput()
 {
     if (WindowManager::IsInputPressed(GLFW_KEY_ESCAPE))
         WindowManager::StopUpdateLoop();
-    
+
     UpdateCamera();
-    if (dynamic_cast<ChainBuilder*>(toolSelector.GetSelectedTool().get()))
+    if (dynamic_cast<ChainBuilder *>(toolSelector.GetSelectedTool().get()))
         UpdateChain();
-    else if (dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get()))
+    else if (dynamic_cast<TileSelector *>(toolSelector.GetSelectedTool().get()))
         UpdateTilemap();
 }
 
@@ -144,14 +148,14 @@ void Editor::UpdateCamera()
 {
     if (ImGuiWindowHoweredOrFocused)
         return;
-    
-    glm::vec2 direction;
+
+    ml::vec2 direction;
     direction.x = WindowManager::IsInputPressedOrMaintain(GLFW_KEY_D) - WindowManager::IsInputPressedOrMaintain(GLFW_KEY_A);
     direction.y = WindowManager::IsInputPressedOrMaintain(GLFW_KEY_S) - WindowManager::IsInputPressedOrMaintain(GLFW_KEY_W);
-    
-    if (direction != glm::vec2(0, 0))
+
+    if (direction != ml::vec2(0, 0))
     {
-        camera.Move(glm::normalize(direction) * 200.0f * Time::getDeltaTime());
+        camera.Move(ml::normalize(direction) * 200.0f * Time::getDeltaTime());
         camera.UpdateShaders();
     }
 }
@@ -160,12 +164,12 @@ void Editor::UpdateChain()
 {
     if (ImGuiWindowHoweredOrFocused)
         return;
-    
-    ChainBuilder* chainBuilder = dynamic_cast<ChainBuilder*>(toolSelector.GetSelectedTool().get());
+
+    ChainBuilder *chainBuilder = dynamic_cast<ChainBuilder *>(toolSelector.GetSelectedTool().get());
     if (!chainBuilder)
         return;
 
-    glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
+    ml::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
     if (chainBuilder->IsBuildingChain())
     {
         static bool mouseButton1Enable = true;
@@ -191,7 +195,7 @@ void Editor::UpdateChain()
             {
                 for (size_t j = 0; j < chains[i].points.size(); j++)
                 {
-                    if (glm::length(mousePosition - chains[i].points[j]) < CHAIN_POINT_RADIUS)
+                    if (ml::length(mousePosition - chains[i].points[j]) < CHAIN_POINT_RADIUS)
                     {
                         chainBuilder->SelectPoint(i, j);
                     }
@@ -200,7 +204,7 @@ void Editor::UpdateChain()
         }
         else if (WindowManager::IsInputPressed(GLFW_MOUSE_BUTTON_2))
         {
-             chainBuilder->UnselectPoint();
+            chainBuilder->UnselectPoint();
         }
 
         chainBuilder->MoveSelectedPoint(mousePosition);
@@ -214,13 +218,13 @@ void Editor::UpdateTilemap()
 
     if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_1))
     {
-        TileSelector * tileSelector = dynamic_cast<TileSelector*>(toolSelector.GetSelectedTool().get());
+        TileSelector *tileSelector = dynamic_cast<TileSelector *>(toolSelector.GetSelectedTool().get());
         if (!tileSelector)
             return;
         Tile actualTile = tileSelector->GetTile();
         if (actualTile.sprite.textureName == "")
             return;
-        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
+        ml::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
@@ -230,12 +234,12 @@ void Editor::UpdateTilemap()
         else
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
-        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
+        mousePosition = mousePosition * SPRITE_SIZE + ml::vec2(SPRITE_SIZE, SPRITE_SIZE) / 2;
         tilemapManagerUI.AddTile(mousePosition, actualTile);
     }
     else if (WindowManager::IsInputPressedOrMaintain(GLFW_MOUSE_BUTTON_2))
     {
-        glm::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
+        ml::vec2 mousePosition = camera.GetPosition() + (WindowManager::GetMousePosition() - WindowManager::GetWindowSize() / 2.0f) * camera.GetZoom() / 100.0f;
         if (mousePosition.x < 0)
             mousePosition.x = (int)(mousePosition.x / SPRITE_SIZE) - 1;
         else
@@ -245,7 +249,7 @@ void Editor::UpdateTilemap()
         else
             mousePosition.y = (int)(mousePosition.y / SPRITE_SIZE);
 
-        mousePosition = mousePosition * SPRITE_SIZE + SPRITE_SIZE / 2;
+        mousePosition = mousePosition * SPRITE_SIZE + ml::vec2(SPRITE_SIZE, SPRITE_SIZE) / 2;
         tilemapManagerUI.SuppressTile(mousePosition);
     }
 }
@@ -253,7 +257,7 @@ void Editor::UpdateTilemap()
 void Editor::Draw()
 {
     // @todo move this region to another part
-    glm::vec2 pos = camera.GetPosition();
+    ml::vec2 pos = camera.GetPosition();
     float zoom = camera.GetZoom() / 100;
     int spriteSize = SPRITE_SIZE;
     int startX = (int)(pos.x - WindowManager::GetWindowWidth() / 2 * zoom) / spriteSize * spriteSize - spriteSize;
@@ -261,13 +265,13 @@ void Editor::Draw()
     int startY = (int)(pos.y - WindowManager::GetWindowHeight() / 2 * zoom) / spriteSize * spriteSize - spriteSize;
     int endY = (int)(pos.y + WindowManager::GetWindowHeight() / 2 * zoom) / spriteSize * spriteSize + spriteSize;
     for (int i = startX; i <= endX; i += spriteSize)
-        LineRenderer::Draw(glm::vec2(i, startY), glm::vec2(i, endY), glm::vec3(1, 1, 1));
+        LineRenderer2D::Draw(ml::vec2(i, startY), ml::vec2(i, endY), ml::vec3(1, 1, 1));
     for (int i = startY; i <= endY; i += spriteSize)
-        LineRenderer::Draw(glm::vec2(startX, i), glm::vec2(endX, i), glm::vec3(1, 1, 1));
+        LineRenderer2D::Draw(ml::vec2(startX, i), ml::vec2(endX, i), ml::vec3(1, 1, 1));
     // end region
 
     // @todo move this region to another part
-    ChainBuilder* chainBuilder = toolSelector.GetTool<ChainBuilder>().get();
+    ChainBuilder *chainBuilder = toolSelector.GetTool<ChainBuilder>().get();
     if (chainBuilder)
     {
         std::vector<Chain> chains = chainBuilder->GetChains();
@@ -279,16 +283,16 @@ void Editor::Draw()
 
             for (size_t j = 0; j < chain.points.size() - 1; j++)
             {
-                LineRenderer::Draw(chain.points[j], chain.points[j + 1], glm::vec3(0, 0, 0)); //@todo could do define for colors
+                LineRenderer2D::Draw(chain.points[j], chain.points[j + 1], ml::vec3(0, 0, 0)); //@todo could do define for colors
             }
             if (chainBuilder->IsBuildingChain() && i == chains.size() - 1)
-                LineRenderer::Draw(chain.points[chain.points.size() - 1], WindowManager::GetMousePosition(), glm::vec3(0, 0, 0));
+                LineRenderer2D::Draw(chain.points[chain.points.size() - 1], WindowManager::GetMousePosition(), ml::vec3(0, 0, 0));
             else if (chain.loop)
-                LineRenderer::Draw(chain.points[chain.points.size() - 1], chain.points[0], glm::vec3(0, 0, 0));
+                LineRenderer2D::Draw(chain.points[chain.points.size() - 1], chain.points[0], ml::vec3(0, 0, 0));
 
             for (size_t j = 0; j < chain.points.size(); j++)
             {
-                CircleRenderer::Draw(chain.points[j], CHAIN_POINT_RADIUS, 0, glm::vec3(0.7, 0.7, 0.7));
+                CircleRenderer::Draw(chain.points[j], CHAIN_POINT_RADIUS, 0, ml::vec3(0.7, 0.7, 0.7));
             }
         }
     }
@@ -302,7 +306,7 @@ void Editor::ScrollCallback(double xOffset, double yOffset)
 {
     if (ImGuiWindowHoweredOrFocused)
         return;
-    
+
     (void)xOffset;
     camera.Zoom(yOffset);
     camera.UpdateShaders();
@@ -310,23 +314,23 @@ void Editor::ScrollCallback(double xOffset, double yOffset)
 
 static void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
 {
-    Editor *editor = reinterpret_cast<Editor*>(glfwGetWindowUserPointer(window));
+    Editor *editor = reinterpret_cast<Editor *>(glfwGetWindowUserPointer(window));
     editor->ScrollCallback(xOffset, yOffset);
 }
 
-static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2* vertices, int verticesCount, float radius, b2HexColor color, void *ctx) 
+static void DrawSolidPolygonFcn(b2Transform transform, const b2Vec2 *vertices, int verticesCount, float radius, b2HexColor color, void *ctx)
 {
     (void)ctx;
     (void)radius;
-    glm::vec3 newColor = glm::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
+    ml::vec3 newColor = ml::vec3((float)(color & 0xFF0000) / 255, (float)(color & 0x00FF00) / 255, (float)(color & 0x0000FF) / 255);
     float cosAngle = cos(b2Rot_GetAngle(transform.q));
     float sinAngle = sin(b2Rot_GetAngle(transform.q));
     for (int i = 0; i < verticesCount; i++)
-    {   
+    {
         b2Vec2 b2va = vertices[i];
         b2Vec2 b2vb = vertices[(i + 1) % verticesCount];
-        glm::vec2 va = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2va.x * cosAngle - b2va.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2va.x * sinAngle + b2va.y * cosAngle));
-        glm::vec2 vb = glm::vec2(PhysicBody::WorldToPixel(transform.p.x + b2vb.x * cosAngle - b2vb.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2vb.x * sinAngle + b2vb.y * cosAngle));
-        LineRenderer::Draw(va, vb, newColor);
+        ml::vec2 va = ml::vec2(PhysicBody::WorldToPixel(transform.p.x + b2va.x * cosAngle - b2va.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2va.x * sinAngle + b2va.y * cosAngle));
+        ml::vec2 vb = ml::vec2(PhysicBody::WorldToPixel(transform.p.x + b2vb.x * cosAngle - b2vb.y * sinAngle), PhysicBody::WorldToPixel(transform.p.y + b2vb.x * sinAngle + b2vb.y * cosAngle));
+        LineRenderer2D::Draw(va, vb, newColor);
     }
 }

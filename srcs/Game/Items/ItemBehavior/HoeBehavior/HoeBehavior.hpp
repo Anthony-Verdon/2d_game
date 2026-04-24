@@ -2,11 +2,11 @@
 
 #include "Game/Items/ItemBehavior/AItemBehavior/AItemBehavior.hpp"
 
-class HoeBehavior: public AItemBehavior
+class HoeBehavior : public AItemBehavior
 {
-    public:
-        HoeBehavior();
-        ~HoeBehavior();
+  public:
+    HoeBehavior();
+    ~HoeBehavior();
 
-        void MainAction(const glm::vec2 &actionCoords);
+    void MainAction(const ml::vec2 &actionCoords);
 };

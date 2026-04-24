@@ -4,7 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include <iostream>
 
-Player::AttackState::AttackState(): Player::AState(Player::StateType::ATTACK)
+Player::AttackState::AttackState() : Player::AState(Player::StateType::ATTACK)
 {
 }
 
@@ -28,16 +28,16 @@ void Player::AttackState::Enter(Player &player)
     if (player.direction.x == 0)
     {
         if (player.direction.y < 0)
-            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, -SWORD_HITBOX_OFFSET));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(ml::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), ml::vec2(0, -SWORD_HITBOX_OFFSET));
         else
-            swordPolygon = PhysicBody::PolygonBuilder::Build(glm::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), glm::vec2(0, SWORD_HITBOX_OFFSET));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(ml::vec2(SWORD_HITBOX_SIZE.y, SWORD_HITBOX_SIZE.x), ml::vec2(0, SWORD_HITBOX_OFFSET));
     }
     else
     {
         if (player.direction.x < 0)
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(-SWORD_HITBOX_OFFSET, 0));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, ml::vec2(-SWORD_HITBOX_OFFSET, 0));
         else
-            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, glm::vec2(SWORD_HITBOX_OFFSET, 0));
+            swordPolygon = PhysicBody::PolygonBuilder::Build(SWORD_HITBOX_SIZE, ml::vec2(SWORD_HITBOX_OFFSET, 0));
     }
     b2Shape_SetPolygon(swordId, &swordPolygon);
 }
@@ -46,7 +46,7 @@ std::unique_ptr<Player::AState> Player::AttackState::Update(Player &player)
 {
     if (!player.bodyAnimationManager.CurrentAnimationEnded())
         return (NULL);
-    
+
     player.toolAnimationManager.Play("none");
     return (std::make_unique<Player::IdleWalkState>());
 }

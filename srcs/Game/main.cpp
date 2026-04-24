@@ -6,7 +6,7 @@
 int main()
 {
     std::cout << "welcome in the new game" << std::endl;
-    WindowManager::InitWindow("new game", WINDOW_WIDTH, WINDOW_HEIGHT);
+    WindowManager::InitWindow("new game");
     Game game;
     WindowManager::StartUpdateLoop(&game);
     WindowManager::DestructWindowManager();

@@ -1,39 +1,39 @@
 #pragma once
 
 #include <vector>
-#include <glm/glm.hpp>
+#include "Matrix/Matrix.hpp"
 #include "Editor/ToolSelector/ATool.hpp"
 
 struct Chain
 {
-    std::vector<glm::vec2> points;
+    std::vector<ml::vec2> points;
     bool loop;
 };
 
-class ChainBuilder: public ATool
+class ChainBuilder : public ATool
 {
-    private:
-        bool isBuildingChain;
-        std::vector<Chain> chains;
-        glm::vec2 pointSelected;
+  private:
+    bool isBuildingChain;
+    std::vector<Chain> chains;
+    ml::vec2 pointSelected;
 
-    public:
-        ChainBuilder();
-        ~ChainBuilder();
+  public:
+    ChainBuilder();
+    ~ChainBuilder();
 
-        void Draw();
-        
-        void Load();
-        void Save();
+    void Draw();
 
-        bool IsBuildingChain() const;
+    void Load();
+    void Save();
 
-        void AddPointToChain(const glm::vec2 &point);
-        void CloseChain();
-        
-        void SelectPoint(size_t chainIndex, size_t pointIndex);
-        void UnselectPoint();
-        void MoveSelectedPoint(const glm::vec2 &position);
+    bool IsBuildingChain() const;
 
-        std::vector<Chain> GetChains() const;
+    void AddPointToChain(const ml::vec2 &point);
+    void CloseChain();
+
+    void SelectPoint(size_t chainIndex, size_t pointIndex);
+    void UnselectPoint();
+    void MoveSelectedPoint(const ml::vec2 &position);
+
+    std::vector<Chain> GetChains() const;
 };

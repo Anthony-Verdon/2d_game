@@ -7,7 +7,7 @@
 int main()
 {
     std::cout << "welcome in the editor" << std::endl;
-    WindowManager::InitWindow("new editor", WINDOW_WIDTH, WINDOW_HEIGHT);
+    WindowManager::InitWindow("new editor");
     Editor editor;
     WindowManager::StartUpdateLoop(&editor);
     WindowManager::DestructWindowManager();

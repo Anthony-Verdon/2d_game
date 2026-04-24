@@ -1,7 +1,7 @@
 #include "Editor/TilemapManagerUI/TilemapManagerUI.hpp"
 #include "imgui.h"
 
-TilemapManagerUI::TilemapManagerUI(): AEditorWindow()
+TilemapManagerUI::TilemapManagerUI() : AEditorWindow()
 {
     tilemapSelected = "";
     name[0] = 0;
@@ -9,7 +9,6 @@ TilemapManagerUI::TilemapManagerUI(): AEditorWindow()
 
 TilemapManagerUI::~TilemapManagerUI()
 {
-
 }
 
 void TilemapManagerUI::Draw()
@@ -76,28 +75,29 @@ void TilemapManagerUI::Draw()
     TilemapManager::Draw();
 }
 
-void TilemapManagerUI::AddTile(const glm::vec2 &position, const Tile &tile)
+void TilemapManagerUI::AddTile(const ml::vec2 &position, const Tile &tile)
 {
     TilemapManager::AddTile(tilemapSelected, position, tile);
 }
 
-void TilemapManagerUI::AddTile(const glm::vec2 &position, const Sprite &sprite, const glm::vec2 &spriteOffset)
+void TilemapManagerUI::AddTile(const ml::vec2 &position, const Sprite &sprite, const ml::vec2 &spriteOffset)
 {
     TilemapManager::AddTile(tilemapSelected, position, sprite, spriteOffset);
 }
 
-void TilemapManagerUI::SuppressTile(const glm::vec2 &position)
+void TilemapManagerUI::SuppressTile(const ml::vec2 &position)
 {
     TilemapManager::SuppressTile(tilemapSelected, position);
-
 }
 
 void TilemapManagerUI::Load()
 {
-    TilemapManager::Load();
+    // @PROBLEM
+    // TilemapManager::Load();
 }
 
 void TilemapManagerUI::Save()
 {
-    TilemapManager::Save();
+    // @PROBLEM
+    // TilemapManager::Save();
 }

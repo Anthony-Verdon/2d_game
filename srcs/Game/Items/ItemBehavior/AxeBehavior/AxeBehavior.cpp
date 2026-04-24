@@ -11,7 +11,7 @@ AxeBehavior::~AxeBehavior()
 {
 }
 
-void AxeBehavior::MainAction(const glm::vec2 &actionCoords)
+void AxeBehavior::MainAction(const ml::vec2 &actionCoords)
 {
     std::vector<std::string> tilemaps = TilemapManager::GetTilemapOrder();
     for (int i = tilemaps.size() - 1; i >= 0; i--)
@@ -19,12 +19,12 @@ void AxeBehavior::MainAction(const glm::vec2 &actionCoords)
         if (TilemapManager::TileExist(tilemaps[i], actionCoords))
         {
             Tile tile = TilemapManager::GetTile(tilemaps[i], actionCoords);
-            
+
             for (size_t j = 0; j < tile.behaviors.size(); j++)
             {
                 if (tile.behaviors[j] != TileBehaviorType::TREE)
                     continue;
-                
+
                 TileBehaviorManager::behavior(tile.behaviors[j], tilemaps[i], actionCoords);
                 break;
             }

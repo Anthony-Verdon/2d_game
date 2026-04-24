@@ -3,42 +3,42 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "Engine/2D/Animation/Animation.hpp"
+#include "Engine/2D/Animation2D/Animation2D.hpp"
 #include "Editor/TileSelector/TileSelector.hpp"
 #include "Editor/AEditorWindow/AEditorWindow.hpp"
 #include "imgui.h"
 #include "globals.hpp"
 
-class AnimationCreator: public AEditorWindow
+class AnimationCreator : public AEditorWindow
 {
-    private:
-        // input
-        char name[INPUT_ARRAY_SIZE];
-        std::vector<TextureData> texturesData;
+  private:
+    // input
+    char name[INPUT_ARRAY_SIZE];
+    std::vector<TextureData> texturesData;
 
-        // multi select
-        ImGuiSelectionBasicStorage selection;
-        std::vector<bool> selected;
-        std::vector<Sprite> tilesSelected;
+    // multi select
+    ImGuiSelectionBasicStorage selection;
+    std::vector<bool> selected;
+    std::vector<Sprite> tilesSelected;
 
-        // animations created
-        std::map<std::string, Animation> animations;
+    // animations created
+    std::map<std::string, Animation2D> animations;
 
-        // current animation
-        std::string animationSelected;
-        std::vector<int> frameIndex;
-        
-        void DrawSpriteSelector();
-        void CreateDragDropSourceData();
-        void DrawAnimationsLoader();
-        void DrawCurrentAnimation();
+    // current animation
+    std::string animationSelected;
+    std::vector<int> frameIndex;
 
-    public:
-        AnimationCreator();
-        ~AnimationCreator();
+    void DrawSpriteSelector();
+    void CreateDragDropSourceData();
+    void DrawAnimationsLoader();
+    void DrawCurrentAnimation();
 
-        void Draw();
+  public:
+    AnimationCreator();
+    ~AnimationCreator();
 
-        void Load();
-        void Save();
+    void Draw();
+
+    void Load();
+    void Save();
 };

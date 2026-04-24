@@ -2,16 +2,16 @@
 
 #include "Game/Player/Player.hpp"
 
-class Player::IdleWalkState: public Player::AState
+class Player::IdleWalkState : public Player::AState
 {
-    private:
-        glm::vec2 velocity;
-        
-    public:
-        IdleWalkState();
-        ~IdleWalkState();
+  private:
+    ml::vec2 velocity;
 
-        void Enter(Player &player);
-        std::unique_ptr<Player::AState> Input(Player &player);
-        std::unique_ptr<Player::AState> Update(Player &player);
+  public:
+    IdleWalkState();
+    ~IdleWalkState();
+
+    void Enter(Player &player);
+    std::unique_ptr<Player::AState> Input(Player &player);
+    std::unique_ptr<Player::AState> Update(Player &player);
 };

@@ -3,34 +3,35 @@
 #include "Engine/AProgram/AProgram.hpp"
 #include "Engine/2D/PhysicBody/PhysicBody.hpp"
 #include "Engine/2D/TilemapManager/TilemapManager.hpp"
-#include "Engine/2D/Camera/Camera.hpp"
+#include "Engine/2D/Camera2D/Camera2D.hpp"
 #include <vector>
-#include <glm/glm.hpp>
+
 #include <box2d/box2d.h>
 #include "Game/Player/Player.hpp"
 #include "Game/Barrel/Barrel.hpp"
 #include "Game/Skeletton/Skeletton.hpp"
 
-class Game: public AProgram
+class Game : public AProgram
 {
-    private:
-        void ProcessInput();
-        void Draw();
+  private:
+    void ProcessInput();
+    void Draw();
 
-        void DebugRendering();
+    void DebugRendering();
 
-        void LoadChains();
+    void LoadChains();
 
-        Player player;
-        Barrel barrel;
-        Skeletton skeletton;
+    Player player;
+    Barrel barrel;
+    Skeletton skeletton;
 
-        Camera camera;
+    Camera2D camera;
 
-    public:
-        Game();
-        ~Game();
+  public:
+    Game();
+    ~Game();
 
-        void Run();
-        void ScrollCallback(double xOffset, double yOffset);
+    void Init();
+    void Run();
+    void ScrollCallback(double xOffset, double yOffset);
 };
