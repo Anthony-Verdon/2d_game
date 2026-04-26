@@ -48,8 +48,7 @@ Game::Game()
     barrel.Init(WorldPhysic::GetWorldId());
     skeletton.Init(WorldPhysic::GetWorldId());
 
-    // @PROBLEM
-    // TilemapManager::Load();
+    TilemapManager::Load();
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 
     TileBehaviorManager::Init();
@@ -93,8 +92,7 @@ void Game::LoadChains()
 
 Game::~Game()
 {
-    // @PROBLEM
-    // TilemapManager::Save();
+    TilemapManager::Save();
 
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
