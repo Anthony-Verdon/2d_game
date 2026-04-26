@@ -62,31 +62,35 @@ void Game::LoadChains()
 
     Json::Node file = Json::ParseFile("saves/hitbox.json");
 
-    if (file["chains"] == nullptr)
-        return;
-
-    for (auto itChain : file["chains"]) //@todo error check
+    if (file.KeyExist("chains") && file["chains"] != nullptr)
     {
-        std::vector<b2Vec2> chain;
-        for (auto itPoint : itChain["points"]) //@todo error check
+
+        for (auto itChain : file["chains"])
         {
-            chain.push_back({PhysicBody::PixelToWorld(itPoint[0]), PhysicBody::PixelToWorld(itPoint[1])});
+            std::vector<b2Vec2> chain;
+            if (itChain.KeyExist("points") && itChain["points"] != nullptr)
+            {
+                for (auto itPoint : itChain["points"])
+                {
+                    chain.push_back({PhysicBody::PixelToWorld(itPoint[0]), PhysicBody::PixelToWorld(itPoint[1])});
+                }
+            }
+
+            b2BodyDef bodyDef = b2DefaultBodyDef();
+            bodyDef.type = b2_staticBody;
+            b2BodyId myBodyId = b2CreateBody(WorldPhysic::GetWorldId(), &bodyDef);
+
+            b2Filter filter;
+            filter.categoryBits = CategoriesFilter::Wall;
+            filter.maskBits = CategoriesFilter::Entities;
+            b2ChainDef chainDef = b2DefaultChainDef();
+            chainDef.points = chain.data();
+            chainDef.count = chain.size();
+            chainDef.filter = filter;
+            chainDef.isLoop = itChain["loop"];
+
+            b2CreateChain(myBodyId, &chainDef);
         }
-
-        b2BodyDef bodyDef = b2DefaultBodyDef();
-        bodyDef.type = b2_staticBody;
-        b2BodyId myBodyId = b2CreateBody(WorldPhysic::GetWorldId(), &bodyDef);
-
-        b2Filter filter;
-        filter.categoryBits = CategoriesFilter::Wall;
-        filter.maskBits = CategoriesFilter::Entities;
-        b2ChainDef chainDef = b2DefaultChainDef();
-        chainDef.points = chain.data();
-        chainDef.count = chain.size();
-        chainDef.filter = filter;
-        chainDef.isLoop = itChain["loop"];
-
-        b2CreateChain(myBodyId, &chainDef);
     }
 }
 

@@ -59,15 +59,23 @@ void ChainBuilder::Load()
 
     Json::Node file = Json::ParseFile("saves/hitbox.json");
 
-    for (auto itChain : file["chains"]) //@todo error check
+    if (file.KeyExist("chains") && file["chains"] != nullptr)
     {
-        Chain chain;
-        for (auto itPoint : itChain["points"]) //@todo error check
+
+        for (auto itChain : file["chains"])
         {
-            chain.points.push_back(ml::vec2(itPoint[0], itPoint[1]));
+            Chain chain;
+            if (itChain.KeyExist("points") && itChain["points"] != nullptr)
+            {
+
+                for (auto itPoint : itChain["points"])
+                {
+                    chain.points.push_back(ml::vec2(itPoint[0], itPoint[1]));
+                }
+            }
+            chain.loop = itChain["loop"];
+            chains.push_back(chain);
         }
-        chain.loop = itChain["loop"];
-        chains.push_back(chain);
     }
 }
 

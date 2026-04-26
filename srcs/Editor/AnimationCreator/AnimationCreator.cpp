@@ -277,28 +277,38 @@ void AnimationCreator::Load()
 
     Json::Node file = Json::ParseFile("saves/animations.json");
 
-    for (auto it : file["textures"]) //@todo error check
+    if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
-        RessourceManager::AddTexture(it["name"], it["path"]);
+        for (auto it : file["textures"])
+        {
+            RessourceManager::AddTexture(it["name"], it["path"]);
+        }
     }
 
-    for (auto it : file["animationsPath"]) //@todo error check
+    if (file.KeyExist("animationsPath") && file["animationsPath"] != nullptr)
     {
-        std::string path = std::string(it); // @PROBLEM?
-        Animation2D newAnimation;
-
-        auto itAnimation = file[std::string("/animations/" + path).c_str()];
-        for (auto itFrame : itAnimation["frames"]) //@todo error check
+        for (auto it : file["animationsPath"])
         {
-            Sprite newFrame;
-            newFrame.textureName = std::string(itFrame["texture"]["name"]);
-            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
-            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
-            newAnimation.AddFrame(newFrame);
-        }
+            std::string path = std::string(it); // @PROBLEM?
+            Animation2D newAnimation;
 
-        newAnimation.SetStoppable(itAnimation["stoppable"]);
-        animations[path] = newAnimation;
+            auto itAnimation = file[std::string("/animations/" + path).c_str()];
+            if (itAnimation.KeyExist("frames") && itAnimation["frames"] != nullptr)
+            {
+
+                for (auto itFrame : itAnimation["frames"])
+                {
+                    Sprite newFrame;
+                    newFrame.textureName = std::string(itFrame["texture"]["name"]);
+                    newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+                    newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+                    newAnimation.AddFrame(newFrame);
+                }
+
+                newAnimation.SetStoppable(itAnimation["stoppable"]);
+                animations[path] = newAnimation;
+            }
+        }
     }
 }
 

@@ -167,15 +167,18 @@ void TileSelector::Load()
 
     Json::Node file = Json::ParseFile("saves/textures.json");
 
-    for (auto it : file["textures"]) //@todo error check
+    if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
-        TextureData data;
-        data.name = std::string(it["name"]);
-        data.path = std::string(it["path"]);
-        data.nbSprite = ml::vec2(it["nbSprite"][0], it["nbSprite"][1]);
-        data.spriteOffset = ml::vec2(it["spriteOffset"][0], it["spriteOffset"][1]);
-        texturesData.push_back(data);
-        RessourceManager::AddTexture(data.name, data.path);
+        for (auto it : file["textures"])
+        {
+            TextureData data;
+            data.name = std::string(it["name"]);
+            data.path = std::string(it["path"]);
+            data.nbSprite = ml::vec2(it["nbSprite"][0], it["nbSprite"][1]);
+            data.spriteOffset = ml::vec2(it["spriteOffset"][0], it["spriteOffset"][1]);
+            texturesData.push_back(data);
+            RessourceManager::AddTexture(data.name, data.path);
+        }
     }
 }
 

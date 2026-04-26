@@ -43,9 +43,12 @@ void Player::InitAnimations()
 {
     Json::Node file = Json::ParseFile("saves/animations.json");
 
-    for (auto it : file["textures"]) //@todo error check
+    if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
-        RessourceManager::AddTexture(it["name"], it["path"]);
+        for (auto it : file["textures"])
+        {
+            RessourceManager::AddTexture(it["name"], it["path"]);
+        }
     }
 
     Json::Node playerAnim = file["animations"]["player"];
