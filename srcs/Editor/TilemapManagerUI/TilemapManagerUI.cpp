@@ -1,4 +1,5 @@
 #include "Editor/TilemapManagerUI/TilemapManagerUI.hpp"
+#include "Common/TilemapManagerIO/TilemapManagerIO.hpp"
 #include "imgui.h"
 
 TilemapManagerUI::TilemapManagerUI() : AEditorWindow()
@@ -92,12 +93,10 @@ void TilemapManagerUI::SuppressTile(const ml::vec2 &position)
 
 void TilemapManagerUI::Load()
 {
-    // @PROBLEM
-    // TilemapManager::Load();
+    LoadTilemapManager();
 }
 
 void TilemapManagerUI::Save()
 {
-    // @PROBLEM
-    // TilemapManager::Save();
+    SaveTilemapManager();
 }
