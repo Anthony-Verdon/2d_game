@@ -41,7 +41,7 @@ void Player::Init(b2WorldId worldId)
 
 void Player::InitAnimations()
 {
-    Json::Node file = Json::ParseFile("saves/animations.json");
+    Json::Node file = Json::ParseFile(ANIMATION_FILE);
 
     if (file.KeyExist("textures") && file["textures"] != nullptr)
     {

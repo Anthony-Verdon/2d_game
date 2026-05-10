@@ -272,10 +272,10 @@ void AnimationCreator::DrawCurrentAnimation()
 
 void AnimationCreator::Load()
 {
-    if (!std::filesystem::exists("saves/animations.json")) // @todo: should be a parameter
+    if (!std::filesystem::exists(ANIMATION_FILE))
         return;
 
-    Json::Node file = Json::ParseFile("saves/animations.json");
+    Json::Node file = Json::ParseFile(ANIMATION_FILE);
 
     if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
@@ -354,5 +354,5 @@ void AnimationCreator::Save()
         i++;
     }
 
-    Json::WriteFile("saves/animations.json", file);
+    Json::WriteFile(ANIMATION_FILE, file);
 }

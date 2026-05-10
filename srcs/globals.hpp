@@ -2,8 +2,8 @@
 
 //@todo separate this file
 
-//#define FULL_SCREEN
-// window
+// #define FULL_SCREEN
+//  window
 #ifdef FULL_SCREEN
 constexpr int WINDOW_WIDTH = 1920;
 constexpr int WINDOW_HEIGHT = 1080;
@@ -39,3 +39,10 @@ constexpr int INVENTORY_EXPANDED_HEIGHT = 4;
 constexpr int INVENTORY_HEIGHT = INVENTORY_BAR_HEIGHT + INVENTORY_EXPANDED_HEIGHT;
 constexpr int INVENTORY_SIZE = INVENTORY_WIDTH * INVENTORY_HEIGHT;
 
+// files
+#define FILE_FOLDER "saves/"
+#define FILE_EXTENSION ".json"
+#define ANIMATION_FILE FILE_FOLDER "animations" FILE_EXTENSION
+#define HITBOX_FILE FILE_FOLDER "hitbox" FILE_EXTENSION
+#define MAP_FILE FILE_FOLDER "map" FILE_EXTENSION
+#define TEXTURE_FILE FILE_FOLDER "textures" FILE_EXTENSION

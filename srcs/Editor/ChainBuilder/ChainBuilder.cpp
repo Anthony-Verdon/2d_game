@@ -54,10 +54,10 @@ void ChainBuilder::Draw()
 
 void ChainBuilder::Load()
 {
-    if (!std::filesystem::exists("saves/hitbox.json")) // @todo: should be a parameter
+    if (!std::filesystem::exists(HITBOX_FILE))
         return;
 
-    Json::Node file = Json::ParseFile("saves/hitbox.json");
+    Json::Node file = Json::ParseFile(HITBOX_FILE);
 
     if (file.KeyExist("chains") && file["chains"] != nullptr)
     {
@@ -96,7 +96,7 @@ void ChainBuilder::Save()
         file["chains"][i]["loop"] = chain.loop;
     }
 
-    Json::WriteFile("saves/hitbox.json", file);
+    Json::WriteFile(HITBOX_FILE, file);
 }
 
 bool ChainBuilder::IsBuildingChain() const

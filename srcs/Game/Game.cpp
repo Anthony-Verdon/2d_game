@@ -16,7 +16,7 @@
 #include <iostream>
 #include <fstream>
 #include "Engine/2D/WorldPhysic/WorldPhysic.hpp"
-
+#include <set>
 #include "Game/TileBehavior/TileBehaviorManager.hpp"
 #include "Game/LootManager/LootManager.hpp"
 #include "Game/Items/ItemDictionnary/ItemDictionnary.hpp"
@@ -48,7 +48,7 @@ Game::Game()
     barrel.Init(WorldPhysic::GetWorldId());
     skeletton.Init(WorldPhysic::GetWorldId());
 
-    TilemapManager::Load();
+    LoadTilemapManager();
     TilemapManager::AddCollisions(WorldPhysic::GetWorldId());
 
     TileBehaviorManager::Init();
@@ -57,10 +57,10 @@ Game::Game()
 
 void Game::LoadChains()
 {
-    if (!std::filesystem::exists("saves/hitbox.json")) // @todo: should be a parameter
+    if (!std::filesystem::exists(HITBOX_FILE))
         return;
 
-    Json::Node file = Json::ParseFile("saves/hitbox.json");
+    Json::Node file = Json::ParseFile(HITBOX_FILE);
 
     if (file.KeyExist("chains") && file["chains"] != nullptr)
     {
@@ -94,9 +94,63 @@ void Game::LoadChains()
     }
 }
 
+void Game::LoadTilemapManager()
+{
+    if (!std::filesystem::exists(MAP_FILE))
+        return;
+
+    Json::Node file = Json::ParseFile(MAP_FILE);
+
+    if (file.KeyExist("textures") && file["textures"] != nullptr)
+    {
+        for (auto it : file["textures"])
+        {
+            RessourceManager::AddTexture(it["name"], it["path"]);
+        }
+    }
+
+    if (file.KeyExist("tiles") && file["tiles"] != nullptr)
+    {
+        for (auto it : file["tiles"])
+        {
+            Tile tile;
+            tile.sprite.textureName = std::string(it["sprite"]["texture"]["name"]);
+            tile.sprite.textureSize = ml::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
+            tile.sprite.spriteCoords = ml::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
+            tile.sprite.size = ml::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
+            tile.spriteOffset = ml::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
+            if (it.KeyExist("behaviors") && it["behaviors"] != nullptr)
+            {
+                for (auto itBehavior : it["behaviors"])
+                    tile.behaviors.push_back((TileBehaviorType)(int)itBehavior);
+            }
+            TileDictionnary::AddTile(tile);
+        }
+    }
+
+    if (file.KeyExist("tilemaps") && file["tilemaps"] != nullptr)
+    {
+        Json::Node tilemapsNode = file["tilemaps"];
+        for (auto itTilemap = tilemapsNode.begin(); itTilemap != tilemapsNode.end(); ++itTilemap)
+        {
+            std::string tilemapName = itTilemap.key();
+
+            TilemapManager::AddTilemap(tilemapName);
+
+            Json::Node value = itTilemap.value();
+            TilemapManager::SetBuildCollision(tilemapName, value["build collision"]);
+
+            for (auto it : value["tiles"])
+            {
+                TilemapManager::AddTile(tilemapName, ml::vec2(it["position"][0], it["position"][1]), it["index"]);
+            }
+        }
+    }
+}
+
 Game::~Game()
 {
-    TilemapManager::Save();
+    SaveTilemapManager();
 
     CircleRenderer::Destroy();
     PolygonRenderer::Destroy();
@@ -104,6 +158,64 @@ Game::~Game()
     SpriteRenderer::Destroy();
 
     WorldPhysic::Destroy();
+}
+
+void Game::SaveTilemapManager()
+{
+    Json::Node file;
+
+    file["textures"] = {};
+    std::set<std::string> textures;
+
+    file["tiles"] = {};
+    for (size_t i = 0; i < TileDictionnary::GetDictionnarySize(); i++)
+    {
+        Tile tile = TileDictionnary::GetTile(i);
+        file["tiles"][i]["sprite"]["texture"]["name"] = tile.sprite.textureName;
+        file["tiles"][i]["sprite"]["texture"]["size"][0] = tile.sprite.textureSize.x;
+        file["tiles"][i]["sprite"]["texture"]["size"][1] = tile.sprite.textureSize.y;
+        file["tiles"][i]["sprite"]["position"][0] = tile.sprite.spriteCoords.x;
+        file["tiles"][i]["sprite"]["position"][1] = tile.sprite.spriteCoords.y;
+        file["tiles"][i]["sprite"]["size"][0] = tile.sprite.size.x;
+        file["tiles"][i]["sprite"]["size"][1] = tile.sprite.size.y;
+        file["tiles"][i]["sprite"]["offset"][0] = tile.spriteOffset.x;
+        file["tiles"][i]["sprite"]["offset"][1] = tile.spriteOffset.y;
+        file["tiles"][i]["behaviors"] = {};
+        for (size_t j = 0; j < tile.behaviors.size(); j++)
+            file["tiles"][i]["behaviors"][j] = (int)tile.behaviors[j];
+
+        textures.insert(tile.sprite.textureName);
+    }
+
+    file["tilemaps"] = {};
+    std::vector<std::string> tilemapOrder = TilemapManager::GetTilemapOrder();
+    for (size_t i = 0; i < tilemapOrder.size(); i++)
+    {
+        file["tilemaps"][tilemapOrder[i].c_str()]["tiles"] = {};
+        file["tilemaps"][tilemapOrder[i].c_str()]["build collision"] = TilemapManager::GetBuildCollision(tilemapOrder[i]);
+
+        std::map<ml::vec2, size_t, Vec2Comparator> tiles = TilemapManager::GetTiles(tilemapOrder[i]);
+        int j = 0;
+        for (auto it = tiles.begin(); it != tiles.end(); it++)
+        {
+            file["tilemaps"][tilemapOrder[i].c_str()]["tiles"][j]["position"][0] = it->first.x;
+            file["tilemaps"][tilemapOrder[i].c_str()]["tiles"][j]["position"][1] = it->first.y;
+            file["tilemaps"][tilemapOrder[i].c_str()]["tiles"][j]["index"] = (int)it->second;
+
+            j++;
+        }
+    }
+
+    int i = 0;
+    for (auto it = textures.begin(); it != textures.end(); it++)
+    {
+        file["textures"][i]["name"] = *it;
+        file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
+
+        i++;
+    }
+
+    Json::WriteFile(MAP_FILE, file);
 }
 
 void Game::Init()

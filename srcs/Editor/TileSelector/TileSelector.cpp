@@ -162,10 +162,10 @@ void TileSelector::CreateDragDropSourceData()
 
 void TileSelector::Load()
 {
-    if (!std::filesystem::exists("saves/textures.json")) // @todo: should be a parameter
+    if (!std::filesystem::exists(TEXTURE_FILE))
         return;
 
-    Json::Node file = Json::ParseFile("saves/textures.json");
+    Json::Node file = Json::ParseFile(TEXTURE_FILE);
 
     if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
@@ -199,7 +199,7 @@ void TileSelector::Save()
         i++;
     }
 
-    Json::WriteFile("saves/textures.json", file);
+    Json::WriteFile(TEXTURE_FILE, file);
 }
 
 Tile TileSelector::GetTile() const

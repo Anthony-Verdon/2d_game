@@ -20,6 +20,8 @@ class Game : public AProgram
     void DebugRendering();
 
     void LoadChains();
+    void LoadTilemapManager();
+    void SaveTilemapManager();
 
     Player player;
     Barrel barrel;
