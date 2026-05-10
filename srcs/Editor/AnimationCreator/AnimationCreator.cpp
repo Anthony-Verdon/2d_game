@@ -7,6 +7,7 @@
 #include "Json/Json.hpp"
 #include <set>
 #include <string>
+#include "Toolbox.hpp"
 
 AnimationCreator::AnimationCreator() : AEditorWindow()
 {
@@ -292,11 +293,14 @@ void AnimationCreator::Load()
             std::string path = std::string(it); // @PROBLEM?
             Animation2D newAnimation;
 
-            auto itAnimation = file[std::string("/animations/" + path).c_str()];
-            if (itAnimation.KeyExist("frames") && itAnimation["frames"] != nullptr)
+            std::vector<std::string> keyNodes = Toolbox::splitLine(path, "/");
+            Json::Node *itAnimation = &file["animations"];
+            for (size_t i = 0; i < keyNodes.size(); i++)
+                itAnimation = &((*itAnimation)[keyNodes[i].c_str()]);
+            if (itAnimation->KeyExist("frames") && (*itAnimation)["frames"] != nullptr)
             {
 
-                for (auto itFrame : itAnimation["frames"])
+                for (auto itFrame : (*itAnimation)["frames"])
                 {
                     Sprite newFrame;
                     newFrame.textureName = std::string(itFrame["texture"]["name"]);
@@ -305,7 +309,7 @@ void AnimationCreator::Load()
                     newAnimation.AddFrame(newFrame);
                 }
 
-                newAnimation.SetStoppable(itAnimation["stoppable"]);
+                newAnimation.SetStoppable((*itAnimation)["stoppable"]);
                 animations[path] = newAnimation;
             }
         }
@@ -322,18 +326,26 @@ void AnimationCreator::Save()
     file["animations"] = {};
     for (auto it = animations.begin(); it != animations.end(); it++)
     {
-        file["animations"][std::string("/" + it->first).c_str()]["frames"] = {};
+        std::vector<std::string> keyNodes = Toolbox::splitLine(it->first, "/");
+        Json::Node *nodePtr = &file["animations"];
+        for (size_t i = 0; i < keyNodes.size(); i++)
+        {
+            if (!nodePtr->KeyExist(keyNodes[i]))
+                (*nodePtr)[keyNodes[i].c_str()] = {};
+            nodePtr = &((*nodePtr)[keyNodes[i].c_str()]);
+        }
+        (*nodePtr)["frames"] = {};
         std::vector<Sprite> animationFrames = it->second.GetFrames();
         for (size_t j = 0; j < animationFrames.size(); j++)
         {
-            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
-            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["size"][0] = animationFrames[j].textureSize.x;
-            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["texture"]["size"][1] = animationFrames[j].textureSize.y;
-            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["position"][0] = animationFrames[j].spriteCoords.x;
-            file["animations"][std::string("/" + it->first).c_str()]["frames"][j]["position"][1] = animationFrames[j].spriteCoords.y;
+            (*nodePtr)["frames"][j]["texture"]["name"] = animationFrames[j].textureName;
+            (*nodePtr)["frames"][j]["texture"]["size"][0] = animationFrames[j].textureSize.x;
+            (*nodePtr)["frames"][j]["texture"]["size"][1] = animationFrames[j].textureSize.y;
+            (*nodePtr)["frames"][j]["position"][0] = animationFrames[j].spriteCoords.x;
+            (*nodePtr)["frames"][j]["position"][1] = animationFrames[j].spriteCoords.y;
             textures.insert(animationFrames[j].textureName);
         }
-        file["animations"][std::string("/" + it->first).c_str()]["stoppable"] = it->second.IsStoppable();
+        (*nodePtr)["stoppable"] = it->second.IsStoppable();
         animationsPath.insert(it->first);
     }
 
