@@ -354,6 +354,5 @@ void AnimationCreator::Save()
         i++;
     }
 
-    std::ofstream o("saves/animations.json");
-    o << std::setw(4) << file << std::endl;
+    Json::WriteFile("saves/animations.json", file);
 }

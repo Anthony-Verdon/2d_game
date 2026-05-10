@@ -96,8 +96,7 @@ void ChainBuilder::Save()
         file["chains"][i]["loop"] = chain.loop;
     }
 
-    std::ofstream o("saves/hitbox.json");
-    o << std::setw(4) << file << std::endl;
+    Json::WriteFile("saves/hitbox.json", file);
 }
 
 bool ChainBuilder::IsBuildingChain() const

@@ -199,8 +199,7 @@ void TileSelector::Save()
         i++;
     }
 
-    std::ofstream o("saves/textures.json");
-    o << std::setw(4) << file << std::endl;
+    Json::WriteFile("saves/textures.json", file);
 }
 
 Tile TileSelector::GetTile() const
