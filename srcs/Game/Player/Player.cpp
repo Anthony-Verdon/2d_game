@@ -51,62 +51,74 @@ void Player::InitAnimations()
         }
     }
 
-    Json::Node playerAnim = file["animations"]["player"];
-    for (auto it = playerAnim.begin(); it != playerAnim.end(); it++)
+    if (file.KeyExist("animations") && file["animations"] != nullptr && file["animations"].KeyExist("player") && file["animations"]["player"] != nullptr)
     {
-        Animation2D animation;
 
-        auto value = it.value();
-        for (auto itFrame : value["frames"])
+        Json::Node playerAnim = file["animations"]["player"];
+        for (auto it = playerAnim.begin(); it != playerAnim.end(); it++)
         {
-            Sprite newFrame;
-            newFrame.textureName = std::string(itFrame["texture"]["name"]);
-            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
-            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
-            animation.AddFrame(newFrame);
-        }
-        animation.SetStoppable(value["stoppable"]);
+            Animation2D animation;
 
-        bodyAnimationManager.AddAnimation(it.key(), animation);
+            auto value = it.value();
+            for (auto itFrame : value["frames"])
+            {
+                Sprite newFrame;
+                newFrame.textureName = std::string(itFrame["texture"]["name"]);
+                newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+                newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+                animation.AddFrame(newFrame);
+            }
+            animation.SetStoppable(value["stoppable"]);
+
+            bodyAnimationManager.AddAnimation(it.key(), animation);
+        }
     }
 
-    Json::Node toolAnim = file["animations"]["tools"];
-    for (auto it = toolAnim.begin(); it != toolAnim.end(); it++)
+    if (file.KeyExist("animations") && file["animations"] != nullptr && file["animations"].KeyExist("tools") && file["animations"]["tools"] != nullptr)
     {
-        Animation2D animation;
 
-        auto value = it.value();
-        for (auto itFrame : value["frames"])
+        Json::Node toolAnim = file["animations"]["tools"];
+        for (auto it = toolAnim.begin(); it != toolAnim.end(); it++)
         {
-            Sprite newFrame;
-            newFrame.textureName = std::string(itFrame["texture"]["name"]);
-            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
-            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
-            animation.AddFrame(newFrame);
-        }
-        animation.SetStoppable(value["stoppable"]);
+            Animation2D animation;
 
-        // @PROBLEM?
-        toolAnimationManager.AddAnimation(it.key(), animation);
+            auto value = it.value();
+            for (auto itFrame : value["frames"])
+            {
+                Sprite newFrame;
+                newFrame.textureName = std::string(itFrame["texture"]["name"]);
+                newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+                newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+                animation.AddFrame(newFrame);
+            }
+            animation.SetStoppable(value["stoppable"]);
+
+            // @PROBLEM?
+            toolAnimationManager.AddAnimation(it.key(), animation);
+        }
     }
 
-    Json::Node weaponAnim = file["animations"]["weapons"];
-    for (auto it = weaponAnim.begin(); it != weaponAnim.end(); it++)
+    if (file.KeyExist("animations") && file["animations"] != nullptr && file["animations"].KeyExist("weapons") && file["animations"]["weapons"] != nullptr)
     {
-        Animation2D animation;
 
-        auto value = it.value();
-        for (auto itFrame : value["frames"])
+        Json::Node weaponAnim = file["animations"]["weapons"];
+        for (auto it = weaponAnim.begin(); it != weaponAnim.end(); it++)
         {
-            Sprite newFrame;
-            newFrame.textureName = std::string(itFrame["texture"]["name"]);
-            newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
-            newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
-            animation.AddFrame(newFrame);
-        }
-        animation.SetStoppable(value["stoppable"]);
+            Animation2D animation;
 
-        toolAnimationManager.AddAnimation(it.key(), animation);
+            auto value = it.value();
+            for (auto itFrame : value["frames"])
+            {
+                Sprite newFrame;
+                newFrame.textureName = std::string(itFrame["texture"]["name"]);
+                newFrame.textureSize = {itFrame["texture"]["size"][0], itFrame["texture"]["size"][1]};
+                newFrame.spriteCoords = {itFrame["position"][0], itFrame["position"][1]};
+                animation.AddFrame(newFrame);
+            }
+            animation.SetStoppable(value["stoppable"]);
+
+            toolAnimationManager.AddAnimation(it.key(), animation);
+        }
     }
 
     bodyAnimationManager.Play("idle_down");
