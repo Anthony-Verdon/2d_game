@@ -3,6 +3,7 @@
 #include "Engine/2D/Renderers/SpriteRenderer/SpriteRenderer.hpp"
 #include "globals.hpp"
 #include "Engine/WindowManager/WindowManager.hpp"
+#include "Common/TilemapType.hpp"
 
 Barrel::Barrel()
 {
@@ -18,7 +19,8 @@ void Barrel::Draw()
     sprite.textureName = "chest";
     sprite.textureSize = ml::vec2(6, 1);
     sprite.spriteCoords = ml::vec2(0, 0);
-    SpriteRenderer::Draw(body.GetPosition(), size, body.GetAngle(), ml::vec3(1, 1, 1), sprite, false, false, 1);
+    //@todo check pos z value
+    SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size, body.GetAngle(), ml::vec3(1, 1, 1), sprite, false, false, 1);
 }
 
 void Barrel::Init(b2WorldId worldId)

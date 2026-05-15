@@ -31,6 +31,7 @@ void LoadTilemapManager()
             tile.sprite.spriteCoords = ml::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
             tile.sprite.size = ml::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
             tile.spriteOffset = ml::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
+            tile.boundingBox = ml::vec2(it["sprite"]["bounding box"][0], it["sprite"]["bounding box"][1]);
             if (it.KeyExist("behaviors") && it["behaviors"] != nullptr)
             {
                 for (auto itBehavior : it["behaviors"])
@@ -80,6 +81,8 @@ void SaveTilemapManager()
         file["tiles"][i]["sprite"]["size"][1] = tile.sprite.size.y;
         file["tiles"][i]["sprite"]["offset"][0] = tile.spriteOffset.x;
         file["tiles"][i]["sprite"]["offset"][1] = tile.spriteOffset.y;
+        file["tiles"][i]["sprite"]["bounding box"][0] = tile.boundingBox.x;
+        file["tiles"][i]["sprite"]["bounding box"][1] = tile.boundingBox.y;
         file["tiles"][i]["behaviors"] = {};
         for (size_t j = 0; j < tile.behaviors.size(); j++)
             file["tiles"][i]["behaviors"][j] = (int)tile.behaviors[j];

@@ -39,5 +39,6 @@ void LootManager::Update(const ml::vec2 &playerPos)
 void LootManager::Draw()
 {
     for (auto it = loots.begin(); it != loots.end(); it++)
-        SpriteRenderer::Draw(it->position, ml::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, ml::vec3(1, 1, 1), it->sprite, false, false, 1);
+        //@todo check pos z value
+        SpriteRenderer::Draw(ml::vec3(it->position, 0), ml::vec2(0, 0), ml::vec2(0, 0), ml::vec2(SPRITE_SIZE, SPRITE_SIZE), 0, ml::vec3(1, 1, 1), it->sprite, false, false, 1);
 }

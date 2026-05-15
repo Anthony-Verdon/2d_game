@@ -51,6 +51,7 @@ void AnimationCreator::DrawSpriteSelector()
                 newTextureData.path = RessourceManager::GetTexture(data)->getPath();
                 newTextureData.nbSprite = ml::vec2(1, 1);
                 newTextureData.spriteOffset = ml::vec2(0, 0);
+                newTextureData.boundingBox = ml::vec2(0, 0);
                 texturesData.push_back(newTextureData);
             }
             ImGui::EndDragDropTarget();

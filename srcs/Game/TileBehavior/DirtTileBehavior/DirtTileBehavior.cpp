@@ -15,6 +15,7 @@ DirtTileBehavior::DirtTileBehavior() : ATileBehavior()
     farmlandTileBlueprint.sprite.textureSize = ml::vec2(7, 8);
     farmlandTileBlueprint.sprite.size = ml::vec2(SPRITE_SIZE, SPRITE_SIZE);
     farmlandTileBlueprint.spriteOffset = ml::vec2(0, 0);
+    farmlandTileBlueprint.boundingBox = ml::vec2(0, 0);
 
     {
         Tile farmlandTile = farmlandTileBlueprint;

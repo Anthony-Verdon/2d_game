@@ -42,7 +42,8 @@ void InventoryUI::Draw(const Player &player)
     if (itemHold != ItemType::NONE)
     {
         // @PROBLEM
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(WindowManager::GetMousePosition()).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItemSprite(itemHold)).SetDrawAbsolute(true) /*.SetOpacity(0.5)*/.Build());
+        //@todo check pos z value
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(WindowManager::GetMousePosition(), 0)).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE) * 1.5f).SetSprite(ItemDictionnary::GetItemSprite(itemHold)).SetDrawAbsolute(true) /*.SetOpacity(0.5)*/.Build());
     }
 }
 
@@ -86,7 +87,8 @@ void InventoryUI::DrawInventorySlotBackground(const ml::vec2 &position, const ml
         {
             sprite.spriteCoords.x = DetermineSpriteCoord(x, size.x - 1);
             sprite.spriteCoords.y = DetermineSpriteCoord(y, size.y - 1);
-            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+            //@todo check pos z value
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(position + ml::vec2(x, y) * SLOT_SIZE, 0)).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 }
@@ -142,7 +144,8 @@ void InventoryUI::DrawInventorySlot(const ml::vec2 &position, ItemType item, boo
         for (int y = 0; y < 3; y++)
         {
             sprite.spriteCoords = ml::vec2(3, 0) + ml::vec2(x, y);
-            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+            //@todo check pos z value
+            SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(position + ml::vec2(x, y) * SLOT_SIZE, 0)).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
         }
     }
 
@@ -180,7 +183,8 @@ void InventoryUI::DrawInventorySlot(const ml::vec2 &position, ItemType item, boo
 
     // draw item
     if (item != ItemType::NONE && itemHoldPosition != itemCount)
-        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(slotPos).SetSize(slotSize).SetSprite(ItemDictionnary::GetItemSprite(item)).SetDrawAbsolute(true).Build());
+        //@todo check pos z value
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(slotPos, 0)).SetSize(slotSize).SetSprite(ItemDictionnary::GetItemSprite(item)).SetDrawAbsolute(true).Build());
 
     // if item is selected
     // draw selector
@@ -195,7 +199,8 @@ void InventoryUI::DrawInventorySlot(const ml::vec2 &position, ItemType item, boo
             for (int y = 0; y < 3; y++)
             {
                 sprite.spriteCoords = selectorPos + ml::vec2(x, y);
-                SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(position + ml::vec2(x, y) * SLOT_SIZE).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
+                //@todo check pos z value
+                SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(position + ml::vec2(x, y) * SLOT_SIZE, 0)).SetSize(ml::vec2(SLOT_SIZE, SLOT_SIZE)).SetSprite(sprite).SetDrawAbsolute(true).Build());
             }
         }
     }

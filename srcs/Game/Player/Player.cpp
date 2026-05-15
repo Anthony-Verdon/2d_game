@@ -14,6 +14,7 @@
 #include "Game/Player/PlayerStates/IdleWalkState/IdleWalkState.hpp"
 #include <fstream>
 #include "Json/Json.hpp"
+#include "Common/TilemapType.hpp"
 
 Player::Player()
 {
@@ -163,9 +164,11 @@ void Player::Draw()
     float scale = 1.5f;
     if (state->GetStateType() == StateType::USING_TOOL)
         scale = scale * 1.5f;
-    SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
+    //@todo check pos z value
+    SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
     if (toolAnimationManager.GetCurrentAnimation() != "none")
-        SpriteRenderer::Draw(body.GetPosition(), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
+        //@todo check pos z value
+        SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
 
     inventoryUI.Draw(*this);
 }

@@ -298,6 +298,8 @@ void Editor::Draw()
     }
     // end region
 
+    SpriteRenderer::Draw();
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

@@ -4,6 +4,7 @@
 #include "Engine/WindowManager/WindowManager.hpp"
 #include "Engine/Time/Time.hpp"
 #include "globals.hpp"
+#include "Common/TilemapType.hpp"
 
 Skeletton::Skeletton()
 {
@@ -75,5 +76,6 @@ void Skeletton::PlayAnimation(const std::string &name)
 
 void Skeletton::Draw()
 {
-    SpriteRenderer::Draw(body.GetPosition(), size * 1.5f, body.GetAngle(), ml::vec3(1, 1, 1), animator.GetFrame(), false, false, 1);
+    //@todo check pos z value
+    SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size * 1.5f, body.GetAngle(), ml::vec3(1, 1, 1), animator.GetFrame(), false, false, 1);
 }

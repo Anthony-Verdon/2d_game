@@ -81,9 +81,9 @@ void TilemapManagerUI::AddTile(const ml::vec2 &position, const Tile &tile)
     TilemapManager::AddTile(tilemapSelected, position, tile);
 }
 
-void TilemapManagerUI::AddTile(const ml::vec2 &position, const Sprite &sprite, const ml::vec2 &spriteOffset)
+void TilemapManagerUI::AddTile(const ml::vec2 &position, const Sprite &sprite, const ml::vec2 &spriteOffset, const ml::vec2 &boundingBox)
 {
-    TilemapManager::AddTile(tilemapSelected, position, sprite, spriteOffset);
+    TilemapManager::AddTile(tilemapSelected, position, sprite, spriteOffset, boundingBox);
 }
 
 void TilemapManagerUI::SuppressTile(const ml::vec2 &position)

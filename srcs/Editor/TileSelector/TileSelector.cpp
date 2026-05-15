@@ -37,6 +37,7 @@ void TileSelector::InputFields()
             newTextureData.path = RessourceManager::GetTexture(data)->getPath();
             newTextureData.nbSprite = ml::vec2(1, 1);
             newTextureData.spriteOffset = ml::vec2(0, 0);
+            newTextureData.boundingBox = ml::vec2(0, 0);
             texturesData.push_back(newTextureData);
         }
         ImGui::EndDragDropTarget();
@@ -59,9 +60,12 @@ void TileSelector::TilesAdded()
             int index = it - texturesData.begin();
             std::string nbSpriteInput = "nbSprite###1_" + std::to_string(index);
             std::string spriteOffsetInput = "offset###2_" + std::to_string(index);
+            std::string boundingBoxInput = "bounding box###3_" + std::to_string(index);
             ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
             if (ImGui::InputFloat2(spriteOffsetInput.c_str(), &it->spriteOffset[0]))
                 tileSelected.spriteOffset = it->spriteOffset;
+            if (ImGui::InputFloat2(boundingBoxInput.c_str(), &it->boundingBox[0]))
+                tileSelected.boundingBox = it->boundingBox;
 
             for (int j = 0; j < it->nbSprite.y; j++)
             {
@@ -86,6 +90,7 @@ void TileSelector::TilesAdded()
                         tileSelected.sprite.spriteCoords = ml::vec2(i, j);
                         tileSelected.sprite.size = ml::vec2(size.x, size.y) * SCALE_FACTOR;
                         tileSelected.spriteOffset = it->spriteOffset;
+                        tileSelected.boundingBox = it->boundingBox;
                     }
 
                     if (ImGui::BeginDragDropSource())
@@ -149,6 +154,7 @@ void TileSelector::CreateDragDropSourceData()
             auto texture = RessourceManager::GetTexture(it->name);
             newTile.sprite.size = ml::vec2(texture->getWidth() / it->nbSprite.x, texture->getHeight() / it->nbSprite.y);
             newTile.spriteOffset = it->spriteOffset;
+            newTile.boundingBox = it->boundingBox;
             tilesSelected.push_back(newTile);
         }
 
@@ -176,6 +182,7 @@ void TileSelector::Load()
             data.path = std::string(it["path"]);
             data.nbSprite = ml::vec2(it["nbSprite"][0], it["nbSprite"][1]);
             data.spriteOffset = ml::vec2(it["spriteOffset"][0], it["spriteOffset"][1]);
+            data.boundingBox = ml::vec2(it["boundingBox"][0], it["boundingBox"][1]);
             texturesData.push_back(data);
             RessourceManager::AddTexture(data.name, data.path);
         }
@@ -196,6 +203,8 @@ void TileSelector::Save()
         file["textures"][i]["nbSprite"][1] = it->nbSprite.y;
         file["textures"][i]["spriteOffset"][0] = it->spriteOffset.x;
         file["textures"][i]["spriteOffset"][1] = it->spriteOffset.y;
+        file["textures"][i]["boundingBox"][0] = it->boundingBox.x;
+        file["textures"][i]["boundingBox"][1] = it->boundingBox.y;
         i++;
     }
 

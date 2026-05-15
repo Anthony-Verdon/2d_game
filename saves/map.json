@@ -314,6 +314,34 @@
 						800, 
 						480
 					]
+				}, 
+				{
+					"index": 24,
+					"position": [
+						1184, 
+						416
+					]
+				}, 
+				{
+					"index": 25,
+					"position": [
+						1248, 
+						416
+					]
+				}, 
+				{
+					"index": 26,
+					"position": [
+						1312, 
+						416
+					]
+				}, 
+				{
+					"index": 26,
+					"position": [
+						1440, 
+						352
+					]
 				}
 			]
 		},
@@ -333,6 +361,76 @@
 						864, 
 						480
 					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						928, 
+						352
+					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						928, 
+						416
+					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						992, 
+						352
+					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						992, 
+						416
+					]
+				}, 
+				{
+					"index": 27,
+					"position": [
+						992, 
+						544
+					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						1056, 
+						352
+					]
+				}, 
+				{
+					"index": 21,
+					"position": [
+						1056, 
+						416
+					]
+				}, 
+				{
+					"index": 22,
+					"position": [
+						1120, 
+						416
+					]
+				}, 
+				{
+					"index": 26,
+					"position": [
+						1504, 
+						352
+					]
+				}, 
+				{
+					"index": 27,
+					"position": [
+						1568, 
+						352
+					]
 				}
 			]
 		}
@@ -341,6 +439,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -365,6 +467,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -389,6 +495,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -413,6 +523,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -437,6 +551,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -461,6 +579,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -485,6 +607,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -509,6 +635,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -533,6 +663,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -557,6 +691,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -581,6 +719,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -605,6 +747,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -629,6 +775,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -653,6 +803,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -677,6 +831,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -701,6 +859,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -725,6 +887,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -749,6 +915,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -773,6 +943,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -797,6 +971,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -821,6 +999,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					0
@@ -845,6 +1027,10 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					80
@@ -869,12 +1055,156 @@
 		{
 			"behaviors": null,
 			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
 				"offset": [
 					0, 
 					80
 				],
 				"position": [
 					0, 
+					0
+				],
+				"size": [
+					128, 
+					320
+				],
+				"texture": {
+					"name": "birch",
+					"size": [
+						3, 
+						1
+					]
+				}
+			}
+		}, 
+		{
+			"behaviors": null,
+			"sprite": {
+				"bounding box": [
+					0, 
+					0
+				],
+				"offset": [
+					0, 
+					80
+				],
+				"position": [
+					2, 
+					0
+				],
+				"size": [
+					128, 
+					320
+				],
+				"texture": {
+					"name": "birch",
+					"size": [
+						3, 
+						1
+					]
+				}
+			}
+		}, 
+		{
+			"behaviors": null,
+			"sprite": {
+				"bounding box": [
+					10, 
+					10
+				],
+				"offset": [
+					0, 
+					80
+				],
+				"position": [
+					1, 
+					0
+				],
+				"size": [
+					128, 
+					320
+				],
+				"texture": {
+					"name": "birch",
+					"size": [
+						3, 
+						1
+					]
+				}
+			}
+		}, 
+		{
+			"behaviors": null,
+			"sprite": {
+				"bounding box": [
+					100, 
+					100
+				],
+				"offset": [
+					0, 
+					80
+				],
+				"position": [
+					1, 
+					0
+				],
+				"size": [
+					128, 
+					320
+				],
+				"texture": {
+					"name": "birch",
+					"size": [
+						3, 
+						1
+					]
+				}
+			}
+		}, 
+		{
+			"behaviors": null,
+			"sprite": {
+				"bounding box": [
+					50, 
+					50
+				],
+				"offset": [
+					0, 
+					80
+				],
+				"position": [
+					1, 
+					0
+				],
+				"size": [
+					128, 
+					320
+				],
+				"texture": {
+					"name": "birch",
+					"size": [
+						3, 
+						1
+					]
+				}
+			}
+		}, 
+		{
+			"behaviors": null,
+			"sprite": {
+				"bounding box": [
+					50, 
+					100
+				],
+				"offset": [
+					0, 
+					80
+				],
+				"position": [
+					1, 
 					0
 				],
 				"size": [

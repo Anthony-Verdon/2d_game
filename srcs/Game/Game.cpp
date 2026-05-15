@@ -150,6 +150,8 @@ void Game::Draw()
     barrel.Draw();
     LootManager::Draw();
 
+    SpriteRenderer::Draw();
+
     WorldPhysic::DebugDraw();
 }
 

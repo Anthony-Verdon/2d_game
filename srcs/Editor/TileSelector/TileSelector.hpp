@@ -13,6 +13,7 @@ struct TextureData
     std::string path;
     ml::vec2 nbSprite;
     ml::vec2 spriteOffset;
+    ml::vec2 boundingBox;
 };
 
 class TileSelector : public ATool
