@@ -164,11 +164,9 @@ void Player::Draw()
     float scale = 1.5f;
     if (state->GetStateType() == StateType::USING_TOOL)
         scale = scale * 1.5f;
-    //@todo check pos z value
-    SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), bodyAnimationManager.GetFrame(), flipHorizontally, false, 1);
+    SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS)).SetBoundingBox(ml::vec2(50, 50)).SetSize(size * scale).SetSprite(bodyAnimationManager.GetFrame()).SetDrawAbsolute(true).FlipHorizontally(flipHorizontally).Build());
     if (toolAnimationManager.GetCurrentAnimation() != "none")
-        //@todo check pos z value
-        SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size * scale, body.GetAngle(), ml::vec3(1, 1, 1), toolAnimationManager.GetFrame(), flipHorizontally, false, 1);
+        SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS)).SetBoundingBox(ml::vec2(50, 50)).SetSize(size * scale).SetSprite(toolAnimationManager.GetFrame()).SetDrawAbsolute(true).FlipHorizontally(flipHorizontally).Build());
 
     inventoryUI.Draw(*this);
 }

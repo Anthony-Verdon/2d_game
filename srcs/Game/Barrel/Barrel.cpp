@@ -19,8 +19,7 @@ void Barrel::Draw()
     sprite.textureName = "chest";
     sprite.textureSize = ml::vec2(6, 1);
     sprite.spriteCoords = ml::vec2(0, 0);
-    //@todo check pos z value
-    SpriteRenderer::Draw(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS), ml::vec2(0, 0), ml::vec2(50, 50), size, body.GetAngle(), ml::vec3(1, 1, 1), sprite, false, false, 1);
+    SpriteRenderer::Draw(SpriteRenderDataBuilder().SetPosition(ml::vec3(body.GetPosition(), (int)TilemapType::ELEMENTS_AND_CHARACTERS)).SetSize(size).SetSprite(sprite).SetDrawAbsolute(true).Build());
 }
 
 void Barrel::Init(b2WorldId worldId)
