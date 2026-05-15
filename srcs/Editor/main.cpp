@@ -6,6 +6,8 @@
 
 int main()
 {
+    // @todo: put ImGUI as a parameter in WindowManager to destroy it correctly
+    // actually, it's destroye in ~Editor which cause errors for GLFW
     std::cout << "welcome in the editor" << std::endl;
     WindowManager::InitWindow("new editor");
     Editor editor;
