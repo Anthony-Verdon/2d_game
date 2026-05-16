@@ -8,6 +8,7 @@
 #include <fstream>
 #include <filesystem>
 #include "Json/Json.hpp"
+#include "Engine/2D/TileDictionnary/TileDictionnary.hpp"
 
 TileSelector::TileSelector() : ATool("Tile Selector")
 {
@@ -61,12 +62,25 @@ void TileSelector::TilesAdded()
             std::string nbSpriteInput = "nbSprite###1_" + std::to_string(index);
             std::string spriteOffsetInput = "offset###2_" + std::to_string(index);
             std::string boundingBoxInput = "bounding box###3_" + std::to_string(index);
+            // @todo: if nbSprite is modified, we should destroy each tile in TileDictionnary using this texture, and destroy each tile in each Tilemap, since the position in TileDictionnary would be irrelevant
             ImGui::InputFloat2(nbSpriteInput.c_str(), &it->nbSprite[0]);
-            if (ImGui::InputFloat2(spriteOffsetInput.c_str(), &it->spriteOffset[0]))
-                tileSelected.spriteOffset = it->spriteOffset;
-            if (ImGui::InputFloat2(boundingBoxInput.c_str(), &it->boundingBox[0]))
-                tileSelected.boundingBox = it->boundingBox;
-
+            bool updateSpriteOffset = ImGui::InputFloat2(spriteOffsetInput.c_str(), &it->spriteOffset[0]);
+            bool updateBoundingBox = ImGui::InputFloat2(boundingBoxInput.c_str(), &it->boundingBox[0]);
+            if (updateSpriteOffset || updateBoundingBox)
+            {
+                for (size_t i = 0; i < TileDictionnary::GetDictionnarySize(); i++)
+                {
+                    auto tile = TileDictionnary::GetTile(i);
+                    if (tile.sprite.textureName == it->name)
+                    {
+                        if (updateSpriteOffset)
+                            tile.spriteOffset = it->spriteOffset;
+                        if (updateBoundingBox)
+                            tile.boundingBox = it->boundingBox;
+                        TileDictionnary::UpdateTile(i, tile);
+                    }
+                }
+            }
             for (int j = 0; j < it->nbSprite.y; j++)
             {
                 for (int i = 0; i < it->nbSprite.x; i++)
@@ -168,21 +182,23 @@ void TileSelector::CreateDragDropSourceData()
 
 void TileSelector::Load()
 {
-    if (!std::filesystem::exists(TEXTURE_FILE))
+    if (!std::filesystem::exists(MAP_FILE))
         return;
 
-    Json::Node file = Json::ParseFile(TEXTURE_FILE);
+    Json::Node file = Json::ParseFile(MAP_FILE);
 
     if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
-        for (auto it : file["textures"])
+        auto texturesNode = file["textures"];
+        for (auto it = texturesNode.begin(); it != texturesNode.end(); it++)
         {
+            auto textureNode = it.value();
             TextureData data;
-            data.name = std::string(it["name"]);
-            data.path = std::string(it["path"]);
-            data.nbSprite = ml::vec2(it["nbSprite"][0], it["nbSprite"][1]);
-            data.spriteOffset = ml::vec2(it["spriteOffset"][0], it["spriteOffset"][1]);
-            data.boundingBox = ml::vec2(it["boundingBox"][0], it["boundingBox"][1]);
+            data.name = std::string(it.key());
+            data.path = std::string(textureNode["path"]);
+            data.nbSprite = ml::vec2(textureNode["size"][0], textureNode["size"][1]);
+            data.spriteOffset = ml::vec2(textureNode["sprite offset"][0], textureNode["sprite offset"][1]);
+            data.boundingBox = ml::vec2(textureNode["bounding box"][0], textureNode["bounding box"][1]);
             texturesData.push_back(data);
             RessourceManager::AddTexture(data.name, data.path);
         }
@@ -192,23 +208,25 @@ void TileSelector::Load()
 void TileSelector::Save()
 {
     Json::Node file;
+    if (std::filesystem::exists(MAP_FILE))
+        file = Json::ParseFile(MAP_FILE);
 
     file["textures"] = {};
-    int i = 0;
     for (auto it = texturesData.begin(); it != texturesData.end(); it++)
     {
-        file["textures"][i]["name"] = it->name;
-        file["textures"][i]["path"] = it->path;
-        file["textures"][i]["nbSprite"][0] = it->nbSprite.x;
-        file["textures"][i]["nbSprite"][1] = it->nbSprite.y;
-        file["textures"][i]["spriteOffset"][0] = it->spriteOffset.x;
-        file["textures"][i]["spriteOffset"][1] = it->spriteOffset.y;
-        file["textures"][i]["boundingBox"][0] = it->boundingBox.x;
-        file["textures"][i]["boundingBox"][1] = it->boundingBox.y;
-        i++;
+        file["textures"][it->name.c_str()]["path"] = it->path;
+        file["textures"][it->name.c_str()]["size"][0] = it->nbSprite.x;
+        file["textures"][it->name.c_str()]["size"][1] = it->nbSprite.y;
+        auto texture = RessourceManager::GetTexture(it->name);
+        file["textures"][it->name.c_str()]["sprite size"][0] = texture->getWidth() / it->nbSprite.x * SCALE_FACTOR;
+        file["textures"][it->name.c_str()]["sprite size"][1] = texture->getHeight() / it->nbSprite.y * SCALE_FACTOR;
+        file["textures"][it->name.c_str()]["sprite offset"][0] = it->spriteOffset.x;
+        file["textures"][it->name.c_str()]["sprite offset"][1] = it->spriteOffset.y;
+        file["textures"][it->name.c_str()]["bounding box"][0] = it->boundingBox.x;
+        file["textures"][it->name.c_str()]["bounding box"][1] = it->boundingBox.y;
     }
 
-    Json::WriteFile(TEXTURE_FILE, file);
+    Json::WriteFile(MAP_FILE, file);
 }
 
 Tile TileSelector::GetTile() const

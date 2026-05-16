@@ -15,10 +15,10 @@ void LoadTilemapManager()
 
     if (file.KeyExist("textures") && file["textures"] != nullptr)
     {
-        for (auto it : file["textures"])
-        {
-            RessourceManager::AddTexture(it["name"], it["path"]);
-        }
+        auto texturesNode = file["textures"];
+
+        for (auto it = texturesNode.begin(); it != texturesNode.end(); it++)
+            RessourceManager::AddTexture(it.key(), (it.value())["path"]);
     }
 
     if (file.KeyExist("tiles") && file["tiles"] != nullptr)
@@ -26,12 +26,12 @@ void LoadTilemapManager()
         for (auto it : file["tiles"])
         {
             Tile tile;
-            tile.sprite.textureName = std::string(it["sprite"]["texture"]["name"]);
-            tile.sprite.textureSize = ml::vec2(it["sprite"]["texture"]["size"][0], it["sprite"]["texture"]["size"][1]);
+            tile.sprite.textureName = std::string(it["sprite"]["texture"]);
+            tile.sprite.textureSize = ml::vec2(file["textures"][tile.sprite.textureName.c_str()]["size"][0], file["textures"][tile.sprite.textureName.c_str()]["size"][1]);
             tile.sprite.spriteCoords = ml::vec2(it["sprite"]["position"][0], it["sprite"]["position"][1]);
-            tile.sprite.size = ml::vec2(it["sprite"]["size"][0], it["sprite"]["size"][1]);
-            tile.spriteOffset = ml::vec2(it["sprite"]["offset"][0], it["sprite"]["offset"][1]);
-            tile.boundingBox = ml::vec2(it["sprite"]["bounding box"][0], it["sprite"]["bounding box"][1]);
+            tile.sprite.size = ml::vec2(file["textures"][tile.sprite.textureName.c_str()]["sprite size"][0], file["textures"][tile.sprite.textureName.c_str()]["sprite size"][1]);
+            tile.spriteOffset = ml::vec2(file["textures"][tile.sprite.textureName.c_str()]["sprite offset"][0], file["textures"][tile.sprite.textureName.c_str()]["sprite offset"][1]);
+            tile.boundingBox = ml::vec2(file["textures"][tile.sprite.textureName.c_str()]["bounding box"][0], file["textures"][tile.sprite.textureName.c_str()]["bounding box"][1]);
             if (it.KeyExist("behaviors") && it["behaviors"] != nullptr)
             {
                 for (auto itBehavior : it["behaviors"])
@@ -53,9 +53,10 @@ void LoadTilemapManager()
             Json::Node value = itTilemap.value();
             TilemapManager::SetBuildCollision(tilemapName, value["build collision"]);
 
-            for (auto it : value["tiles"])
+            if (value.KeyExist("tiles") && value["tiles"] != nullptr)
             {
-                TilemapManager::AddTile(tilemapName, ml::vec2(it["position"][0], it["position"][1]), it["index"]);
+                for (auto it : value["tiles"])
+                    TilemapManager::AddTile(tilemapName, ml::vec2(it["position"][0], it["position"][1]), it["index"]);
             }
         }
     }
@@ -64,30 +65,21 @@ void LoadTilemapManager()
 void SaveTilemapManager()
 {
     Json::Node file;
-
-    file["textures"] = {};
-    std::set<std::string> textures;
+    if (std::filesystem::exists(MAP_FILE))
+        file = Json::ParseFile(MAP_FILE);
+    else
+        file["textures"] = {};
 
     file["tiles"] = {};
     for (size_t i = 0; i < TileDictionnary::GetDictionnarySize(); i++)
     {
         Tile tile = TileDictionnary::GetTile(i);
-        file["tiles"][i]["sprite"]["texture"]["name"] = tile.sprite.textureName;
-        file["tiles"][i]["sprite"]["texture"]["size"][0] = tile.sprite.textureSize.x;
-        file["tiles"][i]["sprite"]["texture"]["size"][1] = tile.sprite.textureSize.y;
+        file["tiles"][i]["sprite"]["texture"] = tile.sprite.textureName;
         file["tiles"][i]["sprite"]["position"][0] = tile.sprite.spriteCoords.x;
         file["tiles"][i]["sprite"]["position"][1] = tile.sprite.spriteCoords.y;
-        file["tiles"][i]["sprite"]["size"][0] = tile.sprite.size.x;
-        file["tiles"][i]["sprite"]["size"][1] = tile.sprite.size.y;
-        file["tiles"][i]["sprite"]["offset"][0] = tile.spriteOffset.x;
-        file["tiles"][i]["sprite"]["offset"][1] = tile.spriteOffset.y;
-        file["tiles"][i]["sprite"]["bounding box"][0] = tile.boundingBox.x;
-        file["tiles"][i]["sprite"]["bounding box"][1] = tile.boundingBox.y;
         file["tiles"][i]["behaviors"] = {};
         for (size_t j = 0; j < tile.behaviors.size(); j++)
             file["tiles"][i]["behaviors"][j] = (int)tile.behaviors[j];
-
-        textures.insert(tile.sprite.textureName);
     }
 
     file["tilemaps"] = {};
@@ -107,15 +99,6 @@ void SaveTilemapManager()
 
             j++;
         }
-    }
-
-    int i = 0;
-    for (auto it = textures.begin(); it != textures.end(); it++)
-    {
-        file["textures"][i]["name"] = *it;
-        file["textures"][i]["path"] = RessourceManager::GetTexture(*it)->getPath();
-
-        i++;
     }
 
     Json::WriteFile(MAP_FILE, file);
